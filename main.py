@@ -15,9 +15,6 @@ from src.algorithms.base import BaseVNEAlgorithm
 
 def main():
     """Main function to run algorithm comparison."""
-    import os
-    import glob
-    
     # Find the latest test case file
     testcase_files = glob.glob("./datasets/testcase-*.json")
     if testcase_files:

@@ -1,50 +1,53 @@
-from dataclasses import dataclass, field
-from typing import List, Optional
+import random
+from typing import List, Dict
 
-@dataclass
-class PhysicalNode:
-    internal_id: int
-    external_id: int
-    domain_id: int
+class SubstrateNode:
+    def __init__(self, node_id: int, cpu_capacity: float, cost_per_unit: float, delay: float = 0.0):
+        self.node_id = node_id
+        self.cpu_capacity = cpu_capacity
+        self.cost_per_unit = cost_per_unit
+        self.delay = delay
+        self.available_cpu = cpu_capacity
 
-    resource: float
-    used_resource: float
-    cost_per_unit: float
-    delay: float
-    
-    def __hash__(self):
-        return hash(self.external_id)
-    
-    def __eq__(self, other):
-        if not isinstance(other, PhysicalNode):
-            return False
-        return self.external_id == other.external_id
+class SubstrateLink:
+    def __init__(self, src: SubstrateNode, dst: SubstrateNode, bandwidth: float, cost_per_unit: float, delay: float = 0.0):
+        self.src = src
+        self.dst = dst
+        self.bandwidth = bandwidth
+        self.cost_per_unit = cost_per_unit
+        self.delay = delay
+        self.available_bw = bandwidth
 
+class SubstrateDomain:
+    def __init__(self, domain_id: int):
+        self.domain_id = domain_id
+        self.nodes: List[SubstrateNode] = []
+        self.links: List[SubstrateLink] = []
 
-@dataclass
-class PhysicalLink:
-    src: PhysicalNode
-    dest: PhysicalNode
+    def add_node(self, snode: SubstrateNode):
+        self.nodes.append(snode)
 
-    bandwidth: float
-    used_bandwidth: float
-    cost_per_unit: float
-    delay: float
+    def add_link(self, slink: SubstrateLink):
+        self.links.append(slink)
 
+class InterLink:
+    def __init__(self, src_domain: SubstrateDomain, dst_domain: SubstrateDomain, src: SubstrateNode, dst: SubstrateNode, bandwidth: float, cost_per_unit: float, delay: float = 0.0):
+        self.src_domain = src_domain
+        self.dst_domain = dst_domain
+        self.src = src
+        self.dst = dst
+        self.bandwidth = bandwidth
+        self.cost_per_unit = cost_per_unit
+        self.delay = delay
+        self.available_bw = bandwidth
 
-@dataclass
-class PhysicalDomain:
-    id: int
-    nodes: List[PhysicalNode]
-    boundary_nodes: List[PhysicalNode]
-    intra_links: List[List[Optional[PhysicalLink]]]
-    inter_links: List[PhysicalLink]
+class SubstrateNetwork:
+    def __init__(self):
+        self.domains: List[SubstrateDomain] = []
+        self.links: List[InterLink] = []
 
-    dist: List[List[float]] = field(default_factory=list)
-    next_node: List[List[Optional[int]]] = field(default_factory=list)
+    def add_domain(self, domain: SubstrateDomain):
+        self.domains.append(domain)
 
-
-@dataclass
-class PhysicalNetwork:
-    domains: List[PhysicalDomain]
-    inter_links: List[PhysicalLink]
+    def add_link(self, inter_link: InterLink):
+        self.links.append(inter_link)

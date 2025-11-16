@@ -1,26 +1,18 @@
-import math
-from dataclasses import dataclass
-from typing import List, Optional
+from typing import List
 
-@dataclass(frozen=True)
 class VirtualNode:
-    id: int
-    resource: float
-    candidate_domains: tuple  # Changed to tuple for hashability
-    
-    def __post_init__(self):
-        # Convert list to tuple if needed
-        if isinstance(self.candidate_domains, list):
-            object.__setattr__(self, 'candidate_domains', tuple(self.candidate_domains))
+    def __init__(self, node_id: int, cpu_demand: float, domains: List[int]):
+        self.id = node_id
+        self.cpu_demand = cpu_demand
+        self.domains = domains
 
-@dataclass
 class VirtualLink:
-    src: VirtualNode
-    dest: VirtualNode
-    bandwidth: float
+    def __init__(self, src: VirtualNode, dst: VirtualNode, bandwidth: float):
+        self.src = src
+        self.dst = dst
+        self.bandwidth = bandwidth
 
-@dataclass
 class VirtualNetwork:
-    nodes: List[VirtualNode]
-    links: List[List[Optional[VirtualLink]]]
-
+    def __init__(self, nodes: List[VirtualNode] = None, links: List[VirtualLink] = None):
+        self.nodes = nodes if nodes is not None else []
+        self.links = links if links is not None else []
