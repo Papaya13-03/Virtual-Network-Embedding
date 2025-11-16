@@ -1,80 +1,125 @@
 import random
-import math
+import time
+import uuid
+from typing import List, Dict
+from collections import OrderedDict
 
-from algorithms.MP_VNE.global_controller import GlobalController
-from types.substrate import SubstrateNetwork
+from src.algorithms.MP_VNE.global_controller import GlobalController
+from src.types.substrate import SubstrateNetwork, SubstrateNode
+from src.types.virtual import VirtualNetwork, VirtualNode, VirtualLink
+from src.types.request import VirtualRequest
+
 
 class MP_VNE:
-    def __init__(self, snetwork: SubstrateNetwork):
-        self.global_controller = GlobalController(snetwork)
+    def __init__(self, snetwork: SubstrateNetwork) -> None:
+        self.global_controller: GlobalController = GlobalController(snetwork)
+        self._active_mappings: Dict[str, Dict] = OrderedDict()  # request_id -> {"mapping", "vlinks", "expire_time"}
 
-    def handle_mapping_request(self, request):
-        candidate_nodes = self.global_controller.process_request(request)
+    def handle_mapping_request(self, request: VirtualRequest, current_time: float) -> str:
+        """
+        Sinh request_id, chạy PSO, commit mapping và lưu mapping với expire_time.
+        Trả về request_id.
+        """
+        request_id = str(uuid.uuid4())
+        vnetwork = request["vnetwork"]
+        lifetime = request.get("lifetime", 1000)
 
-        best_mapping = self.pso(candidate_nodes)
+        candidate_nodes: List[List[SubstrateNode]] = self.global_controller.process_request(vnetwork)
+        best_particle_idx: List[int] = self.pso(candidate_nodes, request)
 
-        self.map(best_mapping)
+        best_mapping: Dict[VirtualNode, SubstrateNode] = {
+            vnode: candidate_nodes[i][idx]
+            for i, (vnode, idx) in enumerate(zip(vnetwork.nodes, best_particle_idx))
+        }
+        vlinks: List[VirtualLink] = getattr(vnetwork, "vlinks", [])
 
-    def pso(self, candidates):
-        num_of_particles = 50
-        num_of_iteration = 30
-        num_of_vnode = len(candidates)
+        try:
+            self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)
+        except ValueError:
+            self.global_controller.release_mapping(best_mapping, vlinks)
+            raise
 
-        population = []
-        for _ in range(num_of_particles):
-            particle = [random.choice(candidates[i]) for i in range(num_of_vnode)]
-            population.append(particle)
+        # Lưu mapping với thời gian hết hạn
+        self._active_mappings[request_id] = {
+            "mapping": best_mapping,
+            "vlinks": vlinks,
+            "expire_time": current_time + lifetime
+        }
 
-        velocities = [[0 for _ in range(num_of_vnode)] for _ in range(num_of_particles)]
+        return request_id
 
-        pbest = population[:]
-        pbest_score = [self.fitness(p) for p in population]
-        gbest = pbest[pbest_score.index(min(pbest_score))]
-        gbest_score = min(pbest_score)
+    def release_expired_requests(self, current_time: float) -> None:
+        """Giải phóng các mapping hết lifetime"""
+        expired_ids = [rid for rid, info in self._active_mappings.items() if info["expire_time"] <= current_time]
+        for rid in expired_ids:
+            info = self._active_mappings.pop(rid)
+            self.global_controller.release_mapping(info["mapping"], info["vlinks"])
 
-        w = 0.7
-        c1 = 1.5
-        c2 = 1.5
+    # ---------------- PSO & mapping ----------------
+    def pso(self, candidates: List[List[SubstrateNode]], request: VirtualRequest) -> List[int]:
+        num_particles: int = 50
+        num_iterations: int = 30
+        num_vnode: int = len(candidates)
 
-        for _ in range(num_of_iteration):
-            for i in range(num_of_particles):
-                for j in range(num_of_vnode):
-                    r1 = random.random()
-                    r2 = random.random()
-                    velocities[i][j] = (w * velocities[i][j] +
-                                        c1 * r1 * (pbest[i][j] - population[i][j]) +
-                                        c2 * r2 * (gbest[j] - population[i][j]))
+        population: List[List[int]] = [
+            [random.randint(0, len(candidates[j]) - 1) for j in range(num_vnode)]
+            for _ in range(num_particles)
+        ]
+        velocities: List[List[float]] = [[0.0 for _ in range(num_vnode)] for _ in range(num_particles)]
 
-                    new_pos = population[i][j] + velocities[i][j]
+        pbest: List[List[int]] = [p[:] for p in population]
+        pbest_score: List[float] = [self.fitness(p, candidates, request) for p in population]
 
-                    idx = int(abs(new_pos) % len(candidates[j]))
-                    population[i][j] = candidates[j][idx]
+        gbest_idx: int = pbest_score.index(min(pbest_score))
+        gbest: List[int] = pbest[gbest_idx][:]
+        gbest_score: float = pbest_score[gbest_idx]
+
+        w, c1, c2 = 0.7, 1.5, 1.5
+
+        for _ in range(num_iterations):
+            for i in range(num_particles):
+                for j in range(num_vnode):
+                    r1, r2 = random.random(), random.random()
+                    velocities[i][j] = (
+                        w * velocities[i][j]
+                        + c1 * r1 * (pbest[i][j] - population[i][j])
+                        + c2 * r2 * (gbest[j] - population[i][j])
+                    )
+                    new_idx: int = int(round(population[i][j] + velocities[i][j])) % len(candidates[j])
+                    population[i][j] = new_idx
 
                 if random.random() < 0.1:
-                    mutate_idx = random.randint(0, num_of_vnode - 1)
-                    population[i][mutate_idx] = random.choice(candidates[mutate_idx])
+                    mut_idx = random.randint(0, num_vnode - 1)
+                    population[i][mut_idx] = random.randint(0, len(candidates[mut_idx]) - 1)
 
-                score = self.fitness(population[i])
+                score: float = self.fitness(population[i], candidates, request)
                 if score < pbest_score[i]:
                     pbest[i] = population[i][:]
                     pbest_score[i] = score
 
-            current_best_score = min(pbest_score)
+            current_best_score: float = min(pbest_score)
             if current_best_score < gbest_score:
                 gbest = pbest[pbest_score.index(current_best_score)][:]
                 gbest_score = current_best_score
-
+            
         return gbest
 
-    def fitness(self, mapping):
-        node_cost = sum(node.cpu_cost for node in mapping)
-        link_cost = 0
-        for i in range(len(mapping) - 1):
-            link_cost += self.global_controller.link_cost(mapping[i], mapping[i+1])
+    def fitness(self, particle_idx: List[int], candidates: List[List[SubstrateNode]], request: VirtualRequest) -> float:
+        vnetwork: VirtualNetwork = request["vnetwork"]
+        vnodes: List[VirtualNode] = vnetwork.nodes
+        vlinks: List[VirtualLink] = getattr(vnetwork, "vlinks", [])
+
+        mapping: List[SubstrateNode] = [candidates[i][idx] for i, idx in enumerate(particle_idx)]
+
+        node_cost: float = sum(vnode.cpu_demand * snode.cost_per_unit for vnode, snode in zip(vnodes, mapping))
+        link_cost: float = 0.0
+        for vlink in vlinks:
+            src_node: SubstrateNode = mapping[vnodes.index(vlink.src)]
+            dst_node: SubstrateNode = mapping[vnodes.index(vlink.dst)]
+            link_cost += self.global_controller.shortest_path_cost(src_node, dst_node, bw_required=vlink.bandwidth)
+
         return node_cost + link_cost
 
-    def map(self, best_mapping):
-        self.global_controller.commit_mapping(best_mapping)
-
-    def unmap(self):
-        self.global_controller.release_resources()
+    def map(self, best_mapping: Dict[VirtualNode, SubstrateNode], request: VirtualRequest) -> None:
+        vlinks: List[VirtualLink] = getattr(request["vnetwork"], "vlinks", [])
+        self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)

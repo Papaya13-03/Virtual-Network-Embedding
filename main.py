@@ -1,70 +1,37 @@
-"""
-Main entry point for VNE project.
+from src.algorithms.MP_VNE.mp_vne import MP_VNE
+from src.utils.load_dataset_from_json import load_dataset_from_json
 
-This script runs and compares different VNE algorithms on test cases.
-"""
+# ----------------- 1. Load dataset -----------------
+dataset = load_dataset_from_json("./datasets/data_2.json")
+snetwork = dataset["substrate_network"]
+virtual_requests = dataset["virtual_requests"]
 
-import os
-import glob
-from typing import List, Dict, Any
-from src.utils.test_generator import VNETestGenerator, handle_generate_test_case
-from src.utils.algorithm_evaluator import AlgorithmEvaluator
-from src.algorithms.mp_vne import MP_VNE
-from src.algorithms.base import BaseVNEAlgorithm
+# ----------------- 2. Sắp xếp theo arrival_time -----------------
+virtual_requests.sort(key=lambda r: r["arrival_time"])
 
+# ----------------- 3. Khởi tạo MP_VNE -----------------
+mp_vne = MP_VNE(snetwork)
 
-def main():
-    """Main function to run algorithm comparison."""
-    # Find the latest test case file
-    testcase_files = glob.glob("./datasets/testcase-*.json")
-    if testcase_files:
-        # Get the latest file
-        latest_file = max(testcase_files, key=os.path.getctime)
-        print(f"Loading test case from {latest_file}...")
-        physical_network, requests = VNETestGenerator.load_test_case(latest_file)
-        
-        print("\n=== Test Case Info ===")
-        VNETestGenerator.print_test_case_summary(physical_network, requests)
-        
-        # Create algorithm evaluator
-        evaluator = AlgorithmEvaluator(physical_network)
-        
-        # Define algorithms to compare
-        algorithms = [
-            MP_VNE(physical_network),
-            # Add more algorithms here in the future
-            # Example: GreedyVNE(physical_network),
-            # Example: GeneticVNE(physical_network),
-        ]
-        
-        algorithm_names = [
-            "MP_VNE",
-            # Add more algorithm names here
-        ]
-        
-        algorithm_params = [
-            {'max_iterations': 50, 'population_size': 30},
-            # Add more algorithm parameters here
-        ]
-        
-        # Run comparison
-        results = evaluator.compare_algorithms(
-            algorithms,
-            algorithm_names,
-            requests,
-            algorithm_params,
-            verbose=True
-        )
-        
-        # Print comparison
-        AlgorithmEvaluator.print_comparison_table(results)
-        
-    else:
-        print("No test case files found. Generating a new one...")
-        handle_generate_test_case()
-        print("\nPlease run the script again to compare algorithms on the generated test case.")
+# ----------------- 4. Mô phỏng theo thời gian -----------------
+current_time = 0.0
+time_step = 1.0  # đơn vị thời gian mô phỏng, có thể điều chỉnh
 
+pending_requests = virtual_requests.copy()
+active_requests = []
 
-if __name__ == "__main__":
-    main()
+print("Number of request: ", len(virtual_requests))
 
+while pending_requests:
+    # 4a. Kiểm tra request mới đến
+    new_arrivals = [r for r in pending_requests if r["arrival_time"] <= current_time]
+
+    for req in new_arrivals:
+        print(f"[t={current_time}] Mapping virtual network (arrival_time={req['arrival_time']})...")
+        request_id = mp_vne.handle_mapping_request(req, current_time)
+        print(f"[t={current_time}] Mapping done. Request ID = {request_id}")
+        pending_requests.remove(req)
+
+    # 4b. Giải phóng các request hết lifetime
+    mp_vne.release_expired_requests(current_time)
+
+    current_time += time_step
