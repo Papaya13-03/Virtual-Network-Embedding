@@ -60,8 +60,8 @@ def load_dataset_from_json(filename: str) -> Dict[str, Any]:
 
     # Inter-domain links
     for l in substrate_data.get("inter_domain_links", []):
-        src_domain = substrate_network.domains[l["src_domain_id"]]
-        dst_domain = substrate_network.domains[l["dst_domain_id"]]
+        src_domain = substrate_network.domains[l["src_domain"]]
+        dst_domain = substrate_network.domains[l["dst_domain"]]
         src_node = next(node for node in src_domain.nodes if node.node_id == l["src"])
         dst_node = next(node for node in dst_domain.nodes if node.node_id == l["dst"])
         inter_link = InterLink(
