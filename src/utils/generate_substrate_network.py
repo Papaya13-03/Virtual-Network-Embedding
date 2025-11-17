@@ -59,6 +59,8 @@ def generate_substrate_network(
             boundary_nodes = list(domain.nodes)
         else:
             boundary_nodes = random.sample(domain.nodes, num_boundary_nodes)
+
+        domain.set_boundary_nodes(boundary_nodes)
         domain_boundary_nodes.append(boundary_nodes)
 
         nodes = domain.nodes

@@ -13,47 +13,47 @@ from src.types.request import VirtualRequest
 class MP_VNE:
     def __init__(self, snetwork: SubstrateNetwork) -> None:
         self.global_controller: GlobalController = GlobalController(snetwork)
-        self._active_mappings: Dict[str, Dict] = OrderedDict()  # request_id -> {"mapping", "vlinks", "expire_time"}
+        self._active_mappings: Dict[str, Dict] = OrderedDict()  # request_id -> {"mapping", "vlinks", "vlink_paths", "expire_time"}
 
-    def handle_mapping_request(self, request: VirtualRequest, current_time: float) -> str:
-        """
-        Sinh request_id, chạy PSO, commit mapping và lưu mapping với expire_time.
-        Trả về request_id.
-        """
+    def handle_mapping_request(self, request: VirtualRequest, current_time: float):
         request_id = str(uuid.uuid4())
         vnetwork = request["vnetwork"]
         lifetime = request.get("lifetime", 1000)
 
-        candidate_nodes: List[List[SubstrateNode]] = self.global_controller.process_request(vnetwork)
-        best_particle_idx: List[int] = self.pso(candidate_nodes, request)
+        candidate_nodes = self.global_controller.process_request(vnetwork)
+        best_particle_idx = self.pso(candidate_nodes, request)
 
-        best_mapping: Dict[VirtualNode, SubstrateNode] = {
+        best_mapping = {
             vnode: candidate_nodes[i][idx]
             for i, (vnode, idx) in enumerate(zip(vnetwork.nodes, best_particle_idx))
         }
-        vlinks: List[VirtualLink] = getattr(vnetwork, "vlinks", [])
-
+        vlinks = getattr(vnetwork, "links", [])
+        print("vlinks;;;;;", vlinks)
+        # Commit và lấy snapshot path
         try:
-            self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)
+            vlink_paths = self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)
         except ValueError:
-            self.global_controller.release_mapping(best_mapping, vlinks)
             raise
 
-        # Lưu mapping với thời gian hết hạn
+        # Lưu thông tin mapping
         self._active_mappings[request_id] = {
             "mapping": best_mapping,
             "vlinks": vlinks,
+            "vlink_paths": vlink_paths,  # snapshot path
             "expire_time": current_time + lifetime
         }
 
-        return request_id
+        print(vlink_paths)
+
+        cost = self.fitness(best_particle_idx, candidate_nodes, request)
+        return request_id, cost, self._active_mappings[request_id]
 
     def release_expired_requests(self, current_time: float) -> None:
         """Giải phóng các mapping hết lifetime"""
         expired_ids = [rid for rid, info in self._active_mappings.items() if info["expire_time"] <= current_time]
         for rid in expired_ids:
             info = self._active_mappings.pop(rid)
-            self.global_controller.release_mapping(info["mapping"], info["vlinks"])
+            self.global_controller.release_mapping(info["mapping"], info["vlink_paths"])  # dùng snapshot path
 
     # ---------------- PSO & mapping ----------------
     def pso(self, candidates: List[List[SubstrateNode]], request: VirtualRequest) -> List[int]:
@@ -119,7 +119,3 @@ class MP_VNE:
             link_cost += self.global_controller.shortest_path_cost(src_node, dst_node, bw_required=vlink.bandwidth)
 
         return node_cost + link_cost
-
-    def map(self, best_mapping: Dict[VirtualNode, SubstrateNode], request: VirtualRequest) -> None:
-        vlinks: List[VirtualLink] = getattr(request["vnetwork"], "vlinks", [])
-        self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)

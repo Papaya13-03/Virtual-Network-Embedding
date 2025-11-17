@@ -23,12 +23,16 @@ class SubstrateDomain:
         self.domain_id = domain_id
         self.nodes: List[SubstrateNode] = []
         self.links: List[SubstrateLink] = []
+        self.boundary_nodes: List[SubstrateNode] = []
 
     def add_node(self, snode: SubstrateNode):
         self.nodes.append(snode)
 
     def add_link(self, slink: SubstrateLink):
         self.links.append(slink)
+
+    def set_boundary_nodes(self, boundary_nodes: List[SubstrateNode]):
+        self.boundary_nodes = boundary_nodes
 
 class InterLink:
     def __init__(self, src_domain: SubstrateDomain, dst_domain: SubstrateDomain, src: SubstrateNode, dst: SubstrateNode, bandwidth: float, cost_per_unit: float, delay: float = 0.0):

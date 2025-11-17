@@ -14,7 +14,7 @@ from src.types.virtual import VirtualNetwork, VirtualNode, VirtualLink
 def dataset_to_json(dataset: Dict[str, Any], filename: str = "dataset.json"):
     """
     Convert dataset to JSON-serializable dict and save to file.
-    Handles both intra-domain links and inter-domain links.
+    Handles both intra-domain links, inter-domain links, and boundary nodes.
     """
 
     # ---- Helpers ----
@@ -41,7 +41,8 @@ def dataset_to_json(dataset: Dict[str, Any], filename: str = "dataset.json"):
         return {
             "domain_id": domain.domain_id,
             "nodes": [substrate_node_to_dict(n) for n in domain.nodes],
-            "links": [substrate_link_to_dict(l) for l in domain.links]
+            "links": [substrate_link_to_dict(l) for l in domain.links],
+            "boundary_nodes": [n.node_id for n in getattr(domain, "boundary_nodes", [])]
         }
 
     def interlink_to_dict(link: InterLink):

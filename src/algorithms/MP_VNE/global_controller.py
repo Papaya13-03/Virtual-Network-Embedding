@@ -21,14 +21,13 @@ class GlobalController:
             all_candidates.append(candidates)
         return all_candidates
 
-    def commit_mapping(self, mapping: Dict[VirtualNode, SubstrateNode], vlinks: List[VirtualLink] = []) -> None:
+    def commit_mapping(self, mapping: Dict[VirtualNode, SubstrateNode], vlinks: List[VirtualLink] = []) -> Dict:
         """
-        Commit resources với rollback nếu không đủ tài nguyên.
-        - CPU cho vnode
-        - BW cho vlink qua đường đi ngắn nhất
+        Commit resources và trả về snapshot path của các vlink để giải phóng sau này.
         """
         allocated_cpu: Dict[SubstrateNode, float] = {}
         allocated_bw: Dict[InterLink, float] = {}
+        vlink_paths: Dict[VirtualLink, List[InterLink]] = {}
 
         try:
             # --- Allocate CPU ---
@@ -38,11 +37,14 @@ class GlobalController:
                 snode.available_cpu -= vnode.cpu_demand
                 allocated_cpu[snode] = allocated_cpu.get(snode, 0) + vnode.cpu_demand
 
+            print("vlinks: ", len(vlinks))
             # --- Allocate Bandwidth ---
             for vlink in vlinks:
                 src_snode = mapping[vlink.src]
                 dst_snode = mapping[vlink.dst]
                 path = self.shortest_path(src_snode, dst_snode, bw_required=vlink.bandwidth)
+
+                print("path: ", path)
                 if not path:
                     raise ValueError(f"No path found for virtual link {vlink.src.id}->{vlink.dst.id}")
                 for link in path:
@@ -50,27 +52,28 @@ class GlobalController:
                         raise ValueError(f"Insufficient BW on link {link.src.node_id}->{link.dst.node_id}")
                     link.available_bw -= vlink.bandwidth
                     allocated_bw[link] = allocated_bw.get(link, 0) + vlink.bandwidth
+                vlink_paths[vlink] = path  # lưu snapshot path
+
         except Exception as e:
-            # Rollback tất cả nếu lỗi
+            # Rollback
             for snode, cpu in allocated_cpu.items():
                 snode.available_cpu += cpu
             for link, bw in allocated_bw.items():
                 link.available_bw += bw
             raise e
 
-    def release_mapping(self, mapping: Dict[VirtualNode, SubstrateNode], vlinks: List[VirtualLink]) -> None:
+        return vlink_paths  # trả về để MP_VNE lưu
+
+    def release_mapping(self, mapping: Dict[VirtualNode, SubstrateNode], vlink_paths: Dict[VirtualLink, List[InterLink]]) -> None:
         """
-        Giải phóng CPU và BW của mapping đã commit.
+        Giải phóng dựa trên snapshot path đã commit, không tính lại shortest path.
         """
         # Free CPU
         for vnode, snode in mapping.items():
             snode.available_cpu += vnode.cpu_demand
 
-        # Free bandwidth
-        for vlink in vlinks:
-            src_node: SubstrateNode = mapping[vlink.src]
-            dst_node: SubstrateNode = mapping[vlink.dst]
-            path = self.shortest_path(src_node, dst_node, bw_required=vlink.bandwidth)
+        # Free BW
+        for vlink, path in vlink_paths.items():
             for link in path:
                 link.available_bw += vlink.bandwidth
 
@@ -149,13 +152,15 @@ class GlobalController:
 
     def shortest_path(self, src: SubstrateNode, dst: SubstrateNode, bw_required: float = 0.0) -> List[InterLink]:
         """Return shortest path kết hợp intra-domain và inter-domain."""
-        if src.domain_id == dst.domain_id:
-            lc = self._get_local_controller(src.domain_id)
+        src_domain = self._get_domain_id(src)
+        dst_domain = self._get_domain_id(dst)
+        if src_domain == dst_domain:
+            lc = self._get_local_controller(src_domain)
             return lc.shortest_path(src, dst, bw_required=bw_required)
 
         # Ghép path: src->boundary + inter-domain + boundary->dst
-        lc_src = self._get_local_controller(src.domain_id)
-        lc_dst = self._get_local_controller(dst.domain_id)
+        lc_src = self._get_local_controller(src_domain)
+        lc_dst = self._get_local_controller(dst_domain)
         boundary_src_nodes = lc_src.domain.boundary_nodes
         boundary_dst_nodes = lc_dst.domain.boundary_nodes
 
@@ -174,4 +179,15 @@ class GlobalController:
                 if total_cost < best_cost:
                     best_cost = total_cost
                     best_path = total_path
+        
+        print("best_cost: ", best_cost)
+        if best_cost == float('inf'):
+            raise Exception("Cannot find optimal path")
+        
         return best_path
+
+    def _get_domain_id(self, node: SubstrateNode) -> int:
+        for lc in self.local_controllers:
+            if node in lc.domain.nodes:
+                return lc.domain.domain_id
+        raise ValueError(f"Node {node.node_id} not found in any domain")

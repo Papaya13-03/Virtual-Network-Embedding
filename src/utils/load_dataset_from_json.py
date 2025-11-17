@@ -16,6 +16,7 @@ from src.types.virtual import (
 def load_dataset_from_json(filename: str) -> Dict[str, Any]:
     """
     Load dataset from JSON file and reconstruct SubstrateNetwork and VirtualNetwork objects.
+    Includes boundary_nodes for each SubstrateDomain.
 
     Returns:
         {
@@ -34,6 +35,7 @@ def load_dataset_from_json(filename: str) -> Dict[str, Any]:
     for d in substrate_data["domains"]:
         domain = SubstrateDomain(domain_id=d["domain_id"])
         # Nodes
+        node_map = {}
         for n in d["nodes"]:
             node = SubstrateNode(
                 node_id=n["node_id"],
@@ -43,10 +45,12 @@ def load_dataset_from_json(filename: str) -> Dict[str, Any]:
             )
             node.available_cpu = n.get("available_cpu", node.cpu_capacity)
             domain.add_node(node)
+            node_map[node.node_id] = node
+
         # Links
         for l in d["links"]:
-            src_node = next(node for node in domain.nodes if node.node_id == l["src"])
-            dst_node = next(node for node in domain.nodes if node.node_id == l["dst"])
+            src_node = node_map[l["src"]]
+            dst_node = node_map[l["dst"]]
             link = SubstrateLink(
                 src=src_node,
                 dst=dst_node,
@@ -56,6 +60,11 @@ def load_dataset_from_json(filename: str) -> Dict[str, Any]:
             )
             link.available_bw = l.get("available_bw", link.bandwidth)
             domain.add_link(link)
+
+        # Boundary nodes
+        boundary_ids = d.get("boundary_nodes", [])
+        domain.boundary_nodes = [node_map[nid] for nid in boundary_ids]
+
         substrate_network.add_domain(domain)
 
     # Inter-domain links
@@ -79,7 +88,7 @@ def load_dataset_from_json(filename: str) -> Dict[str, Any]:
     # ---- Reconstruct Virtual Requests ----
     virtual_requests: List[Dict[str, Any]] = []
     for req in data["virtual_requests"]:
-        vnodes = [VirtualNode(n["id"], n["cpu_demand"], n["domains"]) for n in req["vnetwork"]["nodes"]]
+        vnodes = [VirtualNode(n["id"], n["cpu_demand"], n.get("domains", [])) for n in req["vnetwork"]["nodes"]]
         vlinks = []
         for l in req["vnetwork"]["links"]:
             src_node = next(n for n in vnodes if n.id == l["src"])

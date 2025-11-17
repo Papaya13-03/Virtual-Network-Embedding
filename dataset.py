@@ -6,7 +6,7 @@ from src.utils.generate_substrate_network import generate_substrate_network
 
 seed = 42
 datasets_dir = "./datasets"
-base_name = "data"
+base_name = "small"
 
 os.makedirs(datasets_dir, exist_ok=True)
 
@@ -25,8 +25,8 @@ dataset = generate_dataset(
     substrate_generator=generate_substrate_network,
     virtual_generator=generate_virtual_network_test,
     total_time_units=100,
-    avg_requests=10,
-    avg_lifetime=1000,
+    avg_requests=2,
+    avg_lifetime=10,
     seed=seed
 )
 
