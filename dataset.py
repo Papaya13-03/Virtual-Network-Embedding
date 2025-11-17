@@ -24,9 +24,9 @@ next_test_number = max(test_numbers, default=0) + 1
 dataset = generate_dataset(
     substrate_generator=generate_substrate_network,
     virtual_generator=generate_virtual_network_test,
-    total_time_units=100,
-    avg_requests=2,
-    avg_lifetime=10,
+    total_time_units=10000,
+    avg_requests=500,
+    avg_lifetime=1000,
     seed=seed
 )
 

@@ -28,7 +28,6 @@ class MP_VNE:
             for i, (vnode, idx) in enumerate(zip(vnetwork.nodes, best_particle_idx))
         }
         vlinks = getattr(vnetwork, "links", [])
-        print("vlinks;;;;;", vlinks)
         # Commit và lấy snapshot path
         try:
             vlink_paths = self.global_controller.commit_mapping(best_mapping, vlinks=vlinks)
@@ -42,8 +41,6 @@ class MP_VNE:
             "vlink_paths": vlink_paths,  # snapshot path
             "expire_time": current_time + lifetime
         }
-
-        print(vlink_paths)
 
         cost = self.fitness(best_particle_idx, candidate_nodes, request)
         return request_id, cost, self._active_mappings[request_id]

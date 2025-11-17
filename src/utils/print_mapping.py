@@ -18,7 +18,7 @@ def print_mapping(mapping_info, request_id):
         if not path:
             print(f"VLink {vlink.src.id} -> {vlink.dst.id}: no path")
             continue
-        path_str = " -> ".join(f"{link.src.node_id}-{link.dst.node_id}" for link in path)
+        path_str = " -> ".join(f"{link.src.node_id}->{link.dst.node_id}" for link in path)
         print(f"VLink {vlink.src.id} -> {vlink.dst.id}: {path_str} (BW: {vlink.bandwidth})")
     
     print("="*60)

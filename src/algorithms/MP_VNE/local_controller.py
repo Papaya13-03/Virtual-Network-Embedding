@@ -15,6 +15,9 @@ class LocalController:
         return candidates
 
     def shortest_path(self, src: SubstrateNode, dst: SubstrateNode, bw_required: float = 0.0) -> List[SubstrateLink]:
+        if src.node_id == dst.node_id:
+            return []
+
         dist = {node: float('inf') for node in self.domain.nodes}
         prev = {node: None for node in self.domain.nodes}
         dist[src] = 0

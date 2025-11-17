@@ -37,16 +37,12 @@ class GlobalController:
                 snode.available_cpu -= vnode.cpu_demand
                 allocated_cpu[snode] = allocated_cpu.get(snode, 0) + vnode.cpu_demand
 
-            print("vlinks: ", len(vlinks))
             # --- Allocate Bandwidth ---
             for vlink in vlinks:
                 src_snode = mapping[vlink.src]
                 dst_snode = mapping[vlink.dst]
                 path = self.shortest_path(src_snode, dst_snode, bw_required=vlink.bandwidth)
 
-                print("path: ", path)
-                if not path:
-                    raise ValueError(f"No path found for virtual link {vlink.src.id}->{vlink.dst.id}")
                 for link in path:
                     if link.available_bw < vlink.bandwidth:
                         raise ValueError(f"Insufficient BW on link {link.src.node_id}->{link.dst.node_id}")
@@ -115,9 +111,14 @@ class GlobalController:
                         continue
                     total_delay = sum(l.delay for l in path)
                     total_cost = sum(l.cost_per_unit * bw_required for l in path)
-                    temp_link = InterLink(src=src_b, dst=dst_b, bandwidth=float('inf'), cost_per_unit=total_cost, delay=total_delay)
-                    graph.setdefault(src_b, []).append((dst_b, temp_link))
-                    graph.setdefault(dst_b, []).append((src_b, temp_link))
+                    temp_link_1 = InterLink(src=src_b, dst=dst_b, bandwidth=float('inf'), cost_per_unit=total_cost, delay=total_delay, 
+                            src_domain=lc.domain.domain_id,
+                            dst_domain=lc.domain.domain_id)
+                    temp_link_2 = InterLink(src=dst_b, dst=src_b, bandwidth=float('inf'), cost_per_unit=total_cost, delay=total_delay, 
+                            src_domain=lc.domain.domain_id,
+                            dst_domain=lc.domain.domain_id)
+                    graph.setdefault(src_b, []).append((dst_b, temp_link_1))
+                    graph.setdefault(dst_b, []).append((src_b, temp_link_2))
                     nodes.add(src_b)
                     nodes.add(dst_b)
 
@@ -180,7 +181,6 @@ class GlobalController:
                     best_cost = total_cost
                     best_path = total_path
         
-        print("best_cost: ", best_cost)
         if best_cost == float('inf'):
             raise Exception("Cannot find optimal path")
         

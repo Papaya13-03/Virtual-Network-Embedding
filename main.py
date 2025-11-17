@@ -2,8 +2,10 @@ from src.algorithms.MP_VNE.mp_vne import MP_VNE
 from src.utils.load_dataset_from_json import load_dataset_from_json
 import time
 
+from src.utils.print_mapping import print_mapping
+
 # ----------------- 1. Load dataset -----------------
-dataset = load_dataset_from_json("./datasets/small_1.json")
+dataset = load_dataset_from_json("./datasets/small_2.json")
 snetwork = dataset["substrate_network"]
 virtual_requests = dataset["virtual_requests"]
 
@@ -27,36 +29,19 @@ failed_requests = 0
 mapping_times = []
 mapping_costs = []
 
-print("Number of request: ", total_requests)
+print(f"[t={current_time}] Mapping virtual network (arrival_time={pending_requests[0]['arrival_time']})...")
 
-while pending_requests:
-    # 4a. Kiểm tra request mới đến
-    new_arrivals = [r for r in pending_requests if r["arrival_time"] <= current_time]
+start_time = time.time()
+request_id, cost, mapping = mp_vne.handle_mapping_request(pending_requests[0], current_time)
+end_time = time.time()
 
-    for req in new_arrivals:
-        try:
-            print(f"[t={current_time}] Mapping virtual network (arrival_time={req['arrival_time']})...")
+print_mapping(mapping, 1)
 
-            start_time = time.time()
-            request_id, cost, mapping = mp_vne.handle_mapping_request(req, current_time)
-            end_time = time.time()
+print(f"[t={current_time}] Mapping done. Request ID = {request_id}, cost = {cost:.2f}, time = {end_time - start_time:.3f}s")
 
-            print(f"[t={current_time}] Mapping done. Request ID = {request_id}, cost = {cost:.2f}, time = {end_time - start_time:.3f}s")
-
-            pending_requests.remove(req)
-            accepted_requests += 1
-            mapping_times.append(end_time - start_time)
-            mapping_costs.append(cost)
-
-        except Exception as e:
-            failed_requests += 1
-            pending_requests.remove(req)
-            print(f"[t={current_time}] Mapping failed for request (arrival_time={req['arrival_time']}): {e}")
-
-    # 4b. Giải phóng các request hết lifetime
-    mp_vne.release_expired_requests(current_time)
-
-    current_time += time_step
+accepted_requests += 1
+mapping_times.append(end_time - start_time)
+mapping_costs.append(cost)
 
 # ----------------- 5. Thống kê kết quả -----------------
 print(accepted_requests, total_requests)
