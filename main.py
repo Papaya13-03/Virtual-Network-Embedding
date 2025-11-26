@@ -1,78 +1,110 @@
 import sys
+import time
+import matplotlib.pyplot as plt
+import os
+import json
+import copy
+
+from src.algorithms.MC_VNM.mc_vnm import MC_VNM
 from src.algorithms.MP_VNE.mp_vne import MP_VNE
 from src.utils.load_dataset_from_json import load_dataset_from_json
-import time
 
-from src.utils.print_mapping import print_mapping
+# ================================
+#       FILE JSON KẾT QUẢ
+# ================================
+os.makedirs("./assets/result", exist_ok=True)
+json_path = "./assets/result/simulation_data.json"
 
-# ----------------- 1. Load dataset -----------------
-dataset = load_dataset_from_json("./datasets/large_1.json")
-snetwork = dataset["substrate_network"]
-virtual_requests = dataset["virtual_requests"]
+# Load cũ nếu tồn tại, nếu không tạo mảng mới
+if os.path.exists(json_path):
+    with open(json_path, "r") as f:
+        old_data = json.load(f)
+else:
+    old_data = []
 
-# ----------------- 2. Sắp xếp theo arrival_time -----------------
-virtual_requests.sort(key=lambda r: r["arrival_time"])
+# ================================
+#       CHẠY 50 DATASETS
+# ================================
+for i in range(1, 101):
+    print(f"\n================= RUN DATASET {i} =================")
+    dataset_file = f"./datasets/small_{i}.json"
 
-# ----------------- 3. Khởi tạo MP_VNE -----------------
-mp_vne = MP_VNE(snetwork)
+    dataset = load_dataset_from_json(dataset_file)
 
-# ----------------- 4. Mô phỏng theo thời gian -----------------
-current_time = 0.0
-time_step = 1.0  # đơn vị thời gian mô phỏng, có thể điều chỉnh
+    snetwork_mp = copy.deepcopy(dataset["substrate_network"])
+    snetwork_mc = copy.deepcopy(dataset["substrate_network"])
 
-pending_requests = virtual_requests.copy()
-active_requests = []
+    virtual_requests = dataset["virtual_requests"]
+    virtual_requests.sort(key=lambda r: r["arrival_time"])
 
-# Thống kê
-total_requests = len(virtual_requests)
-accepted_requests = 0
-failed_requests = 0
-mapping_times = []
-mapping_costs = []
-print("Number of request: ", total_requests)
+    mp_vne = MP_VNE(snetwork_mp)
+    mc_vnm = MC_VNM(snetwork_mc)
 
-while pending_requests:
-    # 4a. Kiểm tra request mới đến
-    new_arrivals = [r for r in pending_requests if r["arrival_time"] <= current_time]
+    current_time = 0.0
+    time_step = 1.0
+    pending_requests = virtual_requests.copy()
 
-    for req in new_arrivals:
-        try:
-            print(f"[t={current_time}] Mapping virtual network (arrival_time={req['arrival_time']})...")
+    # Stats: lưu data dạng time series
+    stats = {
+        "dataset": dataset_file,
+        "MP_VNE": {"accepted": 0, "failed": 0, "times": [], "costs": [], "per_request_time": [], "per_request_cost": [], "success": []},
+        "MC_VNM": {"accepted": 0, "failed": 0, "times": [], "costs": [], "per_request_time": [], "per_request_cost": [], "success": []}
+    }
 
-            start_time = time.time()
-            request_id, cost, mapping_info = mp_vne.handle_mapping_request(req, current_time)
-            end_time = time.time()
+    while pending_requests:
+        new_arrivals = [r for r in pending_requests if r["arrival_time"] <= current_time]
 
-            print(f"[t={current_time}] Mapping done. Request ID = {request_id}, cost = {cost:.2f}, time = {end_time - start_time:.3f}s")
+        for req in new_arrivals:
+            # -------------------- MP-VNE --------------------
+            try:
+                t0 = time.time()
+                rid_mp, cost_mp, mapping_mp = mp_vne.handle_mapping_request(req, current_time)
+                t1 = time.time()
 
-            print_mapping(mapping_info)
-            sys.exit(0)
+                stats["MP_VNE"]["accepted"] += 1
+                stats["MP_VNE"]["times"].append(t1 - t0)
+                stats["MP_VNE"]["costs"].append(cost_mp)
+                stats["MP_VNE"]["per_request_time"].append(t1 - t0)
+                stats["MP_VNE"]["per_request_cost"].append(cost_mp)
+                stats["MP_VNE"]["success"].append(True)
+
+            except Exception as e:
+                stats["MP_VNE"]["failed"] += 1
+                stats["MP_VNE"]["per_request_time"].append(None)
+                stats["MP_VNE"]["per_request_cost"].append(None)
+                stats["MP_VNE"]["success"].append(False)
+
+            # -------------------- MC-VNE --------------------
+            try:
+                t0 = time.time()
+                rid_mc, cost_mc, mapping_mc = mc_vnm.handle_mapping_request(req["vnetwork"], current_time, req["lifetime"])
+                t1 = time.time()
+
+                stats["MC_VNM"]["accepted"] += 1
+                stats["MC_VNM"]["times"].append(t1 - t0)
+                stats["MC_VNM"]["costs"].append(cost_mc)
+                stats["MC_VNM"]["per_request_time"].append(t1 - t0)
+                stats["MC_VNM"]["per_request_cost"].append(cost_mc)
+                stats["MC_VNM"]["success"].append(True)
+
+            except Exception as e:
+                stats["MC_VNM"]["failed"] += 1
+                stats["MC_VNM"]["per_request_time"].append(None)
+                stats["MC_VNM"]["per_request_cost"].append(None)
+                stats["MC_VNM"]["success"].append(False)
+
             pending_requests.remove(req)
-            accepted_requests += 1
-            mapping_times.append(end_time - start_time)
-            mapping_costs.append(cost)
 
-        except Exception as e:
-            failed_requests += 1
-            pending_requests.remove(req)
-            print(f"[t={current_time}] Mapping failed for request (arrival_time={req['arrival_time']}): {e}")
-            # raise
+        # Release expired
+        mc_vnm.release_expired_requests(current_time)
+        current_time += time_step
 
-    # 4b. Giải phóng các request hết lifetime
-    mp_vne.release_expired_requests(current_time)
+    # Append kết quả lần chạy này
+    old_data.append(stats)
+    print(f"Finished dataset {i}")
 
-    current_time += time_step
+# Ghi lại tất cả kết quả
+with open(json_path, "w") as f:
+    json.dump(old_data, f, indent=4)
 
-# ----------------- 5. Thống kê kết quả -----------------
-print(accepted_requests, total_requests)
-acceptance_rate = accepted_requests / total_requests
-avg_mapping_time = sum(mapping_times)/len(mapping_times) if mapping_times else 0
-avg_mapping_cost = sum(mapping_costs)/len(mapping_costs) if mapping_costs else 0
-
-print("\n=== Simulation Results ===")
-print(f"Total requests: {total_requests}")
-print(f"Accepted requests: {accepted_requests}")
-print(f"Failed requests: {failed_requests}")
-print(f"Acceptance rate: {acceptance_rate*100:.2f}%")
-print(f"Average mapping time: {avg_mapping_time:.3f}s")
-print(f"Average mapping cost: {avg_mapping_cost:.2f}")
+print(f"Appended all 50 datasets simulation data to {json_path}")
