@@ -1,0 +1,4522 @@
+[
+  {
+    "vnr_id": "vnr_0",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_0_node_6": "domain_3_node_5",
+      "vnr_0_node_1": "domain_2_node_4",
+      "vnr_0_node_8": "domain_4_node_2",
+      "vnr_0_node_7": "domain_1_node_4",
+      "vnr_0_node_0": "domain_3_node_3",
+      "vnr_0_node_4": "domain_4_node_4",
+      "vnr_0_node_2": "domain_0_node_1",
+      "vnr_0_node_3": "domain_0_node_0",
+      "vnr_0_node_5": "domain_4_node_1",
+      "vnr_0_node_9": "domain_4_node_3"
+    },
+    "link_mapping": {
+      "vnr_0_node_0->vnr_0_node_1": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 4.32
+        }
+      ],
+      "vnr_0_node_0->vnr_0_node_2": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 38.08
+        }
+      ],
+      "vnr_0_node_0->vnr_0_node_4": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 6.66
+        }
+      ],
+      "vnr_0_node_0->vnr_0_node_5": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 11.23
+        }
+      ],
+      "vnr_0_node_0->vnr_0_node_8": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 33.94
+        }
+      ],
+      "vnr_0_node_0->vnr_0_node_9": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 42.14
+        }
+      ],
+      "vnr_0_node_1->vnr_0_node_2": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_2"
+          ],
+          "allocated_bandwidth": 48.86
+        }
+      ],
+      "vnr_0_node_1->vnr_0_node_4": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 38.13
+        }
+      ],
+      "vnr_0_node_1->vnr_0_node_6": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 40.78
+        }
+      ],
+      "vnr_0_node_1->vnr_0_node_7": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 29.67
+        }
+      ],
+      "vnr_0_node_1->vnr_0_node_9": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 27.94
+        }
+      ],
+      "vnr_0_node_2->vnr_0_node_5": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 4.83
+        }
+      ],
+      "vnr_0_node_2->vnr_0_node_6": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 32.29
+        }
+      ],
+      "vnr_0_node_3->vnr_0_node_4": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 46.12
+        }
+      ],
+      "vnr_0_node_3->vnr_0_node_6": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 5.2
+        }
+      ],
+      "vnr_0_node_3->vnr_0_node_7": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 20.75
+        }
+      ],
+      "vnr_0_node_3->vnr_0_node_9": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 24.5
+        }
+      ],
+      "vnr_0_node_4->vnr_0_node_5": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 34.8
+        }
+      ],
+      "vnr_0_node_4->vnr_0_node_6": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 20.15
+        }
+      ],
+      "vnr_0_node_5->vnr_0_node_6": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 45.15
+        }
+      ],
+      "vnr_0_node_5->vnr_0_node_9": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 12.04
+        }
+      ],
+      "vnr_0_node_6->vnr_0_node_7": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 14.36
+        }
+      ],
+      "vnr_0_node_6->vnr_0_node_8": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 40.17
+        }
+      ],
+      "vnr_0_node_2->vnr_0_node_3": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1"
+          ],
+          "allocated_bandwidth": 44.93
+        }
+      ],
+      "vnr_0_node_7->vnr_0_node_8": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 6.06
+        }
+      ],
+      "vnr_0_node_8->vnr_0_node_9": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 27.24
+        }
+      ]
+    },
+    "embedding_cost": 2591.4992
+  },
+  {
+    "vnr_id": "vnr_1",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_1_node_5": "domain_3_node_5",
+      "vnr_1_node_0": "domain_2_node_4",
+      "vnr_1_node_7": "domain_4_node_2",
+      "vnr_1_node_1": "domain_1_node_4",
+      "vnr_1_node_4": "domain_3_node_3",
+      "vnr_1_node_3": "domain_4_node_4",
+      "vnr_1_node_6": "domain_0_node_1",
+      "vnr_1_node_2": "domain_0_node_5"
+    },
+    "link_mapping": {
+      "vnr_1_node_0->vnr_1_node_1": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 7.04
+        }
+      ],
+      "vnr_1_node_0->vnr_1_node_2": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 32.89
+        }
+      ],
+      "vnr_1_node_0->vnr_1_node_5": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 6.95
+        }
+      ],
+      "vnr_1_node_0->vnr_1_node_6": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_2"
+          ],
+          "allocated_bandwidth": 48.43
+        }
+      ],
+      "vnr_1_node_0->vnr_1_node_7": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 22.85
+        }
+      ],
+      "vnr_1_node_1->vnr_1_node_3": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 46.53
+        }
+      ],
+      "vnr_1_node_1->vnr_1_node_4": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 8.12
+        }
+      ],
+      "vnr_1_node_1->vnr_1_node_5": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 30.22
+        }
+      ],
+      "vnr_1_node_1->vnr_1_node_6": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 38.96
+        }
+      ],
+      "vnr_1_node_2->vnr_1_node_5": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 41.44
+        }
+      ],
+      "vnr_1_node_2->vnr_1_node_7": [
+        {
+          "path": [
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 27.09
+        }
+      ],
+      "vnr_1_node_3->vnr_1_node_4": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 3.72
+        }
+      ],
+      "vnr_1_node_4->vnr_1_node_5": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 45.39
+        }
+      ],
+      "vnr_1_node_4->vnr_1_node_6": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 49.53
+        }
+      ],
+      "vnr_1_node_4->vnr_1_node_7": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 5.99
+        }
+      ],
+      "vnr_1_node_6->vnr_1_node_7": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 9.27
+        }
+      ],
+      "vnr_1_node_1->vnr_1_node_2": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_4->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 37.35
+        }
+      ],
+      "vnr_1_node_2->vnr_1_node_3": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 48.47
+        }
+      ],
+      "vnr_1_node_5->vnr_1_node_6": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_2"
+          ],
+          "allocated_bandwidth": 17.34
+        }
+      ]
+    },
+    "embedding_cost": 1781.3956
+  },
+  {
+    "vnr_id": "vnr_2",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_2_node_0": "domain_3_node_5",
+      "vnr_2_node_2": "domain_2_node_4",
+      "vnr_2_node_3": "domain_4_node_2",
+      "vnr_2_node_1": "domain_1_node_4"
+    },
+    "link_mapping": {
+      "vnr_2_node_0->vnr_2_node_3": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 2.25
+        }
+      ],
+      "vnr_2_node_1->vnr_2_node_3": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 37.77
+        }
+      ],
+      "vnr_2_node_2->vnr_2_node_3": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 15.46
+        }
+      ],
+      "vnr_2_node_0->vnr_2_node_1": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 29.1
+        }
+      ],
+      "vnr_2_node_1->vnr_2_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 28.45
+        }
+      ]
+    },
+    "embedding_cost": 538.9783
+  },
+  {
+    "vnr_id": "vnr_3",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_3_node_1": "domain_3_node_5",
+      "vnr_3_node_6": "domain_2_node_4",
+      "vnr_3_node_7": "domain_3_node_3",
+      "vnr_3_node_2": "domain_4_node_2",
+      "vnr_3_node_0": "domain_1_node_4",
+      "vnr_3_node_8": "domain_4_node_4",
+      "vnr_3_node_4": "domain_2_node_5",
+      "vnr_3_node_3": "domain_0_node_0",
+      "vnr_3_node_5": "domain_4_node_1"
+    },
+    "link_mapping": {
+      "vnr_3_node_0->vnr_3_node_2": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 10.16
+        }
+      ],
+      "vnr_3_node_0->vnr_3_node_4": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 43.34
+        }
+      ],
+      "vnr_3_node_0->vnr_3_node_8": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 45.05
+        }
+      ],
+      "vnr_3_node_1->vnr_3_node_2": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 7.26
+        }
+      ],
+      "vnr_3_node_1->vnr_3_node_3": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_3_node_1->domain_3_node_3",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_0->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 29.27
+        }
+      ],
+      "vnr_3_node_1->vnr_3_node_5": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 36.36
+        }
+      ],
+      "vnr_3_node_1->vnr_3_node_6": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 41.54
+        }
+      ],
+      "vnr_3_node_1->vnr_3_node_7": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 46.1
+        }
+      ],
+      "vnr_3_node_2->vnr_3_node_3": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_0->domain_0_node_1"
+          ],
+          "allocated_bandwidth": 28.9
+        }
+      ],
+      "vnr_3_node_2->vnr_3_node_6": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 45.42
+        }
+      ],
+      "vnr_3_node_3->vnr_3_node_4": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 21.57
+        }
+      ],
+      "vnr_3_node_3->vnr_3_node_6": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 6.66
+        }
+      ],
+      "vnr_3_node_3->vnr_3_node_7": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 46.79
+        }
+      ],
+      "vnr_3_node_4->vnr_3_node_6": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 10.82
+        }
+      ],
+      "vnr_3_node_5->vnr_3_node_7": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 47.88
+        }
+      ],
+      "vnr_3_node_5->vnr_3_node_8": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 16.77
+        }
+      ],
+      "vnr_3_node_6->vnr_3_node_8": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 38.76
+        }
+      ],
+      "vnr_3_node_7->vnr_3_node_8": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 4.37
+        }
+      ],
+      "vnr_3_node_0->vnr_3_node_1": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 5.82
+        }
+      ],
+      "vnr_3_node_4->vnr_3_node_5": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 36.68
+        }
+      ],
+      "vnr_3_node_5->vnr_3_node_6": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 17.83
+        }
+      ],
+      "vnr_3_node_6->vnr_3_node_7": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 39.52
+        }
+      ]
+    },
+    "embedding_cost": 2248.673
+  },
+  {
+    "vnr_id": "vnr_4",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_4_node_2": "domain_3_node_3",
+      "vnr_4_node_5": "domain_4_node_2",
+      "vnr_4_node_0": "domain_0_node_1",
+      "vnr_4_node_7": "domain_4_node_5",
+      "vnr_4_node_3": "domain_2_node_4",
+      "vnr_4_node_9": "domain_3_node_5",
+      "vnr_4_node_8": "domain_2_node_0",
+      "vnr_4_node_4": "domain_0_node_5",
+      "vnr_4_node_1": "domain_4_node_3",
+      "vnr_4_node_6": "domain_1_node_4"
+    },
+    "link_mapping": {
+      "vnr_4_node_0->vnr_4_node_1": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 23.48
+        }
+      ],
+      "vnr_4_node_0->vnr_4_node_2": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 18.1
+        }
+      ],
+      "vnr_4_node_0->vnr_4_node_5": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 40.24
+        }
+      ],
+      "vnr_4_node_0->vnr_4_node_7": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 21.05
+        }
+      ],
+      "vnr_4_node_0->vnr_4_node_8": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 24.94
+        }
+      ],
+      "vnr_4_node_1->vnr_4_node_3": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 39.92
+        }
+      ],
+      "vnr_4_node_2->vnr_4_node_9": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 33.83
+        }
+      ],
+      "vnr_4_node_3->vnr_4_node_7": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 44.97
+        }
+      ],
+      "vnr_4_node_3->vnr_4_node_9": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_4",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 14.15
+        }
+      ],
+      "vnr_4_node_4->vnr_4_node_5": [
+        {
+          "path": [
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 6.39
+        }
+      ],
+      "vnr_4_node_4->vnr_4_node_8": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 16.79
+        }
+      ],
+      "vnr_4_node_5->vnr_4_node_7": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 14.94
+        }
+      ],
+      "vnr_4_node_5->vnr_4_node_8": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 6.85
+        }
+      ],
+      "vnr_4_node_6->vnr_4_node_8": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 20.46
+        }
+      ],
+      "vnr_4_node_7->vnr_4_node_9": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 43.29
+        }
+      ],
+      "vnr_4_node_8->vnr_4_node_9": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 30.57
+        }
+      ],
+      "vnr_4_node_1->vnr_4_node_2": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 21.17
+        }
+      ],
+      "vnr_4_node_2->vnr_4_node_3": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 22.13
+        }
+      ],
+      "vnr_4_node_3->vnr_4_node_4": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 35.83
+        }
+      ],
+      "vnr_4_node_5->vnr_4_node_6": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 37.35
+        }
+      ],
+      "vnr_4_node_6->vnr_4_node_7": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 44.88
+        }
+      ],
+      "vnr_4_node_7->vnr_4_node_8": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 21.1
+        }
+      ]
+    },
+    "embedding_cost": 2307.126
+  },
+  {
+    "vnr_id": "vnr_5",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_5_node_1": "domain_3_node_3",
+      "vnr_5_node_2": "domain_4_node_4",
+      "vnr_5_node_0": "domain_2_node_5",
+      "vnr_5_node_3": "domain_4_node_2"
+    },
+    "link_mapping": {
+      "vnr_5_node_0->vnr_5_node_1": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 19.21
+        }
+      ],
+      "vnr_5_node_0->vnr_5_node_3": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 22.47
+        }
+      ],
+      "vnr_5_node_2->vnr_5_node_3": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 4.98
+        }
+      ],
+      "vnr_5_node_1->vnr_5_node_2": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 40.44
+        }
+      ]
+    },
+    "embedding_cost": 391.0493
+  },
+  {
+    "vnr_id": "vnr_6",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_6_node_5": "domain_0_node_0",
+      "vnr_6_node_3": "domain_4_node_1",
+      "vnr_6_node_8": "domain_1_node_3",
+      "vnr_6_node_7": "domain_0_node_1",
+      "vnr_6_node_2": "domain_4_node_5",
+      "vnr_6_node_0": "domain_2_node_2",
+      "vnr_6_node_1": "domain_4_node_3",
+      "vnr_6_node_4": "domain_2_node_5",
+      "vnr_6_node_6": "domain_3_node_0"
+    },
+    "link_mapping": {
+      "vnr_6_node_0->vnr_6_node_5": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_0->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 38.53
+        }
+      ],
+      "vnr_6_node_0->vnr_6_node_6": [
+        {
+          "path": [
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 5.52
+        }
+      ],
+      "vnr_6_node_0->vnr_6_node_7": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 4.53
+        }
+      ],
+      "vnr_6_node_0->vnr_6_node_8": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 37.04
+        }
+      ],
+      "vnr_6_node_1->vnr_6_node_4": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 22.81
+        }
+      ],
+      "vnr_6_node_1->vnr_6_node_6": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 41.87
+        }
+      ],
+      "vnr_6_node_2->vnr_6_node_5": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_0->domain_0_node_1"
+          ],
+          "allocated_bandwidth": 26.29
+        }
+      ],
+      "vnr_6_node_2->vnr_6_node_8": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 28.72
+        }
+      ],
+      "vnr_6_node_3->vnr_6_node_7": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_2"
+          ],
+          "allocated_bandwidth": 47.8
+        }
+      ],
+      "vnr_6_node_3->vnr_6_node_8": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 20.5
+        }
+      ],
+      "vnr_6_node_4->vnr_6_node_7": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_2"
+          ],
+          "allocated_bandwidth": 21.44
+        }
+      ],
+      "vnr_6_node_7->vnr_6_node_8": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 46.41
+        }
+      ],
+      "vnr_6_node_0->vnr_6_node_1": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_3"
+          ],
+          "allocated_bandwidth": 31.73
+        }
+      ],
+      "vnr_6_node_1->vnr_6_node_2": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 29.85
+        }
+      ],
+      "vnr_6_node_2->vnr_6_node_3": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_4_node_1->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 9.27
+        }
+      ],
+      "vnr_6_node_3->vnr_6_node_4": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 3.61
+        }
+      ],
+      "vnr_6_node_4->vnr_6_node_5": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_0->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 9.29
+        }
+      ],
+      "vnr_6_node_5->vnr_6_node_6": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 39.12
+        }
+      ],
+      "vnr_6_node_6->vnr_6_node_7": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_1",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 12.57
+        }
+      ]
+    },
+    "embedding_cost": 2168.5878
+  },
+  {
+    "vnr_id": "vnr_7",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_7_node_5": "domain_0_node_4",
+      "vnr_7_node_2": "domain_2_node_3",
+      "vnr_7_node_4": "domain_1_node_4",
+      "vnr_7_node_6": "domain_2_node_1",
+      "vnr_7_node_0": "domain_4_node_4",
+      "vnr_7_node_7": "domain_4_node_2",
+      "vnr_7_node_1": "domain_0_node_0",
+      "vnr_7_node_3": "domain_3_node_3"
+    },
+    "link_mapping": {
+      "vnr_7_node_0->vnr_7_node_3": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 19.1
+        }
+      ],
+      "vnr_7_node_0->vnr_7_node_4": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 1.9
+        }
+      ],
+      "vnr_7_node_0->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 24.84
+        }
+      ],
+      "vnr_7_node_1->vnr_7_node_5": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4"
+          ],
+          "allocated_bandwidth": 32.28
+        }
+      ],
+      "vnr_7_node_1->vnr_7_node_6": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_1->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 12.05
+        }
+      ],
+      "vnr_7_node_1->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 45.45
+        }
+      ],
+      "vnr_7_node_2->vnr_7_node_3": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 31.12
+        }
+      ],
+      "vnr_7_node_2->vnr_7_node_5": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 1.01
+        }
+      ],
+      "vnr_7_node_2->vnr_7_node_6": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_1->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 22.98
+        }
+      ],
+      "vnr_7_node_2->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_2->domain_0_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 29.3
+        }
+      ],
+      "vnr_7_node_3->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 22.0
+        }
+      ],
+      "vnr_7_node_4->vnr_7_node_6": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 40.66
+        }
+      ],
+      "vnr_7_node_4->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 16.8
+        }
+      ],
+      "vnr_7_node_6->vnr_7_node_7": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 9.4
+        }
+      ],
+      "vnr_7_node_0->vnr_7_node_1": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_0->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 14.63
+        }
+      ],
+      "vnr_7_node_1->vnr_7_node_2": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 3.54
+        }
+      ],
+      "vnr_7_node_3->vnr_7_node_4": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 42.02
+        }
+      ],
+      "vnr_7_node_4->vnr_7_node_5": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 34.98
+        }
+      ],
+      "vnr_7_node_5->vnr_7_node_6": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 40.04
+        }
+      ]
+    },
+    "embedding_cost": 1762.9843
+  },
+  {
+    "vnr_id": "vnr_8",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_8_node_0": "domain_4_node_1",
+      "vnr_8_node_1": "domain_1_node_3",
+      "vnr_8_node_2": "domain_0_node_1"
+    },
+    "link_mapping": {
+      "vnr_8_node_0->vnr_8_node_2": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_2_node_2->domain_4_node_4",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 15.73
+        }
+      ],
+      "vnr_8_node_0->vnr_8_node_1": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 29.02
+        }
+      ],
+      "vnr_8_node_1->vnr_8_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 19.78
+        }
+      ]
+    },
+    "embedding_cost": 373.6513
+  },
+  {
+    "vnr_id": "vnr_9",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_10",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_10_node_0": "domain_0_node_4",
+      "vnr_10_node_1": "domain_0_node_3",
+      "vnr_10_node_2": "domain_1_node_4"
+    },
+    "link_mapping": {
+      "vnr_10_node_0->vnr_10_node_2": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 36.65
+        }
+      ],
+      "vnr_10_node_0->vnr_10_node_1": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_4"
+          ],
+          "allocated_bandwidth": 22.92
+        }
+      ],
+      "vnr_10_node_1->vnr_10_node_2": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 27.05
+        }
+      ]
+    },
+    "embedding_cost": 203.2182
+  },
+  {
+    "vnr_id": "vnr_11",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_11_node_2": "domain_2_node_1",
+      "vnr_11_node_3": "domain_2_node_3",
+      "vnr_11_node_0": "domain_4_node_4",
+      "vnr_11_node_1": "domain_2_node_5",
+      "vnr_11_node_4": "domain_1_node_0"
+    },
+    "link_mapping": {
+      "vnr_11_node_0->vnr_11_node_4": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_0->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 19.37
+        }
+      ],
+      "vnr_11_node_1->vnr_11_node_2": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 32.93
+        }
+      ],
+      "vnr_11_node_1->vnr_11_node_3": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 8.8
+        }
+      ],
+      "vnr_11_node_2->vnr_11_node_3": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 28.58
+        }
+      ],
+      "vnr_11_node_2->vnr_11_node_4": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_0->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 45.88
+        }
+      ],
+      "vnr_11_node_0->vnr_11_node_1": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 11.43
+        }
+      ],
+      "vnr_11_node_3->vnr_11_node_4": [
+        {
+          "path": [
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_0->domain_1_node_3"
+          ],
+          "allocated_bandwidth": 1.36
+        }
+      ]
+    },
+    "embedding_cost": 644.0866
+  },
+  {
+    "vnr_id": "vnr_12",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_12_node_2": "domain_0_node_0",
+      "vnr_12_node_0": "domain_4_node_1",
+      "vnr_12_node_3": "domain_4_node_2",
+      "vnr_12_node_1": "domain_1_node_3"
+    },
+    "link_mapping": {
+      "vnr_12_node_1->vnr_12_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_0->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 22.05
+        }
+      ],
+      "vnr_12_node_0->vnr_12_node_1": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 3.46
+        }
+      ],
+      "vnr_12_node_2->vnr_12_node_3": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 31.57
+        }
+      ]
+    },
+    "embedding_cost": 310.6049
+  },
+  {
+    "vnr_id": "vnr_13",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_14",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_14_node_4": "domain_0_node_3",
+      "vnr_14_node_2": "domain_3_node_0",
+      "vnr_14_node_0": "domain_1_node_4",
+      "vnr_14_node_5": "domain_2_node_1",
+      "vnr_14_node_1": "domain_2_node_3",
+      "vnr_14_node_3": "domain_2_node_4"
+    },
+    "link_mapping": {
+      "vnr_14_node_0->vnr_14_node_1": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 15.56
+        }
+      ],
+      "vnr_14_node_0->vnr_14_node_3": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 45.47
+        }
+      ],
+      "vnr_14_node_0->vnr_14_node_4": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_3->domain_0_node_4"
+          ],
+          "allocated_bandwidth": 48.08
+        }
+      ],
+      "vnr_14_node_1->vnr_14_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 30.09
+        }
+      ],
+      "vnr_14_node_2->vnr_14_node_5": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 17.14
+        }
+      ],
+      "vnr_14_node_3->vnr_14_node_5": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 23.25
+        }
+      ],
+      "vnr_14_node_2->vnr_14_node_3": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 45.15
+        }
+      ],
+      "vnr_14_node_3->vnr_14_node_4": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 43.88
+        }
+      ],
+      "vnr_14_node_4->vnr_14_node_5": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 21.77
+        }
+      ]
+    },
+    "embedding_cost": 1145.17
+  },
+  {
+    "vnr_id": "vnr_15",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_15_node_4": "domain_2_node_5",
+      "vnr_15_node_5": "domain_4_node_4",
+      "vnr_15_node_0": "domain_1_node_0",
+      "vnr_15_node_6": "domain_1_node_2",
+      "vnr_15_node_3": "domain_4_node_2",
+      "vnr_15_node_1": "domain_0_node_1",
+      "vnr_15_node_2": "domain_3_node_1"
+    },
+    "link_mapping": {
+      "vnr_15_node_0->vnr_15_node_2": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 23.68
+        }
+      ],
+      "vnr_15_node_0->vnr_15_node_3": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 42.96
+        }
+      ],
+      "vnr_15_node_0->vnr_15_node_4": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_3",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 42.52
+        }
+      ],
+      "vnr_15_node_0->vnr_15_node_5": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_2",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 47.37
+        }
+      ],
+      "vnr_15_node_1->vnr_15_node_2": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 18.53
+        }
+      ],
+      "vnr_15_node_1->vnr_15_node_3": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 12.89
+        }
+      ],
+      "vnr_15_node_1->vnr_15_node_5": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 30.08
+        }
+      ],
+      "vnr_15_node_1->vnr_15_node_6": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 34.91
+        }
+      ],
+      "vnr_15_node_2->vnr_15_node_3": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 49.7
+        }
+      ],
+      "vnr_15_node_2->vnr_15_node_4": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_1->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 9.33
+        }
+      ],
+      "vnr_15_node_2->vnr_15_node_6": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 47.62
+        }
+      ],
+      "vnr_15_node_3->vnr_15_node_4": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 42.92
+        }
+      ],
+      "vnr_15_node_3->vnr_15_node_6": [
+        {
+          "path": [
+            "domain_4_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 45.03
+        }
+      ],
+      "vnr_15_node_4->vnr_15_node_5": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 40.21
+        }
+      ],
+      "vnr_15_node_4->vnr_15_node_6": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 22.73
+        }
+      ],
+      "vnr_15_node_5->vnr_15_node_6": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 19.63
+        }
+      ],
+      "vnr_15_node_0->vnr_15_node_1": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_3",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_1->domain_0_node_3"
+          ],
+          "allocated_bandwidth": 21.3
+        }
+      ]
+    },
+    "embedding_cost": 2087.8613
+  },
+  {
+    "vnr_id": "vnr_16",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_17",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_18",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_18_node_4": "domain_4_node_5",
+      "vnr_18_node_3": "domain_0_node_3",
+      "vnr_18_node_1": "domain_1_node_2",
+      "vnr_18_node_2": "domain_3_node_1",
+      "vnr_18_node_0": "domain_0_node_0"
+    },
+    "link_mapping": {
+      "vnr_18_node_0->vnr_18_node_4": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 30.14
+        }
+      ],
+      "vnr_18_node_1->vnr_18_node_2": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 28.03
+        }
+      ],
+      "vnr_18_node_2->vnr_18_node_3": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_3->domain_0_node_4"
+          ],
+          "allocated_bandwidth": 21.14
+        }
+      ],
+      "vnr_18_node_0->vnr_18_node_1": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 31.17
+        }
+      ],
+      "vnr_18_node_3->vnr_18_node_4": [
+        {
+          "path": [
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 48.69
+        }
+      ]
+    },
+    "embedding_cost": 644.5448
+  },
+  {
+    "vnr_id": "vnr_19",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_20",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_21",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_22",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_22_node_0": "domain_3_node_2",
+      "vnr_22_node_7": "domain_4_node_5",
+      "vnr_22_node_4": "domain_0_node_3",
+      "vnr_22_node_2": "domain_1_node_1",
+      "vnr_22_node_3": "domain_2_node_2",
+      "vnr_22_node_9": "domain_3_node_0",
+      "vnr_22_node_6": "domain_3_node_4",
+      "vnr_22_node_5": "domain_0_node_4",
+      "vnr_22_node_1": "domain_1_node_4",
+      "vnr_22_node_8": "domain_2_node_1"
+    },
+    "link_mapping": {
+      "vnr_22_node_0->vnr_22_node_1": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 29.07
+        }
+      ],
+      "vnr_22_node_0->vnr_22_node_3": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 30.44
+        }
+      ],
+      "vnr_22_node_0->vnr_22_node_5": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_1->domain_3_node_3",
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 2.65
+        }
+      ],
+      "vnr_22_node_0->vnr_22_node_6": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_2",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 3.75
+        }
+      ],
+      "vnr_22_node_0->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 14.98
+        }
+      ],
+      "vnr_22_node_0->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_2"
+          ],
+          "allocated_bandwidth": 2.46
+        }
+      ],
+      "vnr_22_node_1->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_2_node_1->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 5.16
+        }
+      ],
+      "vnr_22_node_1->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 38.22
+        }
+      ],
+      "vnr_22_node_2->vnr_22_node_3": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 2.52
+        }
+      ],
+      "vnr_22_node_2->vnr_22_node_4": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_3->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 36.75
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_5": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 16.02
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_6": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 38.66
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_7": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 8.95
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 21.45
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 40.06
+        }
+      ],
+      "vnr_22_node_4->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 23.02
+        }
+      ],
+      "vnr_22_node_5->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 21.03
+        }
+      ],
+      "vnr_22_node_5->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 3.39
+        }
+      ],
+      "vnr_22_node_7->vnr_22_node_8": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 38.57
+        }
+      ],
+      "vnr_22_node_7->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 30.45
+        }
+      ],
+      "vnr_22_node_8->vnr_22_node_9": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 29.26
+        }
+      ],
+      "vnr_22_node_1->vnr_22_node_2": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 5.02
+        }
+      ],
+      "vnr_22_node_3->vnr_22_node_4": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 27.07
+        }
+      ],
+      "vnr_22_node_4->vnr_22_node_5": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 28.31
+        }
+      ],
+      "vnr_22_node_5->vnr_22_node_6": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 6.05
+        }
+      ],
+      "vnr_22_node_6->vnr_22_node_7": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 41.43
+        }
+      ]
+    },
+    "embedding_cost": 2069.062
+  },
+  {
+    "vnr_id": "vnr_23",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_23_node_3": "domain_2_node_3",
+      "vnr_23_node_2": "domain_4_node_4",
+      "vnr_23_node_4": "domain_2_node_0",
+      "vnr_23_node_0": "domain_2_node_5",
+      "vnr_23_node_5": "domain_1_node_2",
+      "vnr_23_node_1": "domain_3_node_1"
+    },
+    "link_mapping": {
+      "vnr_23_node_0->vnr_23_node_3": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5"
+          ],
+          "allocated_bandwidth": 5.26
+        }
+      ],
+      "vnr_23_node_0->vnr_23_node_5": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 9.05
+        }
+      ],
+      "vnr_23_node_1->vnr_23_node_3": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 40.31
+        }
+      ],
+      "vnr_23_node_1->vnr_23_node_4": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 1.05
+        }
+      ],
+      "vnr_23_node_2->vnr_23_node_3": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_2->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 10.73
+        }
+      ],
+      "vnr_23_node_2->vnr_23_node_5": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 28.27
+        }
+      ],
+      "vnr_23_node_3->vnr_23_node_4": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 4.43
+        }
+      ],
+      "vnr_23_node_4->vnr_23_node_5": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 8.48
+        }
+      ],
+      "vnr_23_node_0->vnr_23_node_1": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 45.01
+        }
+      ],
+      "vnr_23_node_1->vnr_23_node_2": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 28.59
+        }
+      ]
+    },
+    "embedding_cost": 763.0061
+  },
+  {
+    "vnr_id": "vnr_24",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_24_node_1": "domain_1_node_0",
+      "vnr_24_node_0": "domain_0_node_3",
+      "vnr_24_node_2": "domain_1_node_5"
+    },
+    "link_mapping": {
+      "vnr_24_node_0->vnr_24_node_2": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 46.53
+        }
+      ],
+      "vnr_24_node_1->vnr_24_node_2": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 30.67
+        }
+      ],
+      "vnr_24_node_0->vnr_24_node_1": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_0->domain_1_node_1"
+          ],
+          "allocated_bandwidth": 3.11
+        }
+      ]
+    },
+    "embedding_cost": 428.1423
+  },
+  {
+    "vnr_id": "vnr_25",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_26",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_26_node_0": "domain_0_node_0",
+      "vnr_26_node_1": "domain_1_node_1",
+      "vnr_26_node_3": "domain_2_node_2",
+      "vnr_26_node_5": "domain_4_node_5",
+      "vnr_26_node_4": "domain_3_node_0",
+      "vnr_26_node_7": "domain_4_node_0",
+      "vnr_26_node_6": "domain_3_node_4",
+      "vnr_26_node_2": "domain_0_node_4"
+    },
+    "link_mapping": {
+      "vnr_26_node_0->vnr_26_node_1": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 8.12
+        }
+      ],
+      "vnr_26_node_0->vnr_26_node_3": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 1.38
+        }
+      ],
+      "vnr_26_node_0->vnr_26_node_5": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 43.83
+        }
+      ],
+      "vnr_26_node_0->vnr_26_node_6": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 28.61
+        }
+      ],
+      "vnr_26_node_1->vnr_26_node_2": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 10.17
+        }
+      ],
+      "vnr_26_node_1->vnr_26_node_7": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 36.72
+        }
+      ],
+      "vnr_26_node_2->vnr_26_node_3": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 3.36
+        }
+      ],
+      "vnr_26_node_2->vnr_26_node_4": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 42.63
+        }
+      ],
+      "vnr_26_node_2->vnr_26_node_5": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 21.22
+        }
+      ],
+      "vnr_26_node_2->vnr_26_node_7": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 47.97
+        }
+      ],
+      "vnr_26_node_3->vnr_26_node_4": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 3.71
+        }
+      ],
+      "vnr_26_node_3->vnr_26_node_6": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 44.95
+        }
+      ],
+      "vnr_26_node_3->vnr_26_node_7": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 22.12
+        }
+      ],
+      "vnr_26_node_4->vnr_26_node_5": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 33.99
+        }
+      ],
+      "vnr_26_node_4->vnr_26_node_6": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 32.03
+        }
+      ],
+      "vnr_26_node_5->vnr_26_node_6": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 12.9
+        }
+      ],
+      "vnr_26_node_5->vnr_26_node_7": [
+        {
+          "path": [
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 44.63
+        }
+      ],
+      "vnr_26_node_6->vnr_26_node_7": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 40.06
+        }
+      ]
+    },
+    "embedding_cost": 1981.2357
+  },
+  {
+    "vnr_id": "vnr_27",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_28",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_29",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_29_node_0": "domain_4_node_3",
+      "vnr_29_node_2": "domain_1_node_1",
+      "vnr_29_node_9": "domain_2_node_2",
+      "vnr_29_node_4": "domain_3_node_0",
+      "vnr_29_node_6": "domain_4_node_0",
+      "vnr_29_node_1": "domain_3_node_4",
+      "vnr_29_node_5": "domain_0_node_4",
+      "vnr_29_node_8": "domain_4_node_4",
+      "vnr_29_node_3": "domain_1_node_4",
+      "vnr_29_node_7": "domain_2_node_1"
+    },
+    "link_mapping": {
+      "vnr_29_node_0->vnr_29_node_3": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 5.38
+        }
+      ],
+      "vnr_29_node_1->vnr_29_node_2": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 6.45
+        }
+      ],
+      "vnr_29_node_2->vnr_29_node_3": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 2.45
+        }
+      ],
+      "vnr_29_node_2->vnr_29_node_5": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 31.06
+        }
+      ],
+      "vnr_29_node_2->vnr_29_node_6": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 36.63
+        }
+      ],
+      "vnr_29_node_2->vnr_29_node_7": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 20.73
+        }
+      ],
+      "vnr_29_node_3->vnr_29_node_4": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 49.24
+        }
+      ],
+      "vnr_29_node_4->vnr_29_node_5": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_1",
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 12.03
+        }
+      ],
+      "vnr_29_node_4->vnr_29_node_7": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 35.84
+        }
+      ],
+      "vnr_29_node_4->vnr_29_node_8": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 42.43
+        }
+      ],
+      "vnr_29_node_4->vnr_29_node_9": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 9.95
+        }
+      ],
+      "vnr_29_node_5->vnr_29_node_6": [
+        {
+          "path": [
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 38.62
+        }
+      ],
+      "vnr_29_node_5->vnr_29_node_7": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_3",
+            "domain_3_node_3->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 36.8
+        }
+      ],
+      "vnr_29_node_6->vnr_29_node_7": [
+        {
+          "path": [
+            "domain_4_node_0->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 39.59
+        }
+      ],
+      "vnr_29_node_6->vnr_29_node_8": [
+        {
+          "path": [
+            "domain_4_node_0->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 10.2
+        }
+      ],
+      "vnr_29_node_7->vnr_29_node_8": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 44.88
+        }
+      ],
+      "vnr_29_node_7->vnr_29_node_9": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 29.83
+        }
+      ],
+      "vnr_29_node_8->vnr_29_node_9": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 2.51
+        }
+      ],
+      "vnr_29_node_0->vnr_29_node_1": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 12.99
+        }
+      ]
+    },
+    "embedding_cost": 2083.7254
+  },
+  {
+    "vnr_id": "vnr_30",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_31",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_32",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_33",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_33_node_0": "domain_2_node_0",
+      "vnr_33_node_1": "domain_2_node_3",
+      "vnr_33_node_5": "domain_1_node_5",
+      "vnr_33_node_4": "domain_1_node_1",
+      "vnr_33_node_2": "domain_4_node_5",
+      "vnr_33_node_3": "domain_3_node_2"
+    },
+    "link_mapping": {
+      "vnr_33_node_0->vnr_33_node_3": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_2->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 10.8
+        }
+      ],
+      "vnr_33_node_1->vnr_33_node_3": [
+        {
+          "path": [
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 30.68
+        }
+      ],
+      "vnr_33_node_1->vnr_33_node_4": [
+        {
+          "path": [
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_1->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 42.45
+        }
+      ],
+      "vnr_33_node_2->vnr_33_node_5": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 37.59
+        }
+      ],
+      "vnr_33_node_3->vnr_33_node_4": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_1->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 17.98
+        }
+      ],
+      "vnr_33_node_4->vnr_33_node_5": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 37.08
+        }
+      ],
+      "vnr_33_node_0->vnr_33_node_1": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_3->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 26.81
+        }
+      ],
+      "vnr_33_node_1->vnr_33_node_2": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_1->domain_0_node_3",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 20.92
+        }
+      ],
+      "vnr_33_node_2->vnr_33_node_3": [
+        {
+          "path": [
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 19.06
+        }
+      ]
+    },
+    "embedding_cost": 1043.4482
+  },
+  {
+    "vnr_id": "vnr_34",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_35",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_35_node_3": "domain_1_node_3",
+      "vnr_35_node_0": "domain_1_node_1",
+      "vnr_35_node_1": "domain_2_node_0",
+      "vnr_35_node_2": "domain_2_node_1"
+    },
+    "link_mapping": {
+      "vnr_35_node_1->vnr_35_node_2": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 30.27
+        }
+      ],
+      "vnr_35_node_1->vnr_35_node_3": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 23.49
+        }
+      ],
+      "vnr_35_node_2->vnr_35_node_3": [
+        {
+          "path": [
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_2->domain_3_node_5",
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 47.15
+        }
+      ],
+      "vnr_35_node_0->vnr_35_node_1": [
+        {
+          "path": [
+            "domain_1_node_1->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 29.8
+        }
+      ]
+    },
+    "embedding_cost": 677.9642
+  },
+  {
+    "vnr_id": "vnr_36",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_37",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_38",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_39",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_39_node_2": "domain_1_node_2",
+      "vnr_39_node_1": "domain_4_node_4",
+      "vnr_39_node_0": "domain_3_node_5"
+    },
+    "link_mapping": {
+      "vnr_39_node_0->vnr_39_node_1": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_5",
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 46.75
+        }
+      ],
+      "vnr_39_node_0->vnr_39_node_2": [
+        {
+          "path": [
+            "domain_3_node_3->domain_3_node_5",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 31.88
+        }
+      ],
+      "vnr_39_node_1->vnr_39_node_2": [
+        {
+          "path": [
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 16.58
+        }
+      ]
+    },
+    "embedding_cost": 315.394
+  },
+  {
+    "vnr_id": "vnr_40",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_40_node_1": "domain_3_node_1",
+      "vnr_40_node_2": "domain_1_node_0",
+      "vnr_40_node_7": "domain_0_node_2",
+      "vnr_40_node_3": "domain_3_node_2",
+      "vnr_40_node_6": "domain_1_node_3",
+      "vnr_40_node_4": "domain_4_node_0",
+      "vnr_40_node_0": "domain_0_node_5",
+      "vnr_40_node_5": "domain_2_node_2",
+      "vnr_40_node_8": "domain_3_node_0"
+    },
+    "link_mapping": {
+      "vnr_40_node_0->vnr_40_node_6": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 37.39
+        }
+      ],
+      "vnr_40_node_0->vnr_40_node_8": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 6.05
+        }
+      ],
+      "vnr_40_node_1->vnr_40_node_2": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_0->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 24.1
+        }
+      ],
+      "vnr_40_node_1->vnr_40_node_3": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 13.96
+        }
+      ],
+      "vnr_40_node_1->vnr_40_node_5": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_1",
+            "domain_3_node_0->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 7.92
+        }
+      ],
+      "vnr_40_node_1->vnr_40_node_6": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 20.19
+        }
+      ],
+      "vnr_40_node_3->vnr_40_node_4": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 12.13
+        }
+      ],
+      "vnr_40_node_3->vnr_40_node_6": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 34.39
+        }
+      ],
+      "vnr_40_node_3->vnr_40_node_7": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 21.6
+        }
+      ],
+      "vnr_40_node_4->vnr_40_node_5": [
+        {
+          "path": [
+            "domain_4_node_0->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 19.75
+        }
+      ],
+      "vnr_40_node_4->vnr_40_node_6": [
+        {
+          "path": [
+            "domain_4_node_0->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 16.79
+        }
+      ],
+      "vnr_40_node_5->vnr_40_node_7": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 23.95
+        }
+      ],
+      "vnr_40_node_5->vnr_40_node_8": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 28.97
+        }
+      ],
+      "vnr_40_node_6->vnr_40_node_7": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 46.42
+        }
+      ],
+      "vnr_40_node_7->vnr_40_node_8": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_0->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 48.78
+        }
+      ],
+      "vnr_40_node_0->vnr_40_node_1": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 22.65
+        }
+      ],
+      "vnr_40_node_2->vnr_40_node_3": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 5.76
+        }
+      ],
+      "vnr_40_node_5->vnr_40_node_6": [
+        {
+          "path": [
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 13.5
+        }
+      ]
+    },
+    "embedding_cost": 2071.0884
+  },
+  {
+    "vnr_id": "vnr_41",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_41_node_1": "domain_3_node_4",
+      "vnr_41_node_0": "domain_0_node_0",
+      "vnr_41_node_2": "domain_1_node_1"
+    },
+    "link_mapping": {
+      "vnr_41_node_0->vnr_41_node_1": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_1",
+            "domain_0_node_1->domain_0_node_2",
+            "domain_0_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 6.82
+        }
+      ],
+      "vnr_41_node_0->vnr_41_node_2": [
+        {
+          "path": [
+            "domain_0_node_0->domain_0_node_3",
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_1->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 44.31
+        }
+      ],
+      "vnr_41_node_1->vnr_41_node_2": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_1->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 23.49
+        }
+      ]
+    },
+    "embedding_cost": 577.1971
+  },
+  {
+    "vnr_id": "vnr_42",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_43",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_44",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_45",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_45_node_1": "domain_3_node_1",
+      "vnr_45_node_2": "domain_1_node_0",
+      "vnr_45_node_0": "domain_1_node_5"
+    },
+    "link_mapping": {
+      "vnr_45_node_0->vnr_45_node_2": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 49.11
+        }
+      ],
+      "vnr_45_node_1->vnr_45_node_2": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_0->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 30.78
+        }
+      ],
+      "vnr_45_node_0->vnr_45_node_1": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_1->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 33.06
+        }
+      ]
+    },
+    "embedding_cost": 403.98
+  },
+  {
+    "vnr_id": "vnr_46",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_47",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_48",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_49",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_49_node_3": "domain_3_node_4",
+      "vnr_49_node_1": "domain_0_node_4",
+      "vnr_49_node_0": "domain_1_node_2",
+      "vnr_49_node_2": "domain_0_node_3"
+    },
+    "link_mapping": {
+      "vnr_49_node_0->vnr_49_node_1": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 19.7
+        }
+      ],
+      "vnr_49_node_0->vnr_49_node_2": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 8.36
+        }
+      ],
+      "vnr_49_node_0->vnr_49_node_3": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 12.16
+        }
+      ],
+      "vnr_49_node_1->vnr_49_node_2": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2",
+            "domain_0_node_3->domain_0_node_5"
+          ],
+          "allocated_bandwidth": 28.56
+        }
+      ],
+      "vnr_49_node_2->vnr_49_node_3": [
+        {
+          "path": [
+            "domain_0_node_3->domain_0_node_5",
+            "domain_0_node_4->domain_0_node_5",
+            "domain_0_node_4->domain_3_node_1",
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 4.12
+        }
+      ]
+    },
+    "embedding_cost": 567.7105
+  },
+  {
+    "vnr_id": "vnr_50",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_51",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_52",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_53",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_54",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_55",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_55_node_2": "domain_2_node_0",
+      "vnr_55_node_0": "domain_1_node_5",
+      "vnr_55_node_1": "domain_4_node_4"
+    },
+    "link_mapping": {
+      "vnr_55_node_0->vnr_55_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4"
+          ],
+          "allocated_bandwidth": 20.04
+        }
+      ],
+      "vnr_55_node_1->vnr_55_node_2": [
+        {
+          "path": [
+            "domain_2_node_2->domain_4_node_4",
+            "domain_2_node_0->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 9.72
+        }
+      ],
+      "vnr_55_node_0->vnr_55_node_1": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_4_node_4"
+          ],
+          "allocated_bandwidth": 31.39
+        }
+      ]
+    },
+    "embedding_cost": 245.4456
+  },
+  {
+    "vnr_id": "vnr_56",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_56_node_0": "domain_4_node_3",
+      "vnr_56_node_2": "domain_1_node_5",
+      "vnr_56_node_1": "domain_3_node_4"
+    },
+    "link_mapping": {
+      "vnr_56_node_0->vnr_56_node_1": [
+        {
+          "path": [
+            "domain_4_node_1->domain_4_node_3",
+            "domain_4_node_1->domain_4_node_4",
+            "domain_1_node_2->domain_4_node_4",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 1.17
+        }
+      ],
+      "vnr_56_node_1->vnr_56_node_2": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 35.25
+        }
+      ]
+    },
+    "embedding_cost": 292.3662
+  },
+  {
+    "vnr_id": "vnr_57",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_57_node_2": "domain_0_node_2",
+      "vnr_57_node_3": "domain_3_node_2",
+      "vnr_57_node_0": "domain_2_node_5",
+      "vnr_57_node_1": "domain_1_node_3"
+    },
+    "link_mapping": {
+      "vnr_57_node_0->vnr_57_node_1": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_1_node_3->domain_2_node_3"
+          ],
+          "allocated_bandwidth": 26.01
+        }
+      ],
+      "vnr_57_node_0->vnr_57_node_2": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 31.37
+        }
+      ],
+      "vnr_57_node_0->vnr_57_node_3": [
+        {
+          "path": [
+            "domain_2_node_3->domain_2_node_5",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 7.76
+        }
+      ],
+      "vnr_57_node_1->vnr_57_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 10.75
+        }
+      ],
+      "vnr_57_node_2->vnr_57_node_3": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 39.22
+        }
+      ]
+    },
+    "embedding_cost": 662.2999
+  },
+  {
+    "vnr_id": "vnr_58",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_59",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_60",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_61",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_61_node_7": "domain_4_node_0",
+      "vnr_61_node_0": "domain_1_node_5",
+      "vnr_61_node_2": "domain_1_node_2",
+      "vnr_61_node_3": "domain_3_node_4",
+      "vnr_61_node_6": "domain_0_node_2",
+      "vnr_61_node_4": "domain_3_node_1",
+      "vnr_61_node_1": "domain_3_node_2",
+      "vnr_61_node_5": "domain_1_node_0"
+    },
+    "link_mapping": {
+      "vnr_61_node_0->vnr_61_node_5": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 37.0
+        }
+      ],
+      "vnr_61_node_0->vnr_61_node_6": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 14.78
+        }
+      ],
+      "vnr_61_node_0->vnr_61_node_7": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 31.61
+        }
+      ],
+      "vnr_61_node_1->vnr_61_node_2": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 21.6
+        }
+      ],
+      "vnr_61_node_1->vnr_61_node_5": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_1->domain_1_node_2",
+            "domain_1_node_0->domain_1_node_1"
+          ],
+          "allocated_bandwidth": 2.67
+        }
+      ],
+      "vnr_61_node_1->vnr_61_node_6": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 6.57
+        }
+      ],
+      "vnr_61_node_1->vnr_61_node_7": [
+        {
+          "path": [
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 7.09
+        }
+      ],
+      "vnr_61_node_2->vnr_61_node_3": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_0->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 49.1
+        }
+      ],
+      "vnr_61_node_2->vnr_61_node_6": [
+        {
+          "path": [
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 19.45
+        }
+      ],
+      "vnr_61_node_3->vnr_61_node_4": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_4"
+          ],
+          "allocated_bandwidth": 16.78
+        }
+      ],
+      "vnr_61_node_3->vnr_61_node_7": [
+        {
+          "path": [
+            "domain_3_node_0->domain_3_node_4",
+            "domain_3_node_0->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 42.73
+        }
+      ],
+      "vnr_61_node_5->vnr_61_node_6": [
+        {
+          "path": [
+            "domain_1_node_0->domain_1_node_2",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_0_node_2->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 49.29
+        }
+      ],
+      "vnr_61_node_0->vnr_61_node_1": [
+        {
+          "path": [
+            "domain_1_node_2->domain_1_node_5",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 4.91
+        }
+      ],
+      "vnr_61_node_4->vnr_61_node_5": [
+        {
+          "path": [
+            "domain_3_node_1->domain_3_node_3",
+            "domain_1_node_2->domain_3_node_3",
+            "domain_1_node_0->domain_1_node_2"
+          ],
+          "allocated_bandwidth": 5.06
+        }
+      ],
+      "vnr_61_node_6->vnr_61_node_7": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_4_node_0->domain_4_node_5"
+          ],
+          "allocated_bandwidth": 34.69
+        }
+      ]
+    },
+    "embedding_cost": 1351.422
+  },
+  {
+    "vnr_id": "vnr_62",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_62_node_3": "domain_1_node_2",
+      "vnr_62_node_0": "domain_3_node_1",
+      "vnr_62_node_1": "domain_0_node_4",
+      "vnr_62_node_2": "domain_1_node_3"
+    },
+    "link_mapping": {
+      "vnr_62_node_0->vnr_62_node_1": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 45.87
+        }
+      ],
+      "vnr_62_node_1->vnr_62_node_2": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 23.7
+        }
+      ],
+      "vnr_62_node_2->vnr_62_node_3": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_5",
+            "domain_1_node_2->domain_1_node_5"
+          ],
+          "allocated_bandwidth": 26.96
+        }
+      ]
+    },
+    "embedding_cost": 358.512
+  },
+  {
+    "vnr_id": "vnr_63",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_64",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_65",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_65_node_0": "domain_0_node_2",
+      "vnr_65_node_2": "domain_3_node_2",
+      "vnr_65_node_1": "domain_2_node_0"
+    },
+    "link_mapping": {
+      "vnr_65_node_0->vnr_65_node_1": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_2->domain_3_node_3",
+            "domain_3_node_2->domain_3_node_5",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_2_node_0->domain_2_node_1"
+          ],
+          "allocated_bandwidth": 47.91
+        }
+      ],
+      "vnr_65_node_0->vnr_65_node_2": [
+        {
+          "path": [
+            "domain_0_node_2->domain_4_node_5",
+            "domain_3_node_3->domain_4_node_5",
+            "domain_3_node_2->domain_3_node_3"
+          ],
+          "allocated_bandwidth": 16.29
+        }
+      ],
+      "vnr_65_node_1->vnr_65_node_2": [
+        {
+          "path": [
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_2->domain_3_node_5"
+          ],
+          "allocated_bandwidth": 44.07
+        }
+      ]
+    },
+    "embedding_cost": 540.2498
+  },
+  {
+    "vnr_id": "vnr_66",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_67",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_68",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_69",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_70",
+    "is_successful": true,
+    "node_mapping": {
+      "vnr_70_node_0": "domain_0_node_4",
+      "vnr_70_node_3": "domain_3_node_1",
+      "vnr_70_node_2": "domain_0_node_5",
+      "vnr_70_node_1": "domain_1_node_4"
+    },
+    "link_mapping": {
+      "vnr_70_node_0->vnr_70_node_1": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4"
+          ],
+          "allocated_bandwidth": 28.68
+        }
+      ],
+      "vnr_70_node_0->vnr_70_node_2": [
+        {
+          "path": [
+            "domain_0_node_4->domain_1_node_4",
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_2->domain_2_node_3",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 5.98
+        }
+      ],
+      "vnr_70_node_0->vnr_70_node_3": [
+        {
+          "path": [
+            "domain_0_node_4->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 11.96
+        }
+      ],
+      "vnr_70_node_1->vnr_70_node_2": [
+        {
+          "path": [
+            "domain_1_node_3->domain_1_node_4",
+            "domain_1_node_3->domain_2_node_3",
+            "domain_2_node_3->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_4",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_0_node_5->domain_2_node_2"
+          ],
+          "allocated_bandwidth": 46.72
+        }
+      ],
+      "vnr_70_node_2->vnr_70_node_3": [
+        {
+          "path": [
+            "domain_0_node_5->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_2",
+            "domain_2_node_0->domain_2_node_1",
+            "domain_2_node_1->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_5",
+            "domain_3_node_0->domain_3_node_1"
+          ],
+          "allocated_bandwidth": 10.26
+        }
+      ]
+    },
+    "embedding_cost": 529.2104
+  },
+  {
+    "vnr_id": "vnr_71",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_72",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_73",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_74",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_75",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_76",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_77",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_78",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_79",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_80",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_81",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_82",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_83",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_84",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_85",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_86",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_87",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_88",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_89",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_90",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_91",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_92",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_93",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_94",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_95",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_96",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_97",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_98",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  },
+  {
+    "vnr_id": "vnr_99",
+    "is_successful": false,
+    "node_mapping": {},
+    "link_mapping": {},
+    "embedding_cost": 0.0
+  }
+]
