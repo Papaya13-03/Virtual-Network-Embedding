@@ -10,7 +10,7 @@ LIMIT=${3:-""}
 PROJECT_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
 
 # Array of algorithms to run (add more as they are implemented)
-ALGORITHMS=("mp_vne" "mc_vnm" "mpq_vne") 
+ALGORITHMS=("mp_vne" "mc_vnm" "mpq_vne" "srl_vne" "mp_dqn_vne" "srl_mp_vne") 
 
 SUBSTRATE_PATH="$PROJECT_ROOT/datasets/$SCENARIO/substrate.json"
 REQUESTS_PATH="$PROJECT_ROOT/datasets/$SCENARIO/virtual_requests.json"
@@ -34,12 +34,8 @@ for ALGO in "${ALGORITHMS[@]}"; do
         
         OUTPUT_PATH="${OUTPUT_DIR}/solutions_${ALGO}.json"
         
-        # Use uv run if available, else python
-        if command -v uv &> /dev/null; then
-            PYTHON_CMD="uv run python"
-        else
-            PYTHON_CMD="python"
-        fi
+        # Force python3 to ensure torch compatibility
+        PYTHON_CMD="python3"
         
         CMD="$PYTHON_CMD $PROJECT_ROOT/main.py --algorithm $ALGO --substrate $SUBSTRATE_PATH --requests $REQUESTS_PATH --output $OUTPUT_PATH"
         

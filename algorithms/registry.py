@@ -2,12 +2,18 @@ from typing import Dict, Type
 from algorithms.mp_vne.mp_vne import MPVNE
 from algorithms.mc_vnm.mc_vnm import MCVNM
 from algorithms.mpq_vne.mpq_vne import MPQVNE
+from algorithms.srl_vne.srl_vne import SRLVNE
+from algorithms.mp_dqn_vne.mp_dqn_vne import MPDQNVNE
+from algorithms.srl_mp_vne.srl_mp_vne import SRLMPVNE
 
 # Dictionary mapping algorithm names to their class implementation
 ALGORITHMS: Dict[str, Type] = {
     "mp_vne": MPVNE,
     "mc_vnm": MCVNM,
-    "mpq_vne": MPQVNE
+    "mpq_vne": MPQVNE,
+    "srl_vne": SRLVNE,
+    "mp_dqn_vne": MPDQNVNE,
+    "srl_mp_vne": SRLMPVNE
 }
 
 def get_algorithm(name: str):
