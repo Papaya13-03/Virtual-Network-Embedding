@@ -1,5 +1,5 @@
 from dataclasses import dataclass, field
-from typing import Dict, Tuple
+from typing import Dict, Tuple, List
 
 @dataclass
 class VirtualNode:
@@ -8,6 +8,7 @@ class VirtualNode:
     """
     id: str
     cpu_demand: float  # C_i^v: CPU demand
+    allowed_domains: List[str] = field(default_factory=list)
 
 @dataclass
 class VirtualLink:

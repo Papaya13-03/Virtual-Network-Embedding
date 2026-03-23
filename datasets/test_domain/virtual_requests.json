@@ -1,0 +1,2591 @@
+[
+  {
+    "id": "vnr_0",
+    "arrival_time": 7.98,
+    "lifetime": 397.09,
+    "virtual_network": {
+      "id": "vn_vnr_0",
+      "nodes": [
+        {
+          "id": "vnr_0_node_0",
+          "cpu_demand": 15.28,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_0_node_1",
+          "cpu_demand": 10.85,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_0_node_2",
+          "cpu_demand": 19.18,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_0_node_3",
+          "cpu_demand": 17.51,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_0_node_4",
+          "cpu_demand": 13.15,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_0_node_5",
+          "cpu_demand": 19.36,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_0_node_6",
+          "cpu_demand": 6.01,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_0_node_7",
+          "cpu_demand": 16.43,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_0_node_8",
+          "cpu_demand": 11.49,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_1",
+          "bandwidth_demand": 24.26
+        },
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_2",
+          "bandwidth_demand": 29.48
+        },
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_4",
+          "bandwidth_demand": 19.63
+        },
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_5",
+          "bandwidth_demand": 4.92
+        },
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_7",
+          "bandwidth_demand": 32.3
+        },
+        {
+          "source": "vnr_0_node_0",
+          "target": "vnr_0_node_8",
+          "bandwidth_demand": 31.6
+        },
+        {
+          "source": "vnr_0_node_1",
+          "target": "vnr_0_node_2",
+          "bandwidth_demand": 32.04
+        },
+        {
+          "source": "vnr_0_node_1",
+          "target": "vnr_0_node_3",
+          "bandwidth_demand": 27.8
+        },
+        {
+          "source": "vnr_0_node_1",
+          "target": "vnr_0_node_4",
+          "bandwidth_demand": 34.43
+        },
+        {
+          "source": "vnr_0_node_1",
+          "target": "vnr_0_node_6",
+          "bandwidth_demand": 48.47
+        },
+        {
+          "source": "vnr_0_node_2",
+          "target": "vnr_0_node_3",
+          "bandwidth_demand": 16.96
+        },
+        {
+          "source": "vnr_0_node_2",
+          "target": "vnr_0_node_6",
+          "bandwidth_demand": 21.26
+        },
+        {
+          "source": "vnr_0_node_2",
+          "target": "vnr_0_node_7",
+          "bandwidth_demand": 4.2
+        },
+        {
+          "source": "vnr_0_node_3",
+          "target": "vnr_0_node_5",
+          "bandwidth_demand": 29.61
+        },
+        {
+          "source": "vnr_0_node_3",
+          "target": "vnr_0_node_8",
+          "bandwidth_demand": 13.77
+        },
+        {
+          "source": "vnr_0_node_4",
+          "target": "vnr_0_node_7",
+          "bandwidth_demand": 38.29
+        },
+        {
+          "source": "vnr_0_node_5",
+          "target": "vnr_0_node_7",
+          "bandwidth_demand": 18.24
+        },
+        {
+          "source": "vnr_0_node_6",
+          "target": "vnr_0_node_7",
+          "bandwidth_demand": 12.13
+        },
+        {
+          "source": "vnr_0_node_6",
+          "target": "vnr_0_node_8",
+          "bandwidth_demand": 32.15
+        },
+        {
+          "source": "vnr_0_node_7",
+          "target": "vnr_0_node_8",
+          "bandwidth_demand": 45.47
+        },
+        {
+          "source": "vnr_0_node_3",
+          "target": "vnr_0_node_4",
+          "bandwidth_demand": 1.86
+        },
+        {
+          "source": "vnr_0_node_4",
+          "target": "vnr_0_node_5",
+          "bandwidth_demand": 45.0
+        },
+        {
+          "source": "vnr_0_node_5",
+          "target": "vnr_0_node_6",
+          "bandwidth_demand": 21.39
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_1",
+    "arrival_time": 18.14,
+    "lifetime": 1016.41,
+    "virtual_network": {
+      "id": "vn_vnr_1",
+      "nodes": [
+        {
+          "id": "vnr_1_node_0",
+          "cpu_demand": 15.08,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_1_node_1",
+          "cpu_demand": 17.77,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_1_node_2",
+          "cpu_demand": 8.28,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_1_node_3",
+          "cpu_demand": 17.55,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_1_node_4",
+          "cpu_demand": 15.06,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_1_node_5",
+          "cpu_demand": 6.02,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_1_node_6",
+          "cpu_demand": 2.09,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_1_node_7",
+          "cpu_demand": 3.03,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_1_node_0",
+          "target": "vnr_1_node_2",
+          "bandwidth_demand": 46.96
+        },
+        {
+          "source": "vnr_1_node_0",
+          "target": "vnr_1_node_6",
+          "bandwidth_demand": 40.23
+        },
+        {
+          "source": "vnr_1_node_0",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 43.22
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_2",
+          "bandwidth_demand": 11.18
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_3",
+          "bandwidth_demand": 9.01
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_4",
+          "bandwidth_demand": 9.41
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_5",
+          "bandwidth_demand": 9.9
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_6",
+          "bandwidth_demand": 6.74
+        },
+        {
+          "source": "vnr_1_node_1",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 36.12
+        },
+        {
+          "source": "vnr_1_node_2",
+          "target": "vnr_1_node_4",
+          "bandwidth_demand": 22.79
+        },
+        {
+          "source": "vnr_1_node_2",
+          "target": "vnr_1_node_5",
+          "bandwidth_demand": 29.26
+        },
+        {
+          "source": "vnr_1_node_2",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 7.77
+        },
+        {
+          "source": "vnr_1_node_3",
+          "target": "vnr_1_node_4",
+          "bandwidth_demand": 10.41
+        },
+        {
+          "source": "vnr_1_node_3",
+          "target": "vnr_1_node_6",
+          "bandwidth_demand": 4.45
+        },
+        {
+          "source": "vnr_1_node_4",
+          "target": "vnr_1_node_5",
+          "bandwidth_demand": 2.35
+        },
+        {
+          "source": "vnr_1_node_4",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 8.78
+        },
+        {
+          "source": "vnr_1_node_5",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 15.13
+        },
+        {
+          "source": "vnr_1_node_6",
+          "target": "vnr_1_node_7",
+          "bandwidth_demand": 48.7
+        },
+        {
+          "source": "vnr_1_node_0",
+          "target": "vnr_1_node_1",
+          "bandwidth_demand": 46.01
+        },
+        {
+          "source": "vnr_1_node_2",
+          "target": "vnr_1_node_3",
+          "bandwidth_demand": 4.79
+        },
+        {
+          "source": "vnr_1_node_5",
+          "target": "vnr_1_node_6",
+          "bandwidth_demand": 36.67
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_2",
+    "arrival_time": 58.12,
+    "lifetime": 1009.2,
+    "virtual_network": {
+      "id": "vn_vnr_2",
+      "nodes": [
+        {
+          "id": "vnr_2_node_0",
+          "cpu_demand": 7.19,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_2_node_1",
+          "cpu_demand": 8.49,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_2_node_2",
+          "cpu_demand": 5.97,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_2_node_3",
+          "cpu_demand": 9.73,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_2_node_4",
+          "cpu_demand": 12.44,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_2_node_0",
+          "target": "vnr_2_node_3",
+          "bandwidth_demand": 24.15
+        },
+        {
+          "source": "vnr_2_node_1",
+          "target": "vnr_2_node_4",
+          "bandwidth_demand": 13.11
+        },
+        {
+          "source": "vnr_2_node_2",
+          "target": "vnr_2_node_3",
+          "bandwidth_demand": 30.17
+        },
+        {
+          "source": "vnr_2_node_2",
+          "target": "vnr_2_node_4",
+          "bandwidth_demand": 27.95
+        },
+        {
+          "source": "vnr_2_node_3",
+          "target": "vnr_2_node_4",
+          "bandwidth_demand": 6.75
+        },
+        {
+          "source": "vnr_2_node_0",
+          "target": "vnr_2_node_1",
+          "bandwidth_demand": 6.75
+        },
+        {
+          "source": "vnr_2_node_1",
+          "target": "vnr_2_node_2",
+          "bandwidth_demand": 24.45
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_3",
+    "arrival_time": 148.69,
+    "lifetime": 732.25,
+    "virtual_network": {
+      "id": "vn_vnr_3",
+      "nodes": [
+        {
+          "id": "vnr_3_node_0",
+          "cpu_demand": 10.99,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_3_node_1",
+          "cpu_demand": 19.71,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_3_node_2",
+          "cpu_demand": 7.3,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_3_node_3",
+          "cpu_demand": 14.24,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_3_node_4",
+          "cpu_demand": 16.21,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_3_node_5",
+          "cpu_demand": 12.09,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_3_node_6",
+          "cpu_demand": 6.77,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_3_node_7",
+          "cpu_demand": 10.01,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_3_node_0",
+          "target": "vnr_3_node_1",
+          "bandwidth_demand": 26.26
+        },
+        {
+          "source": "vnr_3_node_0",
+          "target": "vnr_3_node_3",
+          "bandwidth_demand": 25.8
+        },
+        {
+          "source": "vnr_3_node_0",
+          "target": "vnr_3_node_5",
+          "bandwidth_demand": 41.89
+        },
+        {
+          "source": "vnr_3_node_0",
+          "target": "vnr_3_node_6",
+          "bandwidth_demand": 20.98
+        },
+        {
+          "source": "vnr_3_node_1",
+          "target": "vnr_3_node_5",
+          "bandwidth_demand": 17.9
+        },
+        {
+          "source": "vnr_3_node_1",
+          "target": "vnr_3_node_6",
+          "bandwidth_demand": 17.91
+        },
+        {
+          "source": "vnr_3_node_1",
+          "target": "vnr_3_node_7",
+          "bandwidth_demand": 14.4
+        },
+        {
+          "source": "vnr_3_node_2",
+          "target": "vnr_3_node_3",
+          "bandwidth_demand": 20.06
+        },
+        {
+          "source": "vnr_3_node_2",
+          "target": "vnr_3_node_4",
+          "bandwidth_demand": 11.98
+        },
+        {
+          "source": "vnr_3_node_2",
+          "target": "vnr_3_node_5",
+          "bandwidth_demand": 34.08
+        },
+        {
+          "source": "vnr_3_node_2",
+          "target": "vnr_3_node_6",
+          "bandwidth_demand": 27.94
+        },
+        {
+          "source": "vnr_3_node_3",
+          "target": "vnr_3_node_5",
+          "bandwidth_demand": 6.41
+        },
+        {
+          "source": "vnr_3_node_3",
+          "target": "vnr_3_node_7",
+          "bandwidth_demand": 21.56
+        },
+        {
+          "source": "vnr_3_node_4",
+          "target": "vnr_3_node_5",
+          "bandwidth_demand": 45.81
+        },
+        {
+          "source": "vnr_3_node_4",
+          "target": "vnr_3_node_6",
+          "bandwidth_demand": 5.23
+        },
+        {
+          "source": "vnr_3_node_4",
+          "target": "vnr_3_node_7",
+          "bandwidth_demand": 1.86
+        },
+        {
+          "source": "vnr_3_node_5",
+          "target": "vnr_3_node_7",
+          "bandwidth_demand": 32.4
+        },
+        {
+          "source": "vnr_3_node_6",
+          "target": "vnr_3_node_7",
+          "bandwidth_demand": 11.36
+        },
+        {
+          "source": "vnr_3_node_1",
+          "target": "vnr_3_node_2",
+          "bandwidth_demand": 33.83
+        },
+        {
+          "source": "vnr_3_node_3",
+          "target": "vnr_3_node_4",
+          "bandwidth_demand": 34.9
+        },
+        {
+          "source": "vnr_3_node_5",
+          "target": "vnr_3_node_6",
+          "bandwidth_demand": 38.6
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_4",
+    "arrival_time": 176.87,
+    "lifetime": 147.85,
+    "virtual_network": {
+      "id": "vn_vnr_4",
+      "nodes": [
+        {
+          "id": "vnr_4_node_0",
+          "cpu_demand": 3.1,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_4_node_1",
+          "cpu_demand": 16.76,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_4_node_2",
+          "cpu_demand": 7.92,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_4_node_3",
+          "cpu_demand": 17.83,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_4_node_4",
+          "cpu_demand": 14.97,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_4_node_5",
+          "cpu_demand": 14.62,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_4_node_6",
+          "cpu_demand": 17.37,
+          "allowed_domains": [
+            "domain_1",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_4_node_7",
+          "cpu_demand": 18.13,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_4_node_8",
+          "cpu_demand": 15.63,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_4_node_9",
+          "cpu_demand": 10.82,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_3",
+          "bandwidth_demand": 33.55
+        },
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_6",
+          "bandwidth_demand": 47.67
+        },
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 31.48
+        },
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_8",
+          "bandwidth_demand": 42.46
+        },
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_9",
+          "bandwidth_demand": 12.67
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_2",
+          "bandwidth_demand": 29.99
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_3",
+          "bandwidth_demand": 26.27
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_4",
+          "bandwidth_demand": 4.78
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_5",
+          "bandwidth_demand": 26.3
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_6",
+          "bandwidth_demand": 3.58
+        },
+        {
+          "source": "vnr_4_node_1",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 4.89
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_3",
+          "bandwidth_demand": 4.94
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_5",
+          "bandwidth_demand": 10.31
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_6",
+          "bandwidth_demand": 20.37
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 2.78
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_8",
+          "bandwidth_demand": 45.37
+        },
+        {
+          "source": "vnr_4_node_2",
+          "target": "vnr_4_node_9",
+          "bandwidth_demand": 13.22
+        },
+        {
+          "source": "vnr_4_node_3",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 2.87
+        },
+        {
+          "source": "vnr_4_node_3",
+          "target": "vnr_4_node_8",
+          "bandwidth_demand": 11.68
+        },
+        {
+          "source": "vnr_4_node_4",
+          "target": "vnr_4_node_5",
+          "bandwidth_demand": 21.38
+        },
+        {
+          "source": "vnr_4_node_4",
+          "target": "vnr_4_node_6",
+          "bandwidth_demand": 44.78
+        },
+        {
+          "source": "vnr_4_node_4",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 33.47
+        },
+        {
+          "source": "vnr_4_node_5",
+          "target": "vnr_4_node_6",
+          "bandwidth_demand": 36.31
+        },
+        {
+          "source": "vnr_4_node_5",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 3.02
+        },
+        {
+          "source": "vnr_4_node_6",
+          "target": "vnr_4_node_9",
+          "bandwidth_demand": 43.58
+        },
+        {
+          "source": "vnr_4_node_8",
+          "target": "vnr_4_node_9",
+          "bandwidth_demand": 42.42
+        },
+        {
+          "source": "vnr_4_node_0",
+          "target": "vnr_4_node_1",
+          "bandwidth_demand": 12.25
+        },
+        {
+          "source": "vnr_4_node_3",
+          "target": "vnr_4_node_4",
+          "bandwidth_demand": 28.36
+        },
+        {
+          "source": "vnr_4_node_6",
+          "target": "vnr_4_node_7",
+          "bandwidth_demand": 47.02
+        },
+        {
+          "source": "vnr_4_node_7",
+          "target": "vnr_4_node_8",
+          "bandwidth_demand": 7.66
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_5",
+    "arrival_time": 191.01,
+    "lifetime": 1657.49,
+    "virtual_network": {
+      "id": "vn_vnr_5",
+      "nodes": [
+        {
+          "id": "vnr_5_node_0",
+          "cpu_demand": 16.61,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_5_node_1",
+          "cpu_demand": 7.08,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_5_node_2",
+          "cpu_demand": 7.68,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_5_node_0",
+          "target": "vnr_5_node_1",
+          "bandwidth_demand": 10.85
+        },
+        {
+          "source": "vnr_5_node_1",
+          "target": "vnr_5_node_2",
+          "bandwidth_demand": 32.42
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_6",
+    "arrival_time": 234.91,
+    "lifetime": 462.71,
+    "virtual_network": {
+      "id": "vn_vnr_6",
+      "nodes": [
+        {
+          "id": "vnr_6_node_0",
+          "cpu_demand": 16.29,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_6_node_1",
+          "cpu_demand": 2.67,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_6_node_2",
+          "cpu_demand": 3.43,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_6_node_3",
+          "cpu_demand": 2.84,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_6_node_4",
+          "cpu_demand": 11.29,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_6_node_5",
+          "cpu_demand": 4.75,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_6_node_0",
+          "target": "vnr_6_node_3",
+          "bandwidth_demand": 39.66
+        },
+        {
+          "source": "vnr_6_node_0",
+          "target": "vnr_6_node_5",
+          "bandwidth_demand": 8.33
+        },
+        {
+          "source": "vnr_6_node_1",
+          "target": "vnr_6_node_2",
+          "bandwidth_demand": 48.21
+        },
+        {
+          "source": "vnr_6_node_1",
+          "target": "vnr_6_node_3",
+          "bandwidth_demand": 32.68
+        },
+        {
+          "source": "vnr_6_node_1",
+          "target": "vnr_6_node_5",
+          "bandwidth_demand": 46.18
+        },
+        {
+          "source": "vnr_6_node_2",
+          "target": "vnr_6_node_5",
+          "bandwidth_demand": 5.33
+        },
+        {
+          "source": "vnr_6_node_0",
+          "target": "vnr_6_node_1",
+          "bandwidth_demand": 30.08
+        },
+        {
+          "source": "vnr_6_node_2",
+          "target": "vnr_6_node_3",
+          "bandwidth_demand": 17.26
+        },
+        {
+          "source": "vnr_6_node_3",
+          "target": "vnr_6_node_4",
+          "bandwidth_demand": 34.07
+        },
+        {
+          "source": "vnr_6_node_4",
+          "target": "vnr_6_node_5",
+          "bandwidth_demand": 14.35
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_7",
+    "arrival_time": 237.09,
+    "lifetime": 545.87,
+    "virtual_network": {
+      "id": "vn_vnr_7",
+      "nodes": [
+        {
+          "id": "vnr_7_node_0",
+          "cpu_demand": 17.82,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_7_node_1",
+          "cpu_demand": 6.05,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_7_node_2",
+          "cpu_demand": 19.8,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_7_node_3",
+          "cpu_demand": 1.31,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_7_node_4",
+          "cpu_demand": 15.44,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_7_node_0",
+          "target": "vnr_7_node_2",
+          "bandwidth_demand": 31.54
+        },
+        {
+          "source": "vnr_7_node_0",
+          "target": "vnr_7_node_4",
+          "bandwidth_demand": 7.48
+        },
+        {
+          "source": "vnr_7_node_1",
+          "target": "vnr_7_node_2",
+          "bandwidth_demand": 5.78
+        },
+        {
+          "source": "vnr_7_node_2",
+          "target": "vnr_7_node_3",
+          "bandwidth_demand": 28.35
+        },
+        {
+          "source": "vnr_7_node_3",
+          "target": "vnr_7_node_4",
+          "bandwidth_demand": 48.02
+        },
+        {
+          "source": "vnr_7_node_0",
+          "target": "vnr_7_node_1",
+          "bandwidth_demand": 12.56
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_8",
+    "arrival_time": 251.7,
+    "lifetime": 731.34,
+    "virtual_network": {
+      "id": "vn_vnr_8",
+      "nodes": [
+        {
+          "id": "vnr_8_node_0",
+          "cpu_demand": 10.61,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_8_node_1",
+          "cpu_demand": 15.13,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_8_node_2",
+          "cpu_demand": 1.01,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_8_node_3",
+          "cpu_demand": 16.35,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_8_node_4",
+          "cpu_demand": 15.94,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_8_node_5",
+          "cpu_demand": 12.6,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_8_node_6",
+          "cpu_demand": 18.1,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_8_node_7",
+          "cpu_demand": 4.02,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_8_node_8",
+          "cpu_demand": 5.99,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_8_node_0",
+          "target": "vnr_8_node_1",
+          "bandwidth_demand": 20.6
+        },
+        {
+          "source": "vnr_8_node_1",
+          "target": "vnr_8_node_2",
+          "bandwidth_demand": 17.9
+        },
+        {
+          "source": "vnr_8_node_1",
+          "target": "vnr_8_node_5",
+          "bandwidth_demand": 47.92
+        },
+        {
+          "source": "vnr_8_node_1",
+          "target": "vnr_8_node_8",
+          "bandwidth_demand": 37.82
+        },
+        {
+          "source": "vnr_8_node_2",
+          "target": "vnr_8_node_7",
+          "bandwidth_demand": 22.72
+        },
+        {
+          "source": "vnr_8_node_2",
+          "target": "vnr_8_node_8",
+          "bandwidth_demand": 49.71
+        },
+        {
+          "source": "vnr_8_node_3",
+          "target": "vnr_8_node_4",
+          "bandwidth_demand": 8.51
+        },
+        {
+          "source": "vnr_8_node_3",
+          "target": "vnr_8_node_6",
+          "bandwidth_demand": 39.71
+        },
+        {
+          "source": "vnr_8_node_3",
+          "target": "vnr_8_node_8",
+          "bandwidth_demand": 4.31
+        },
+        {
+          "source": "vnr_8_node_4",
+          "target": "vnr_8_node_5",
+          "bandwidth_demand": 1.59
+        },
+        {
+          "source": "vnr_8_node_4",
+          "target": "vnr_8_node_6",
+          "bandwidth_demand": 42.66
+        },
+        {
+          "source": "vnr_8_node_7",
+          "target": "vnr_8_node_8",
+          "bandwidth_demand": 36.71
+        },
+        {
+          "source": "vnr_8_node_2",
+          "target": "vnr_8_node_3",
+          "bandwidth_demand": 24.35
+        },
+        {
+          "source": "vnr_8_node_5",
+          "target": "vnr_8_node_6",
+          "bandwidth_demand": 34.79
+        },
+        {
+          "source": "vnr_8_node_6",
+          "target": "vnr_8_node_7",
+          "bandwidth_demand": 18.33
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_9",
+    "arrival_time": 269.98,
+    "lifetime": 261.39,
+    "virtual_network": {
+      "id": "vn_vnr_9",
+      "nodes": [
+        {
+          "id": "vnr_9_node_0",
+          "cpu_demand": 4.69,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_9_node_1",
+          "cpu_demand": 1.68,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_9_node_2",
+          "cpu_demand": 13.83,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_9_node_3",
+          "cpu_demand": 5.8,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_9_node_4",
+          "cpu_demand": 19.19,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_9_node_5",
+          "cpu_demand": 13.04,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_9_node_0",
+          "target": "vnr_9_node_1",
+          "bandwidth_demand": 17.07
+        },
+        {
+          "source": "vnr_9_node_0",
+          "target": "vnr_9_node_3",
+          "bandwidth_demand": 4.28
+        },
+        {
+          "source": "vnr_9_node_1",
+          "target": "vnr_9_node_4",
+          "bandwidth_demand": 16.97
+        },
+        {
+          "source": "vnr_9_node_1",
+          "target": "vnr_9_node_5",
+          "bandwidth_demand": 17.78
+        },
+        {
+          "source": "vnr_9_node_2",
+          "target": "vnr_9_node_5",
+          "bandwidth_demand": 23.81
+        },
+        {
+          "source": "vnr_9_node_3",
+          "target": "vnr_9_node_4",
+          "bandwidth_demand": 7.7
+        },
+        {
+          "source": "vnr_9_node_1",
+          "target": "vnr_9_node_2",
+          "bandwidth_demand": 21.57
+        },
+        {
+          "source": "vnr_9_node_2",
+          "target": "vnr_9_node_3",
+          "bandwidth_demand": 6.86
+        },
+        {
+          "source": "vnr_9_node_4",
+          "target": "vnr_9_node_5",
+          "bandwidth_demand": 13.64
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_10",
+    "arrival_time": 283.94,
+    "lifetime": 5.43,
+    "virtual_network": {
+      "id": "vn_vnr_10",
+      "nodes": [
+        {
+          "id": "vnr_10_node_0",
+          "cpu_demand": 2.7,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_10_node_1",
+          "cpu_demand": 12.74,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_10_node_2",
+          "cpu_demand": 6.39,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_10_node_1",
+          "target": "vnr_10_node_2",
+          "bandwidth_demand": 37.19
+        },
+        {
+          "source": "vnr_10_node_0",
+          "target": "vnr_10_node_1",
+          "bandwidth_demand": 40.08
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_11",
+    "arrival_time": 305.94,
+    "lifetime": 1306.19,
+    "virtual_network": {
+      "id": "vn_vnr_11",
+      "nodes": [
+        {
+          "id": "vnr_11_node_0",
+          "cpu_demand": 13.18,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_11_node_1",
+          "cpu_demand": 5.59,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_11_node_2",
+          "cpu_demand": 18.01,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_11_node_3",
+          "cpu_demand": 11.21,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_11_node_4",
+          "cpu_demand": 10.87,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_11_node_5",
+          "cpu_demand": 12.23,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_11_node_6",
+          "cpu_demand": 14.93,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_11_node_7",
+          "cpu_demand": 16.82,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_11_node_8",
+          "cpu_demand": 5.05,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_11_node_0",
+          "target": "vnr_11_node_3",
+          "bandwidth_demand": 49.28
+        },
+        {
+          "source": "vnr_11_node_0",
+          "target": "vnr_11_node_5",
+          "bandwidth_demand": 20.37
+        },
+        {
+          "source": "vnr_11_node_0",
+          "target": "vnr_11_node_8",
+          "bandwidth_demand": 40.33
+        },
+        {
+          "source": "vnr_11_node_1",
+          "target": "vnr_11_node_4",
+          "bandwidth_demand": 27.06
+        },
+        {
+          "source": "vnr_11_node_1",
+          "target": "vnr_11_node_5",
+          "bandwidth_demand": 2.71
+        },
+        {
+          "source": "vnr_11_node_1",
+          "target": "vnr_11_node_7",
+          "bandwidth_demand": 39.75
+        },
+        {
+          "source": "vnr_11_node_2",
+          "target": "vnr_11_node_3",
+          "bandwidth_demand": 3.87
+        },
+        {
+          "source": "vnr_11_node_2",
+          "target": "vnr_11_node_6",
+          "bandwidth_demand": 16.04
+        },
+        {
+          "source": "vnr_11_node_3",
+          "target": "vnr_11_node_4",
+          "bandwidth_demand": 37.33
+        },
+        {
+          "source": "vnr_11_node_3",
+          "target": "vnr_11_node_8",
+          "bandwidth_demand": 30.76
+        },
+        {
+          "source": "vnr_11_node_4",
+          "target": "vnr_11_node_7",
+          "bandwidth_demand": 1.63
+        },
+        {
+          "source": "vnr_11_node_5",
+          "target": "vnr_11_node_7",
+          "bandwidth_demand": 46.66
+        },
+        {
+          "source": "vnr_11_node_7",
+          "target": "vnr_11_node_8",
+          "bandwidth_demand": 5.33
+        },
+        {
+          "source": "vnr_11_node_0",
+          "target": "vnr_11_node_1",
+          "bandwidth_demand": 32.92
+        },
+        {
+          "source": "vnr_11_node_1",
+          "target": "vnr_11_node_2",
+          "bandwidth_demand": 17.18
+        },
+        {
+          "source": "vnr_11_node_4",
+          "target": "vnr_11_node_5",
+          "bandwidth_demand": 31.13
+        },
+        {
+          "source": "vnr_11_node_5",
+          "target": "vnr_11_node_6",
+          "bandwidth_demand": 26.57
+        },
+        {
+          "source": "vnr_11_node_6",
+          "target": "vnr_11_node_7",
+          "bandwidth_demand": 34.5
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_12",
+    "arrival_time": 317.84,
+    "lifetime": 1477.14,
+    "virtual_network": {
+      "id": "vn_vnr_12",
+      "nodes": [
+        {
+          "id": "vnr_12_node_0",
+          "cpu_demand": 9.78,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_12_node_1",
+          "cpu_demand": 8.23,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_12_node_2",
+          "cpu_demand": 19.74,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_12_node_3",
+          "cpu_demand": 4.95,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_12_node_1",
+          "target": "vnr_12_node_2",
+          "bandwidth_demand": 6.11
+        },
+        {
+          "source": "vnr_12_node_1",
+          "target": "vnr_12_node_3",
+          "bandwidth_demand": 17.18
+        },
+        {
+          "source": "vnr_12_node_0",
+          "target": "vnr_12_node_1",
+          "bandwidth_demand": 8.71
+        },
+        {
+          "source": "vnr_12_node_2",
+          "target": "vnr_12_node_3",
+          "bandwidth_demand": 19.59
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_13",
+    "arrival_time": 377.93,
+    "lifetime": 700.39,
+    "virtual_network": {
+      "id": "vn_vnr_13",
+      "nodes": [
+        {
+          "id": "vnr_13_node_0",
+          "cpu_demand": 8.2,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_13_node_1",
+          "cpu_demand": 12.25,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_13_node_2",
+          "cpu_demand": 13.63,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_13_node_3",
+          "cpu_demand": 4.99,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_13_node_4",
+          "cpu_demand": 5.31,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_13_node_5",
+          "cpu_demand": 4.39,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_13_node_6",
+          "cpu_demand": 14.76,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_13_node_7",
+          "cpu_demand": 14.39,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_13_node_0",
+          "target": "vnr_13_node_2",
+          "bandwidth_demand": 45.93
+        },
+        {
+          "source": "vnr_13_node_0",
+          "target": "vnr_13_node_4",
+          "bandwidth_demand": 47.23
+        },
+        {
+          "source": "vnr_13_node_0",
+          "target": "vnr_13_node_6",
+          "bandwidth_demand": 3.42
+        },
+        {
+          "source": "vnr_13_node_1",
+          "target": "vnr_13_node_2",
+          "bandwidth_demand": 21.98
+        },
+        {
+          "source": "vnr_13_node_1",
+          "target": "vnr_13_node_6",
+          "bandwidth_demand": 5.44
+        },
+        {
+          "source": "vnr_13_node_1",
+          "target": "vnr_13_node_7",
+          "bandwidth_demand": 10.66
+        },
+        {
+          "source": "vnr_13_node_2",
+          "target": "vnr_13_node_5",
+          "bandwidth_demand": 18.87
+        },
+        {
+          "source": "vnr_13_node_3",
+          "target": "vnr_13_node_4",
+          "bandwidth_demand": 38.48
+        },
+        {
+          "source": "vnr_13_node_3",
+          "target": "vnr_13_node_5",
+          "bandwidth_demand": 37.07
+        },
+        {
+          "source": "vnr_13_node_4",
+          "target": "vnr_13_node_7",
+          "bandwidth_demand": 48.0
+        },
+        {
+          "source": "vnr_13_node_5",
+          "target": "vnr_13_node_7",
+          "bandwidth_demand": 14.15
+        },
+        {
+          "source": "vnr_13_node_6",
+          "target": "vnr_13_node_7",
+          "bandwidth_demand": 25.95
+        },
+        {
+          "source": "vnr_13_node_0",
+          "target": "vnr_13_node_1",
+          "bandwidth_demand": 45.71
+        },
+        {
+          "source": "vnr_13_node_2",
+          "target": "vnr_13_node_3",
+          "bandwidth_demand": 10.31
+        },
+        {
+          "source": "vnr_13_node_4",
+          "target": "vnr_13_node_5",
+          "bandwidth_demand": 8.0
+        },
+        {
+          "source": "vnr_13_node_5",
+          "target": "vnr_13_node_6",
+          "bandwidth_demand": 33.7
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_14",
+    "arrival_time": 388.57,
+    "lifetime": 1026.62,
+    "virtual_network": {
+      "id": "vn_vnr_14",
+      "nodes": [
+        {
+          "id": "vnr_14_node_0",
+          "cpu_demand": 2.21,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_14_node_1",
+          "cpu_demand": 8.27,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_14_node_2",
+          "cpu_demand": 14.7,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_14_node_3",
+          "cpu_demand": 6.76,
+          "allowed_domains": [
+            "domain_1",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_14_node_4",
+          "cpu_demand": 18.46,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_14_node_5",
+          "cpu_demand": 4.4,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_14_node_6",
+          "cpu_demand": 9.73,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_14_node_7",
+          "cpu_demand": 5.12,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_1",
+          "bandwidth_demand": 47.76
+        },
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_2",
+          "bandwidth_demand": 29.94
+        },
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_3",
+          "bandwidth_demand": 5.41
+        },
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_4",
+          "bandwidth_demand": 27.85
+        },
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_5",
+          "bandwidth_demand": 34.89
+        },
+        {
+          "source": "vnr_14_node_0",
+          "target": "vnr_14_node_6",
+          "bandwidth_demand": 33.15
+        },
+        {
+          "source": "vnr_14_node_1",
+          "target": "vnr_14_node_2",
+          "bandwidth_demand": 15.19
+        },
+        {
+          "source": "vnr_14_node_1",
+          "target": "vnr_14_node_4",
+          "bandwidth_demand": 5.02
+        },
+        {
+          "source": "vnr_14_node_2",
+          "target": "vnr_14_node_3",
+          "bandwidth_demand": 19.87
+        },
+        {
+          "source": "vnr_14_node_2",
+          "target": "vnr_14_node_4",
+          "bandwidth_demand": 32.33
+        },
+        {
+          "source": "vnr_14_node_2",
+          "target": "vnr_14_node_5",
+          "bandwidth_demand": 2.06
+        },
+        {
+          "source": "vnr_14_node_2",
+          "target": "vnr_14_node_6",
+          "bandwidth_demand": 23.11
+        },
+        {
+          "source": "vnr_14_node_2",
+          "target": "vnr_14_node_7",
+          "bandwidth_demand": 44.53
+        },
+        {
+          "source": "vnr_14_node_3",
+          "target": "vnr_14_node_4",
+          "bandwidth_demand": 37.4
+        },
+        {
+          "source": "vnr_14_node_3",
+          "target": "vnr_14_node_5",
+          "bandwidth_demand": 19.48
+        },
+        {
+          "source": "vnr_14_node_3",
+          "target": "vnr_14_node_6",
+          "bandwidth_demand": 26.24
+        },
+        {
+          "source": "vnr_14_node_4",
+          "target": "vnr_14_node_5",
+          "bandwidth_demand": 2.85
+        },
+        {
+          "source": "vnr_14_node_4",
+          "target": "vnr_14_node_6",
+          "bandwidth_demand": 46.81
+        },
+        {
+          "source": "vnr_14_node_5",
+          "target": "vnr_14_node_6",
+          "bandwidth_demand": 15.45
+        },
+        {
+          "source": "vnr_14_node_6",
+          "target": "vnr_14_node_7",
+          "bandwidth_demand": 47.45
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_15",
+    "arrival_time": 401.18,
+    "lifetime": 108.0,
+    "virtual_network": {
+      "id": "vn_vnr_15",
+      "nodes": [
+        {
+          "id": "vnr_15_node_0",
+          "cpu_demand": 5.72,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_15_node_1",
+          "cpu_demand": 17.51,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_15_node_2",
+          "cpu_demand": 6.8,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_15_node_3",
+          "cpu_demand": 13.13,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_15_node_4",
+          "cpu_demand": 5.29,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_15_node_5",
+          "cpu_demand": 7.17,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_15_node_6",
+          "cpu_demand": 16.31,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_15_node_7",
+          "cpu_demand": 1.24,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_15_node_0",
+          "target": "vnr_15_node_1",
+          "bandwidth_demand": 33.38
+        },
+        {
+          "source": "vnr_15_node_0",
+          "target": "vnr_15_node_5",
+          "bandwidth_demand": 49.59
+        },
+        {
+          "source": "vnr_15_node_0",
+          "target": "vnr_15_node_7",
+          "bandwidth_demand": 33.64
+        },
+        {
+          "source": "vnr_15_node_1",
+          "target": "vnr_15_node_3",
+          "bandwidth_demand": 31.08
+        },
+        {
+          "source": "vnr_15_node_2",
+          "target": "vnr_15_node_7",
+          "bandwidth_demand": 18.46
+        },
+        {
+          "source": "vnr_15_node_4",
+          "target": "vnr_15_node_5",
+          "bandwidth_demand": 44.87
+        },
+        {
+          "source": "vnr_15_node_4",
+          "target": "vnr_15_node_6",
+          "bandwidth_demand": 40.65
+        },
+        {
+          "source": "vnr_15_node_4",
+          "target": "vnr_15_node_7",
+          "bandwidth_demand": 8.42
+        },
+        {
+          "source": "vnr_15_node_5",
+          "target": "vnr_15_node_7",
+          "bandwidth_demand": 18.83
+        },
+        {
+          "source": "vnr_15_node_1",
+          "target": "vnr_15_node_2",
+          "bandwidth_demand": 30.68
+        },
+        {
+          "source": "vnr_15_node_2",
+          "target": "vnr_15_node_3",
+          "bandwidth_demand": 27.48
+        },
+        {
+          "source": "vnr_15_node_3",
+          "target": "vnr_15_node_4",
+          "bandwidth_demand": 40.28
+        },
+        {
+          "source": "vnr_15_node_5",
+          "target": "vnr_15_node_6",
+          "bandwidth_demand": 11.84
+        },
+        {
+          "source": "vnr_15_node_6",
+          "target": "vnr_15_node_7",
+          "bandwidth_demand": 44.66
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_16",
+    "arrival_time": 425.12,
+    "lifetime": 105.81,
+    "virtual_network": {
+      "id": "vn_vnr_16",
+      "nodes": [
+        {
+          "id": "vnr_16_node_0",
+          "cpu_demand": 16.61,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_1",
+          "cpu_demand": 19.77,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_16_node_2",
+          "cpu_demand": 10.33,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_3",
+          "cpu_demand": 3.31,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_4",
+          "cpu_demand": 3.42,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_5",
+          "cpu_demand": 12.6,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_6",
+          "cpu_demand": 5.22,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_16_node_7",
+          "cpu_demand": 4.08,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_8",
+          "cpu_demand": 10.02,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_16_node_9",
+          "cpu_demand": 17.24,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_16_node_0",
+          "target": "vnr_16_node_1",
+          "bandwidth_demand": 50.0
+        },
+        {
+          "source": "vnr_16_node_0",
+          "target": "vnr_16_node_2",
+          "bandwidth_demand": 37.89
+        },
+        {
+          "source": "vnr_16_node_0",
+          "target": "vnr_16_node_4",
+          "bandwidth_demand": 44.18
+        },
+        {
+          "source": "vnr_16_node_0",
+          "target": "vnr_16_node_7",
+          "bandwidth_demand": 45.54
+        },
+        {
+          "source": "vnr_16_node_0",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 16.85
+        },
+        {
+          "source": "vnr_16_node_1",
+          "target": "vnr_16_node_7",
+          "bandwidth_demand": 31.67
+        },
+        {
+          "source": "vnr_16_node_1",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 22.82
+        },
+        {
+          "source": "vnr_16_node_2",
+          "target": "vnr_16_node_8",
+          "bandwidth_demand": 6.97
+        },
+        {
+          "source": "vnr_16_node_2",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 13.27
+        },
+        {
+          "source": "vnr_16_node_3",
+          "target": "vnr_16_node_4",
+          "bandwidth_demand": 46.27
+        },
+        {
+          "source": "vnr_16_node_4",
+          "target": "vnr_16_node_5",
+          "bandwidth_demand": 18.58
+        },
+        {
+          "source": "vnr_16_node_4",
+          "target": "vnr_16_node_7",
+          "bandwidth_demand": 46.63
+        },
+        {
+          "source": "vnr_16_node_4",
+          "target": "vnr_16_node_8",
+          "bandwidth_demand": 43.08
+        },
+        {
+          "source": "vnr_16_node_4",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 18.68
+        },
+        {
+          "source": "vnr_16_node_5",
+          "target": "vnr_16_node_6",
+          "bandwidth_demand": 39.55
+        },
+        {
+          "source": "vnr_16_node_5",
+          "target": "vnr_16_node_8",
+          "bandwidth_demand": 12.81
+        },
+        {
+          "source": "vnr_16_node_5",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 33.98
+        },
+        {
+          "source": "vnr_16_node_7",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 18.99
+        },
+        {
+          "source": "vnr_16_node_1",
+          "target": "vnr_16_node_2",
+          "bandwidth_demand": 18.58
+        },
+        {
+          "source": "vnr_16_node_2",
+          "target": "vnr_16_node_3",
+          "bandwidth_demand": 28.98
+        },
+        {
+          "source": "vnr_16_node_6",
+          "target": "vnr_16_node_7",
+          "bandwidth_demand": 11.48
+        },
+        {
+          "source": "vnr_16_node_7",
+          "target": "vnr_16_node_8",
+          "bandwidth_demand": 31.28
+        },
+        {
+          "source": "vnr_16_node_8",
+          "target": "vnr_16_node_9",
+          "bandwidth_demand": 48.73
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_17",
+    "arrival_time": 449.07,
+    "lifetime": 126.44,
+    "virtual_network": {
+      "id": "vn_vnr_17",
+      "nodes": [
+        {
+          "id": "vnr_17_node_0",
+          "cpu_demand": 18.8,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_17_node_1",
+          "cpu_demand": 17.71,
+          "allowed_domains": [
+            "domain_0",
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_17_node_2",
+          "cpu_demand": 14.48,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_17_node_3",
+          "cpu_demand": 4.79,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_17_node_4",
+          "cpu_demand": 18.92,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_17_node_5",
+          "cpu_demand": 16.59,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_17_node_6",
+          "cpu_demand": 15.91,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_17_node_0",
+          "target": "vnr_17_node_1",
+          "bandwidth_demand": 35.21
+        },
+        {
+          "source": "vnr_17_node_0",
+          "target": "vnr_17_node_2",
+          "bandwidth_demand": 24.78
+        },
+        {
+          "source": "vnr_17_node_0",
+          "target": "vnr_17_node_4",
+          "bandwidth_demand": 6.37
+        },
+        {
+          "source": "vnr_17_node_0",
+          "target": "vnr_17_node_5",
+          "bandwidth_demand": 12.66
+        },
+        {
+          "source": "vnr_17_node_0",
+          "target": "vnr_17_node_6",
+          "bandwidth_demand": 12.92
+        },
+        {
+          "source": "vnr_17_node_1",
+          "target": "vnr_17_node_5",
+          "bandwidth_demand": 13.5
+        },
+        {
+          "source": "vnr_17_node_2",
+          "target": "vnr_17_node_6",
+          "bandwidth_demand": 26.53
+        },
+        {
+          "source": "vnr_17_node_3",
+          "target": "vnr_17_node_4",
+          "bandwidth_demand": 41.41
+        },
+        {
+          "source": "vnr_17_node_4",
+          "target": "vnr_17_node_6",
+          "bandwidth_demand": 35.13
+        },
+        {
+          "source": "vnr_17_node_5",
+          "target": "vnr_17_node_6",
+          "bandwidth_demand": 35.2
+        },
+        {
+          "source": "vnr_17_node_1",
+          "target": "vnr_17_node_2",
+          "bandwidth_demand": 18.11
+        },
+        {
+          "source": "vnr_17_node_2",
+          "target": "vnr_17_node_3",
+          "bandwidth_demand": 26.39
+        },
+        {
+          "source": "vnr_17_node_4",
+          "target": "vnr_17_node_5",
+          "bandwidth_demand": 12.14
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_18",
+    "arrival_time": 478.1,
+    "lifetime": 1039.63,
+    "virtual_network": {
+      "id": "vn_vnr_18",
+      "nodes": [
+        {
+          "id": "vnr_18_node_0",
+          "cpu_demand": 19.41,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_18_node_1",
+          "cpu_demand": 3.8,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_18_node_2",
+          "cpu_demand": 6.63,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_18_node_3",
+          "cpu_demand": 16.78,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_18_node_4",
+          "cpu_demand": 6.8,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_18_node_5",
+          "cpu_demand": 10.46,
+          "allowed_domains": [
+            "domain_2"
+          ]
+        },
+        {
+          "id": "vnr_18_node_6",
+          "cpu_demand": 15.01,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_18_node_7",
+          "cpu_demand": 6.97,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_18_node_8",
+          "cpu_demand": 10.7,
+          "allowed_domains": [
+            "domain_0"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_18_node_0",
+          "target": "vnr_18_node_5",
+          "bandwidth_demand": 44.62
+        },
+        {
+          "source": "vnr_18_node_0",
+          "target": "vnr_18_node_6",
+          "bandwidth_demand": 11.62
+        },
+        {
+          "source": "vnr_18_node_0",
+          "target": "vnr_18_node_8",
+          "bandwidth_demand": 23.45
+        },
+        {
+          "source": "vnr_18_node_1",
+          "target": "vnr_18_node_3",
+          "bandwidth_demand": 16.6
+        },
+        {
+          "source": "vnr_18_node_1",
+          "target": "vnr_18_node_5",
+          "bandwidth_demand": 14.25
+        },
+        {
+          "source": "vnr_18_node_1",
+          "target": "vnr_18_node_6",
+          "bandwidth_demand": 43.82
+        },
+        {
+          "source": "vnr_18_node_1",
+          "target": "vnr_18_node_7",
+          "bandwidth_demand": 49.74
+        },
+        {
+          "source": "vnr_18_node_2",
+          "target": "vnr_18_node_3",
+          "bandwidth_demand": 14.31
+        },
+        {
+          "source": "vnr_18_node_2",
+          "target": "vnr_18_node_4",
+          "bandwidth_demand": 26.4
+        },
+        {
+          "source": "vnr_18_node_4",
+          "target": "vnr_18_node_5",
+          "bandwidth_demand": 39.32
+        },
+        {
+          "source": "vnr_18_node_4",
+          "target": "vnr_18_node_7",
+          "bandwidth_demand": 1.38
+        },
+        {
+          "source": "vnr_18_node_4",
+          "target": "vnr_18_node_8",
+          "bandwidth_demand": 33.76
+        },
+        {
+          "source": "vnr_18_node_5",
+          "target": "vnr_18_node_8",
+          "bandwidth_demand": 24.79
+        },
+        {
+          "source": "vnr_18_node_6",
+          "target": "vnr_18_node_7",
+          "bandwidth_demand": 35.79
+        },
+        {
+          "source": "vnr_18_node_7",
+          "target": "vnr_18_node_8",
+          "bandwidth_demand": 29.45
+        },
+        {
+          "source": "vnr_18_node_0",
+          "target": "vnr_18_node_1",
+          "bandwidth_demand": 32.09
+        },
+        {
+          "source": "vnr_18_node_1",
+          "target": "vnr_18_node_2",
+          "bandwidth_demand": 21.81
+        },
+        {
+          "source": "vnr_18_node_3",
+          "target": "vnr_18_node_4",
+          "bandwidth_demand": 12.5
+        },
+        {
+          "source": "vnr_18_node_5",
+          "target": "vnr_18_node_6",
+          "bandwidth_demand": 43.26
+        }
+      ]
+    }
+  },
+  {
+    "id": "vnr_19",
+    "arrival_time": 560.88,
+    "lifetime": 890.8,
+    "virtual_network": {
+      "id": "vn_vnr_19",
+      "nodes": [
+        {
+          "id": "vnr_19_node_0",
+          "cpu_demand": 6.1,
+          "allowed_domains": []
+        },
+        {
+          "id": "vnr_19_node_1",
+          "cpu_demand": 16.17,
+          "allowed_domains": [
+            "domain_0",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_19_node_2",
+          "cpu_demand": 11.79,
+          "allowed_domains": [
+            "domain_2",
+            "domain_0"
+          ]
+        },
+        {
+          "id": "vnr_19_node_3",
+          "cpu_demand": 14.21,
+          "allowed_domains": [
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_19_node_4",
+          "cpu_demand": 17.39,
+          "allowed_domains": [
+            "domain_2",
+            "domain_1"
+          ]
+        },
+        {
+          "id": "vnr_19_node_5",
+          "cpu_demand": 6.12,
+          "allowed_domains": []
+        }
+      ],
+      "links": [
+        {
+          "source": "vnr_19_node_0",
+          "target": "vnr_19_node_1",
+          "bandwidth_demand": 33.76
+        },
+        {
+          "source": "vnr_19_node_0",
+          "target": "vnr_19_node_2",
+          "bandwidth_demand": 36.81
+        },
+        {
+          "source": "vnr_19_node_0",
+          "target": "vnr_19_node_3",
+          "bandwidth_demand": 28.61
+        },
+        {
+          "source": "vnr_19_node_1",
+          "target": "vnr_19_node_2",
+          "bandwidth_demand": 26.7
+        },
+        {
+          "source": "vnr_19_node_2",
+          "target": "vnr_19_node_3",
+          "bandwidth_demand": 4.88
+        },
+        {
+          "source": "vnr_19_node_3",
+          "target": "vnr_19_node_4",
+          "bandwidth_demand": 26.05
+        },
+        {
+          "source": "vnr_19_node_3",
+          "target": "vnr_19_node_5",
+          "bandwidth_demand": 35.21
+        },
+        {
+          "source": "vnr_19_node_4",
+          "target": "vnr_19_node_5",
+          "bandwidth_demand": 49.74
+        }
+      ]
+    }
+  }
+]

@@ -80,7 +80,7 @@ def generate_multi_domain_substrate(cfg: Dict[str, Any], num_domains: int = 3, n
         "inter_domain_links": inter_domain_links
     }
 
-def generate_virtual_request(vnr_id: str, arrival_time: float, cfg: Dict[str, Any]) -> Dict[str, Any]:
+def generate_virtual_request(vnr_id: str, arrival_time: float, cfg: Dict[str, Any], num_domains: int = 3) -> Dict[str, Any]:
     vnr_cfg = cfg['virtual_request']
     
     num_nodes = random.randint(vnr_cfg['num_nodes']['min'], vnr_cfg['num_nodes']['max'])
@@ -91,9 +91,15 @@ def generate_virtual_request(vnr_id: str, arrival_time: float, cfg: Dict[str, An
     links = []
 
     for i in range(num_nodes):
+        allowed = []
+        if random.random() < 0.6: # 60% chance to have regional constraint
+            num_allowed = random.randint(1, min(2, num_domains))
+            allowed = random.sample([f"domain_{d}" for d in range(num_domains)], num_allowed)
+
         nodes.append({
             "id": f"{vnr_id}_node_{i}",
-            "cpu_demand": round(random.uniform(vnr_cfg['cpu_demand']['min'], vnr_cfg['cpu_demand']['max']), 2)
+            "cpu_demand": round(random.uniform(vnr_cfg['cpu_demand']['min'], vnr_cfg['cpu_demand']['max']), 2),
+            "allowed_domains": allowed
         })
         
     for i in range(num_nodes):
@@ -151,7 +157,7 @@ def generate_dataset(scenario_name: str, config_path: str, num_domains: int = 3,
     for i in range(num_requests):
         inter_arrival_time = random.expovariate(arrival_rate)
         current_time += inter_arrival_time
-        vnr = generate_virtual_request(f"vnr_{i}", current_time, cfg)
+        vnr = generate_virtual_request(f"vnr_{i}", current_time, cfg, num_domains=num_domains)
         requests.append(vnr)
 
     with open(os.path.join(output_dir, "virtual_requests.json"), "w") as f:

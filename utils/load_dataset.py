@@ -72,7 +72,8 @@ def read_virtual_requests(filepath: str) -> List[VirtualNetworkRequest]:
         for n in v_net_data.get("nodes", []):
             nodes[n["id"]] = VirtualNode(
                 id=n["id"],
-                cpu_demand=n["cpu_demand"]
+                cpu_demand=n["cpu_demand"],
+                allowed_domains=n.get("allowed_domains", [])
             )
             
         links = {}

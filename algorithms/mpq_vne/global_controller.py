@@ -38,7 +38,8 @@ class GlobalController:
         for vnode in request.nodes.values():
             candidates = []
             for lc in self.local_controllers:
-                candidates.extend(lc.get_candidates(vnode))
+                if not vnode.allowed_domains or lc.domain.id in vnode.allowed_domains:
+                    candidates.extend(lc.get_candidates(vnode))
             all_candidates.append(candidates)
         return all_candidates
 

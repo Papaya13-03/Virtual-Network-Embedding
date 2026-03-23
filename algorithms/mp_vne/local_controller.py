@@ -23,6 +23,9 @@ class LocalController:
         self._fw_cache = {}
 
     def get_candidates(self, vnode: VirtualNode) -> List[SubstrateNode]:
+        if vnode.allowed_domains and self.domain.id not in vnode.allowed_domains:
+            return []
+            
         candidates = []
         for node in self.domain.network.nodes.values():
             if getattr(node, 'available_cpu', node.cpu_capacity) >= vnode.cpu_demand:
