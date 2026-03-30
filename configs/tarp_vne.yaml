@@ -1,0 +1,36 @@
+# TARP-VNE: Topology-Aware Resource-Preserving Virtual Network Embedding
+# Configuration file
+
+pso:
+  num_particles: 25
+  num_iterations: 12
+  w_max: 0.9           # Initial inertia weight (exploration)
+  w_min: 0.4           # Final inertia weight (exploitation)
+  c1_max: 2.5          # Initial cognitive coefficient (personal best pull)
+  c1_min: 0.5          # Final cognitive coefficient
+  c2_max: 2.5          # Final social coefficient (global best pull)
+  c2_min: 0.5          # Initial social coefficient
+  base_mutation_rate: 0.1
+  elite_fraction: 0.2  # Top 20% particles immune to mutation
+
+ranking:
+  top_k: 30            # Max candidates per virtual node
+  w_nrc: 0.30          # Node Residual Capacity weight
+  w_lrc: 0.25          # Link Residual Capacity weight
+  w_bc: 0.20           # Betweenness Centrality weight
+  w_tp: 0.25           # Topological Proximity weight
+
+fitness:
+  alpha: 1.0           # Embedding cost weight
+  beta: 0.15           # Resource fragmentation penalty weight
+  gamma: 0.3           # Topology alignment (hop count) weight
+  delta: 0.1           # Cross-domain load balance weight
+
+routing:
+  congestion_weight: 2.0  # Lambda for congestion penalty in load-aware routing
+  max_paths: 5            # Maximum paths per virtual link (multi-path splitting)
+
+initialization:
+  greedy_fraction: 0.3      # Fraction of particles seeded greedily
+  diversified_fraction: 0.4 # Fraction of particles seeded with domain diversity
+  # Remaining 0.3 seeded randomly

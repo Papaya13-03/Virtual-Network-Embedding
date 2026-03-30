@@ -3,7 +3,7 @@ import random
 import torch
 import torch.nn as nn
 import torch.optim as optim
-from collections import deque
+from collections import deque, OrderedDict
 from typing import List, Dict, Tuple
 from .global_controller import GlobalController
 from problem.substrate_network import SubstrateNode
@@ -87,12 +87,23 @@ class SRLMPVNE:
         self.state_size, self.num_agents = state_size, num_agents
         self.global_controller = None
         self.swarm_rl = None
+        self._active_mappings: Dict[str, Dict] = OrderedDict()
+
+    def _release_expired(self, current_time: float) -> None:
+        expired_ids = [rid for rid, data in self._active_mappings.items()
+                       if data["expire_time"] <= current_time]
+        for expired_id in expired_ids:
+            data = self._active_mappings.pop(expired_id)
+            self.global_controller.release_mapping(
+                data["mapping"], data["vnetwork"], data["vlink_paths"]
+            )
 
     def solve(self, substrate, vnr: VirtualNetworkRequest):
         if self.global_controller is None:
             self.global_controller = GlobalController(substrate)
             self.swarm_rl = DQN_PSO_Agent(self.state_size, 1, self.num_agents)
 
+        self._release_expired(vnr.arrival_time)
         vnetwork = vnr.virtual_network
         vnodes = list(vnetwork.nodes.values())
         candidates = self.global_controller.find_all_candidates(vnetwork)
@@ -126,6 +137,14 @@ class SRLMPVNE:
             total_cost = 0.0
             vlink_mapping = {}
             success = False
+
+        if success:
+            self._active_mappings[vnr.id] = {
+                "mapping": mapping,
+                "vnetwork": vnetwork,
+                "vlink_paths": vlink_paths_raw,
+                "expire_time": vnr.arrival_time + vnr.lifetime,
+            }
 
         # Train Swarm RL with Multi-Path result
         final_score = reward

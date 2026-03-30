@@ -4,6 +4,7 @@ import torch
 import numpy as np
 import yaml
 from typing import List, Dict, Tuple
+from collections import OrderedDict
 from algorithms.mp_dqn_vne.global_controller import GlobalController
 from problem.substrate_network import SubstrateNetwork, SubstrateNode
 from problem.virtual_network import VirtualNetwork, VirtualNode
@@ -128,6 +129,16 @@ class MPDQNVNE:
         self.num_agents = num_agents
         self.pso_dqn = None
         self.global_controller = None
+        self._active_mappings: Dict[str, Dict] = OrderedDict()
+
+    def _release_expired(self, current_time: float) -> None:
+        expired_ids = [rid for rid, data in self._active_mappings.items()
+                       if data["expire_time"] <= current_time]
+        for expired_id in expired_ids:
+            data = self._active_mappings.pop(expired_id)
+            self.global_controller.release_mapping(
+                data["mapping"], data["vnetwork"], data["vlink_paths"]
+            )
 
     def solve(self, substrate: SubstrateNetwork, virtual_request: VirtualNetworkRequest) -> EmbeddingSolution:
         if self.global_controller is None:
@@ -135,6 +146,7 @@ class MPDQNVNE:
             self.action_size = 20 # Can expand if needed
             self.pso_dqn = DQN_PSO_Agent(self.state_size, self.action_size, self.num_agents)
 
+        self._release_expired(virtual_request.arrival_time)
         vnetwork = virtual_request.virtual_network
         vnodes = list(vnetwork.nodes.values())
         
@@ -178,6 +190,13 @@ class MPDQNVNE:
             self.pso_dqn.update_best([reward for _ in range(self.num_agents)])
             self.pso_dqn.update_q()
             
+            self._active_mappings[virtual_request.id] = {
+                "mapping": best_mapping,
+                "vnetwork": vnetwork,
+                "vlink_paths": vlink_paths,
+                "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
+            }
+
             return EmbeddingSolution(
                 vnr_id=virtual_request.id,
                 is_successful=True,

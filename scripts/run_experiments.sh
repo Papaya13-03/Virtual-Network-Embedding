@@ -3,14 +3,14 @@
 # Utility script to run multiple VNE algorithms for comparison against a specific scenario multiple times.
 # Usage: ./scripts/run_experiments.sh [scenario_name] [number_of_runs] [limit]
 
-SCENARIO=${1:-"scenario_1"}
-RUNS=${2:-10}
+SCENARIO=${1:-"test_domain"}
+RUNS=${2:-3}
 LIMIT=${3:-""}
 
 PROJECT_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
 
 # Array of algorithms to run (add more as they are implemented)
-ALGORITHMS=("mp_vne" "mc_vnm" "mpq_vne" "srl_vne" "mp_dqn_vne" "srl_mp_vne") 
+ALGORITHMS=("mp_vne" "tarp_vne")
 
 SUBSTRATE_PATH="$PROJECT_ROOT/datasets/$SCENARIO/substrate.json"
 REQUESTS_PATH="$PROJECT_ROOT/datasets/$SCENARIO/virtual_requests.json"
