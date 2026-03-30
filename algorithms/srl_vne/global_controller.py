@@ -89,6 +89,18 @@ class GlobalController:
 
         return vlink_paths
 
+    def release_mapping(self, mapping: Dict[str, str], request: VirtualNetwork, vlink_paths: Dict[tuple, List[SubstrateLink]]) -> None:
+        """Release single-path mapping."""
+        for vnode_id, snode_id in mapping.items():
+            _, snode = self._find_snode(snode_id)
+            vnode = request.nodes[vnode_id]
+            if snode: snode.available_cpu += vnode.cpu_demand
+
+        for vlink_key, path in vlink_paths.items():
+            vlink = request.links[vlink_key]
+            for link in path:
+                link.available_bw += vlink.bandwidth_demand
+
     def dijkstra_path(self, src: SubstrateNode, dst: SubstrateNode, bw_required: float = 0.0) -> List[SubstrateLink]:
         """Shortest path using Dijkstra based on transmission delay + BW price."""
         if src.id == dst.id: return []

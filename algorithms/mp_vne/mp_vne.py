@@ -36,10 +36,20 @@ class MPVNE:
                 }
             }
 
+    def _release_expired(self, current_time: float) -> None:
+        expired_ids = [rid for rid, data in self._active_mappings.items()
+                       if data["expire_time"] <= current_time]
+        for expired_id in expired_ids:
+            data = self._active_mappings.pop(expired_id)
+            self.global_controller.release_mapping(
+                data["mapping"], data["vnetwork"], data["vlink_paths"]
+            )
+
     def solve(self, substrate_network: SubstrateNetwork, virtual_request: VirtualNetworkRequest) -> EmbeddingSolution:
         self.global_controller = GlobalController(substrate_network)
+        self._release_expired(virtual_request.arrival_time)
         self.global_controller.clear_caches()
-        
+
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
@@ -92,6 +102,14 @@ class MPVNE:
             formatted_link_mapping[(v_src, v_dst)] = formatted_paths
             
         solution.link_mapping = formatted_link_mapping
+
+        self._active_mappings[virtual_request.id] = {
+            "mapping": best_mapping,
+            "vnetwork": vnetwork,
+            "vlink_paths": vlink_paths,
+            "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
+        }
+
         return solution
 
     # ---------------- PSO & mapping ----------------

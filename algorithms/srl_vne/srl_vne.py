@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 import numpy as np
 import random
-from collections import deque
+from collections import deque, OrderedDict
 from typing import List, Dict, Tuple
 from algorithms.srl_vne.global_controller import GlobalController
 from problem.substrate_network import SubstrateNetwork, SubstrateNode, SubstrateLink
@@ -123,6 +123,16 @@ class SRLVNE:
         self.state_size = state_size
         self.num_agents = num_agents
         self.pso_dqn = None
+        self._active_mappings: Dict[str, Dict] = OrderedDict()
+
+    def _release_expired(self, current_time: float) -> None:
+        expired_ids = [rid for rid, data in self._active_mappings.items()
+                       if data["expire_time"] <= current_time]
+        for expired_id in expired_ids:
+            data = self._active_mappings.pop(expired_id)
+            self.global_controller.release_mapping(
+                data["mapping"], data["vnetwork"], data["vlink_paths"]
+            )
 
     def solve(self, substrate: SubstrateNetwork, virtual_request: VirtualNetworkRequest) -> EmbeddingSolution:
         if self.global_controller is None:
@@ -131,6 +141,7 @@ class SRLVNE:
             self.action_size = 20 # Discretized or capped candidate selection
             self.pso_dqn = DQN_PSO_Agent(self.state_size, self.action_size, self.num_agents)
 
+        self._release_expired(virtual_request.arrival_time)
         vnetwork = virtual_request.virtual_network
         vnodes = sorted(vnetwork.nodes.values(), key=lambda n: n.cpu_demand, reverse=True)
         
@@ -189,6 +200,13 @@ class SRLVNE:
             for k, p in vlink_paths.items():
                 final_link_mapping[k] = [([(l.source, l.target) for l in p], vnetwork.links[k].bandwidth_demand)]
                 
+            self._active_mappings[virtual_request.id] = {
+                "mapping": mapping,
+                "vnetwork": vnetwork,
+                "vlink_paths": vlink_paths,
+                "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
+            }
+
             return EmbeddingSolution(vnr_id=virtual_request.id, is_successful=True, node_mapping=mapping, link_mapping=final_link_mapping, embedding_cost=cost)
         except Exception:
             self._finalize_history(history, -50.0, None)

@@ -1,4 +1,5 @@
 from typing import List, Dict, Tuple
+from collections import OrderedDict
 from algorithms.mc_vnm.global_controller import GlobalController
 from problem.substrate_network import SubstrateNetwork, SubstrateNode, SubstrateLink
 from problem.virtual_network import VirtualNetwork, VirtualNode, VirtualLink
@@ -11,11 +12,22 @@ class MCVNM:
     """
     def __init__(self):
         self.global_controller: GlobalController = None
+        self._active_mappings: Dict[str, Dict] = OrderedDict()
+
+    def _release_expired(self, current_time: float) -> None:
+        expired_ids = [rid for rid, data in self._active_mappings.items()
+                       if data["expire_time"] <= current_time]
+        for expired_id in expired_ids:
+            data = self._active_mappings.pop(expired_id)
+            self.global_controller.release_mapping(
+                data["mapping"], data["vnetwork"], data["vlink_paths"]
+            )
 
     def solve(self, substrate: SubstrateNetwork, virtual_request: VirtualNetworkRequest) -> EmbeddingSolution:
         if self.global_controller is None:
             self.global_controller = GlobalController(substrate)
-        
+
+        self._release_expired(virtual_request.arrival_time)
         # 1. Start fresh for each request
         self.global_controller.clear_caches()
         vnetwork = virtual_request.virtual_network
@@ -50,6 +62,13 @@ class MCVNM:
             vnode = vnetwork.nodes[vnode_id]
             total_node_cost += vnode.cpu_demand * getattr(snode, 'cpu_price', 1.0)
             
+        self._active_mappings[virtual_request.id] = {
+            "mapping": node_mapping,
+            "vnetwork": vnetwork,
+            "vlink_paths": vlink_paths,
+            "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
+        }
+
         return EmbeddingSolution(
             vnr_id=virtual_request.id,
             is_successful=True,
