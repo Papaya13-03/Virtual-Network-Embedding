@@ -108,9 +108,13 @@ class OAMPVNE:
         candidate_nodes = []
         for vnode in ordered_vnodes:
             candidates = []
+            seen = set()
             for lc in self.global_controller.local_controllers:
                 if not vnode.allowed_domains or lc.domain.id in vnode.allowed_domains:
-                    candidates.extend(lc.get_candidates(vnode))
+                    for snode in lc.get_candidates(vnode):
+                        if snode.id not in seen:
+                            seen.add(snode.id)
+                            candidates.append(snode)
             candidate_nodes.append(candidates)
 
         if any(not c for c in candidate_nodes):
@@ -174,7 +178,13 @@ class OAMPVNE:
         Like GlobalController.commit_mapping, but processes virtual links
         in bandwidth-descending order so the most demanding links get
         the best substrate paths.
+
+        Each virtual link is mapped to exactly one substrate path (single-path routing).
         """
+        # Hard constraint: no two virtual nodes on the same substrate node
+        if len(set(mapping.values())) != len(mapping):
+            raise ValueError("Duplicate substrate node in mapping")
+
         allocated_cpu: Dict[str, float] = {}
         allocated_bw: Dict[tuple, float] = {}
         vlink_paths: Dict[tuple, list] = {}
@@ -199,33 +209,22 @@ class OAMPVNE:
                 _, src_snode = self.global_controller._find_snode(src_snode_id)
                 _, dst_snode = self.global_controller._find_snode(dst_snode_id)
 
-                demand_remaining = vlink.bandwidth_demand
-                allocated_paths = []
-                max_paths = 5
+                path = self.global_controller.shortest_path(
+                    src_snode, dst_snode, bw_required=vlink.bandwidth_demand, use_cache=False
+                )
+                if not path:
+                    raise ValueError(f"No substrate path with sufficient BW for vlink {vlink.source}->{vlink.target}")
 
-                while demand_remaining > 0.001 and len(allocated_paths) < max_paths:
-                    min_required = min(demand_remaining * 0.1, 1.0, demand_remaining)
-                    path = self.global_controller.shortest_path(
-                        src_snode, dst_snode, bw_required=min_required, use_cache=False
-                    )
-                    if not path:
-                        break
+                path_bw = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
+                if path_bw < vlink.bandwidth_demand:
+                    raise ValueError(f"Insufficient BW on path for vlink {vlink.source}->{vlink.target}")
 
-                    path_bw = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
-                    allocated = min(demand_remaining, path_bw)
+                for link in path:
+                    link.available_bw -= vlink.bandwidth_demand
+                    link_key = (link.source, link.target)
+                    allocated_bw[link_key] = allocated_bw.get(link_key, 0) + vlink.bandwidth_demand
 
-                    for link in path:
-                        link.available_bw -= allocated
-                        link_key = (link.source, link.target)
-                        allocated_bw[link_key] = allocated_bw.get(link_key, 0) + allocated
-
-                    allocated_paths.append((path, allocated))
-                    demand_remaining -= allocated
-
-                if demand_remaining > 0.001:
-                    raise ValueError(f"Insufficient multi-path BW for vlink {vlink.source}->{vlink.target}")
-
-                vlink_paths[vlink_key] = allocated_paths
+                vlink_paths[vlink_key] = [(path, vlink.bandwidth_demand)]
 
         except Exception as e:
             # Rollback
@@ -243,6 +242,31 @@ class OAMPVNE:
 
     # ---- PSO ----
 
+    def _repair_particle(self, particle: List[int], candidates: List[List[SubstrateNode]]) -> List[int]:
+        """
+        Repair a particle so no two virtual nodes map to the same substrate node.
+        Processes in order (higher-ranked vnodes keep their assignment).
+        """
+        used_snode_ids = set()
+        for i in range(len(particle)):
+            snode = candidates[i][particle[i]]
+            if snode.id in used_snode_ids:
+                # Find an alternative candidate not yet used
+                found = False
+                alternatives = list(range(len(candidates[i])))
+                random.shuffle(alternatives)
+                for alt_idx in alternatives:
+                    if candidates[i][alt_idx].id not in used_snode_ids:
+                        particle[i] = alt_idx
+                        snode = candidates[i][alt_idx]
+                        found = True
+                        break
+                if not found:
+                    # No valid candidate — leave as-is, fitness will penalize
+                    pass
+            used_snode_ids.add(snode.id)
+        return particle
+
     def pso(self, candidates: List[List[SubstrateNode]], request: VirtualNetworkRequest,
             vlink_indices: List[Dict], ordered_vnodes: List[VirtualNode]) -> List[int]:
         pso_config = self.config.get("pso", {})
@@ -255,7 +279,10 @@ class OAMPVNE:
         num_vnode = len(candidates)
 
         population = [
-            [random.randint(0, len(candidates[j]) - 1) for j in range(num_vnode)]
+            self._repair_particle(
+                [random.randint(0, len(candidates[j]) - 1) for j in range(num_vnode)],
+                candidates
+            )
             for _ in range(num_particles)
         ]
         velocities = [[0.0] * num_vnode for _ in range(num_particles)]
@@ -268,7 +295,7 @@ class OAMPVNE:
         gbest_score = pbest_score[gbest_idx]
 
         for iteration in range(num_iterations):
-            print(f"  Iteration {iteration + 1}/{num_iterations}...")
+            # print(f"  Iteration {iteration + 1}/{num_iterations}...")
             for i in range(num_particles):
                 for j in range(num_vnode):
                     r1, r2 = random.random(), random.random()
@@ -283,6 +310,9 @@ class OAMPVNE:
                 if random.random() < mutation_rate:
                     mut_idx = random.randint(0, num_vnode - 1)
                     population[i][mut_idx] = random.randint(0, len(candidates[mut_idx]) - 1)
+
+                # Repair collisions: ensure no two vnodes map to the same snode
+                self._repair_particle(population[i], candidates)
 
                 score = self.fitness(population[i], candidates, request, vlink_indices, ordered_vnodes)
                 if score < pbest_score[i]:

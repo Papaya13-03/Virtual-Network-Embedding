@@ -137,7 +137,7 @@ class MPVNE:
         gbest_score: float = pbest_score[gbest_idx]
 
         for _ in range(num_iterations):
-            print(f"  Iteration {_ + 1}/{num_iterations}...")
+            # print(f"  Iteration {_ + 1}/{num_iterations}...")
             for i in range(num_particles):
                 for j in range(num_vnode):
                     r1, r2 = random.random(), random.random()

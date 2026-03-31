@@ -3,22 +3,21 @@
     "vnr_id": "vnr_0",
     "is_successful": true,
     "node_mapping": {
-      "vnr_0_node_0": "domain_2_node_10",
-      "vnr_0_node_1": "domain_2_node_22",
-      "vnr_0_node_2": "domain_2_node_30",
-      "vnr_0_node_3": "domain_1_node_37",
-      "vnr_0_node_4": "domain_2_node_15",
-      "vnr_0_node_5": "domain_2_node_34",
-      "vnr_0_node_6": "domain_1_node_3",
-      "vnr_0_node_7": "domain_2_node_42",
-      "vnr_0_node_8": "domain_2_node_39"
+      "vnr_0_node_0": "domain_2_node_23",
+      "vnr_0_node_1": "domain_2_node_1",
+      "vnr_0_node_2": "domain_1_node_13",
+      "vnr_0_node_3": "domain_1_node_11",
+      "vnr_0_node_4": "domain_2_node_46",
+      "vnr_0_node_5": "domain_2_node_39",
+      "vnr_0_node_6": "domain_1_node_5",
+      "vnr_0_node_7": "domain_2_node_22",
+      "vnr_0_node_8": "domain_2_node_32"
     },
     "link_mapping": {
       "vnr_0_node_0->vnr_0_node_1": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_16",
-            "domain_2_node_16->domain_2_node_22"
+            "domain_2_node_1->domain_2_node_23"
           ],
           "allocated_bandwidth": 24.26
         }
@@ -26,7 +25,9 @@
       "vnr_0_node_0->vnr_0_node_2": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_30"
+            "domain_2_node_12->domain_2_node_23",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_1_node_10->domain_1_node_13"
           ],
           "allocated_bandwidth": 29.48
         }
@@ -34,7 +35,7 @@
       "vnr_0_node_0->vnr_0_node_4": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_15"
+            "domain_2_node_23->domain_2_node_46"
           ],
           "allocated_bandwidth": 19.63
         }
@@ -42,7 +43,9 @@
       "vnr_0_node_0->vnr_0_node_5": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_34"
+            "domain_2_node_23->domain_2_node_27",
+            "domain_2_node_27->domain_2_node_41",
+            "domain_2_node_39->domain_2_node_41"
           ],
           "allocated_bandwidth": 4.92
         }
@@ -50,8 +53,7 @@
       "vnr_0_node_0->vnr_0_node_7": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_40",
-            "domain_2_node_40->domain_2_node_42"
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 32.3
         }
@@ -59,9 +61,7 @@
       "vnr_0_node_0->vnr_0_node_8": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_40",
-            "domain_2_node_18->domain_2_node_40",
-            "domain_2_node_18->domain_2_node_39"
+            "domain_2_node_23->domain_2_node_32"
           ],
           "allocated_bandwidth": 31.6
         }
@@ -69,9 +69,10 @@
       "vnr_0_node_1->vnr_0_node_2": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_22",
-            "domain_2_node_10->domain_2_node_16",
-            "domain_2_node_10->domain_2_node_30"
+            "domain_2_node_1->domain_2_node_23",
+            "domain_2_node_12->domain_2_node_23",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_1_node_10->domain_1_node_13"
           ],
           "allocated_bandwidth": 32.04
         }
@@ -79,11 +80,12 @@
       "vnr_0_node_1->vnr_0_node_3": [
         {
           "path": [
-            "domain_2_node_22->domain_2_node_23",
-            "domain_2_node_23->domain_2_node_46",
-            "domain_2_node_42->domain_2_node_46",
+            "domain_2_node_1->domain_2_node_49",
+            "domain_2_node_42->domain_2_node_49",
             "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_35->domain_1_node_37"
+            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_11->domain_1_node_39"
           ],
           "allocated_bandwidth": 27.8
         }
@@ -91,8 +93,7 @@
       "vnr_0_node_1->vnr_0_node_4": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_22",
-            "domain_2_node_15->domain_2_node_16"
+            "domain_2_node_1->domain_2_node_46"
           ],
           "allocated_bandwidth": 34.43
         }
@@ -100,12 +101,10 @@
       "vnr_0_node_1->vnr_0_node_6": [
         {
           "path": [
-            "domain_2_node_22->domain_2_node_23",
-            "domain_2_node_23->domain_2_node_46",
-            "domain_2_node_42->domain_2_node_46",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_1->domain_1_node_3"
+            "domain_2_node_1->domain_2_node_23",
+            "domain_2_node_12->domain_2_node_23",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_1_node_5->domain_1_node_10"
           ],
           "allocated_bandwidth": 48.47
         }
@@ -113,9 +112,8 @@
       "vnr_0_node_2->vnr_0_node_3": [
         {
           "path": [
-            "domain_2_node_30->domain_2_node_42",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_35->domain_1_node_37"
+            "domain_1_node_7->domain_1_node_13",
+            "domain_1_node_7->domain_1_node_11"
           ],
           "allocated_bandwidth": 16.96
         }
@@ -123,10 +121,8 @@
       "vnr_0_node_2->vnr_0_node_6": [
         {
           "path": [
-            "domain_2_node_30->domain_2_node_42",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_1->domain_1_node_3"
+            "domain_1_node_10->domain_1_node_13",
+            "domain_1_node_5->domain_1_node_10"
           ],
           "allocated_bandwidth": 21.26
         }
@@ -134,7 +130,14 @@
       "vnr_0_node_2->vnr_0_node_7": [
         {
           "path": [
-            "domain_2_node_30->domain_2_node_42"
+            "domain_1_node_13->domain_1_node_14",
+            "domain_1_node_14->domain_1_node_23",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_46",
+            "domain_2_node_23->domain_2_node_46",
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 4.2
         }
@@ -142,10 +145,11 @@
       "vnr_0_node_3->vnr_0_node_5": [
         {
           "path": [
-            "domain_1_node_35->domain_1_node_37",
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_13->domain_2_node_42",
-            "domain_2_node_13->domain_2_node_34"
+            "domain_2_node_39->domain_2_node_42"
           ],
           "allocated_bandwidth": 29.61
         }
@@ -153,9 +157,13 @@
       "vnr_0_node_3->vnr_0_node_8": [
         {
           "path": [
-            "domain_1_node_35->domain_1_node_37",
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_39->domain_2_node_42"
+            "domain_2_node_40->domain_2_node_42",
+            "domain_2_node_18->domain_2_node_40",
+            "domain_2_node_18->domain_2_node_32"
           ],
           "allocated_bandwidth": 13.77
         }
@@ -163,9 +171,8 @@
       "vnr_0_node_4->vnr_0_node_7": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_15",
-            "domain_2_node_10->domain_2_node_40",
-            "domain_2_node_40->domain_2_node_42"
+            "domain_2_node_23->domain_2_node_46",
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 38.29
         }
@@ -173,8 +180,7 @@
       "vnr_0_node_5->vnr_0_node_7": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_34",
-            "domain_2_node_13->domain_2_node_42"
+            "domain_2_node_22->domain_2_node_39"
           ],
           "allocated_bandwidth": 18.24
         }
@@ -182,9 +188,10 @@
       "vnr_0_node_6->vnr_0_node_7": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_3",
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_35->domain_2_node_42"
+            "domain_1_node_5->domain_1_node_10",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_12->domain_2_node_23",
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 12.13
         }
@@ -192,10 +199,9 @@
       "vnr_0_node_6->vnr_0_node_8": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_3",
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_39->domain_2_node_42"
+            "domain_1_node_5->domain_1_node_10",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_12->domain_2_node_32"
           ],
           "allocated_bandwidth": 32.15
         }
@@ -203,7 +209,7 @@
       "vnr_0_node_7->vnr_0_node_8": [
         {
           "path": [
-            "domain_2_node_39->domain_2_node_42"
+            "domain_2_node_22->domain_2_node_32"
           ],
           "allocated_bandwidth": 45.47
         }
@@ -211,11 +217,11 @@
       "vnr_0_node_3->vnr_0_node_4": [
         {
           "path": [
-            "domain_1_node_35->domain_1_node_37",
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_40->domain_2_node_42",
-            "domain_2_node_10->domain_2_node_40",
-            "domain_2_node_10->domain_2_node_15"
+            "domain_2_node_42->domain_2_node_46"
           ],
           "allocated_bandwidth": 1.86
         }
@@ -223,7 +229,8 @@
       "vnr_0_node_4->vnr_0_node_5": [
         {
           "path": [
-            "domain_2_node_15->domain_2_node_34"
+            "domain_2_node_29->domain_2_node_46",
+            "domain_2_node_29->domain_2_node_39"
           ],
           "allocated_bandwidth": 45.0
         }
@@ -231,36 +238,35 @@
       "vnr_0_node_5->vnr_0_node_6": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_34",
-            "domain_2_node_13->domain_2_node_42",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_1->domain_1_node_3"
+            "domain_2_node_12->domain_2_node_39",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_1_node_5->domain_1_node_10"
           ],
           "allocated_bandwidth": 21.39
         }
       ]
     },
-    "embedding_cost": 1444.0777
+    "embedding_cost": 1501.5133
   },
   {
     "vnr_id": "vnr_1",
     "is_successful": true,
     "node_mapping": {
-      "vnr_1_node_0": "domain_1_node_41",
-      "vnr_1_node_1": "domain_1_node_32",
-      "vnr_1_node_2": "domain_1_node_12",
-      "vnr_1_node_3": "domain_2_node_46",
-      "vnr_1_node_4": "domain_2_node_39",
-      "vnr_1_node_5": "domain_1_node_16",
-      "vnr_1_node_6": "domain_1_node_49",
-      "vnr_1_node_7": "domain_1_node_17"
+      "vnr_1_node_0": "domain_1_node_37",
+      "vnr_1_node_1": "domain_1_node_17",
+      "vnr_1_node_2": "domain_1_node_23",
+      "vnr_1_node_3": "domain_2_node_45",
+      "vnr_1_node_4": "domain_2_node_13",
+      "vnr_1_node_5": "domain_1_node_25",
+      "vnr_1_node_6": "domain_1_node_15",
+      "vnr_1_node_7": "domain_1_node_38"
     },
     "link_mapping": {
       "vnr_1_node_0->vnr_1_node_2": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_41"
+            "domain_1_node_17->domain_1_node_37",
+            "domain_1_node_17->domain_1_node_23"
           ],
           "allocated_bandwidth": 46.96
         }
@@ -268,7 +274,7 @@
       "vnr_1_node_0->vnr_1_node_6": [
         {
           "path": [
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_15->domain_1_node_37"
           ],
           "allocated_bandwidth": 40.23
         }
@@ -276,8 +282,8 @@
       "vnr_1_node_0->vnr_1_node_7": [
         {
           "path": [
-            "domain_1_node_41->domain_1_node_42",
-            "domain_1_node_17->domain_1_node_42"
+            "domain_1_node_10->domain_1_node_37",
+            "domain_1_node_10->domain_1_node_38"
           ],
           "allocated_bandwidth": 43.22
         }
@@ -285,8 +291,7 @@
       "vnr_1_node_1->vnr_1_node_2": [
         {
           "path": [
-            "domain_1_node_16->domain_1_node_32",
-            "domain_1_node_12->domain_1_node_16"
+            "domain_1_node_17->domain_1_node_23"
           ],
           "allocated_bandwidth": 11.18
         }
@@ -294,9 +299,11 @@
       "vnr_1_node_1->vnr_1_node_3": [
         {
           "path": [
-            "domain_1_node_32->domain_1_node_35",
+            "domain_1_node_17->domain_1_node_23",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_46"
+            "domain_2_node_42->domain_2_node_45"
           ],
           "allocated_bandwidth": 9.01
         }
@@ -304,9 +311,11 @@
       "vnr_1_node_1->vnr_1_node_4": [
         {
           "path": [
-            "domain_1_node_32->domain_1_node_35",
+            "domain_1_node_17->domain_1_node_23",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_39->domain_2_node_42"
+            "domain_2_node_13->domain_2_node_42"
           ],
           "allocated_bandwidth": 9.41
         }
@@ -314,7 +323,9 @@
       "vnr_1_node_1->vnr_1_node_5": [
         {
           "path": [
-            "domain_1_node_16->domain_1_node_32"
+            "domain_1_node_17->domain_1_node_26",
+            "domain_1_node_15->domain_1_node_26",
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 9.9
         }
@@ -322,8 +333,8 @@
       "vnr_1_node_1->vnr_1_node_6": [
         {
           "path": [
-            "domain_1_node_32->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_17->domain_1_node_26",
+            "domain_1_node_15->domain_1_node_26"
           ],
           "allocated_bandwidth": 6.74
         }
@@ -331,8 +342,8 @@
       "vnr_1_node_1->vnr_1_node_7": [
         {
           "path": [
-            "domain_1_node_14->domain_1_node_32",
-            "domain_1_node_14->domain_1_node_17"
+            "domain_1_node_17->domain_1_node_26",
+            "domain_1_node_26->domain_1_node_38"
           ],
           "allocated_bandwidth": 36.12
         }
@@ -340,10 +351,10 @@
       "vnr_1_node_2->vnr_1_node_4": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_41",
-            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_39->domain_2_node_42"
+            "domain_2_node_13->domain_2_node_42"
           ],
           "allocated_bandwidth": 22.79
         }
@@ -351,7 +362,7 @@
       "vnr_1_node_2->vnr_1_node_5": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_16"
+            "domain_1_node_23->domain_1_node_25"
           ],
           "allocated_bandwidth": 29.26
         }
@@ -359,9 +370,8 @@
       "vnr_1_node_2->vnr_1_node_7": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_42",
-            "domain_1_node_17->domain_1_node_42"
+            "domain_1_node_22->domain_1_node_23",
+            "domain_1_node_22->domain_1_node_38"
           ],
           "allocated_bandwidth": 7.77
         }
@@ -369,8 +379,8 @@
       "vnr_1_node_3->vnr_1_node_4": [
         {
           "path": [
-            "domain_2_node_29->domain_2_node_46",
-            "domain_2_node_29->domain_2_node_39"
+            "domain_2_node_23->domain_2_node_45",
+            "domain_2_node_13->domain_2_node_23"
           ],
           "allocated_bandwidth": 10.41
         }
@@ -378,10 +388,9 @@
       "vnr_1_node_3->vnr_1_node_6": [
         {
           "path": [
-            "domain_2_node_42->domain_2_node_46",
+            "domain_2_node_42->domain_2_node_45",
             "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_35->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_15->domain_1_node_35"
           ],
           "allocated_bandwidth": 4.45
         }
@@ -389,11 +398,10 @@
       "vnr_1_node_4->vnr_1_node_5": [
         {
           "path": [
-            "domain_2_node_39->domain_2_node_42",
+            "domain_2_node_13->domain_2_node_42",
             "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_35->domain_1_node_44",
-            "domain_1_node_23->domain_1_node_44",
-            "domain_1_node_16->domain_1_node_23"
+            "domain_1_node_15->domain_1_node_35",
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 2.35
         }
@@ -401,11 +409,10 @@
       "vnr_1_node_4->vnr_1_node_7": [
         {
           "path": [
-            "domain_2_node_39->domain_2_node_42",
+            "domain_2_node_13->domain_2_node_42",
             "domain_1_node_35->domain_2_node_42",
-            "domain_1_node_35->domain_1_node_44",
-            "domain_1_node_23->domain_1_node_44",
-            "domain_1_node_17->domain_1_node_23"
+            "domain_1_node_15->domain_1_node_35",
+            "domain_1_node_15->domain_1_node_38"
           ],
           "allocated_bandwidth": 8.78
         }
@@ -413,8 +420,8 @@
       "vnr_1_node_5->vnr_1_node_7": [
         {
           "path": [
-            "domain_1_node_16->domain_1_node_37",
-            "domain_1_node_17->domain_1_node_37"
+            "domain_1_node_15->domain_1_node_25",
+            "domain_1_node_15->domain_1_node_38"
           ],
           "allocated_bandwidth": 15.13
         }
@@ -422,8 +429,7 @@
       "vnr_1_node_6->vnr_1_node_7": [
         {
           "path": [
-            "domain_1_node_42->domain_1_node_49",
-            "domain_1_node_17->domain_1_node_42"
+            "domain_1_node_15->domain_1_node_38"
           ],
           "allocated_bandwidth": 48.7
         }
@@ -431,7 +437,7 @@
       "vnr_1_node_0->vnr_1_node_1": [
         {
           "path": [
-            "domain_1_node_32->domain_1_node_41"
+            "domain_1_node_17->domain_1_node_37"
           ],
           "allocated_bandwidth": 46.01
         }
@@ -439,10 +445,10 @@
       "vnr_1_node_2->vnr_1_node_3": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_41",
-            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_46"
+            "domain_2_node_42->domain_2_node_45"
           ],
           "allocated_bandwidth": 4.79
         }
@@ -450,33 +456,31 @@
       "vnr_1_node_5->vnr_1_node_6": [
         {
           "path": [
-            "domain_1_node_12->domain_1_node_16",
-            "domain_1_node_12->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 36.67
         }
       ]
     },
-    "embedding_cost": 861.7271
+    "embedding_cost": 776.1832
   },
   {
     "vnr_id": "vnr_2",
     "is_successful": true,
     "node_mapping": {
       "vnr_2_node_0": "domain_0_node_48",
-      "vnr_2_node_1": "domain_2_node_20",
-      "vnr_2_node_2": "domain_2_node_22",
-      "vnr_2_node_3": "domain_2_node_25",
-      "vnr_2_node_4": "domain_2_node_16"
+      "vnr_2_node_1": "domain_2_node_44",
+      "vnr_2_node_2": "domain_2_node_15",
+      "vnr_2_node_3": "domain_2_node_17",
+      "vnr_2_node_4": "domain_2_node_13"
     },
     "link_mapping": {
       "vnr_2_node_0->vnr_2_node_3": [
         {
           "path": [
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_8->domain_2_node_21",
-            "domain_2_node_8->domain_2_node_25"
+            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_17"
           ],
           "allocated_bandwidth": 24.15
         }
@@ -484,9 +488,9 @@
       "vnr_2_node_1->vnr_2_node_4": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_34",
-            "domain_2_node_17->domain_2_node_34",
-            "domain_2_node_16->domain_2_node_17"
+            "domain_2_node_1->domain_2_node_44",
+            "domain_2_node_1->domain_2_node_23",
+            "domain_2_node_13->domain_2_node_23"
           ],
           "allocated_bandwidth": 13.11
         }
@@ -494,9 +498,8 @@
       "vnr_2_node_2->vnr_2_node_3": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_22",
-            "domain_2_node_8->domain_2_node_16",
-            "domain_2_node_8->domain_2_node_25"
+            "domain_2_node_15->domain_2_node_16",
+            "domain_2_node_16->domain_2_node_17"
           ],
           "allocated_bandwidth": 30.17
         }
@@ -504,7 +507,8 @@
       "vnr_2_node_2->vnr_2_node_4": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_22"
+            "domain_2_node_15->domain_2_node_34",
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 27.95
         }
@@ -512,8 +516,8 @@
       "vnr_2_node_3->vnr_2_node_4": [
         {
           "path": [
-            "domain_2_node_8->domain_2_node_25",
-            "domain_2_node_8->domain_2_node_16"
+            "domain_2_node_17->domain_2_node_34",
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 6.75
         }
@@ -522,7 +526,8 @@
         {
           "path": [
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_20->domain_2_node_21"
+            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_44"
           ],
           "allocated_bandwidth": 6.75
         }
@@ -530,35 +535,35 @@
       "vnr_2_node_1->vnr_2_node_2": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_22"
+            "domain_2_node_15->domain_2_node_44"
           ],
           "allocated_bandwidth": 24.45
         }
       ]
     },
-    "embedding_cost": 298.4457
+    "embedding_cost": 279.9305
   },
   {
     "vnr_id": "vnr_3",
     "is_successful": true,
     "node_mapping": {
-      "vnr_3_node_0": "domain_1_node_5",
-      "vnr_3_node_1": "domain_2_node_20",
-      "vnr_3_node_2": "domain_2_node_27",
-      "vnr_3_node_3": "domain_2_node_0",
-      "vnr_3_node_4": "domain_2_node_29",
-      "vnr_3_node_5": "domain_2_node_40",
-      "vnr_3_node_6": "domain_0_node_12",
-      "vnr_3_node_7": "domain_2_node_6"
+      "vnr_3_node_0": "domain_1_node_30",
+      "vnr_3_node_1": "domain_2_node_6",
+      "vnr_3_node_2": "domain_2_node_18",
+      "vnr_3_node_3": "domain_2_node_43",
+      "vnr_3_node_4": "domain_2_node_32",
+      "vnr_3_node_5": "domain_2_node_24",
+      "vnr_3_node_6": "domain_0_node_48",
+      "vnr_3_node_7": "domain_2_node_49"
     },
     "link_mapping": {
       "vnr_3_node_0->vnr_3_node_1": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_10",
-            "domain_1_node_10->domain_2_node_12",
-            "domain_2_node_12->domain_2_node_32",
-            "domain_2_node_20->domain_2_node_32"
+            "domain_1_node_30->domain_1_node_35",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_30->domain_2_node_42",
+            "domain_2_node_6->domain_2_node_30"
           ],
           "allocated_bandwidth": 26.26
         }
@@ -566,9 +571,12 @@
       "vnr_3_node_0->vnr_3_node_3": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_10",
-            "domain_1_node_10->domain_2_node_12",
-            "domain_2_node_0->domain_2_node_12"
+            "domain_1_node_30->domain_1_node_35",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_40->domain_2_node_42",
+            "domain_2_node_18->domain_2_node_40",
+            "domain_2_node_18->domain_2_node_32",
+            "domain_2_node_32->domain_2_node_43"
           ],
           "allocated_bandwidth": 25.8
         }
@@ -576,10 +584,11 @@
       "vnr_3_node_0->vnr_3_node_5": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_10",
-            "domain_1_node_10->domain_1_node_35",
+            "domain_1_node_30->domain_1_node_35",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_40->domain_2_node_42"
+            "domain_2_node_42->domain_2_node_49",
+            "domain_2_node_0->domain_2_node_49",
+            "domain_2_node_0->domain_2_node_24"
           ],
           "allocated_bandwidth": 41.89
         }
@@ -587,12 +596,12 @@
       "vnr_3_node_0->vnr_3_node_6": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_24",
-            "domain_1_node_24->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_12->domain_0_node_46"
+            "domain_1_node_22->domain_1_node_30",
+            "domain_1_node_14->domain_1_node_22",
+            "domain_1_node_13->domain_1_node_14",
+            "domain_1_node_7->domain_1_node_13",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_0_node_36->domain_0_node_48"
           ],
           "allocated_bandwidth": 20.98
         }
@@ -600,8 +609,7 @@
       "vnr_3_node_1->vnr_3_node_5": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_38",
-            "domain_2_node_38->domain_2_node_40"
+            "domain_2_node_6->domain_2_node_24"
           ],
           "allocated_bandwidth": 17.9
         }
@@ -609,9 +617,9 @@
       "vnr_3_node_1->vnr_3_node_6": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_2_node_6->domain_2_node_24",
+            "domain_2_node_21->domain_2_node_24",
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 17.91
         }
@@ -619,9 +627,9 @@
       "vnr_3_node_1->vnr_3_node_7": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_38",
-            "domain_2_node_24->domain_2_node_38",
-            "domain_2_node_6->domain_2_node_24"
+            "domain_2_node_6->domain_2_node_24",
+            "domain_2_node_0->domain_2_node_24",
+            "domain_2_node_0->domain_2_node_49"
           ],
           "allocated_bandwidth": 14.4
         }
@@ -629,7 +637,8 @@
       "vnr_3_node_2->vnr_3_node_3": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_27"
+            "domain_2_node_18->domain_2_node_32",
+            "domain_2_node_32->domain_2_node_43"
           ],
           "allocated_bandwidth": 20.06
         }
@@ -637,7 +646,7 @@
       "vnr_3_node_2->vnr_3_node_4": [
         {
           "path": [
-            "domain_2_node_27->domain_2_node_29"
+            "domain_2_node_18->domain_2_node_32"
           ],
           "allocated_bandwidth": 11.98
         }
@@ -645,8 +654,9 @@
       "vnr_3_node_2->vnr_3_node_5": [
         {
           "path": [
-            "domain_2_node_19->domain_2_node_27",
-            "domain_2_node_19->domain_2_node_40"
+            "domain_2_node_18->domain_2_node_40",
+            "domain_2_node_38->domain_2_node_40",
+            "domain_2_node_24->domain_2_node_38"
           ],
           "allocated_bandwidth": 34.08
         }
@@ -654,10 +664,9 @@
       "vnr_3_node_2->vnr_3_node_6": [
         {
           "path": [
-            "domain_2_node_27->domain_2_node_28",
+            "domain_2_node_18->domain_2_node_28",
             "domain_2_node_21->domain_2_node_28",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 27.94
         }
@@ -665,9 +674,7 @@
       "vnr_3_node_3->vnr_3_node_5": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_24",
-            "domain_2_node_24->domain_2_node_38",
-            "domain_2_node_38->domain_2_node_40"
+            "domain_2_node_24->domain_2_node_43"
           ],
           "allocated_bandwidth": 6.41
         }
@@ -675,8 +682,8 @@
       "vnr_3_node_3->vnr_3_node_7": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_24",
-            "domain_2_node_6->domain_2_node_24"
+            "domain_2_node_32->domain_2_node_43",
+            "domain_2_node_32->domain_2_node_49"
           ],
           "allocated_bandwidth": 21.56
         }
@@ -684,8 +691,8 @@
       "vnr_3_node_4->vnr_3_node_5": [
         {
           "path": [
-            "domain_2_node_18->domain_2_node_29",
-            "domain_2_node_18->domain_2_node_40"
+            "domain_2_node_32->domain_2_node_43",
+            "domain_2_node_24->domain_2_node_43"
           ],
           "allocated_bandwidth": 45.81
         }
@@ -693,9 +700,9 @@
       "vnr_3_node_4->vnr_3_node_6": [
         {
           "path": [
-            "domain_2_node_21->domain_2_node_29",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_2_node_32->domain_2_node_43",
+            "domain_2_node_21->domain_2_node_43",
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 5.23
         }
@@ -703,10 +710,7 @@
       "vnr_3_node_4->vnr_3_node_7": [
         {
           "path": [
-            "domain_2_node_27->domain_2_node_29",
-            "domain_2_node_0->domain_2_node_27",
-            "domain_2_node_0->domain_2_node_24",
-            "domain_2_node_6->domain_2_node_24"
+            "domain_2_node_32->domain_2_node_49"
           ],
           "allocated_bandwidth": 1.86
         }
@@ -714,8 +718,8 @@
       "vnr_3_node_5->vnr_3_node_7": [
         {
           "path": [
-            "domain_2_node_30->domain_2_node_40",
-            "domain_2_node_6->domain_2_node_30"
+            "domain_2_node_0->domain_2_node_24",
+            "domain_2_node_0->domain_2_node_49"
           ],
           "allocated_bandwidth": 32.4
         }
@@ -723,10 +727,9 @@
       "vnr_3_node_6->vnr_3_node_7": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_24",
-            "domain_2_node_6->domain_2_node_24"
+            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_49"
           ],
           "allocated_bandwidth": 11.36
         }
@@ -734,8 +737,9 @@
       "vnr_3_node_1->vnr_3_node_2": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_29",
-            "domain_2_node_27->domain_2_node_29"
+            "domain_2_node_6->domain_2_node_30",
+            "domain_2_node_30->domain_2_node_40",
+            "domain_2_node_18->domain_2_node_40"
           ],
           "allocated_bandwidth": 33.83
         }
@@ -743,8 +747,7 @@
       "vnr_3_node_3->vnr_3_node_4": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_47",
-            "domain_2_node_29->domain_2_node_47"
+            "domain_2_node_32->domain_2_node_43"
           ],
           "allocated_bandwidth": 34.9
         }
@@ -752,38 +755,37 @@
       "vnr_3_node_5->vnr_3_node_6": [
         {
           "path": [
-            "domain_2_node_38->domain_2_node_40",
-            "domain_2_node_21->domain_2_node_38",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_2_node_21->domain_2_node_24",
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 38.6
         }
       ]
     },
-    "embedding_cost": 1227.9879
+    "embedding_cost": 1285.6823
   },
   {
     "vnr_id": "vnr_4",
     "is_successful": true,
     "node_mapping": {
-      "vnr_4_node_0": "domain_2_node_1",
-      "vnr_4_node_1": "domain_0_node_48",
-      "vnr_4_node_2": "domain_0_node_11",
-      "vnr_4_node_3": "domain_2_node_10",
-      "vnr_4_node_4": "domain_2_node_18",
-      "vnr_4_node_5": "domain_2_node_14",
-      "vnr_4_node_6": "domain_2_node_17",
-      "vnr_4_node_7": "domain_2_node_11",
-      "vnr_4_node_8": "domain_0_node_42",
-      "vnr_4_node_9": "domain_2_node_40"
+      "vnr_4_node_0": "domain_2_node_33",
+      "vnr_4_node_1": "domain_0_node_22",
+      "vnr_4_node_2": "domain_1_node_11",
+      "vnr_4_node_3": "domain_2_node_1",
+      "vnr_4_node_4": "domain_2_node_39",
+      "vnr_4_node_5": "domain_2_node_38",
+      "vnr_4_node_6": "domain_2_node_25",
+      "vnr_4_node_7": "domain_2_node_31",
+      "vnr_4_node_8": "domain_1_node_15",
+      "vnr_4_node_9": "domain_1_node_21"
     },
     "link_mapping": {
       "vnr_4_node_0->vnr_4_node_3": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_23",
-            "domain_2_node_10->domain_2_node_23"
+            "domain_2_node_33->domain_2_node_34",
+            "domain_2_node_17->domain_2_node_34",
+            "domain_2_node_1->domain_2_node_17"
           ],
           "allocated_bandwidth": 33.55
         }
@@ -791,7 +793,8 @@
       "vnr_4_node_0->vnr_4_node_6": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_17"
+            "domain_2_node_27->domain_2_node_33",
+            "domain_2_node_25->domain_2_node_27"
           ],
           "allocated_bandwidth": 47.67
         }
@@ -799,7 +802,8 @@
       "vnr_4_node_0->vnr_4_node_7": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_11"
+            "domain_2_node_26->domain_2_node_33",
+            "domain_2_node_26->domain_2_node_31"
           ],
           "allocated_bandwidth": 31.48
         }
@@ -807,10 +811,10 @@
       "vnr_4_node_0->vnr_4_node_8": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_31->domain_0_node_42"
+            "domain_2_node_27->domain_2_node_33",
+            "domain_2_node_27->domain_2_node_42",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_15->domain_1_node_35"
           ],
           "allocated_bandwidth": 42.46
         }
@@ -818,8 +822,12 @@
       "vnr_4_node_0->vnr_4_node_9": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_18",
-            "domain_2_node_18->domain_2_node_40"
+            "domain_2_node_27->domain_2_node_33",
+            "domain_2_node_27->domain_2_node_42",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_35->domain_1_node_44",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_21->domain_1_node_23"
           ],
           "allocated_bandwidth": 12.67
         }
@@ -827,9 +835,10 @@
       "vnr_4_node_1->vnr_4_node_2": [
         {
           "path": [
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_11->domain_0_node_46"
+            "domain_0_node_22->domain_0_node_48",
+            "domain_0_node_36->domain_0_node_48",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_1_node_7->domain_1_node_11"
           ],
           "allocated_bandwidth": 29.99
         }
@@ -837,9 +846,9 @@
       "vnr_4_node_1->vnr_4_node_3": [
         {
           "path": [
+            "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_16->domain_2_node_21",
-            "domain_2_node_10->domain_2_node_16"
+            "domain_2_node_1->domain_2_node_21"
           ],
           "allocated_bandwidth": 26.27
         }
@@ -847,9 +856,11 @@
       "vnr_4_node_1->vnr_4_node_4": [
         {
           "path": [
+            "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_28",
-            "domain_2_node_18->domain_2_node_28"
+            "domain_2_node_21->domain_2_node_24",
+            "domain_2_node_24->domain_2_node_41",
+            "domain_2_node_39->domain_2_node_41"
           ],
           "allocated_bandwidth": 4.78
         }
@@ -857,9 +868,9 @@
       "vnr_4_node_1->vnr_4_node_5": [
         {
           "path": [
+            "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_2->domain_2_node_21",
-            "domain_2_node_2->domain_2_node_14"
+            "domain_2_node_21->domain_2_node_38"
           ],
           "allocated_bandwidth": 26.3
         }
@@ -867,9 +878,10 @@
       "vnr_4_node_1->vnr_4_node_6": [
         {
           "path": [
+            "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_17"
+            "domain_2_node_8->domain_2_node_21",
+            "domain_2_node_8->domain_2_node_25"
           ],
           "allocated_bandwidth": 3.58
         }
@@ -877,9 +889,10 @@
       "vnr_4_node_1->vnr_4_node_7": [
         {
           "path": [
+            "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_11"
+            "domain_2_node_21->domain_2_node_45",
+            "domain_2_node_31->domain_2_node_45"
           ],
           "allocated_bandwidth": 4.89
         }
@@ -887,12 +900,12 @@
       "vnr_4_node_2->vnr_4_node_3": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_16->domain_2_node_21",
-            "domain_2_node_10->domain_2_node_16"
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_46",
+            "domain_2_node_1->domain_2_node_46"
           ],
           "allocated_bandwidth": 4.94
         }
@@ -900,12 +913,12 @@
       "vnr_4_node_2->vnr_4_node_5": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_2->domain_2_node_21",
-            "domain_2_node_2->domain_2_node_14"
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_40->domain_2_node_42",
+            "domain_2_node_38->domain_2_node_40"
           ],
           "allocated_bandwidth": 10.31
         }
@@ -913,12 +926,12 @@
       "vnr_4_node_2->vnr_4_node_6": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_17"
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_2_node_25->domain_2_node_49"
           ],
           "allocated_bandwidth": 20.37
         }
@@ -926,12 +939,12 @@
       "vnr_4_node_2->vnr_4_node_7": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_11"
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_39->domain_1_node_41",
+            "domain_1_node_35->domain_1_node_41",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_45",
+            "domain_2_node_31->domain_2_node_45"
           ],
           "allocated_bandwidth": 2.78
         }
@@ -939,8 +952,9 @@
       "vnr_4_node_2->vnr_4_node_8": [
         {
           "path": [
-            "domain_0_node_4->domain_0_node_11",
-            "domain_0_node_4->domain_0_node_42"
+            "domain_1_node_9->domain_1_node_11",
+            "domain_1_node_9->domain_1_node_25",
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 45.37
         }
@@ -948,12 +962,8 @@
       "vnr_4_node_2->vnr_4_node_9": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_38",
-            "domain_2_node_38->domain_2_node_40"
+            "domain_1_node_11->domain_1_node_39",
+            "domain_1_node_21->domain_1_node_39"
           ],
           "allocated_bandwidth": 13.22
         }
@@ -961,7 +971,9 @@
       "vnr_4_node_3->vnr_4_node_7": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_11"
+            "domain_2_node_1->domain_2_node_17",
+            "domain_2_node_17->domain_2_node_34",
+            "domain_2_node_31->domain_2_node_34"
           ],
           "allocated_bandwidth": 2.87
         }
@@ -969,11 +981,10 @@
       "vnr_4_node_3->vnr_4_node_8": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_16",
-            "domain_2_node_16->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_31->domain_0_node_42"
+            "domain_2_node_1->domain_2_node_49",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_15->domain_1_node_35"
           ],
           "allocated_bandwidth": 11.68
         }
@@ -981,8 +992,8 @@
       "vnr_4_node_4->vnr_4_node_5": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_18",
-            "domain_2_node_14->domain_2_node_16"
+            "domain_2_node_39->domain_2_node_41",
+            "domain_2_node_38->domain_2_node_41"
           ],
           "allocated_bandwidth": 21.38
         }
@@ -990,8 +1001,9 @@
       "vnr_4_node_4->vnr_4_node_6": [
         {
           "path": [
-            "domain_2_node_16->domain_2_node_18",
-            "domain_2_node_16->domain_2_node_17"
+            "domain_2_node_39->domain_2_node_41",
+            "domain_2_node_27->domain_2_node_41",
+            "domain_2_node_25->domain_2_node_27"
           ],
           "allocated_bandwidth": 44.78
         }
@@ -999,8 +1011,8 @@
       "vnr_4_node_4->vnr_4_node_7": [
         {
           "path": [
-            "domain_2_node_18->domain_2_node_32",
-            "domain_2_node_11->domain_2_node_32"
+            "domain_2_node_26->domain_2_node_39",
+            "domain_2_node_26->domain_2_node_31"
           ],
           "allocated_bandwidth": 33.47
         }
@@ -1008,7 +1020,8 @@
       "vnr_4_node_5->vnr_4_node_6": [
         {
           "path": [
-            "domain_2_node_14->domain_2_node_17"
+            "domain_2_node_24->domain_2_node_38",
+            "domain_2_node_24->domain_2_node_25"
           ],
           "allocated_bandwidth": 36.31
         }
@@ -1016,9 +1029,9 @@
       "vnr_4_node_5->vnr_4_node_7": [
         {
           "path": [
-            "domain_2_node_3->domain_2_node_14",
-            "domain_2_node_3->domain_2_node_26",
-            "domain_2_node_11->domain_2_node_26"
+            "domain_2_node_17->domain_2_node_38",
+            "domain_2_node_17->domain_2_node_34",
+            "domain_2_node_31->domain_2_node_34"
           ],
           "allocated_bandwidth": 3.02
         }
@@ -1026,8 +1039,12 @@
       "vnr_4_node_6->vnr_4_node_9": [
         {
           "path": [
-            "domain_2_node_17->domain_2_node_38",
-            "domain_2_node_38->domain_2_node_40"
+            "domain_2_node_25->domain_2_node_49",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_35->domain_1_node_44",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_21->domain_1_node_23"
           ],
           "allocated_bandwidth": 43.58
         }
@@ -1035,11 +1052,8 @@
       "vnr_4_node_8->vnr_4_node_9": [
         {
           "path": [
-            "domain_0_node_31->domain_0_node_42",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_38",
-            "domain_2_node_38->domain_2_node_40"
+            "domain_1_node_15->domain_1_node_26",
+            "domain_1_node_21->domain_1_node_26"
           ],
           "allocated_bandwidth": 42.42
         }
@@ -1047,8 +1061,11 @@
       "vnr_4_node_0->vnr_4_node_1": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21"
+            "domain_2_node_26->domain_2_node_33",
+            "domain_2_node_8->domain_2_node_26",
+            "domain_2_node_8->domain_2_node_21",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_22->domain_0_node_48"
           ],
           "allocated_bandwidth": 12.25
         }
@@ -1056,8 +1073,8 @@
       "vnr_4_node_3->vnr_4_node_4": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_40",
-            "domain_2_node_18->domain_2_node_40"
+            "domain_2_node_1->domain_2_node_18",
+            "domain_2_node_18->domain_2_node_39"
           ],
           "allocated_bandwidth": 28.36
         }
@@ -1065,8 +1082,8 @@
       "vnr_4_node_6->vnr_4_node_7": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_17",
-            "domain_2_node_1->domain_2_node_11"
+            "domain_2_node_8->domain_2_node_25",
+            "domain_2_node_8->domain_2_node_31"
           ],
           "allocated_bandwidth": 47.02
         }
@@ -1074,32 +1091,31 @@
       "vnr_4_node_7->vnr_4_node_8": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_11",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_31->domain_0_node_42"
+            "domain_2_node_31->domain_2_node_45",
+            "domain_2_node_42->domain_2_node_45",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_15->domain_1_node_35"
           ],
           "allocated_bandwidth": 7.66
         }
       ]
     },
-    "embedding_cost": 1675.1053
+    "embedding_cost": 1815.4383
   },
   {
     "vnr_id": "vnr_5",
     "is_successful": true,
     "node_mapping": {
       "vnr_5_node_0": "domain_2_node_15",
-      "vnr_5_node_1": "domain_2_node_35",
-      "vnr_5_node_2": "domain_2_node_13"
+      "vnr_5_node_1": "domain_2_node_13",
+      "vnr_5_node_2": "domain_2_node_33"
     },
     "link_mapping": {
       "vnr_5_node_0->vnr_5_node_1": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_15",
-            "domain_2_node_10->domain_2_node_35"
+            "domain_2_node_15->domain_2_node_34",
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 10.85
         }
@@ -1107,30 +1123,32 @@
       "vnr_5_node_1->vnr_5_node_2": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_35"
+            "domain_2_node_13->domain_2_node_34",
+            "domain_2_node_33->domain_2_node_34"
           ],
           "allocated_bandwidth": 32.42
         }
       ]
     },
-    "embedding_cost": 78.924
+    "embedding_cost": 84.7103
   },
   {
     "vnr_id": "vnr_6",
     "is_successful": true,
     "node_mapping": {
-      "vnr_6_node_0": "domain_1_node_21",
-      "vnr_6_node_1": "domain_1_node_8",
-      "vnr_6_node_2": "domain_1_node_45",
-      "vnr_6_node_3": "domain_1_node_23",
-      "vnr_6_node_4": "domain_1_node_38",
-      "vnr_6_node_5": "domain_1_node_29"
+      "vnr_6_node_0": "domain_1_node_31",
+      "vnr_6_node_1": "domain_1_node_12",
+      "vnr_6_node_2": "domain_1_node_25",
+      "vnr_6_node_3": "domain_1_node_15",
+      "vnr_6_node_4": "domain_1_node_1",
+      "vnr_6_node_5": "domain_1_node_27"
     },
     "link_mapping": {
       "vnr_6_node_0->vnr_6_node_3": [
         {
           "path": [
-            "domain_1_node_21->domain_1_node_23"
+            "domain_1_node_25->domain_1_node_31",
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 39.66
         }
@@ -1138,8 +1156,8 @@
       "vnr_6_node_0->vnr_6_node_5": [
         {
           "path": [
-            "domain_1_node_21->domain_1_node_26",
-            "domain_1_node_26->domain_1_node_29"
+            "domain_1_node_31->domain_1_node_40",
+            "domain_1_node_27->domain_1_node_40"
           ],
           "allocated_bandwidth": 8.33
         }
@@ -1147,7 +1165,8 @@
       "vnr_6_node_1->vnr_6_node_2": [
         {
           "path": [
-            "domain_1_node_8->domain_1_node_45"
+            "domain_1_node_12->domain_1_node_15",
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 48.21
         }
@@ -1155,7 +1174,7 @@
       "vnr_6_node_1->vnr_6_node_3": [
         {
           "path": [
-            "domain_1_node_8->domain_1_node_23"
+            "domain_1_node_12->domain_1_node_15"
           ],
           "allocated_bandwidth": 32.68
         }
@@ -1163,7 +1182,7 @@
       "vnr_6_node_1->vnr_6_node_5": [
         {
           "path": [
-            "domain_1_node_8->domain_1_node_29"
+            "domain_1_node_12->domain_1_node_27"
           ],
           "allocated_bandwidth": 46.18
         }
@@ -1171,7 +1190,9 @@
       "vnr_6_node_2->vnr_6_node_5": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_45"
+            "domain_1_node_9->domain_1_node_25",
+            "domain_1_node_9->domain_1_node_12",
+            "domain_1_node_12->domain_1_node_27"
           ],
           "allocated_bandwidth": 5.33
         }
@@ -1179,9 +1200,8 @@
       "vnr_6_node_0->vnr_6_node_1": [
         {
           "path": [
-            "domain_1_node_21->domain_1_node_26",
-            "domain_1_node_22->domain_1_node_26",
-            "domain_1_node_8->domain_1_node_22"
+            "domain_1_node_19->domain_1_node_31",
+            "domain_1_node_12->domain_1_node_19"
           ],
           "allocated_bandwidth": 30.08
         }
@@ -1189,8 +1209,7 @@
       "vnr_6_node_2->vnr_6_node_3": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_45",
-            "domain_1_node_23->domain_1_node_29"
+            "domain_1_node_15->domain_1_node_25"
           ],
           "allocated_bandwidth": 17.26
         }
@@ -1198,8 +1217,8 @@
       "vnr_6_node_3->vnr_6_node_4": [
         {
           "path": [
-            "domain_1_node_22->domain_1_node_23",
-            "domain_1_node_22->domain_1_node_38"
+            "domain_1_node_15->domain_1_node_38",
+            "domain_1_node_1->domain_1_node_38"
           ],
           "allocated_bandwidth": 34.07
         }
@@ -1207,31 +1226,31 @@
       "vnr_6_node_4->vnr_6_node_5": [
         {
           "path": [
-            "domain_1_node_26->domain_1_node_38",
-            "domain_1_node_26->domain_1_node_29"
+            "domain_1_node_1->domain_1_node_3",
+            "domain_1_node_3->domain_1_node_40",
+            "domain_1_node_27->domain_1_node_40"
           ],
           "allocated_bandwidth": 14.35
         }
       ]
     },
-    "embedding_cost": 342.6123
+    "embedding_cost": 337.305
   },
   {
     "vnr_id": "vnr_7",
     "is_successful": true,
     "node_mapping": {
-      "vnr_7_node_0": "domain_1_node_38",
-      "vnr_7_node_1": "domain_1_node_44",
-      "vnr_7_node_2": "domain_1_node_29",
-      "vnr_7_node_3": "domain_1_node_15",
-      "vnr_7_node_4": "domain_2_node_36"
+      "vnr_7_node_0": "domain_1_node_41",
+      "vnr_7_node_1": "domain_1_node_18",
+      "vnr_7_node_2": "domain_1_node_7",
+      "vnr_7_node_3": "domain_1_node_10",
+      "vnr_7_node_4": "domain_2_node_23"
     },
     "link_mapping": {
       "vnr_7_node_0->vnr_7_node_2": [
         {
           "path": [
-            "domain_1_node_26->domain_1_node_38",
-            "domain_1_node_26->domain_1_node_29"
+            "domain_1_node_7->domain_1_node_41"
           ],
           "allocated_bandwidth": 31.54
         }
@@ -1239,11 +1258,10 @@
       "vnr_7_node_0->vnr_7_node_4": [
         {
           "path": [
-            "domain_1_node_15->domain_1_node_38",
-            "domain_1_node_15->domain_1_node_35",
+            "domain_1_node_35->domain_1_node_41",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_40->domain_2_node_42",
-            "domain_2_node_36->domain_2_node_40"
+            "domain_2_node_42->domain_2_node_46",
+            "domain_2_node_23->domain_2_node_46"
           ],
           "allocated_bandwidth": 7.48
         }
@@ -1251,8 +1269,9 @@
       "vnr_7_node_1->vnr_7_node_2": [
         {
           "path": [
-            "domain_1_node_23->domain_1_node_44",
-            "domain_1_node_23->domain_1_node_29"
+            "domain_1_node_14->domain_1_node_18",
+            "domain_1_node_13->domain_1_node_14",
+            "domain_1_node_7->domain_1_node_13"
           ],
           "allocated_bandwidth": 5.78
         }
@@ -1260,8 +1279,8 @@
       "vnr_7_node_2->vnr_7_node_3": [
         {
           "path": [
-            "domain_1_node_26->domain_1_node_29",
-            "domain_1_node_15->domain_1_node_26"
+            "domain_1_node_7->domain_1_node_13",
+            "domain_1_node_10->domain_1_node_13"
           ],
           "allocated_bandwidth": 28.35
         }
@@ -1269,10 +1288,8 @@
       "vnr_7_node_3->vnr_7_node_4": [
         {
           "path": [
-            "domain_1_node_15->domain_1_node_35",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_40->domain_2_node_42",
-            "domain_2_node_36->domain_2_node_40"
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_12->domain_2_node_23"
           ],
           "allocated_bandwidth": 48.02
         }
@@ -1280,35 +1297,35 @@
       "vnr_7_node_0->vnr_7_node_1": [
         {
           "path": [
-            "domain_1_node_22->domain_1_node_38",
-            "domain_1_node_22->domain_1_node_23",
-            "domain_1_node_23->domain_1_node_44"
+            "domain_1_node_29->domain_1_node_41",
+            "domain_1_node_18->domain_1_node_29"
           ],
           "allocated_bandwidth": 12.56
         }
       ]
     },
-    "embedding_cost": 402.607
+    "embedding_cost": 340.0579
   },
   {
     "vnr_id": "vnr_8",
     "is_successful": true,
     "node_mapping": {
-      "vnr_8_node_0": "domain_2_node_4",
-      "vnr_8_node_1": "domain_2_node_45",
-      "vnr_8_node_2": "domain_0_node_37",
-      "vnr_8_node_3": "domain_1_node_7",
-      "vnr_8_node_4": "domain_1_node_37",
-      "vnr_8_node_5": "domain_2_node_3",
-      "vnr_8_node_6": "domain_2_node_27",
-      "vnr_8_node_7": "domain_2_node_47",
-      "vnr_8_node_8": "domain_0_node_7"
+      "vnr_8_node_0": "domain_2_node_42",
+      "vnr_8_node_1": "domain_2_node_0",
+      "vnr_8_node_2": "domain_0_node_23",
+      "vnr_8_node_3": "domain_1_node_16",
+      "vnr_8_node_4": "domain_1_node_32",
+      "vnr_8_node_5": "domain_2_node_6",
+      "vnr_8_node_6": "domain_1_node_46",
+      "vnr_8_node_7": "domain_2_node_21",
+      "vnr_8_node_8": "domain_0_node_32"
     },
     "link_mapping": {
       "vnr_8_node_0->vnr_8_node_1": [
         {
           "path": [
-            "domain_2_node_4->domain_2_node_45"
+            "domain_2_node_42->domain_2_node_49",
+            "domain_2_node_0->domain_2_node_49"
           ],
           "allocated_bandwidth": 20.6
         }
@@ -1316,10 +1333,10 @@
       "vnr_8_node_1->vnr_8_node_2": [
         {
           "path": [
-            "domain_2_node_21->domain_2_node_45",
+            "domain_2_node_0->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_22->domain_0_node_48",
-            "domain_0_node_22->domain_0_node_37"
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_23"
           ],
           "allocated_bandwidth": 17.9
         }
@@ -1327,7 +1344,8 @@
       "vnr_8_node_1->vnr_8_node_5": [
         {
           "path": [
-            "domain_2_node_3->domain_2_node_45"
+            "domain_2_node_0->domain_2_node_24",
+            "domain_2_node_6->domain_2_node_24"
           ],
           "allocated_bandwidth": 47.92
         }
@@ -1335,10 +1353,9 @@
       "vnr_8_node_1->vnr_8_node_8": [
         {
           "path": [
-            "domain_2_node_21->domain_2_node_45",
+            "domain_2_node_0->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_7->domain_0_node_12"
+            "domain_0_node_32->domain_0_node_48"
           ],
           "allocated_bandwidth": 37.82
         }
@@ -1346,11 +1363,9 @@
       "vnr_8_node_2->vnr_8_node_7": [
         {
           "path": [
-            "domain_0_node_8->domain_0_node_37",
-            "domain_0_node_7->domain_0_node_8",
-            "domain_0_node_7->domain_2_node_24",
-            "domain_2_node_0->domain_2_node_24",
-            "domain_2_node_0->domain_2_node_47"
+            "domain_0_node_1->domain_0_node_23",
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 22.72
         }
@@ -1358,8 +1373,8 @@
       "vnr_8_node_2->vnr_8_node_8": [
         {
           "path": [
-            "domain_0_node_8->domain_0_node_37",
-            "domain_0_node_7->domain_0_node_8"
+            "domain_0_node_4->domain_0_node_23",
+            "domain_0_node_4->domain_0_node_32"
           ],
           "allocated_bandwidth": 49.71
         }
@@ -1367,7 +1382,7 @@
       "vnr_8_node_3->vnr_8_node_4": [
         {
           "path": [
-            "domain_1_node_7->domain_1_node_37"
+            "domain_1_node_16->domain_1_node_32"
           ],
           "allocated_bandwidth": 8.51
         }
@@ -1375,10 +1390,7 @@
       "vnr_8_node_3->vnr_8_node_6": [
         {
           "path": [
-            "domain_1_node_7->domain_1_node_41",
-            "domain_1_node_35->domain_1_node_41",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_27->domain_2_node_42"
+            "domain_1_node_16->domain_1_node_46"
           ],
           "allocated_bandwidth": 39.71
         }
@@ -1386,9 +1398,12 @@
       "vnr_8_node_3->vnr_8_node_8": [
         {
           "path": [
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_14->domain_0_node_36",
-            "domain_0_node_7->domain_0_node_14"
+            "domain_1_node_12->domain_1_node_16",
+            "domain_1_node_12->domain_1_node_27",
+            "domain_1_node_27->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_14->domain_0_node_21",
+            "domain_0_node_14->domain_0_node_32"
           ],
           "allocated_bandwidth": 4.31
         }
@@ -1396,11 +1411,10 @@
       "vnr_8_node_4->vnr_8_node_5": [
         {
           "path": [
-            "domain_1_node_35->domain_1_node_37",
+            "domain_1_node_32->domain_1_node_35",
             "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_2->domain_2_node_42",
-            "domain_2_node_2->domain_2_node_14",
-            "domain_2_node_3->domain_2_node_14"
+            "domain_2_node_30->domain_2_node_42",
+            "domain_2_node_6->domain_2_node_30"
           ],
           "allocated_bandwidth": 1.59
         }
@@ -1408,9 +1422,8 @@
       "vnr_8_node_4->vnr_8_node_6": [
         {
           "path": [
-            "domain_1_node_35->domain_1_node_37",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_27->domain_2_node_42"
+            "domain_1_node_32->domain_1_node_36",
+            "domain_1_node_36->domain_1_node_46"
           ],
           "allocated_bandwidth": 42.66
         }
@@ -1418,9 +1431,8 @@
       "vnr_8_node_7->vnr_8_node_8": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_47",
-            "domain_2_node_0->domain_2_node_24",
-            "domain_0_node_7->domain_2_node_24"
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_32->domain_0_node_48"
           ],
           "allocated_bandwidth": 36.71
         }
@@ -1428,9 +1440,11 @@
       "vnr_8_node_2->vnr_8_node_3": [
         {
           "path": [
-            "domain_0_node_32->domain_0_node_37",
-            "domain_0_node_32->domain_0_node_36",
-            "domain_0_node_36->domain_1_node_7"
+            "domain_0_node_21->domain_0_node_23",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_27->domain_1_node_40",
+            "domain_1_node_12->domain_1_node_27",
+            "domain_1_node_12->domain_1_node_16"
           ],
           "allocated_bandwidth": 24.35
         }
@@ -1438,8 +1452,10 @@
       "vnr_8_node_5->vnr_8_node_6": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_3",
-            "domain_2_node_0->domain_2_node_27"
+            "domain_2_node_6->domain_2_node_30",
+            "domain_2_node_30->domain_2_node_42",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_35->domain_1_node_46"
           ],
           "allocated_bandwidth": 34.79
         }
@@ -1447,32 +1463,34 @@
       "vnr_8_node_6->vnr_8_node_7": [
         {
           "path": [
-            "domain_2_node_27->domain_2_node_29",
-            "domain_2_node_29->domain_2_node_47"
+            "domain_1_node_35->domain_1_node_46",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_2->domain_2_node_42",
+            "domain_2_node_2->domain_2_node_21"
           ],
           "allocated_bandwidth": 18.33
         }
       ]
     },
-    "embedding_cost": 1126.1059
+    "embedding_cost": 1082.8762
   },
   {
     "vnr_id": "vnr_9",
     "is_successful": true,
     "node_mapping": {
-      "vnr_9_node_0": "domain_0_node_46",
-      "vnr_9_node_1": "domain_0_node_5",
-      "vnr_9_node_2": "domain_0_node_33",
-      "vnr_9_node_3": "domain_0_node_47",
-      "vnr_9_node_4": "domain_0_node_31",
-      "vnr_9_node_5": "domain_2_node_45"
+      "vnr_9_node_0": "domain_1_node_31",
+      "vnr_9_node_1": "domain_1_node_5",
+      "vnr_9_node_2": "domain_2_node_22",
+      "vnr_9_node_3": "domain_2_node_31",
+      "vnr_9_node_4": "domain_2_node_3",
+      "vnr_9_node_5": "domain_2_node_23"
     },
     "link_mapping": {
       "vnr_9_node_0->vnr_9_node_1": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_46",
-            "domain_0_node_5->domain_0_node_12"
+            "domain_1_node_19->domain_1_node_31",
+            "domain_1_node_5->domain_1_node_19"
           ],
           "allocated_bandwidth": 17.07
         }
@@ -1480,7 +1498,12 @@
       "vnr_9_node_0->vnr_9_node_3": [
         {
           "path": [
-            "domain_0_node_46->domain_0_node_47"
+            "domain_1_node_4->domain_1_node_31",
+            "domain_1_node_4->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_45",
+            "domain_2_node_31->domain_2_node_45"
           ],
           "allocated_bandwidth": 4.28
         }
@@ -1488,8 +1511,10 @@
       "vnr_9_node_1->vnr_9_node_4": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_29",
-            "domain_0_node_29->domain_0_node_31"
+            "domain_1_node_5->domain_1_node_10",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_0->domain_2_node_12",
+            "domain_2_node_0->domain_2_node_3"
           ],
           "allocated_bandwidth": 16.97
         }
@@ -1497,10 +1522,9 @@
       "vnr_9_node_1->vnr_9_node_5": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_12",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_45"
+            "domain_1_node_5->domain_1_node_10",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_12->domain_2_node_23"
           ],
           "allocated_bandwidth": 17.78
         }
@@ -1508,10 +1532,7 @@
       "vnr_9_node_2->vnr_9_node_5": [
         {
           "path": [
-            "domain_0_node_1->domain_0_node_33",
-            "domain_0_node_1->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_45"
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 23.81
         }
@@ -1519,7 +1540,8 @@
       "vnr_9_node_3->vnr_9_node_4": [
         {
           "path": [
-            "domain_0_node_31->domain_0_node_47"
+            "domain_2_node_26->domain_2_node_31",
+            "domain_2_node_3->domain_2_node_26"
           ],
           "allocated_bandwidth": 7.7
         }
@@ -1527,7 +1549,10 @@
       "vnr_9_node_1->vnr_9_node_2": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_33"
+            "domain_1_node_5->domain_1_node_10",
+            "domain_1_node_10->domain_2_node_12",
+            "domain_2_node_12->domain_2_node_23",
+            "domain_2_node_22->domain_2_node_23"
           ],
           "allocated_bandwidth": 21.57
         }
@@ -1535,9 +1560,7 @@
       "vnr_9_node_2->vnr_9_node_3": [
         {
           "path": [
-            "domain_0_node_33->domain_0_node_49",
-            "domain_0_node_12->domain_0_node_49",
-            "domain_0_node_12->domain_0_node_47"
+            "domain_2_node_22->domain_2_node_31"
           ],
           "allocated_bandwidth": 6.86
         }
@@ -1545,29 +1568,30 @@
       "vnr_9_node_4->vnr_9_node_5": [
         {
           "path": [
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_45"
+            "domain_2_node_3->domain_2_node_17",
+            "domain_2_node_1->domain_2_node_17",
+            "domain_2_node_1->domain_2_node_23"
           ],
           "allocated_bandwidth": 13.64
         }
       ]
     },
-    "embedding_cost": 407.3289
+    "embedding_cost": 431.3582
   },
   {
     "vnr_id": "vnr_10",
     "is_successful": true,
     "node_mapping": {
-      "vnr_10_node_0": "domain_2_node_17",
+      "vnr_10_node_0": "domain_2_node_45",
       "vnr_10_node_1": "domain_0_node_12",
-      "vnr_10_node_2": "domain_0_node_5"
+      "vnr_10_node_2": "domain_0_node_29"
     },
     "link_mapping": {
       "vnr_10_node_1->vnr_10_node_2": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_12"
+            "domain_0_node_5->domain_0_node_12",
+            "domain_0_node_5->domain_0_node_29"
           ],
           "allocated_bandwidth": 37.19
         }
@@ -1575,8 +1599,7 @@
       "vnr_10_node_0->vnr_10_node_1": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_17",
-            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_21->domain_2_node_45",
             "domain_0_node_48->domain_2_node_21",
             "domain_0_node_12->domain_0_node_48"
           ],
@@ -1584,28 +1607,27 @@
         }
       ]
     },
-    "embedding_cost": 159.5089
+    "embedding_cost": 149.8815
   },
   {
     "vnr_id": "vnr_11",
     "is_successful": true,
     "node_mapping": {
-      "vnr_11_node_0": "domain_1_node_29",
-      "vnr_11_node_1": "domain_0_node_12",
-      "vnr_11_node_2": "domain_0_node_47",
-      "vnr_11_node_3": "domain_1_node_31",
-      "vnr_11_node_4": "domain_0_node_8",
-      "vnr_11_node_5": "domain_0_node_26",
-      "vnr_11_node_6": "domain_0_node_45",
-      "vnr_11_node_7": "domain_0_node_11",
-      "vnr_11_node_8": "domain_1_node_49"
+      "vnr_11_node_0": "domain_1_node_34",
+      "vnr_11_node_1": "domain_0_node_41",
+      "vnr_11_node_2": "domain_0_node_20",
+      "vnr_11_node_3": "domain_1_node_32",
+      "vnr_11_node_4": "domain_0_node_14",
+      "vnr_11_node_5": "domain_0_node_12",
+      "vnr_11_node_6": "domain_0_node_46",
+      "vnr_11_node_7": "domain_0_node_29",
+      "vnr_11_node_8": "domain_1_node_29"
     },
     "link_mapping": {
       "vnr_11_node_0->vnr_11_node_3": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_41",
-            "domain_1_node_31->domain_1_node_41"
+            "domain_1_node_32->domain_1_node_34"
           ],
           "allocated_bandwidth": 49.28
         }
@@ -1613,10 +1635,11 @@
       "vnr_11_node_0->vnr_11_node_5": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_41",
-            "domain_1_node_7->domain_1_node_41",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_26->domain_0_node_36"
+            "domain_1_node_34->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_11->domain_0_node_46",
+            "domain_0_node_12->domain_0_node_46"
           ],
           "allocated_bandwidth": 20.37
         }
@@ -1624,8 +1647,9 @@
       "vnr_11_node_0->vnr_11_node_8": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_15->domain_1_node_34",
+            "domain_1_node_15->domain_1_node_26",
+            "domain_1_node_26->domain_1_node_29"
           ],
           "allocated_bandwidth": 40.33
         }
@@ -1633,8 +1657,8 @@
       "vnr_11_node_1->vnr_11_node_4": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_12",
-            "domain_0_node_5->domain_0_node_8"
+            "domain_0_node_41->domain_0_node_46",
+            "domain_0_node_14->domain_0_node_46"
           ],
           "allocated_bandwidth": 27.06
         }
@@ -1642,7 +1666,8 @@
       "vnr_11_node_1->vnr_11_node_5": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_26"
+            "domain_0_node_41->domain_0_node_46",
+            "domain_0_node_12->domain_0_node_46"
           ],
           "allocated_bandwidth": 2.71
         }
@@ -1650,8 +1675,8 @@
       "vnr_11_node_1->vnr_11_node_7": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_46",
-            "domain_0_node_11->domain_0_node_46"
+            "domain_0_node_31->domain_0_node_41",
+            "domain_0_node_29->domain_0_node_31"
           ],
           "allocated_bandwidth": 39.75
         }
@@ -1659,11 +1684,12 @@
       "vnr_11_node_2->vnr_11_node_3": [
         {
           "path": [
-            "domain_0_node_46->domain_0_node_47",
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_20->domain_0_node_23",
+            "domain_0_node_21->domain_0_node_23",
             "domain_0_node_21->domain_1_node_40",
-            "domain_1_node_31->domain_1_node_40"
+            "domain_1_node_24->domain_1_node_40",
+            "domain_1_node_11->domain_1_node_24",
+            "domain_1_node_11->domain_1_node_32"
           ],
           "allocated_bandwidth": 3.87
         }
@@ -1671,8 +1697,9 @@
       "vnr_11_node_2->vnr_11_node_6": [
         {
           "path": [
-            "domain_0_node_38->domain_0_node_47",
-            "domain_0_node_38->domain_0_node_45"
+            "domain_0_node_20->domain_0_node_31",
+            "domain_0_node_31->domain_0_node_41",
+            "domain_0_node_41->domain_0_node_46"
           ],
           "allocated_bandwidth": 16.04
         }
@@ -1680,9 +1707,10 @@
       "vnr_11_node_3->vnr_11_node_4": [
         {
           "path": [
-            "domain_1_node_31->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_8->domain_0_node_21"
+            "domain_1_node_32->domain_1_node_41",
+            "domain_1_node_7->domain_1_node_41",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_0_node_14->domain_0_node_36"
           ],
           "allocated_bandwidth": 37.33
         }
@@ -1690,8 +1718,8 @@
       "vnr_11_node_3->vnr_11_node_8": [
         {
           "path": [
-            "domain_1_node_31->domain_1_node_41",
-            "domain_1_node_41->domain_1_node_49"
+            "domain_1_node_32->domain_1_node_41",
+            "domain_1_node_29->domain_1_node_41"
           ],
           "allocated_bandwidth": 30.76
         }
@@ -1699,7 +1727,7 @@
       "vnr_11_node_4->vnr_11_node_7": [
         {
           "path": [
-            "domain_0_node_8->domain_0_node_11"
+            "domain_0_node_14->domain_0_node_29"
           ],
           "allocated_bandwidth": 1.63
         }
@@ -1707,9 +1735,8 @@
       "vnr_11_node_5->vnr_11_node_7": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_26",
-            "domain_0_node_12->domain_0_node_46",
-            "domain_0_node_11->domain_0_node_46"
+            "domain_0_node_5->domain_0_node_12",
+            "domain_0_node_5->domain_0_node_29"
           ],
           "allocated_bandwidth": 46.66
         }
@@ -1717,10 +1744,11 @@
       "vnr_11_node_7->vnr_11_node_8": [
         {
           "path": [
-            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_23->domain_0_node_29",
+            "domain_0_node_21->domain_0_node_23",
             "domain_0_node_21->domain_1_node_40",
-            "domain_1_node_24->domain_1_node_40",
-            "domain_1_node_24->domain_1_node_49"
+            "domain_1_node_8->domain_1_node_40",
+            "domain_1_node_8->domain_1_node_29"
           ],
           "allocated_bandwidth": 5.33
         }
@@ -1728,10 +1756,11 @@
       "vnr_11_node_0->vnr_11_node_1": [
         {
           "path": [
-            "domain_1_node_29->domain_1_node_41",
-            "domain_1_node_7->domain_1_node_41",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_12->domain_0_node_36"
+            "domain_1_node_34->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_11->domain_0_node_46",
+            "domain_0_node_41->domain_0_node_46"
           ],
           "allocated_bandwidth": 32.92
         }
@@ -1739,7 +1768,8 @@
       "vnr_11_node_1->vnr_11_node_2": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_47"
+            "domain_0_node_31->domain_0_node_41",
+            "domain_0_node_20->domain_0_node_31"
           ],
           "allocated_bandwidth": 17.18
         }
@@ -1747,9 +1777,8 @@
       "vnr_11_node_4->vnr_11_node_5": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_8",
-            "domain_0_node_5->domain_0_node_12",
-            "domain_0_node_12->domain_0_node_26"
+            "domain_0_node_14->domain_0_node_46",
+            "domain_0_node_12->domain_0_node_46"
           ],
           "allocated_bandwidth": 31.13
         }
@@ -1757,8 +1786,7 @@
       "vnr_11_node_5->vnr_11_node_6": [
         {
           "path": [
-            "domain_0_node_0->domain_0_node_26",
-            "domain_0_node_0->domain_0_node_45"
+            "domain_0_node_12->domain_0_node_46"
           ],
           "allocated_bandwidth": 26.57
         }
@@ -1766,31 +1794,35 @@
       "vnr_11_node_6->vnr_11_node_7": [
         {
           "path": [
-            "domain_0_node_38->domain_0_node_45",
-            "domain_0_node_11->domain_0_node_38"
+            "domain_0_node_41->domain_0_node_46",
+            "domain_0_node_31->domain_0_node_41",
+            "domain_0_node_29->domain_0_node_31"
           ],
           "allocated_bandwidth": 34.5
         }
       ]
     },
-    "embedding_cost": 878.3662
+    "embedding_cost": 988.9098
   },
   {
     "vnr_id": "vnr_12",
     "is_successful": true,
     "node_mapping": {
-      "vnr_12_node_0": "domain_1_node_37",
-      "vnr_12_node_1": "domain_1_node_7",
-      "vnr_12_node_2": "domain_0_node_30",
-      "vnr_12_node_3": "domain_0_node_26"
+      "vnr_12_node_0": "domain_1_node_46",
+      "vnr_12_node_1": "domain_1_node_8",
+      "vnr_12_node_2": "domain_2_node_25",
+      "vnr_12_node_3": "domain_1_node_1"
     },
     "link_mapping": {
       "vnr_12_node_1->vnr_12_node_2": [
         {
           "path": [
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_36->domain_0_node_48",
-            "domain_0_node_30->domain_0_node_48"
+            "domain_1_node_8->domain_1_node_23",
+            "domain_1_node_23->domain_1_node_44",
+            "domain_1_node_35->domain_1_node_44",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_2_node_25->domain_2_node_49"
           ],
           "allocated_bandwidth": 6.11
         }
@@ -1798,8 +1830,7 @@
       "vnr_12_node_1->vnr_12_node_3": [
         {
           "path": [
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_26->domain_0_node_36"
+            "domain_1_node_1->domain_1_node_8"
           ],
           "allocated_bandwidth": 17.18
         }
@@ -1807,7 +1838,8 @@
       "vnr_12_node_0->vnr_12_node_1": [
         {
           "path": [
-            "domain_1_node_7->domain_1_node_37"
+            "domain_1_node_22->domain_1_node_46",
+            "domain_1_node_8->domain_1_node_22"
           ],
           "allocated_bandwidth": 8.71
         }
@@ -1815,34 +1847,37 @@
       "vnr_12_node_2->vnr_12_node_3": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_30",
-            "domain_0_node_12->domain_0_node_26"
+            "domain_2_node_25->domain_2_node_49",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_1->domain_1_node_35"
           ],
           "allocated_bandwidth": 19.59
         }
       ]
     },
-    "embedding_cost": 165.8283
+    "embedding_cost": 200.7447
   },
   {
     "vnr_id": "vnr_13",
     "is_successful": true,
     "node_mapping": {
-      "vnr_13_node_0": "domain_1_node_5",
-      "vnr_13_node_1": "domain_1_node_1",
-      "vnr_13_node_2": "domain_1_node_11",
-      "vnr_13_node_3": "domain_1_node_46",
-      "vnr_13_node_4": "domain_1_node_0",
-      "vnr_13_node_5": "domain_1_node_33",
-      "vnr_13_node_6": "domain_0_node_22",
-      "vnr_13_node_7": "domain_2_node_45"
+      "vnr_13_node_0": "domain_0_node_33",
+      "vnr_13_node_1": "domain_0_node_26",
+      "vnr_13_node_2": "domain_0_node_37",
+      "vnr_13_node_3": "domain_0_node_35",
+      "vnr_13_node_4": "domain_0_node_48",
+      "vnr_13_node_5": "domain_0_node_30",
+      "vnr_13_node_6": "domain_0_node_47",
+      "vnr_13_node_7": "domain_2_node_1"
     },
     "link_mapping": {
       "vnr_13_node_0->vnr_13_node_2": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_24",
-            "domain_1_node_11->domain_1_node_24"
+            "domain_0_node_4->domain_0_node_33",
+            "domain_0_node_4->domain_0_node_32",
+            "domain_0_node_32->domain_0_node_37"
           ],
           "allocated_bandwidth": 45.93
         }
@@ -1850,9 +1885,8 @@
       "vnr_13_node_0->vnr_13_node_4": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_30",
-            "domain_1_node_21->domain_1_node_30",
-            "domain_1_node_0->domain_1_node_21"
+            "domain_0_node_1->domain_0_node_33",
+            "domain_0_node_1->domain_0_node_48"
           ],
           "allocated_bandwidth": 47.23
         }
@@ -1860,12 +1894,9 @@
       "vnr_13_node_0->vnr_13_node_6": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_24",
-            "domain_1_node_24->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_38",
-            "domain_0_node_22->domain_0_node_38"
+            "domain_0_node_33->domain_0_node_49",
+            "domain_0_node_12->domain_0_node_49",
+            "domain_0_node_12->domain_0_node_47"
           ],
           "allocated_bandwidth": 3.42
         }
@@ -1873,7 +1904,8 @@
       "vnr_13_node_1->vnr_13_node_2": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_11"
+            "domain_0_node_26->domain_0_node_47",
+            "domain_0_node_37->domain_0_node_47"
           ],
           "allocated_bandwidth": 21.98
         }
@@ -1881,10 +1913,7 @@
       "vnr_13_node_1->vnr_13_node_6": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_7",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_36->domain_0_node_48",
-            "domain_0_node_22->domain_0_node_48"
+            "domain_0_node_26->domain_0_node_47"
           ],
           "allocated_bandwidth": 5.44
         }
@@ -1892,9 +1921,10 @@
       "vnr_13_node_1->vnr_13_node_7": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_35",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_45"
+            "domain_0_node_12->domain_0_node_26",
+            "domain_0_node_12->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_21"
           ],
           "allocated_bandwidth": 10.66
         }
@@ -1902,7 +1932,8 @@
       "vnr_13_node_2->vnr_13_node_5": [
         {
           "path": [
-            "domain_1_node_11->domain_1_node_33"
+            "domain_0_node_22->domain_0_node_37",
+            "domain_0_node_22->domain_0_node_30"
           ],
           "allocated_bandwidth": 18.87
         }
@@ -1910,7 +1941,9 @@
       "vnr_13_node_3->vnr_13_node_4": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_46"
+            "domain_0_node_35->domain_0_node_42",
+            "domain_0_node_31->domain_0_node_42",
+            "domain_0_node_31->domain_0_node_48"
           ],
           "allocated_bandwidth": 38.48
         }
@@ -1918,8 +1951,7 @@
       "vnr_13_node_3->vnr_13_node_5": [
         {
           "path": [
-            "domain_1_node_43->domain_1_node_46",
-            "domain_1_node_33->domain_1_node_43"
+            "domain_0_node_30->domain_0_node_35"
           ],
           "allocated_bandwidth": 37.07
         }
@@ -1927,11 +1959,8 @@
       "vnr_13_node_4->vnr_13_node_7": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_23",
-            "domain_1_node_23->domain_1_node_44",
-            "domain_1_node_35->domain_1_node_44",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_45"
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_21"
           ],
           "allocated_bandwidth": 48.0
         }
@@ -1939,10 +1968,9 @@
       "vnr_13_node_5->vnr_13_node_7": [
         {
           "path": [
-            "domain_1_node_33->domain_1_node_44",
-            "domain_1_node_35->domain_1_node_44",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_45"
+            "domain_0_node_30->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_21"
           ],
           "allocated_bandwidth": 14.15
         }
@@ -1950,9 +1978,10 @@
       "vnr_13_node_6->vnr_13_node_7": [
         {
           "path": [
-            "domain_0_node_22->domain_0_node_48",
+            "domain_0_node_12->domain_0_node_47",
+            "domain_0_node_12->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_45"
+            "domain_2_node_1->domain_2_node_21"
           ],
           "allocated_bandwidth": 25.95
         }
@@ -1960,8 +1989,8 @@
       "vnr_13_node_0->vnr_13_node_1": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_30",
-            "domain_1_node_1->domain_1_node_30"
+            "domain_0_node_15->domain_0_node_33",
+            "domain_0_node_15->domain_0_node_26"
           ],
           "allocated_bandwidth": 45.71
         }
@@ -1969,8 +1998,8 @@
       "vnr_13_node_2->vnr_13_node_3": [
         {
           "path": [
-            "domain_1_node_11->domain_1_node_24",
-            "domain_1_node_24->domain_1_node_46"
+            "domain_0_node_8->domain_0_node_37",
+            "domain_0_node_8->domain_0_node_35"
           ],
           "allocated_bandwidth": 10.31
         }
@@ -1978,8 +2007,7 @@
       "vnr_13_node_4->vnr_13_node_5": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_38",
-            "domain_1_node_33->domain_1_node_38"
+            "domain_0_node_30->domain_0_node_48"
           ],
           "allocated_bandwidth": 8.0
         }
@@ -1987,38 +2015,36 @@
       "vnr_13_node_5->vnr_13_node_6": [
         {
           "path": [
-            "domain_1_node_33->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_38",
-            "domain_0_node_22->domain_0_node_38"
+            "domain_0_node_12->domain_0_node_30",
+            "domain_0_node_12->domain_0_node_47"
           ],
           "allocated_bandwidth": 33.7
         }
       ]
     },
-    "embedding_cost": 963.9464
+    "embedding_cost": 807.9819
   },
   {
     "vnr_id": "vnr_14",
     "is_successful": true,
     "node_mapping": {
-      "vnr_14_node_0": "domain_2_node_20",
-      "vnr_14_node_1": "domain_0_node_12",
-      "vnr_14_node_2": "domain_0_node_29",
-      "vnr_14_node_3": "domain_0_node_8",
-      "vnr_14_node_4": "domain_0_node_32",
-      "vnr_14_node_5": "domain_2_node_28",
-      "vnr_14_node_6": "domain_0_node_30",
-      "vnr_14_node_7": "domain_0_node_15"
+      "vnr_14_node_0": "domain_2_node_24",
+      "vnr_14_node_1": "domain_0_node_33",
+      "vnr_14_node_2": "domain_0_node_48",
+      "vnr_14_node_3": "domain_0_node_42",
+      "vnr_14_node_4": "domain_0_node_40",
+      "vnr_14_node_5": "domain_1_node_3",
+      "vnr_14_node_6": "domain_0_node_14",
+      "vnr_14_node_7": "domain_0_node_46"
     },
     "link_mapping": {
       "vnr_14_node_0->vnr_14_node_1": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
+            "domain_2_node_21->domain_2_node_24",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_33"
           ],
           "allocated_bandwidth": 47.76
         }
@@ -2026,10 +2052,8 @@
       "vnr_14_node_0->vnr_14_node_2": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_29->domain_0_node_31"
+            "domain_2_node_21->domain_2_node_24",
+            "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 29.94
         }
@@ -2037,10 +2061,10 @@
       "vnr_14_node_0->vnr_14_node_3": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_38",
-            "domain_2_node_24->domain_2_node_38",
-            "domain_0_node_7->domain_2_node_24",
-            "domain_0_node_7->domain_0_node_8"
+            "domain_2_node_21->domain_2_node_24",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_31->domain_0_node_42"
           ],
           "allocated_bandwidth": 5.41
         }
@@ -2048,9 +2072,9 @@
       "vnr_14_node_0->vnr_14_node_4": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_32->domain_0_node_48"
+            "domain_0_node_7->domain_2_node_24",
+            "domain_0_node_2->domain_0_node_7",
+            "domain_0_node_2->domain_0_node_40"
           ],
           "allocated_bandwidth": 27.85
         }
@@ -2058,7 +2082,12 @@
       "vnr_14_node_0->vnr_14_node_5": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_28"
+            "domain_2_node_0->domain_2_node_24",
+            "domain_2_node_0->domain_2_node_49",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_1_node_1->domain_1_node_35",
+            "domain_1_node_1->domain_1_node_3"
           ],
           "allocated_bandwidth": 34.89
         }
@@ -2066,9 +2095,10 @@
       "vnr_14_node_0->vnr_14_node_6": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
+            "domain_2_node_21->domain_2_node_24",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_30->domain_0_node_48"
+            "domain_0_node_9->domain_0_node_48",
+            "domain_0_node_9->domain_0_node_14"
           ],
           "allocated_bandwidth": 33.15
         }
@@ -2076,8 +2106,8 @@
       "vnr_14_node_1->vnr_14_node_2": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_12",
-            "domain_0_node_5->domain_0_node_29"
+            "domain_0_node_1->domain_0_node_33",
+            "domain_0_node_1->domain_0_node_48"
           ],
           "allocated_bandwidth": 15.19
         }
@@ -2085,7 +2115,8 @@
       "vnr_14_node_1->vnr_14_node_4": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_32"
+            "domain_0_node_33->domain_0_node_45",
+            "domain_0_node_40->domain_0_node_45"
           ],
           "allocated_bandwidth": 5.02
         }
@@ -2093,8 +2124,8 @@
       "vnr_14_node_2->vnr_14_node_3": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_29",
-            "domain_0_node_5->domain_0_node_8"
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_31->domain_0_node_42"
           ],
           "allocated_bandwidth": 19.87
         }
@@ -2102,8 +2133,7 @@
       "vnr_14_node_2->vnr_14_node_4": [
         {
           "path": [
-            "domain_0_node_4->domain_0_node_29",
-            "domain_0_node_4->domain_0_node_32"
+            "domain_0_node_40->domain_0_node_48"
           ],
           "allocated_bandwidth": 32.33
         }
@@ -2111,10 +2141,11 @@
       "vnr_14_node_2->vnr_14_node_5": [
         {
           "path": [
-            "domain_0_node_29->domain_0_node_31",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_28"
+            "domain_0_node_38->domain_0_node_48",
+            "domain_0_node_11->domain_0_node_38",
+            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_3->domain_1_node_40"
           ],
           "allocated_bandwidth": 2.06
         }
@@ -2122,9 +2153,8 @@
       "vnr_14_node_2->vnr_14_node_6": [
         {
           "path": [
-            "domain_0_node_29->domain_0_node_31",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_30->domain_0_node_48"
+            "domain_0_node_9->domain_0_node_48",
+            "domain_0_node_9->domain_0_node_14"
           ],
           "allocated_bandwidth": 23.11
         }
@@ -2132,8 +2162,8 @@
       "vnr_14_node_2->vnr_14_node_7": [
         {
           "path": [
-            "domain_0_node_13->domain_0_node_29",
-            "domain_0_node_13->domain_0_node_15"
+            "domain_0_node_41->domain_0_node_48",
+            "domain_0_node_41->domain_0_node_46"
           ],
           "allocated_bandwidth": 44.53
         }
@@ -2141,7 +2171,7 @@
       "vnr_14_node_3->vnr_14_node_4": [
         {
           "path": [
-            "domain_0_node_8->domain_0_node_32"
+            "domain_0_node_40->domain_0_node_42"
           ],
           "allocated_bandwidth": 37.4
         }
@@ -2149,10 +2179,11 @@
       "vnr_14_node_3->vnr_14_node_5": [
         {
           "path": [
-            "domain_0_node_8->domain_0_node_22",
-            "domain_0_node_22->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_28"
+            "domain_0_node_4->domain_0_node_42",
+            "domain_0_node_4->domain_0_node_11",
+            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_3->domain_1_node_40"
           ],
           "allocated_bandwidth": 19.48
         }
@@ -2160,8 +2191,8 @@
       "vnr_14_node_3->vnr_14_node_6": [
         {
           "path": [
-            "domain_0_node_7->domain_0_node_8",
-            "domain_0_node_7->domain_0_node_30"
+            "domain_0_node_42->domain_0_node_49",
+            "domain_0_node_14->domain_0_node_49"
           ],
           "allocated_bandwidth": 26.24
         }
@@ -2169,9 +2200,11 @@
       "vnr_14_node_4->vnr_14_node_5": [
         {
           "path": [
-            "domain_0_node_32->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_28"
+            "domain_0_node_0->domain_0_node_40",
+            "domain_0_node_0->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_3->domain_1_node_40"
           ],
           "allocated_bandwidth": 2.85
         }
@@ -2179,8 +2212,8 @@
       "vnr_14_node_4->vnr_14_node_6": [
         {
           "path": [
-            "domain_0_node_32->domain_0_node_43",
-            "domain_0_node_30->domain_0_node_43"
+            "domain_0_node_0->domain_0_node_40",
+            "domain_0_node_0->domain_0_node_14"
           ],
           "allocated_bandwidth": 46.81
         }
@@ -2188,9 +2221,9 @@
       "vnr_14_node_5->vnr_14_node_6": [
         {
           "path": [
-            "domain_2_node_21->domain_2_node_28",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_30->domain_0_node_48"
+            "domain_1_node_3->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_14->domain_0_node_21"
           ],
           "allocated_bandwidth": 15.45
         }
@@ -2198,35 +2231,33 @@
       "vnr_14_node_6->vnr_14_node_7": [
         {
           "path": [
-            "domain_0_node_15->domain_0_node_30"
+            "domain_0_node_14->domain_0_node_46"
           ],
           "allocated_bandwidth": 47.45
         }
       ]
     },
-    "embedding_cost": 994.4084
+    "embedding_cost": 1108.0525
   },
   {
     "vnr_id": "vnr_15",
     "is_successful": true,
     "node_mapping": {
-      "vnr_15_node_0": "domain_1_node_42",
-      "vnr_15_node_1": "domain_2_node_46",
-      "vnr_15_node_2": "domain_2_node_25",
-      "vnr_15_node_3": "domain_0_node_6",
-      "vnr_15_node_4": "domain_0_node_4",
-      "vnr_15_node_5": "domain_0_node_48",
-      "vnr_15_node_6": "domain_0_node_14",
-      "vnr_15_node_7": "domain_0_node_12"
+      "vnr_15_node_0": "domain_2_node_20",
+      "vnr_15_node_1": "domain_2_node_49",
+      "vnr_15_node_2": "domain_2_node_8",
+      "vnr_15_node_3": "domain_0_node_31",
+      "vnr_15_node_4": "domain_0_node_29",
+      "vnr_15_node_5": "domain_0_node_0",
+      "vnr_15_node_6": "domain_0_node_47",
+      "vnr_15_node_7": "domain_0_node_49"
     },
     "link_mapping": {
       "vnr_15_node_0->vnr_15_node_1": [
         {
           "path": [
-            "domain_1_node_42->domain_1_node_44",
-            "domain_1_node_35->domain_1_node_44",
-            "domain_1_node_35->domain_2_node_42",
-            "domain_2_node_42->domain_2_node_46"
+            "domain_2_node_20->domain_2_node_29",
+            "domain_2_node_29->domain_2_node_49"
           ],
           "allocated_bandwidth": 33.38
         }
@@ -2234,9 +2265,11 @@
       "vnr_15_node_0->vnr_15_node_5": [
         {
           "path": [
-            "domain_1_node_7->domain_1_node_42",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_36->domain_0_node_48"
+            "domain_2_node_20->domain_2_node_21",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_25",
+            "domain_0_node_0->domain_0_node_25"
           ],
           "allocated_bandwidth": 49.59
         }
@@ -2244,9 +2277,10 @@
       "vnr_15_node_0->vnr_15_node_7": [
         {
           "path": [
-            "domain_1_node_7->domain_1_node_42",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_0_node_12->domain_0_node_36"
+            "domain_2_node_20->domain_2_node_21",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_12->domain_0_node_48",
+            "domain_0_node_12->domain_0_node_49"
           ],
           "allocated_bandwidth": 33.64
         }
@@ -2254,12 +2288,10 @@
       "vnr_15_node_1->vnr_15_node_3": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_46",
+            "domain_2_node_1->domain_2_node_49",
             "domain_2_node_1->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_20->domain_0_node_31",
-            "domain_0_node_6->domain_0_node_20"
+            "domain_0_node_31->domain_0_node_48"
           ],
           "allocated_bandwidth": 31.08
         }
@@ -2267,10 +2299,10 @@
       "vnr_15_node_2->vnr_15_node_7": [
         {
           "path": [
-            "domain_2_node_8->domain_2_node_25",
             "domain_2_node_8->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_0_node_12->domain_0_node_48",
+            "domain_0_node_12->domain_0_node_49"
           ],
           "allocated_bandwidth": 18.46
         }
@@ -2278,8 +2310,8 @@
       "vnr_15_node_4->vnr_15_node_5": [
         {
           "path": [
-            "domain_0_node_4->domain_0_node_22",
-            "domain_0_node_22->domain_0_node_48"
+            "domain_0_node_14->domain_0_node_29",
+            "domain_0_node_0->domain_0_node_14"
           ],
           "allocated_bandwidth": 44.87
         }
@@ -2287,8 +2319,7 @@
       "vnr_15_node_4->vnr_15_node_6": [
         {
           "path": [
-            "domain_0_node_4->domain_0_node_32",
-            "domain_0_node_14->domain_0_node_32"
+            "domain_0_node_29->domain_0_node_47"
           ],
           "allocated_bandwidth": 40.65
         }
@@ -2296,8 +2327,7 @@
       "vnr_15_node_4->vnr_15_node_7": [
         {
           "path": [
-            "domain_0_node_4->domain_0_node_7",
-            "domain_0_node_7->domain_0_node_12"
+            "domain_0_node_29->domain_0_node_49"
           ],
           "allocated_bandwidth": 8.42
         }
@@ -2305,7 +2335,8 @@
       "vnr_15_node_5->vnr_15_node_7": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_48"
+            "domain_0_node_0->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_49"
           ],
           "allocated_bandwidth": 18.83
         }
@@ -2313,7 +2344,8 @@
       "vnr_15_node_1->vnr_15_node_2": [
         {
           "path": [
-            "domain_2_node_25->domain_2_node_46"
+            "domain_2_node_25->domain_2_node_49",
+            "domain_2_node_8->domain_2_node_25"
           ],
           "allocated_bandwidth": 30.68
         }
@@ -2321,12 +2353,9 @@
       "vnr_15_node_2->vnr_15_node_3": [
         {
           "path": [
-            "domain_2_node_8->domain_2_node_25",
             "domain_2_node_8->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_20->domain_0_node_31",
-            "domain_0_node_6->domain_0_node_20"
+            "domain_0_node_31->domain_0_node_48"
           ],
           "allocated_bandwidth": 27.48
         }
@@ -2334,8 +2363,7 @@
       "vnr_15_node_3->vnr_15_node_4": [
         {
           "path": [
-            "domain_0_node_6->domain_0_node_32",
-            "domain_0_node_4->domain_0_node_32"
+            "domain_0_node_29->domain_0_node_31"
           ],
           "allocated_bandwidth": 40.28
         }
@@ -2343,8 +2371,8 @@
       "vnr_15_node_5->vnr_15_node_6": [
         {
           "path": [
-            "domain_0_node_9->domain_0_node_48",
-            "domain_0_node_9->domain_0_node_14"
+            "domain_0_node_0->domain_0_node_26",
+            "domain_0_node_26->domain_0_node_47"
           ],
           "allocated_bandwidth": 11.84
         }
@@ -2352,35 +2380,39 @@
       "vnr_15_node_6->vnr_15_node_7": [
         {
           "path": [
-            "domain_0_node_14->domain_0_node_46",
-            "domain_0_node_12->domain_0_node_46"
+            "domain_0_node_12->domain_0_node_47",
+            "domain_0_node_12->domain_0_node_49"
           ],
           "allocated_bandwidth": 44.66
         }
       ]
     },
-    "embedding_cost": 963.4573
+    "embedding_cost": 933.9756
   },
   {
     "vnr_id": "vnr_16",
     "is_successful": true,
     "node_mapping": {
-      "vnr_16_node_0": "domain_1_node_40",
-      "vnr_16_node_1": "domain_1_node_25",
-      "vnr_16_node_2": "domain_1_node_0",
-      "vnr_16_node_3": "domain_0_node_29",
-      "vnr_16_node_4": "domain_0_node_30",
-      "vnr_16_node_5": "domain_1_node_5",
-      "vnr_16_node_6": "domain_2_node_47",
+      "vnr_16_node_0": "domain_0_node_25",
+      "vnr_16_node_1": "domain_1_node_43",
+      "vnr_16_node_2": "domain_0_node_14",
+      "vnr_16_node_3": "domain_1_node_5",
+      "vnr_16_node_4": "domain_0_node_31",
+      "vnr_16_node_5": "domain_0_node_2",
+      "vnr_16_node_6": "domain_2_node_46",
       "vnr_16_node_7": "domain_0_node_48",
-      "vnr_16_node_8": "domain_0_node_46",
-      "vnr_16_node_9": "domain_0_node_36"
+      "vnr_16_node_8": "domain_0_node_16",
+      "vnr_16_node_9": "domain_0_node_44"
     },
     "link_mapping": {
       "vnr_16_node_0->vnr_16_node_1": [
         {
           "path": [
-            "domain_1_node_25->domain_1_node_40"
+            "domain_0_node_0->domain_0_node_25",
+            "domain_0_node_0->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_40->domain_1_node_43"
           ],
           "allocated_bandwidth": 50.0
         }
@@ -2388,8 +2420,8 @@
       "vnr_16_node_0->vnr_16_node_2": [
         {
           "path": [
-            "domain_1_node_34->domain_1_node_40",
-            "domain_1_node_0->domain_1_node_34"
+            "domain_0_node_0->domain_0_node_25",
+            "domain_0_node_0->domain_0_node_14"
           ],
           "allocated_bandwidth": 37.89
         }
@@ -2397,10 +2429,8 @@
       "vnr_16_node_0->vnr_16_node_4": [
         {
           "path": [
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_21->domain_0_node_23",
-            "domain_0_node_20->domain_0_node_23",
-            "domain_0_node_20->domain_0_node_30"
+            "domain_0_node_3->domain_0_node_25",
+            "domain_0_node_3->domain_0_node_31"
           ],
           "allocated_bandwidth": 44.18
         }
@@ -2408,11 +2438,8 @@
       "vnr_16_node_0->vnr_16_node_7": [
         {
           "path": [
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_46",
-            "domain_0_node_41->domain_0_node_48"
+            "domain_0_node_1->domain_0_node_25",
+            "domain_0_node_1->domain_0_node_48"
           ],
           "allocated_bandwidth": 45.54
         }
@@ -2420,9 +2447,7 @@
       "vnr_16_node_0->vnr_16_node_9": [
         {
           "path": [
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_14->domain_0_node_21",
-            "domain_0_node_14->domain_0_node_36"
+            "domain_0_node_25->domain_0_node_44"
           ],
           "allocated_bandwidth": 16.85
         }
@@ -2430,7 +2455,7 @@
       "vnr_16_node_1->vnr_16_node_7": [
         {
           "path": [
-            "domain_1_node_9->domain_1_node_25",
+            "domain_1_node_9->domain_1_node_43",
             "domain_1_node_7->domain_1_node_9",
             "domain_0_node_36->domain_1_node_7",
             "domain_0_node_36->domain_0_node_48"
@@ -2441,9 +2466,10 @@
       "vnr_16_node_1->vnr_16_node_9": [
         {
           "path": [
-            "domain_1_node_9->domain_1_node_25",
+            "domain_1_node_9->domain_1_node_43",
             "domain_1_node_7->domain_1_node_9",
-            "domain_0_node_36->domain_1_node_7"
+            "domain_0_node_36->domain_1_node_7",
+            "domain_0_node_36->domain_0_node_44"
           ],
           "allocated_bandwidth": 22.82
         }
@@ -2451,11 +2477,8 @@
       "vnr_16_node_2->vnr_16_node_8": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_34",
-            "domain_1_node_34->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_46"
+            "domain_0_node_14->domain_0_node_46",
+            "domain_0_node_16->domain_0_node_46"
           ],
           "allocated_bandwidth": 6.97
         }
@@ -2463,8 +2486,7 @@
       "vnr_16_node_2->vnr_16_node_9": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_7",
-            "domain_0_node_36->domain_1_node_7"
+            "domain_0_node_14->domain_0_node_44"
           ],
           "allocated_bandwidth": 13.27
         }
@@ -2472,9 +2494,12 @@
       "vnr_16_node_3->vnr_16_node_4": [
         {
           "path": [
-            "domain_0_node_29->domain_0_node_31",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_30->domain_0_node_48"
+            "domain_1_node_5->domain_1_node_24",
+            "domain_1_node_24->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_21->domain_0_node_23",
+            "domain_0_node_20->domain_0_node_23",
+            "domain_0_node_20->domain_0_node_31"
           ],
           "allocated_bandwidth": 46.27
         }
@@ -2482,12 +2507,8 @@
       "vnr_16_node_4->vnr_16_node_5": [
         {
           "path": [
-            "domain_0_node_20->domain_0_node_30",
-            "domain_0_node_20->domain_0_node_23",
-            "domain_0_node_21->domain_0_node_23",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_1_node_24->domain_1_node_40",
-            "domain_1_node_5->domain_1_node_24"
+            "domain_0_node_20->domain_0_node_31",
+            "domain_0_node_2->domain_0_node_20"
           ],
           "allocated_bandwidth": 18.58
         }
@@ -2495,7 +2516,7 @@
       "vnr_16_node_4->vnr_16_node_7": [
         {
           "path": [
-            "domain_0_node_30->domain_0_node_48"
+            "domain_0_node_31->domain_0_node_48"
           ],
           "allocated_bandwidth": 46.63
         }
@@ -2503,8 +2524,9 @@
       "vnr_16_node_4->vnr_16_node_8": [
         {
           "path": [
-            "domain_0_node_30->domain_0_node_41",
-            "domain_0_node_41->domain_0_node_46"
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_16"
           ],
           "allocated_bandwidth": 43.08
         }
@@ -2512,8 +2534,7 @@
       "vnr_16_node_4->vnr_16_node_9": [
         {
           "path": [
-            "domain_0_node_30->domain_0_node_48",
-            "domain_0_node_36->domain_0_node_48"
+            "domain_0_node_31->domain_0_node_44"
           ],
           "allocated_bandwidth": 18.68
         }
@@ -2521,9 +2542,12 @@
       "vnr_16_node_5->vnr_16_node_6": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_10",
-            "domain_1_node_10->domain_2_node_12",
-            "domain_2_node_12->domain_2_node_47"
+            "domain_0_node_2->domain_0_node_20",
+            "domain_0_node_20->domain_0_node_31",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_46"
           ],
           "allocated_bandwidth": 39.55
         }
@@ -2531,11 +2555,7 @@
       "vnr_16_node_5->vnr_16_node_8": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_24",
-            "domain_1_node_24->domain_1_node_40",
-            "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_11->domain_0_node_21",
-            "domain_0_node_11->domain_0_node_46"
+            "domain_0_node_2->domain_0_node_16"
           ],
           "allocated_bandwidth": 12.81
         }
@@ -2543,10 +2563,8 @@
       "vnr_16_node_5->vnr_16_node_9": [
         {
           "path": [
-            "domain_1_node_5->domain_1_node_10",
-            "domain_1_node_10->domain_1_node_13",
-            "domain_1_node_7->domain_1_node_13",
-            "domain_0_node_36->domain_1_node_7"
+            "domain_0_node_2->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_44"
           ],
           "allocated_bandwidth": 33.98
         }
@@ -2554,7 +2572,8 @@
       "vnr_16_node_7->vnr_16_node_9": [
         {
           "path": [
-            "domain_0_node_36->domain_0_node_48"
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_31->domain_0_node_44"
           ],
           "allocated_bandwidth": 18.99
         }
@@ -2562,9 +2581,9 @@
       "vnr_16_node_1->vnr_16_node_2": [
         {
           "path": [
-            "domain_1_node_15->domain_1_node_25",
-            "domain_1_node_15->domain_1_node_34",
-            "domain_1_node_0->domain_1_node_34"
+            "domain_1_node_40->domain_1_node_43",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_14->domain_0_node_21"
           ],
           "allocated_bandwidth": 18.58
         }
@@ -2572,11 +2591,10 @@
       "vnr_16_node_2->vnr_16_node_3": [
         {
           "path": [
-            "domain_1_node_0->domain_1_node_34",
-            "domain_1_node_34->domain_1_node_40",
+            "domain_0_node_14->domain_0_node_21",
             "domain_0_node_21->domain_1_node_40",
-            "domain_0_node_21->domain_0_node_23",
-            "domain_0_node_23->domain_0_node_29"
+            "domain_1_node_24->domain_1_node_40",
+            "domain_1_node_5->domain_1_node_24"
           ],
           "allocated_bandwidth": 28.98
         }
@@ -2584,8 +2602,8 @@
       "vnr_16_node_6->vnr_16_node_7": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_47",
-            "domain_2_node_0->domain_2_node_21",
+            "domain_2_node_1->domain_2_node_46",
+            "domain_2_node_1->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21"
           ],
           "allocated_bandwidth": 11.48
@@ -2594,8 +2612,8 @@
       "vnr_16_node_7->vnr_16_node_8": [
         {
           "path": [
-            "domain_0_node_41->domain_0_node_48",
-            "domain_0_node_41->domain_0_node_46"
+            "domain_0_node_1->domain_0_node_48",
+            "domain_0_node_1->domain_0_node_16"
           ],
           "allocated_bandwidth": 31.28
         }
@@ -2603,33 +2621,33 @@
       "vnr_16_node_8->vnr_16_node_9": [
         {
           "path": [
-            "domain_0_node_14->domain_0_node_46",
-            "domain_0_node_14->domain_0_node_36"
+            "domain_0_node_16->domain_0_node_44"
           ],
           "allocated_bandwidth": 48.73
         }
       ]
     },
-    "embedding_cost": 1600.2823
+    "embedding_cost": 1572.1387
   },
   {
     "vnr_id": "vnr_17",
     "is_successful": true,
     "node_mapping": {
-      "vnr_17_node_0": "domain_2_node_0",
-      "vnr_17_node_1": "domain_2_node_28",
-      "vnr_17_node_2": "domain_2_node_15",
-      "vnr_17_node_3": "domain_2_node_4",
-      "vnr_17_node_4": "domain_2_node_27",
-      "vnr_17_node_5": "domain_2_node_16",
-      "vnr_17_node_6": "domain_2_node_35"
+      "vnr_17_node_0": "domain_2_node_6",
+      "vnr_17_node_1": "domain_2_node_46",
+      "vnr_17_node_2": "domain_2_node_34",
+      "vnr_17_node_3": "domain_0_node_27",
+      "vnr_17_node_4": "domain_0_node_42",
+      "vnr_17_node_5": "domain_2_node_15",
+      "vnr_17_node_6": "domain_2_node_13"
     },
     "link_mapping": {
       "vnr_17_node_0->vnr_17_node_1": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_27",
-            "domain_2_node_27->domain_2_node_28"
+            "domain_2_node_6->domain_2_node_30",
+            "domain_2_node_30->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_46"
           ],
           "allocated_bandwidth": 35.21
         }
@@ -2637,7 +2655,7 @@
       "vnr_17_node_0->vnr_17_node_2": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_15"
+            "domain_2_node_6->domain_2_node_34"
           ],
           "allocated_bandwidth": 24.78
         }
@@ -2645,7 +2663,11 @@
       "vnr_17_node_0->vnr_17_node_4": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_27"
+            "domain_2_node_6->domain_2_node_24",
+            "domain_2_node_21->domain_2_node_24",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_31->domain_0_node_42"
           ],
           "allocated_bandwidth": 6.37
         }
@@ -2653,8 +2675,7 @@
       "vnr_17_node_0->vnr_17_node_5": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_15",
-            "domain_2_node_15->domain_2_node_16"
+            "domain_2_node_6->domain_2_node_15"
           ],
           "allocated_bandwidth": 12.66
         }
@@ -2662,9 +2683,8 @@
       "vnr_17_node_0->vnr_17_node_6": [
         {
           "path": [
-            "domain_2_node_0->domain_2_node_27",
-            "domain_2_node_4->domain_2_node_27",
-            "domain_2_node_4->domain_2_node_35"
+            "domain_2_node_6->domain_2_node_24",
+            "domain_2_node_13->domain_2_node_24"
           ],
           "allocated_bandwidth": 12.92
         }
@@ -2672,8 +2692,7 @@
       "vnr_17_node_1->vnr_17_node_5": [
         {
           "path": [
-            "domain_2_node_18->domain_2_node_28",
-            "domain_2_node_16->domain_2_node_18"
+            "domain_2_node_15->domain_2_node_46"
           ],
           "allocated_bandwidth": 13.5
         }
@@ -2681,8 +2700,7 @@
       "vnr_17_node_2->vnr_17_node_6": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_15",
-            "domain_2_node_10->domain_2_node_35"
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 26.53
         }
@@ -2690,7 +2708,8 @@
       "vnr_17_node_3->vnr_17_node_4": [
         {
           "path": [
-            "domain_2_node_4->domain_2_node_27"
+            "domain_0_node_27->domain_0_node_35",
+            "domain_0_node_35->domain_0_node_42"
           ],
           "allocated_bandwidth": 41.41
         }
@@ -2698,8 +2717,11 @@
       "vnr_17_node_4->vnr_17_node_6": [
         {
           "path": [
-            "domain_2_node_4->domain_2_node_27",
-            "domain_2_node_4->domain_2_node_35"
+            "domain_0_node_31->domain_0_node_42",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_21->domain_2_node_24",
+            "domain_2_node_13->domain_2_node_24"
           ],
           "allocated_bandwidth": 35.13
         }
@@ -2707,8 +2729,8 @@
       "vnr_17_node_5->vnr_17_node_6": [
         {
           "path": [
-            "domain_2_node_10->domain_2_node_16",
-            "domain_2_node_10->domain_2_node_35"
+            "domain_2_node_15->domain_2_node_34",
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 35.2
         }
@@ -2716,8 +2738,8 @@
       "vnr_17_node_1->vnr_17_node_2": [
         {
           "path": [
-            "domain_2_node_28->domain_2_node_44",
-            "domain_2_node_15->domain_2_node_44"
+            "domain_2_node_13->domain_2_node_46",
+            "domain_2_node_13->domain_2_node_34"
           ],
           "allocated_bandwidth": 18.11
         }
@@ -2725,8 +2747,13 @@
       "vnr_17_node_2->vnr_17_node_3": [
         {
           "path": [
-            "domain_2_node_15->domain_2_node_16",
-            "domain_2_node_4->domain_2_node_16"
+            "domain_2_node_17->domain_2_node_34",
+            "domain_2_node_1->domain_2_node_17",
+            "domain_2_node_1->domain_2_node_21",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_3->domain_0_node_31",
+            "domain_0_node_3->domain_0_node_27"
           ],
           "allocated_bandwidth": 26.39
         }
@@ -2734,35 +2761,38 @@
       "vnr_17_node_4->vnr_17_node_5": [
         {
           "path": [
-            "domain_2_node_4->domain_2_node_27",
-            "domain_2_node_4->domain_2_node_16"
+            "domain_0_node_31->domain_0_node_42",
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_48->domain_2_node_21",
+            "domain_2_node_16->domain_2_node_21",
+            "domain_2_node_15->domain_2_node_16"
           ],
           "allocated_bandwidth": 12.14
         }
       ]
     },
-    "embedding_cost": 627.4792
+    "embedding_cost": 760.6894
   },
   {
     "vnr_id": "vnr_18",
     "is_successful": true,
     "node_mapping": {
-      "vnr_18_node_0": "domain_2_node_13",
-      "vnr_18_node_1": "domain_0_node_10",
-      "vnr_18_node_2": "domain_0_node_17",
-      "vnr_18_node_3": "domain_0_node_3",
-      "vnr_18_node_4": "domain_2_node_39",
-      "vnr_18_node_5": "domain_2_node_20",
-      "vnr_18_node_6": "domain_2_node_17",
-      "vnr_18_node_7": "domain_0_node_14",
-      "vnr_18_node_8": "domain_0_node_26"
+      "vnr_18_node_0": "domain_2_node_5",
+      "vnr_18_node_1": "domain_0_node_4",
+      "vnr_18_node_2": "domain_0_node_9",
+      "vnr_18_node_3": "domain_1_node_11",
+      "vnr_18_node_4": "domain_1_node_46",
+      "vnr_18_node_5": "domain_2_node_29",
+      "vnr_18_node_6": "domain_2_node_20",
+      "vnr_18_node_7": "domain_0_node_29",
+      "vnr_18_node_8": "domain_0_node_12"
     },
     "link_mapping": {
       "vnr_18_node_0->vnr_18_node_5": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_34",
-            "domain_2_node_20->domain_2_node_34"
+            "domain_2_node_5->domain_2_node_39",
+            "domain_2_node_29->domain_2_node_39"
           ],
           "allocated_bandwidth": 44.62
         }
@@ -2770,8 +2800,8 @@
       "vnr_18_node_0->vnr_18_node_6": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_34",
-            "domain_2_node_17->domain_2_node_34"
+            "domain_2_node_5->domain_2_node_38",
+            "domain_2_node_20->domain_2_node_38"
           ],
           "allocated_bandwidth": 11.62
         }
@@ -2779,11 +2809,10 @@
       "vnr_18_node_0->vnr_18_node_8": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_24",
+            "domain_2_node_5->domain_2_node_24",
             "domain_2_node_21->domain_2_node_24",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_12->domain_0_node_26"
+            "domain_0_node_12->domain_0_node_48"
           ],
           "allocated_bandwidth": 23.45
         }
@@ -2791,8 +2820,11 @@
       "vnr_18_node_1->vnr_18_node_3": [
         {
           "path": [
-            "domain_0_node_10->domain_0_node_25",
-            "domain_0_node_3->domain_0_node_25"
+            "domain_0_node_4->domain_0_node_11",
+            "domain_0_node_11->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_24->domain_1_node_40",
+            "domain_1_node_11->domain_1_node_24"
           ],
           "allocated_bandwidth": 16.6
         }
@@ -2800,11 +2832,10 @@
       "vnr_18_node_1->vnr_18_node_5": [
         {
           "path": [
-            "domain_0_node_10->domain_0_node_43",
-            "domain_0_node_22->domain_0_node_43",
+            "domain_0_node_4->domain_0_node_22",
             "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_20->domain_2_node_21"
+            "domain_2_node_21->domain_2_node_29"
           ],
           "allocated_bandwidth": 14.25
         }
@@ -2812,12 +2843,10 @@
       "vnr_18_node_1->vnr_18_node_6": [
         {
           "path": [
-            "domain_0_node_10->domain_0_node_43",
-            "domain_0_node_22->domain_0_node_43",
+            "domain_0_node_4->domain_0_node_22",
             "domain_0_node_22->domain_0_node_48",
             "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_21",
-            "domain_2_node_1->domain_2_node_17"
+            "domain_2_node_20->domain_2_node_21"
           ],
           "allocated_bandwidth": 43.82
         }
@@ -2825,8 +2854,7 @@
       "vnr_18_node_1->vnr_18_node_7": [
         {
           "path": [
-            "domain_0_node_10->domain_0_node_44",
-            "domain_0_node_14->domain_0_node_44"
+            "domain_0_node_4->domain_0_node_29"
           ],
           "allocated_bandwidth": 49.74
         }
@@ -2834,7 +2862,10 @@
       "vnr_18_node_2->vnr_18_node_3": [
         {
           "path": [
-            "domain_0_node_3->domain_0_node_17"
+            "domain_0_node_9->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_36",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_1_node_7->domain_1_node_11"
           ],
           "allocated_bandwidth": 14.31
         }
@@ -2842,13 +2873,10 @@
       "vnr_18_node_2->vnr_18_node_4": [
         {
           "path": [
-            "domain_0_node_5->domain_0_node_17",
-            "domain_0_node_5->domain_0_node_12",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_24",
-            "domain_2_node_24->domain_2_node_41",
-            "domain_2_node_39->domain_2_node_41"
+            "domain_0_node_9->domain_0_node_14",
+            "domain_0_node_14->domain_0_node_36",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_1_node_7->domain_1_node_46"
           ],
           "allocated_bandwidth": 26.4
         }
@@ -2856,7 +2884,10 @@
       "vnr_18_node_4->vnr_18_node_5": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_39"
+            "domain_1_node_35->domain_1_node_46",
+            "domain_1_node_35->domain_2_node_42",
+            "domain_2_node_42->domain_2_node_49",
+            "domain_2_node_29->domain_2_node_49"
           ],
           "allocated_bandwidth": 39.32
         }
@@ -2864,12 +2895,11 @@
       "vnr_18_node_4->vnr_18_node_7": [
         {
           "path": [
-            "domain_2_node_39->domain_2_node_41",
-            "domain_2_node_24->domain_2_node_41",
-            "domain_2_node_21->domain_2_node_24",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_9->domain_0_node_48",
-            "domain_0_node_9->domain_0_node_14"
+            "domain_1_node_3->domain_1_node_46",
+            "domain_1_node_3->domain_1_node_40",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_0_node_21->domain_0_node_23",
+            "domain_0_node_23->domain_0_node_29"
           ],
           "allocated_bandwidth": 1.38
         }
@@ -2877,12 +2907,9 @@
       "vnr_18_node_4->vnr_18_node_8": [
         {
           "path": [
-            "domain_2_node_39->domain_2_node_41",
-            "domain_2_node_24->domain_2_node_41",
-            "domain_2_node_21->domain_2_node_24",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_12->domain_0_node_26"
+            "domain_1_node_7->domain_1_node_46",
+            "domain_0_node_36->domain_1_node_7",
+            "domain_0_node_12->domain_0_node_36"
           ],
           "allocated_bandwidth": 33.76
         }
@@ -2890,10 +2917,9 @@
       "vnr_18_node_5->vnr_18_node_8": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_21",
+            "domain_2_node_21->domain_2_node_29",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_12->domain_0_node_48",
-            "domain_0_node_12->domain_0_node_26"
+            "domain_0_node_12->domain_0_node_48"
           ],
           "allocated_bandwidth": 24.79
         }
@@ -2901,11 +2927,10 @@
       "vnr_18_node_6->vnr_18_node_7": [
         {
           "path": [
-            "domain_2_node_1->domain_2_node_17",
-            "domain_2_node_1->domain_2_node_21",
+            "domain_2_node_20->domain_2_node_21",
             "domain_0_node_48->domain_2_node_21",
-            "domain_0_node_9->domain_0_node_48",
-            "domain_0_node_9->domain_0_node_14"
+            "domain_0_node_31->domain_0_node_48",
+            "domain_0_node_29->domain_0_node_31"
           ],
           "allocated_bandwidth": 35.79
         }
@@ -2913,8 +2938,8 @@
       "vnr_18_node_7->vnr_18_node_8": [
         {
           "path": [
-            "domain_0_node_14->domain_0_node_36",
-            "domain_0_node_26->domain_0_node_36"
+            "domain_0_node_5->domain_0_node_29",
+            "domain_0_node_5->domain_0_node_12"
           ],
           "allocated_bandwidth": 29.45
         }
@@ -2922,10 +2947,9 @@
       "vnr_18_node_0->vnr_18_node_1": [
         {
           "path": [
-            "domain_2_node_13->domain_2_node_24",
+            "domain_2_node_5->domain_2_node_24",
             "domain_0_node_7->domain_2_node_24",
-            "domain_0_node_7->domain_0_node_8",
-            "domain_0_node_8->domain_0_node_10"
+            "domain_0_node_4->domain_0_node_7"
           ],
           "allocated_bandwidth": 32.09
         }
@@ -2933,7 +2957,9 @@
       "vnr_18_node_1->vnr_18_node_2": [
         {
           "path": [
-            "domain_0_node_10->domain_0_node_17"
+            "domain_0_node_4->domain_0_node_32",
+            "domain_0_node_14->domain_0_node_32",
+            "domain_0_node_9->domain_0_node_14"
           ],
           "allocated_bandwidth": 21.81
         }
@@ -2941,12 +2967,8 @@
       "vnr_18_node_3->vnr_18_node_4": [
         {
           "path": [
-            "domain_0_node_3->domain_0_node_31",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_48->domain_2_node_21",
-            "domain_2_node_21->domain_2_node_24",
-            "domain_2_node_24->domain_2_node_41",
-            "domain_2_node_39->domain_2_node_41"
+            "domain_1_node_11->domain_1_node_24",
+            "domain_1_node_24->domain_1_node_46"
           ],
           "allocated_bandwidth": 12.5
         }
@@ -2954,33 +2976,31 @@
       "vnr_18_node_5->vnr_18_node_6": [
         {
           "path": [
-            "domain_2_node_20->domain_2_node_34",
-            "domain_2_node_17->domain_2_node_34"
+            "domain_2_node_20->domain_2_node_29"
           ],
           "allocated_bandwidth": 43.26
         }
       ]
     },
-    "embedding_cost": 1420.6941
+    "embedding_cost": 1358.777
   },
   {
     "vnr_id": "vnr_19",
     "is_successful": true,
     "node_mapping": {
       "vnr_19_node_0": "domain_0_node_44",
-      "vnr_19_node_1": "domain_0_node_22",
-      "vnr_19_node_2": "domain_0_node_12",
-      "vnr_19_node_3": "domain_1_node_35",
-      "vnr_19_node_4": "domain_1_node_1",
-      "vnr_19_node_5": "domain_1_node_26"
+      "vnr_19_node_1": "domain_0_node_20",
+      "vnr_19_node_2": "domain_0_node_35",
+      "vnr_19_node_3": "domain_1_node_31",
+      "vnr_19_node_4": "domain_1_node_41",
+      "vnr_19_node_5": "domain_1_node_3"
     },
     "link_mapping": {
       "vnr_19_node_0->vnr_19_node_1": [
         {
           "path": [
-            "domain_0_node_31->domain_0_node_44",
-            "domain_0_node_31->domain_0_node_48",
-            "domain_0_node_22->domain_0_node_48"
+            "domain_0_node_18->domain_0_node_44",
+            "domain_0_node_18->domain_0_node_20"
           ],
           "allocated_bandwidth": 33.76
         }
@@ -2988,8 +3008,7 @@
       "vnr_19_node_0->vnr_19_node_2": [
         {
           "path": [
-            "domain_0_node_36->domain_0_node_44",
-            "domain_0_node_12->domain_0_node_36"
+            "domain_0_node_35->domain_0_node_44"
           ],
           "allocated_bandwidth": 36.81
         }
@@ -2999,8 +3018,7 @@
           "path": [
             "domain_0_node_36->domain_0_node_44",
             "domain_0_node_36->domain_1_node_7",
-            "domain_1_node_7->domain_1_node_41",
-            "domain_1_node_35->domain_1_node_41"
+            "domain_1_node_7->domain_1_node_31"
           ],
           "allocated_bandwidth": 28.61
         }
@@ -3008,8 +3026,8 @@
       "vnr_19_node_1->vnr_19_node_2": [
         {
           "path": [
-            "domain_0_node_22->domain_0_node_48",
-            "domain_0_node_12->domain_0_node_48"
+            "domain_0_node_20->domain_0_node_42",
+            "domain_0_node_35->domain_0_node_42"
           ],
           "allocated_bandwidth": 26.7
         }
@@ -3017,11 +3035,10 @@
       "vnr_19_node_2->vnr_19_node_3": [
         {
           "path": [
-            "domain_0_node_12->domain_0_node_26",
-            "domain_0_node_26->domain_0_node_36",
-            "domain_0_node_36->domain_1_node_7",
-            "domain_1_node_7->domain_1_node_41",
-            "domain_1_node_35->domain_1_node_41"
+            "domain_0_node_8->domain_0_node_35",
+            "domain_0_node_8->domain_0_node_21",
+            "domain_0_node_21->domain_1_node_40",
+            "domain_1_node_31->domain_1_node_40"
           ],
           "allocated_bandwidth": 4.88
         }
@@ -3029,7 +3046,7 @@
       "vnr_19_node_3->vnr_19_node_4": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_35"
+            "domain_1_node_31->domain_1_node_41"
           ],
           "allocated_bandwidth": 26.05
         }
@@ -3037,8 +3054,8 @@
       "vnr_19_node_3->vnr_19_node_5": [
         {
           "path": [
-            "domain_1_node_15->domain_1_node_35",
-            "domain_1_node_15->domain_1_node_26"
+            "domain_1_node_31->domain_1_node_48",
+            "domain_1_node_3->domain_1_node_48"
           ],
           "allocated_bandwidth": 35.21
         }
@@ -3046,13 +3063,12 @@
       "vnr_19_node_4->vnr_19_node_5": [
         {
           "path": [
-            "domain_1_node_1->domain_1_node_3",
-            "domain_1_node_3->domain_1_node_26"
+            "domain_1_node_3->domain_1_node_41"
           ],
           "allocated_bandwidth": 49.74
         }
       ]
     },
-    "embedding_cost": 475.5274
+    "embedding_cost": 466.0745
   }
 ]

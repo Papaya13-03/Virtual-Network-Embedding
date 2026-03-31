@@ -172,6 +172,7 @@ def main():
             algos.add(algo_name)
     
     algos = sorted(list(algos))
+    algos = ['mp_vne', 'oa_mp_vne']
     print(f"Detected algorithms: {algos}")
     
     # Plotting setup
