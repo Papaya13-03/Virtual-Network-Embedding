@@ -1,5 +1,7 @@
 import unittest
+import torch
 from algorithms.rl_oa_mp_vne.vn_generator import generate_random_vn
+from algorithms.rl_oa_mp_vne.policy_network import GCNEncoder, PolicyNetwork
 
 
 class TestVNGenerator(unittest.TestCase):
@@ -55,6 +57,68 @@ class TestVNGenerator(unittest.TestCase):
             link_prob=1.0
         )
         self.assertEqual(len(vn.nodes), 3)
+
+
+class TestGCNEncoder(unittest.TestCase):
+    def test_output_shape(self):
+        """GCN should produce (num_nodes, gcn_hidden) output."""
+        encoder = GCNEncoder(node_feat_size=5, hidden_size=32)
+        X = torch.randn(3, 5)
+        A = torch.tensor([
+            [0.5, 0.5, 0.0],
+            [0.5, 0.5, 0.5],
+            [0.0, 0.5, 0.5],
+        ], dtype=torch.float32)
+        out = encoder(X, A)
+        self.assertEqual(out.shape, (3, 32))
+
+    def test_single_node(self):
+        """GCN should handle a single-node graph."""
+        encoder = GCNEncoder(node_feat_size=5, hidden_size=32)
+        X = torch.randn(1, 5)
+        A = torch.ones(1, 1)
+        out = encoder(X, A)
+        self.assertEqual(out.shape, (1, 32))
+
+
+class TestPolicyNetwork(unittest.TestCase):
+    def test_node_scores_shape(self):
+        """NodeHead should produce one score per virtual node."""
+        net = PolicyNetwork(vnode_feat_size=5, vlink_feat_size=5, gcn_node_feat_size=5, gcn_hidden=32, hidden_size=64)
+        sub_X = torch.randn(4, 5)
+        sub_A = torch.eye(4)
+        vnode_feats = torch.randn(3, 5)
+        vlink_feats = torch.randn(2, 5)
+        # For each vnode, tuple of domain X tensors and A tensors
+        domain_node_feats = [(sub_X,)] * 3  # 3 vnodes, each sees 1 domain
+        domain_adj_mats = [(sub_A,)] * 3
+
+        node_scores, link_scores = net(
+            vnode_feats, vlink_feats,
+            domain_node_feats, domain_adj_mats
+        )
+        self.assertEqual(node_scores.shape, (3,))
+        self.assertEqual(link_scores.shape, (2,))
+
+    def test_scores_are_differentiable(self):
+        """Scores must support backpropagation for REINFORCE."""
+        net = PolicyNetwork(vnode_feat_size=5, vlink_feat_size=5, gcn_node_feat_size=5, gcn_hidden=32, hidden_size=64)
+        sub_X = torch.randn(4, 5)
+        sub_A = torch.eye(4)
+        vnode_feats = torch.randn(3, 5)
+        vlink_feats = torch.randn(2, 5)
+        domain_node_feats = [(sub_X,)] * 3
+        domain_adj_mats = [(sub_A,)] * 3
+
+        node_scores, link_scores = net(
+            vnode_feats, vlink_feats,
+            domain_node_feats, domain_adj_mats
+        )
+        loss = node_scores.sum() + link_scores.sum()
+        loss.backward()
+        for p in net.parameters():
+            if p.requires_grad:
+                self.assertIsNotNone(p.grad)
 
 
 if __name__ == "__main__":
