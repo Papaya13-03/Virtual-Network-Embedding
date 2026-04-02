@@ -1,0 +1,25 @@
+pso:
+  num_particles: 20
+  num_iterations: 15
+  w: 0.7
+  c1: 1.5
+  c2: 1.5
+  mutation_rate: 0.1
+
+policy_network:
+  hidden_size: 64
+  gcn_hidden: 32
+  learning_rate: 0.001
+  gamma: 0.99
+
+training:
+  pretrain_episodes: 200
+  batch_size: 16
+  online_k: 10
+  vn_min_nodes: 2
+  vn_max_nodes: 8
+  vn_min_cpu: 1.0
+  vn_max_cpu: 30.0
+  vn_min_bw: 5.0
+  vn_max_bw: 80.0
+  vn_link_prob: 0.5
