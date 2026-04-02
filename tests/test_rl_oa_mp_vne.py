@@ -184,5 +184,128 @@ class TestRankingTrainer(unittest.TestCase):
         self.assertFalse(torch.equal(w_before, w_after))
 
 
+from problem.substrate_network import SubstrateNetwork, SubstrateNode, SubstrateLink
+from problem.virtual_network import VirtualNetwork, VirtualNode, VirtualLink
+from problem.request import VirtualNetworkRequest
+
+
+class TestRLOAMPVNEFeatures(unittest.TestCase):
+    def setUp(self):
+        self.substrate = SubstrateNetwork()
+        self.substrate.nodes["s1"] = SubstrateNode("s1", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.nodes["s2"] = SubstrateNode("s2", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.nodes["s3"] = SubstrateNode("s3", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.links[("s1", "s2")] = SubstrateLink("s1", "s2", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+        self.substrate.links[("s2", "s3")] = SubstrateLink("s2", "s3", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+        self.substrate.links[("s1", "s3")] = SubstrateLink("s1", "s3", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+
+    def test_domain_features_shape(self):
+        """Domain feature extraction should return (num_nodes, 5) and (num_nodes, num_nodes)."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        algo = RLOAMPVNE()
+        algo._init_controller(self.substrate)
+        X, A = algo._extract_domain_features(algo.global_controller.local_controllers[0])
+        self.assertEqual(X.shape[0], 3)  # 3 substrate nodes
+        self.assertEqual(X.shape[1], 5)  # 5 features
+        self.assertEqual(A.shape, (3, 3))
+
+    def test_vnode_features_shape(self):
+        """Vnode feature extraction should return (num_vnodes, 5)."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        vn = VirtualNetwork(id="test")
+        vn.nodes["v1"] = VirtualNode("v1", cpu_demand=10.0)
+        vn.nodes["v2"] = VirtualNode("v2", cpu_demand=20.0)
+        vn.links[("v1", "v2")] = VirtualLink("v1", "v2", bandwidth_demand=30.0)
+        algo = RLOAMPVNE()
+        feats = algo._extract_vnode_features(vn)
+        self.assertEqual(feats.shape, (2, 5))
+
+    def test_vlink_features_shape(self):
+        """Vlink feature extraction should return (num_vlinks, 5)."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        vn = VirtualNetwork(id="test")
+        vn.nodes["v1"] = VirtualNode("v1", cpu_demand=10.0)
+        vn.nodes["v2"] = VirtualNode("v2", cpu_demand=20.0)
+        vn.nodes["v3"] = VirtualNode("v3", cpu_demand=5.0)
+        vn.links[("v1", "v2")] = VirtualLink("v1", "v2", bandwidth_demand=30.0)
+        vn.links[("v2", "v3")] = VirtualLink("v2", "v3", bandwidth_demand=15.0)
+        algo = RLOAMPVNE()
+        feats = algo._extract_vlink_features(vn)
+        self.assertEqual(feats.shape, (2, 5))
+
+class TestRLOAMPVNEEndToEnd(unittest.TestCase):
+    def setUp(self):
+        self.substrate = SubstrateNetwork()
+        self.substrate.nodes["s1"] = SubstrateNode("s1", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.nodes["s2"] = SubstrateNode("s2", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.nodes["s3"] = SubstrateNode("s3", cpu_capacity=100.0, cpu_price=1.0, processing_delay=1.0)
+        self.substrate.links[("s1", "s2")] = SubstrateLink("s1", "s2", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+        self.substrate.links[("s2", "s3")] = SubstrateLink("s2", "s3", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+        self.substrate.links[("s1", "s3")] = SubstrateLink("s1", "s3", bandwidth_capacity=50.0, bandwidth_price=1.0, transmission_delay=1.0)
+
+    def test_simple_embedding_succeeds(self):
+        """A simple 2-node VN with low demand should embed successfully."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        vnr = VirtualNetwork(id="vn_simple")
+        vnr.nodes["v1"] = VirtualNode("v1", cpu_demand=5.0)
+        vnr.nodes["v2"] = VirtualNode("v2", cpu_demand=5.0)
+        vnr.links[("v1", "v2")] = VirtualLink("v1", "v2", bandwidth_demand=10.0)
+        request = VirtualNetworkRequest(id="req1", virtual_network=vnr, arrival_time=0.0, lifetime=50.0)
+
+        algo = RLOAMPVNE()
+        # Override pretrain to use fewer episodes for speed
+        algo.config["training"]["pretrain_episodes"] = 5
+        solution = algo.solve(self.substrate, request)
+
+        self.assertTrue(solution.is_successful)
+        self.assertEqual(len(solution.node_mapping), 2)
+        # Mapped to different substrate nodes
+        self.assertNotEqual(
+            list(solution.node_mapping.values())[0],
+            list(solution.node_mapping.values())[1],
+        )
+
+    def test_infeasible_request_fails_gracefully(self):
+        """A request demanding more CPU than available should fail without error."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        vnr = VirtualNetwork(id="vn_fail")
+        vnr.nodes["v1"] = VirtualNode("v1", cpu_demand=500.0)
+        vnr.nodes["v2"] = VirtualNode("v2", cpu_demand=500.0)
+        vnr.links[("v1", "v2")] = VirtualLink("v1", "v2", bandwidth_demand=10.0)
+        request = VirtualNetworkRequest(id="req_fail", virtual_network=vnr, arrival_time=0.0, lifetime=50.0)
+
+        algo = RLOAMPVNE()
+        algo.config["training"]["pretrain_episodes"] = 3
+        solution = algo.solve(self.substrate, request)
+
+        self.assertFalse(solution.is_successful)
+
+    def test_multiple_requests_with_online_learning(self):
+        """Multiple requests should succeed and trigger online learning."""
+        from algorithms.rl_oa_mp_vne.rl_oa_mp_vne import RLOAMPVNE
+        algo = RLOAMPVNE()
+        algo.config["training"]["pretrain_episodes"] = 3
+        algo.config["training"]["online_k"] = 2  # Learn every 2 requests
+
+        successes = 0
+        for i in range(4):
+            vnr = VirtualNetwork(id=f"vn_{i}")
+            vnr.nodes["v1"] = VirtualNode("v1", cpu_demand=5.0)
+            vnr.nodes["v2"] = VirtualNode("v2", cpu_demand=5.0)
+            vnr.links[("v1", "v2")] = VirtualLink("v1", "v2", bandwidth_demand=10.0)
+            request = VirtualNetworkRequest(
+                id=f"req_{i}", virtual_network=vnr,
+                arrival_time=float(i * 10), lifetime=5.0,
+            )
+            solution = algo.solve(self.substrate, request)
+            if solution.is_successful:
+                successes += 1
+
+        self.assertGreater(successes, 0)
+        # Online learning should have triggered at least once (k=2, 4 requests)
+        self.assertGreaterEqual(algo._request_count, 4)
+
+
 if __name__ == "__main__":
     unittest.main()
+
