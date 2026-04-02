@@ -121,5 +121,68 @@ class TestPolicyNetwork(unittest.TestCase):
                 self.assertIsNotNone(p.grad)
 
 
+from algorithms.rl_oa_mp_vne.trainer import RankingTrainer
+
+
+class TestRankingTrainer(unittest.TestCase):
+    def _make_policy(self):
+        return PolicyNetwork(
+            vnode_feat_size=5, vlink_feat_size=5,
+            gcn_node_feat_size=5, gcn_hidden=32, hidden_size=64
+        )
+
+    def test_record_and_buffer_size(self):
+        """Recording an experience should grow the buffer."""
+        policy = self._make_policy()
+        trainer = RankingTrainer(policy, lr=0.001, gamma=0.99, batch_size=4)
+        log_probs = [torch.tensor(0.5, requires_grad=True)]
+        trainer.record(log_probs, reward=2.0)
+        self.assertEqual(len(trainer.buffer), 1)
+
+    def test_update_clears_buffer(self):
+        """After update(), the buffer should be emptied."""
+        policy = self._make_policy()
+        trainer = RankingTrainer(policy, lr=0.001, gamma=0.99, batch_size=2)
+        for _ in range(3):
+            log_probs = [torch.tensor(0.5, requires_grad=True)]
+            trainer.record(log_probs, reward=1.0)
+        trainer.update()
+        self.assertEqual(len(trainer.buffer), 0)
+
+    def _make_log_probs(self, policy):
+        """Run a forward pass and sample to get graph-connected log_probs."""
+        sub_X = torch.randn(4, 5)
+        sub_A = torch.eye(4)
+        vnode_feats = torch.randn(3, 5)
+        vlink_feats = torch.randn(2, 5)
+        domain_node_feats = [(sub_X,)] * 3
+        domain_adj_mats = [(sub_A,)] * 3
+        node_scores, link_scores = policy(
+            vnode_feats, vlink_feats,
+            domain_node_feats, domain_adj_mats,
+        )
+        # Plackett-Luce style: softmax then sample from Categorical
+        node_dist = torch.distributions.Categorical(logits=node_scores)
+        link_dist = torch.distributions.Categorical(logits=link_scores)
+        log_probs = [
+            node_dist.log_prob(node_dist.sample()),
+            link_dist.log_prob(link_dist.sample()),
+        ]
+        return log_probs
+
+    def test_update_changes_weights(self):
+        """REINFORCE update should modify policy network weights."""
+        policy = self._make_policy()
+        trainer = RankingTrainer(policy, lr=0.01, gamma=0.99, batch_size=2)
+        w_before = policy.node_head[0].weight.data.clone()
+        rewards = [1.0, 5.0, 10.0]  # Different rewards → non-zero advantages
+        for r in rewards:
+            log_probs = self._make_log_probs(policy)
+            trainer.record(log_probs, reward=r)
+        trainer.update()
+        w_after = policy.node_head[0].weight.data
+        self.assertFalse(torch.equal(w_before, w_after))
+
+
 if __name__ == "__main__":
     unittest.main()
