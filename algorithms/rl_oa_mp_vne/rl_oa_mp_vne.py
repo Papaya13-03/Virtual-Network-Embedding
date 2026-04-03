@@ -3,7 +3,6 @@ import os
 import random
 import yaml
 import torch
-import numpy as np
 from typing import List, Dict, Tuple
 from collections import OrderedDict
 
@@ -224,98 +223,85 @@ class RLOAMPVNE:
 
     # ---- NN-Based Ranking ----
 
-    def rank_virtual_nodes_nn(
-        self, vn: VirtualNetwork, sample: bool = False
-    ) -> Tuple[List[VirtualNode], List[torch.Tensor]]:
-        """
-        Use the policy network to rank virtual nodes.
-        Args:
-            sample: If True, sample from softmax (training). If False, use argmax (inference).
-        Returns:
-            ordered_vnodes: Sorted list of VirtualNode
-            log_probs: Log-probabilities for REINFORCE (empty if sample=False)
-        """
+    @staticmethod
+    def _plackett_luce_sample(scores: torch.Tensor, items: list) -> Tuple[list, List[torch.Tensor]]:
+        """Sample a permutation from scores using Plackett-Luce model."""
+        remaining_scores = scores.clone()
+        remaining_indices = list(range(len(items)))
+        ordered_indices = []
+        log_probs = []
+
+        for _ in range(len(items)):
+            probs = torch.softmax(remaining_scores, dim=0)
+            dist = torch.distributions.Categorical(probs)
+            chosen_pos = dist.sample()
+            log_probs.append(dist.log_prob(chosen_pos))
+
+            chosen_idx = remaining_indices[chosen_pos.item()]
+            ordered_indices.append(chosen_idx)
+
+            mask = torch.ones(len(remaining_indices), dtype=torch.bool)
+            mask[chosen_pos.item()] = False
+            remaining_scores = remaining_scores[mask]
+            remaining_indices = [ri for j, ri in enumerate(remaining_indices) if j != chosen_pos.item()]
+
+        return [items[i] for i in ordered_indices], log_probs
+
+    @staticmethod
+    def _greedy_sort(scores: torch.Tensor, items: list) -> list:
+        """Sort items by scores descending (greedy, no log_probs)."""
+        sorted_indices = torch.argsort(scores, descending=True).tolist()
+        return [items[i] for i in sorted_indices]
+
+    def _forward_policy(self, vn: VirtualNetwork) -> Tuple[torch.Tensor, torch.Tensor]:
+        """Single forward pass through the policy network. Returns (node_scores, link_scores)."""
         vnode_feats = self._extract_vnode_features(vn)
         vlink_feats = self._extract_vlink_features(vn)
         per_vnode_Xs, per_vnode_As = self._get_domain_inputs(vn)
+        return self.policy(vnode_feats, vlink_feats, per_vnode_Xs, per_vnode_As)
 
-        node_scores, _ = self.policy(vnode_feats, vlink_feats, per_vnode_Xs, per_vnode_As)
-
+    def rank_all_nn(
+        self, vn: VirtualNetwork, sample: bool = False
+    ) -> Tuple[List[VirtualNode], List[Tuple[Tuple[str, str], VirtualLink]], List[torch.Tensor]]:
+        """
+        Rank both vnodes and vlinks with a single forward pass.
+        Returns:
+            ordered_vnodes, ordered_links, log_probs (empty if sample=False)
+        """
+        node_scores, link_scores = self._forward_policy(vn)
         vnodes = list(vn.nodes.values())
-        log_probs = []
+        link_items = list(vn.links.items())
 
         if sample:
-            # Sample a permutation using Plackett-Luce model
-            remaining_scores = node_scores.clone()
-            remaining_indices = list(range(len(vnodes)))
-            ordered_indices = []
-
-            for _ in range(len(vnodes)):
-                probs = torch.softmax(remaining_scores, dim=0)
-                dist = torch.distributions.Categorical(probs)
-                chosen_pos = dist.sample()
-                log_probs.append(dist.log_prob(chosen_pos))
-
-                chosen_idx = remaining_indices[chosen_pos.item()]
-                ordered_indices.append(chosen_idx)
-
-                # Remove chosen from remaining
-                mask = torch.ones(len(remaining_indices), dtype=torch.bool)
-                mask[chosen_pos.item()] = False
-                remaining_scores = remaining_scores[mask]
-                remaining_indices = [remaining_indices[j] for j in range(len(remaining_indices)) if j != chosen_pos.item()]
-
-            ordered_vnodes = [vnodes[i] for i in ordered_indices]
+            ordered_vnodes, node_lp = self._plackett_luce_sample(node_scores, vnodes)
+            ordered_links, link_lp = self._plackett_luce_sample(link_scores, link_items)
+            return ordered_vnodes, ordered_links, node_lp + link_lp
         else:
-            # Greedy: sort by score descending
-            sorted_indices = torch.argsort(node_scores, descending=True).tolist()
-            ordered_vnodes = [vnodes[i] for i in sorted_indices]
+            ordered_vnodes = self._greedy_sort(node_scores, vnodes)
+            ordered_links = self._greedy_sort(link_scores, link_items)
+            return ordered_vnodes, ordered_links, []
 
-        return ordered_vnodes, log_probs
+    def rank_virtual_nodes_nn(
+        self, vn: VirtualNetwork, sample: bool = False
+    ) -> Tuple[List[VirtualNode], List[torch.Tensor]]:
+        """Rank virtual nodes only (convenience wrapper)."""
+        node_scores, _ = self._forward_policy(vn)
+        vnodes = list(vn.nodes.values())
+        if sample:
+            ordered, lp = self._plackett_luce_sample(node_scores, vnodes)
+            return ordered, lp
+        return self._greedy_sort(node_scores, vnodes), []
 
     def rank_virtual_links_nn(
         self, vn: VirtualNetwork, sample: bool = False
     ) -> Tuple[List[Tuple[Tuple[str, str], VirtualLink]], List[torch.Tensor]]:
-        """
-        Use the policy network to rank virtual links.
-        Returns:
-            ordered_links: Sorted list of ((src,dst), VirtualLink)
-            log_probs: Log-probabilities for REINFORCE
-        """
-        vnode_feats = self._extract_vnode_features(vn)
-        vlink_feats = self._extract_vlink_features(vn)
-        per_vnode_Xs, per_vnode_As = self._get_domain_inputs(vn)
-
-        _, link_scores = self.policy(vnode_feats, vlink_feats, per_vnode_Xs, per_vnode_As)
-
+        """Rank virtual links only (convenience wrapper)."""
+        _, link_scores = self._forward_policy(vn)
         link_items = list(vn.links.items())
-        log_probs = []
-
         if sample:
-            remaining_scores = link_scores.clone()
-            remaining_indices = list(range(len(link_items)))
-            ordered_indices = []
-
-            for _ in range(len(link_items)):
-                probs = torch.softmax(remaining_scores, dim=0)
-                dist = torch.distributions.Categorical(probs)
-                chosen_pos = dist.sample()
-                log_probs.append(dist.log_prob(chosen_pos))
-
-                chosen_idx = remaining_indices[chosen_pos.item()]
-                ordered_indices.append(chosen_idx)
-
-                mask = torch.ones(len(remaining_indices), dtype=torch.bool)
-                mask[chosen_pos.item()] = False
-                remaining_scores = remaining_scores[mask]
-                remaining_indices = [remaining_indices[j] for j in range(len(remaining_indices)) if j != chosen_pos.item()]
-
-            ordered_links = [link_items[i] for i in ordered_indices]
-        else:
-            sorted_indices = torch.argsort(link_scores, descending=True).tolist()
-            ordered_links = [link_items[i] for i in sorted_indices]
-
-        return ordered_links, log_probs
+            ordered, lp = self._plackett_luce_sample(link_scores, link_items)
+            return ordered, lp
+        return self._greedy_sort(link_scores, link_items), []
 
     # ---- Pre-Training ----
 
@@ -343,10 +329,8 @@ class RLOAMPVNE:
             self.global_controller.reset_allocations()
             self.global_controller.clear_caches()
 
-            # NN-ranked ordering (sample for exploration)
-            ordered_vnodes, node_log_probs = self.rank_virtual_nodes_nn(vn, sample=True)
-            ordered_links, link_log_probs = self.rank_virtual_links_nn(vn, sample=True)
-            all_log_probs = node_log_probs + link_log_probs
+            # NN-ranked ordering (sample for exploration, single forward pass)
+            ordered_vnodes, ordered_links, all_log_probs = self.rank_all_nn(vn, sample=True)
 
             # Try embedding with this ordering
             reward = self._try_embedding(vn, ordered_vnodes, ordered_links)
@@ -424,7 +408,7 @@ class RLOAMPVNE:
             self.global_controller.release_mapping(mapping, vn, vlink_paths)
             return reward
 
-        except (ValueError, Exception):
+        except ValueError:
             return -1.0
 
     def _compute_cost(self, mapping: Dict[str, str], vn: VirtualNetwork, vlink_paths: Dict) -> float:
@@ -604,7 +588,7 @@ class RLOAMPVNE:
                     link_key = (link.source, link.target)
                     allocated_bw[link_key] = allocated_bw.get(link_key, 0) + vlink.bandwidth_demand
 
-                vlink_paths[vlink.id if hasattr(vlink, 'id') else vlink_key] = [(path, vlink.bandwidth_demand)]
+                vlink_paths[vlink_key] = [(path, vlink.bandwidth_demand)]
 
         except Exception as e:
             for snode_id, cpu in allocated_cpu.items():
@@ -617,10 +601,6 @@ class RLOAMPVNE:
                     link.available_bw += bw
             raise e
 
-        # Need to fix up vlink_paths to be indexed by string tuple key properly based on original
-        # wait, the original return was keyed by key, but below expects (src, dst).
-        # vlink_paths is actually vlink_key: [(path, bw)].
-        # vlink_key is (src, dst) tuple.
         return vlink_paths
 
     # ---- Lifecycle ----
@@ -651,11 +631,9 @@ class RLOAMPVNE:
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
-        # NN-ranked ordering (greedy inference)
-        self.policy.eval()
-        with torch.no_grad():
-            ordered_vnodes, _ = self.rank_virtual_nodes_nn(vnetwork, sample=False)
-            ordered_links, _ = self.rank_virtual_links_nn(vnetwork, sample=False)
+        # NN-ranked ordering via sampling (on-policy: log_probs match the executed action)
+        self.policy.train()
+        ordered_vnodes, ordered_links, log_probs = self.rank_all_nn(vnetwork, sample=True)
 
         # Collect candidates in ranked order
         candidate_nodes = []
@@ -671,7 +649,7 @@ class RLOAMPVNE:
             candidate_nodes.append(candidates)
 
         if any(not c for c in candidate_nodes):
-            self._record_online(vnetwork, -1.0)
+            self._record_online(log_probs, -1.0)
             return solution
 
         # Build index maps
@@ -698,7 +676,7 @@ class RLOAMPVNE:
                 raise ValueError("No paths allocated")
             solution.is_successful = True
         except ValueError:
-            self._record_online(vnetwork, -1.0)
+            self._record_online(log_probs, -1.0)
             return solution
 
         cost = self._compute_cost(best_mapping, vnetwork, vlink_paths)
@@ -725,20 +703,15 @@ class RLOAMPVNE:
             "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
         }
 
-        # Online learning
-        self._record_online(vnetwork, reward)
+        # Online learning — log_probs are on-policy (from the sampled ordering used above)
+        self._record_online(log_probs, reward)
 
         return solution
 
-    def _record_online(self, vn: VirtualNetwork, reward: float) -> None:
-        """Record experience for online learning and update every k requests."""
+    def _record_online(self, log_probs: List[torch.Tensor], reward: float) -> None:
+        """Record on-policy experience and update every k requests."""
         self._request_count += 1
-
-        # Re-run with sampling to get log_probs for REINFORCE
-        self.policy.train()
-        _, node_lp = self.rank_virtual_nodes_nn(vn, sample=True)
-        _, link_lp = self.rank_virtual_links_nn(vn, sample=True)
-        self.trainer.record(node_lp + link_lp, reward)
+        self.trainer.record(log_probs, reward)
 
         online_k = self.config.get("training", {}).get("online_k", 10)
         if self._request_count % online_k == 0 and self.trainer.buffer:
