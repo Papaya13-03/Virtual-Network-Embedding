@@ -194,61 +194,42 @@ class RLCandVNE:
         self._release_expired(req.arrival_time)
         self.global_controller.clear_caches()
 
-        vn = req.virtual_network
-        solution = EmbeddingSolution(vnr_id=req.id, is_successful=False)
+        reward, committed, dom_lps, sn_lps, success = self._training_episode(req, persist=True)
 
-        self.policy.train()
-        vnode_feats, vn_adj, dip, demands = self._build_policy_inputs(vn)
-        policy_out = self.policy(
-            vnode_feats=vnode_feats, vn_adj_norm=vn_adj,
-            domain_inputs_per_vnode=dip, cpu_demands=demands, sample=True,
+        solution = EmbeddingSolution(vnr_id=req.id, is_successful=success)
+        if success:
+            last = getattr(self._baseline_helper, "_last_commit", None)
+            if last is not None:
+                mapping, vlink_paths = last
+                solution.node_mapping = mapping
+                solution.embedding_cost = self._composite_cost(mapping, req.virtual_network, vlink_paths)
+                solution.link_mapping = {
+                    (v_src, v_dst): [
+                        ([(l.source, l.target) for l in path_links], bw)
+                        for (path_links, bw) in path_list
+                    ]
+                    for (v_src, v_dst), path_list in vlink_paths.items()
+                }
+                self._active_mappings[req.id] = {
+                    "mapping": mapping, "vnetwork": req.virtual_network,
+                    "vlink_paths": vlink_paths,
+                    "expire_time": req.arrival_time + req.lifetime,
+                }
+
+        self.trainer.record(
+            domain_log_probs=dom_lps, snode_log_probs_per_vnode=sn_lps,
+            reward=reward, committed_snode_indices=committed, success=success,
         )
-        candidate_nodes = self._resolve_candidate_snodes(vn, policy_out)
+        self._request_count += 1
+        online_k = int(self.config["training"]["online_k"])
+        if online_k > 0 and self._request_count % online_k == 0 and self.trainer.buffer:
+            self.trainer.update()
 
-        if any(not c for c in candidate_nodes):
-            return solution
+        save_every = int(self.config["training"].get("online_save_every", 0))
+        ckpt_path = self.config.get("checkpoint", {}).get("path", "")
+        if save_every > 0 and ckpt_path and self._request_count % save_every == 0:
+            self.save_checkpoint(ckpt_path, substrate_hash=substrate_structure_hash(sn))
 
-        # Delegate PSO to OAMPVNE baseline helper using our candidate sets.
-        # OAMPVNE.pso signature: (candidates, request, vlink_indices, ordered_vnodes)
-        ordered_vnodes = list(vn.nodes.values())
-        vnode_to_idx = {v.id: i for i, v in enumerate(ordered_vnodes)}
-        vlink_indices = [
-            {"src_idx": vnode_to_idx[vl.source],
-             "dst_idx": vnode_to_idx[vl.target],
-             "bw": vl.bandwidth_demand}
-            for vl in vn.links.values()
-        ]
-        best_particle = self._baseline_helper.pso(candidate_nodes, req, vlink_indices, ordered_vnodes)
-        mapping = {
-            ordered_vnodes[i].id: candidate_nodes[i][idx].id
-            for i, idx in enumerate(best_particle)
-        }
-
-        try:
-            vlink_paths = self._baseline_helper._commit_mapping_ordered(mapping, vn)
-        except Exception:
-            return solution
-        if not vlink_paths:
-            return solution
-
-        cost = self._composite_cost(mapping, vn, vlink_paths)
-
-        solution.is_successful = True
-        solution.node_mapping = mapping
-        solution.embedding_cost = cost
-        solution.link_mapping = {
-            (v_src, v_dst): [
-                ([(l.source, l.target) for l in path_links], bw)
-                for (path_links, bw) in path_list
-            ]
-            for (v_src, v_dst), path_list in vlink_paths.items()
-        }
-
-        self._active_mappings[req.id] = {
-            "mapping": mapping, "vnetwork": vn,
-            "vlink_paths": vlink_paths,
-            "expire_time": req.arrival_time + req.lifetime,
-        }
         return solution
 
     def _composite_cost(self, mapping: Dict[str, str], vn: VirtualNetwork, vlink_paths: Dict) -> float:
@@ -347,7 +328,7 @@ class RLCandVNE:
                 id=f"pt_{ep}", virtual_network=vn,
                 arrival_time=0.0, lifetime=float("inf"),
             )
-            reward, committed, dom_lps, sn_lps, success = self._training_episode(req)
+            reward, committed, dom_lps, sn_lps, success = self._training_episode(req, persist=False)
             self.trainer.record(
                 domain_log_probs=dom_lps,
                 snode_log_probs_per_vnode=sn_lps,
@@ -357,16 +338,19 @@ class RLCandVNE:
             )
             if (ep + 1) % batch_size == 0:
                 self.trainer.update()
-            # Rollback any allocation this episode caused
-            self.global_controller.reset_allocations()
             self.global_controller.clear_caches()
 
         if self.trainer.buffer:
             self.trainer.update()
         self._pretrained = True
 
-    def _training_episode(self, req: VirtualNetworkRequest):
-        """Return (reward, committed_snode_indices_or_None, dom_lps, sn_lps, success)."""
+    def _training_episode(self, req: VirtualNetworkRequest, persist: bool = False):
+        """Return (reward, committed_snode_indices_or_None, dom_lps, sn_lps, success).
+
+        When persist=True the commit is kept and (mapping, vlink_paths) is stashed on
+        self._baseline_helper._last_commit for solve() to retrieve.
+        When persist=False (offline pretraining) the commit is rolled back before returning.
+        """
         vn = req.virtual_network
         vnode_feats, vn_adj, dip, demands = self._build_policy_inputs(vn)
         out = self.policy(
@@ -424,6 +408,12 @@ class RLCandVNE:
                   sum(vl.bandwidth_demand for vl in vn.links.values())
         reward = -cost / max(revenue, 1e-6)
         committed_indices = list(best_particle)
+
+        if persist:
+            self._baseline_helper._last_commit = (mapping, vlink_paths)
+        else:
+            self.global_controller.release_mapping(mapping, vn, vlink_paths)
+
         return (
             reward, committed_indices,
             out["domain_log_probs"], out["snode_log_probs_per_vnode"],
