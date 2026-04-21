@@ -1,5 +1,6 @@
 import os
 import random
+import tempfile
 import unittest
 import torch
 
@@ -65,6 +66,43 @@ class TestRLCandVNESolve(unittest.TestCase):
             for v_id, s_id in solution.node_mapping.items():
                 self.assertIn(v_id, vn.nodes)
                 self.assertIn(s_id, all_snodes)
+
+
+class TestCheckpointIO(unittest.TestCase):
+    def test_save_and_load_roundtrip(self):
+        random.seed(0); torch.manual_seed(0)
+        algo = RLCandVNE()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "ckpt.pt")
+            algo.save_checkpoint(path, substrate_hash="abc")
+            self.assertTrue(os.path.exists(path))
+
+            algo2 = RLCandVNE()
+            ok = algo2.load_checkpoint(path, expected_hash="abc")
+            self.assertTrue(ok)
+
+    def test_hash_mismatch_warns_but_loads(self):
+        random.seed(0); torch.manual_seed(0)
+        algo = RLCandVNE()
+        with tempfile.TemporaryDirectory() as tmp:
+            path = os.path.join(tmp, "ckpt.pt")
+            algo.save_checkpoint(path, substrate_hash="abc")
+            algo2 = RLCandVNE()
+            # Different expected hash -> with require_hash_match=False this still loads.
+            ok = algo2.load_checkpoint(path, expected_hash="different")
+            self.assertTrue(ok)
+
+
+class TestInlinePretrain(unittest.TestCase):
+    def test_inline_pretrain_runs_without_error(self):
+        random.seed(0); torch.manual_seed(0)
+        sn = _build_sn()
+        algo = RLCandVNE()
+        algo.config["training"]["inline_pretrain_episodes"] = 5
+        algo.config["training"]["batch_size"] = 2
+        algo.config["training"]["warmup_fraction"] = 0.0  # keep the test fast
+        algo.pretrain_inline(sn)
+        self.assertTrue(algo._pretrained)
 
 
 if __name__ == "__main__":
