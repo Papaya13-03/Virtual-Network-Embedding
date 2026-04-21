@@ -126,5 +126,12 @@ class TestOnlineLearning(unittest.TestCase):
         self.assertGreaterEqual(algo._request_count, 10)
 
 
+class TestRegistry(unittest.TestCase):
+    def test_registry_returns_rl_cand_vne(self):
+        from algorithms.registry import get_algorithm
+        algo = get_algorithm("rl_cand_vne")
+        self.assertEqual(algo.__class__.__name__, "RLCandVNE")
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -10,7 +10,7 @@ LIMIT=${3:-""}
 PROJECT_ROOT=$(dirname "$(dirname "$(readlink -f "$0")")")
 
 # Array of algorithms to run (add more as they are implemented)
-ALGORITHMS=("mp_vne" "oa_mp_vne" "rl_oa_mp_vne")
+ALGORITHMS=("mp_vne" "oa_mp_vne" "rl_oa_mp_vne" "rl_cand_vne")
 
 SUBSTRATE_PATH="$PROJECT_ROOT/datasets/$SCENARIO/substrate.json"
 REQUESTS_PATH="$PROJECT_ROOT/datasets/$SCENARIO/virtual_requests.json"
