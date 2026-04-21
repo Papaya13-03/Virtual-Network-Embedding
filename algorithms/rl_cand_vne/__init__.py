@@ -1,1 +1,3 @@
-# Package marker for rl_cand_vne. RLCandVNE is re-exported after it is implemented.
+from algorithms.rl_cand_vne.rl_cand_vne import RLCandVNE
+
+__all__ = ["RLCandVNE"]
