@@ -105,5 +105,26 @@ class TestInlinePretrain(unittest.TestCase):
         self.assertTrue(algo._pretrained)
 
 
+class TestOnlineLearning(unittest.TestCase):
+    def test_online_updates_fire_without_errors(self):
+        random.seed(0); torch.manual_seed(0)
+        sn = _build_sn()
+        algo = RLCandVNE()
+        algo.config["training"]["inline_pretrain_episodes"] = 0
+        algo.config["training"]["online_k"] = 5
+        algo.config["training"]["batch_size"] = 5
+        for i in range(10):
+            vn = VirtualNetwork(id=f"v{i}")
+            vn.nodes = {
+                "a": VirtualNode(id="a", cpu_demand=3.0),
+                "b": VirtualNode(id="b", cpu_demand=3.0),
+            }
+            vn.links = {("a", "b"): VirtualLink(source="a", target="b", bandwidth_demand=10.0)}
+            req = VirtualNetworkRequest(id=f"r{i}", virtual_network=vn,
+                                        arrival_time=float(i), lifetime=1000.0)
+            algo.solve(sn, req)
+        self.assertGreaterEqual(algo._request_count, 10)
+
+
 if __name__ == "__main__":
     unittest.main()
