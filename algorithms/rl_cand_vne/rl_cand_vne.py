@@ -29,7 +29,7 @@ def _default_config() -> Dict:
             "batch_size": 16, "online_k": 10, "baseline_window": 100,
             "lam_sup": 1.0, "warmup_fraction": 0.2,
             "u_max_cpu": 0.8, "u_max_bw": 0.8, "warmup_M_max": 20,
-            "R_penalty": 2.0, "learning_rate": 0.001,
+            "R_penalty": 10.0, "learning_rate": 0.001,
             "checkpoint_every": 500, "online_save_every": 100,
             "vn_min_nodes": 2, "vn_max_nodes": 8,
             "vn_min_cpu": 1.0, "vn_max_cpu": 30.0,

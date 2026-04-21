@@ -13,7 +13,7 @@ training:
   u_max_cpu: 0.8
   u_max_bw: 0.8
   warmup_M_max: 20
-  R_penalty: 2.0
+  R_penalty: 10.0
   learning_rate: 0.001
   checkpoint_every: 500
   online_save_every: 100
