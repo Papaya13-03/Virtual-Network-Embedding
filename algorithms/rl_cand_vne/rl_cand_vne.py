@@ -180,6 +180,17 @@ class RLCandVNE:
             self._baseline_helper.global_controller = self.global_controller
             self._initialized = True
 
+        # First call: if no checkpoint on disk, run inline fallback pretraining.
+        if not getattr(self, "_pretrained", False):
+            ckpt_path = self.config.get("checkpoint", {}).get("path", "")
+            h = substrate_structure_hash(sn) if sn is not None else ""
+            if ckpt_path and os.path.exists(ckpt_path):
+                self.load_checkpoint(ckpt_path, expected_hash=h)
+            elif int(self.config["training"].get("inline_pretrain_episodes", 0)) > 0:
+                self.pretrain_inline(sn)
+            else:
+                self._pretrained = True  # skip training; untrained policy
+
         self._release_expired(req.arrival_time)
         self.global_controller.clear_caches()
 
@@ -254,6 +265,170 @@ class RLCandVNE:
                     cost += bw * link.bandwidth_price
                     cost += link.transmission_delay
         return cost
+
+    # ---------- Checkpoint I/O ----------
+
+    def save_checkpoint(self, path: str, substrate_hash: str = "") -> None:
+        os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+        payload = {
+            "policy_state_dict": self.policy.state_dict(),
+            "config": self.config,
+            "substrate_hash": substrate_hash,
+            "episodes_trained": getattr(self, "_episodes_trained", 0),
+            "baseline_buffer": list(self.trainer._baseline_buf),
+        }
+        torch.save(payload, path)
+
+    def load_checkpoint(self, path: str, expected_hash: str = "") -> bool:
+        if not os.path.exists(path):
+            return False
+        payload = torch.load(path, map_location="cpu", weights_only=False)
+        self.policy.load_state_dict(payload["policy_state_dict"])
+        stored_hash = payload.get("substrate_hash", "")
+        if expected_hash and stored_hash and expected_hash != stored_hash:
+            require = self.config.get("checkpoint", {}).get("require_hash_match", False)
+            if require:
+                raise ValueError(
+                    f"Substrate hash mismatch: expected {expected_hash}, stored {stored_hash}"
+                )
+            print(
+                f"[rl_cand_vne] WARNING: substrate hash mismatch "
+                f"(expected {expected_hash[:8]}, stored {stored_hash[:8]}). Continuing."
+            )
+        # Restore baseline buffer best-effort
+        try:
+            for r in payload.get("baseline_buffer", []):
+                self.trainer._baseline_buf.append(float(r))
+        except Exception:
+            pass
+        self._pretrained = True
+        return True
+
+    # ---------- Inline pretraining (fallback when no checkpoint) ----------
+
+    def pretrain_inline(self, sn) -> None:
+        from algorithms.rl_cand_vne.state_sampler import sample_substrate_state
+        from algorithms.rl_cand_vne.vn_generator import generate_random_vn_with_domains
+
+        if self.global_controller is None:
+            self.global_controller = GlobalController(sn)
+            self._baseline_helper.global_controller = self.global_controller
+
+        train_cfg = self.config["training"]
+        episodes = int(train_cfg["inline_pretrain_episodes"])
+        batch_size = int(train_cfg["batch_size"])
+        vn_kwargs = {
+            "min_nodes": train_cfg["vn_min_nodes"], "max_nodes": train_cfg["vn_max_nodes"],
+            "min_cpu": train_cfg["vn_min_cpu"], "max_cpu": train_cfg["vn_max_cpu"],
+            "min_bw": train_cfg["vn_min_bw"], "max_bw": train_cfg["vn_max_bw"],
+            "link_prob": train_cfg["vn_link_prob"],
+        }
+        domain_ids = [lc.domain.id for lc in self.global_controller.local_controllers]
+        ad = train_cfg["allowed_domains"]
+
+        self.policy.train()
+        for ep in range(episodes):
+            sample_substrate_state(
+                self.global_controller, sn,
+                warmup_fraction=train_cfg["warmup_fraction"],
+                u_max_cpu=train_cfg["u_max_cpu"], u_max_bw=train_cfg["u_max_bw"],
+                M_max=train_cfg["warmup_M_max"], vn_kwargs=vn_kwargs,
+            )
+            vn = generate_random_vn_with_domains(
+                min_nodes=vn_kwargs["min_nodes"], max_nodes=vn_kwargs["max_nodes"],
+                min_cpu=vn_kwargs["min_cpu"], max_cpu=vn_kwargs["max_cpu"],
+                min_bw=vn_kwargs["min_bw"], max_bw=vn_kwargs["max_bw"],
+                link_prob=vn_kwargs["link_prob"],
+                domain_ids=domain_ids,
+                p_all=ad["p_all"], p_single=ad["p_single"], p_subset=ad["p_subset"],
+                subset_min=ad["subset_min"], subset_max=ad["subset_max"],
+            )
+            req = VirtualNetworkRequest(
+                id=f"pt_{ep}", virtual_network=vn,
+                arrival_time=0.0, lifetime=float("inf"),
+            )
+            reward, committed, dom_lps, sn_lps, success = self._training_episode(req)
+            self.trainer.record(
+                domain_log_probs=dom_lps,
+                snode_log_probs_per_vnode=sn_lps,
+                reward=reward,
+                committed_snode_indices=committed,
+                success=success,
+            )
+            if (ep + 1) % batch_size == 0:
+                self.trainer.update()
+            # Rollback any allocation this episode caused
+            self.global_controller.reset_allocations()
+            self.global_controller.clear_caches()
+
+        if self.trainer.buffer:
+            self.trainer.update()
+        self._pretrained = True
+
+    def _training_episode(self, req: VirtualNetworkRequest):
+        """Return (reward, committed_snode_indices_or_None, dom_lps, sn_lps, success)."""
+        vn = req.virtual_network
+        vnode_feats, vn_adj, dip, demands = self._build_policy_inputs(vn)
+        out = self.policy(
+            vnode_feats=vnode_feats, vn_adj_norm=vn_adj,
+            domain_inputs_per_vnode=dip, cpu_demands=demands, sample=True,
+        )
+        candidate_nodes = self._resolve_candidate_snodes(vn, out)
+        R_penalty = self.config["training"]["R_penalty"]
+
+        if any(not c for c in candidate_nodes):
+            return (
+                -R_penalty, None,
+                out["domain_log_probs"], out["snode_log_probs_per_vnode"],
+                False,
+            )
+
+        ordered_vnodes = list(vn.nodes.values())
+        vnode_to_idx = {v.id: i for i, v in enumerate(ordered_vnodes)}
+        vlink_indices = [
+            {
+                "src_idx": vnode_to_idx[vl.source],
+                "dst_idx": vnode_to_idx[vl.target],
+                "bw": vl.bandwidth_demand,
+            }
+            for vl in vn.links.values()
+        ]
+        try:
+            best_particle = self._baseline_helper.pso(
+                candidate_nodes, req, vlink_indices, ordered_vnodes
+            )
+        except Exception:
+            return (
+                -R_penalty, None,
+                out["domain_log_probs"], out["snode_log_probs_per_vnode"],
+                False,
+            )
+
+        mapping = {
+            ordered_vnodes[i].id: candidate_nodes[i][idx].id
+            for i, idx in enumerate(best_particle)
+        }
+        try:
+            vlink_paths = self._baseline_helper._commit_mapping_ordered(mapping, vn)
+            if not vlink_paths:
+                raise ValueError("no paths")
+        except Exception:
+            return (
+                -R_penalty, None,
+                out["domain_log_probs"], out["snode_log_probs_per_vnode"],
+                False,
+            )
+
+        cost = self._composite_cost(mapping, vn, vlink_paths)
+        revenue = sum(nd.cpu_demand for nd in vn.nodes.values()) + \
+                  sum(vl.bandwidth_demand for vl in vn.links.values())
+        reward = -cost / max(revenue, 1e-6)
+        committed_indices = list(best_particle)
+        return (
+            reward, committed_indices,
+            out["domain_log_probs"], out["snode_log_probs_per_vnode"],
+            True,
+        )
 
     def _release_expired(self, now: float) -> None:
         expired = [rid for rid, d in self._active_mappings.items() if d["expire_time"] <= now]

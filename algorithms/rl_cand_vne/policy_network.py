@@ -33,6 +33,9 @@ def plackett_luce_topk(
     log_probs: List[torch.Tensor] = []
 
     for _ in range(k_eff):
+        # If all remaining logits are -inf (all infeasible), stop early.
+        if torch.all(remaining_logits == float("-inf")):
+            break
         probs = torch.softmax(remaining_logits, dim=0)
         dist = torch.distributions.Categorical(probs)
         pos = dist.sample()
