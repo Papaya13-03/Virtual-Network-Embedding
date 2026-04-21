@@ -1,5 +1,8 @@
+import json
 import os
 import random
+import subprocess
+import sys
 import tempfile
 import unittest
 import torch
@@ -131,6 +134,83 @@ class TestRegistry(unittest.TestCase):
         from algorithms.registry import get_algorithm
         algo = get_algorithm("rl_cand_vne")
         self.assertEqual(algo.__class__.__name__, "RLCandVNE")
+
+
+def _dump_substrate(md, path):
+    """Dump MultiDomainNetwork to the JSON schema read_substrate() parses."""
+    data = {"domains": [], "inter_domain_links": []}
+    for d in md.domains.values():
+        data["domains"].append({
+            "id": d.id,
+            "nodes": [{"id": n.id, "cpu_capacity": n.cpu_capacity,
+                       "cpu_price": n.cpu_price, "processing_delay": n.processing_delay}
+                      for n in d.network.nodes.values()],
+            "links": [{"source": lk.source, "target": lk.target,
+                       "bandwidth_capacity": lk.bandwidth_capacity,
+                       "bandwidth_price": lk.bandwidth_price,
+                       "transmission_delay": lk.transmission_delay}
+                      for lk in d.network.links.values()],
+        })
+    for lk in md.inter_domain_links.values():
+        data["inter_domain_links"].append({
+            "source": lk.source, "target": lk.target,
+            "bandwidth_capacity": lk.bandwidth_capacity,
+            "bandwidth_price": lk.bandwidth_price,
+            "transmission_delay": lk.transmission_delay,
+        })
+    with open(path, "w") as f:
+        json.dump(data, f)
+
+
+class TestOfflineTrainingToSolveIntegration(unittest.TestCase):
+    def test_offline_train_then_solve(self):
+        random.seed(0)
+        torch.manual_seed(0)
+        # Write a tiny substrate JSON for the offline script.
+        sn = _build_sn()
+        with tempfile.TemporaryDirectory() as tmp:
+            sn_path = os.path.join(tmp, "substrate.json")
+            _dump_substrate(sn, sn_path)
+            ckpt = os.path.join(tmp, "ckpt.pt")
+            log_dir = os.path.join(tmp, "log")
+            cfg_path = os.path.join(tmp, "cfg.yaml")
+            import yaml as _y
+            cfg = _y.safe_load(open("configs/rl_cand_vne.yaml"))
+            cfg["training"]["warmup_fraction"] = 0.0
+            cfg["training"]["batch_size"] = 5
+            cfg["training"]["vn_max_nodes"] = 3
+            with open(cfg_path, "w") as f:
+                _y.safe_dump(cfg, f)
+
+            res = subprocess.run(
+                [sys.executable, "scripts/train_rl_cand_vne.py",
+                 "--substrate", sn_path, "--config", cfg_path,
+                 "--episodes", "20", "--checkpoint", ckpt, "--log-dir", log_dir,
+                 "--seed", "0"],
+                capture_output=True, text=True, timeout=120,
+                cwd="/Users/duvannguyen/Workspace/Studies/Virtual-Network-Embedding",
+            )
+            self.assertEqual(res.returncode, 0, res.stderr)
+            self.assertTrue(os.path.exists(ckpt))
+            log_file = os.path.join(log_dir, "train.jsonl")
+            self.assertTrue(os.path.exists(log_file))
+            with open(log_file) as f:
+                lines = f.readlines()
+            self.assertGreaterEqual(len(lines), 1)
+            for line in lines:
+                rec = json.loads(line)
+                for key in ["loss_total", "reward_mean", "success_rate",
+                            "cost_per_revenue_mean", "baseline"]:
+                    self.assertIn(key, rec)
+
+            algo = RLCandVNE()
+            algo.config["checkpoint"]["path"] = ckpt
+            algo.config["training"]["inline_pretrain_episodes"] = 0
+            vn = _build_vn()
+            req = VirtualNetworkRequest(id="r1", virtual_network=vn,
+                                        arrival_time=0.0, lifetime=100.0)
+            solution = algo.solve(sn, req)
+            self.assertEqual(solution.vnr_id, "r1")
 
 
 if __name__ == "__main__":
