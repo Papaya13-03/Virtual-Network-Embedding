@@ -77,17 +77,19 @@ class Trainer:
             if ep["success"]:
                 success_count += 1
                 indices = ep["committed_snode_indices"]
-                # Supervised aux: maximize log-prob of the first sampled candidate per vnode
-                # on successful episodes. This is a weak teacher (it nudges the top Plackett-
-                # Luce draw upward) rather than a tight "exactly-committed-snode" signal,
-                # because PSO selects the committed index from the K-sized candidate set —
-                # not necessarily the first draw. A tighter teacher would require a second
-                # forward pass to compute log pi(committed | vnode, domain) directly.
-                for i, lps in enumerate(ep["snode_log_probs_per_vnode"]):
-                    if not lps:
-                        continue
-                    sup_loss = sup_loss + (-lps[0])
-                    n_sup += 1
+                # Supervised aux: maximize log-prob of the Plackett-Luce draw that PSO
+                # actually committed. committed_snode_indices[i] is in range(K) — the
+                # position within vnode i's candidate set that PSO picked. Mapping that
+                # to snode_log_probs_per_vnode[i][k] gives log pi of the k-th draw,
+                # which is the tightest teacher signal we can get without re-forwarding.
+                if indices is not None:
+                    for i, lps in enumerate(ep["snode_log_probs_per_vnode"]):
+                        if not lps or i >= len(indices):
+                            continue
+                        k = indices[i]
+                        if 0 <= k < len(lps):
+                            sup_loss = sup_loss + (-lps[k])
+                            n_sup += 1
 
         rl_loss = rl_loss / n
         if n_sup > 0:
