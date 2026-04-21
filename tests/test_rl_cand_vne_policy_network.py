@@ -1,7 +1,7 @@
 import unittest
 import torch
 from algorithms.rl_cand_vne.policy_network import (
-    GCNEncoder, plackett_luce_topk, DomainHead, SNodeHead,
+    GCNEncoder, plackett_luce_topk, DomainHead, SNodeHead, PolicyNetwork,
 )
 
 
@@ -72,6 +72,37 @@ class TestSNodeHead(unittest.TestCase):
         self.assertTrue(torch.all(torch.isfinite(logits)))
         probs = torch.softmax(logits, dim=0)
         self.assertAlmostEqual(probs.sum().item(), 1.0, places=5)
+
+
+class TestPolicyNetworkForward(unittest.TestCase):
+    def test_toy_forward(self):
+        torch.manual_seed(0)
+        pn = PolicyNetwork(vnode_feat_size=5, snode_feat_size=5, hidden=32, K=2)
+        vnode_feats = torch.randn(2, 5)
+        vn_adj = torch.eye(2)
+        domain_inputs_per_vnode = [
+            [  # vnode 0: allowed domains = [d1, d2]
+                (torch.randn(3, 5), torch.eye(3), torch.tensor([5.0, 10.0, 50.0])),
+                (torch.randn(4, 5), torch.eye(4), torch.tensor([5.0, 5.0, 5.0, 50.0])),
+            ],
+            [  # vnode 1: allowed domains = [d2]
+                (torch.randn(4, 5), torch.eye(4), torch.tensor([5.0, 5.0, 5.0, 50.0])),
+            ],
+        ]
+        cpu_demands = [3.0, 4.0]
+        result = pn(
+            vnode_feats=vnode_feats,
+            vn_adj_norm=vn_adj,
+            domain_inputs_per_vnode=domain_inputs_per_vnode,
+            cpu_demands=cpu_demands,
+            sample=True,
+        )
+        self.assertEqual(len(result["chosen_domains"]), 2)
+        self.assertEqual(len(result["chosen_snodes"]), 2)
+        self.assertEqual(len(result["chosen_snodes"][0]), 2)
+        self.assertGreaterEqual(len(result["chosen_snodes"][1]), 1)
+        self.assertEqual(len(result["domain_log_probs"]), 2)
+        self.assertEqual(len(result["snode_log_probs_per_vnode"]), 2)
 
 
 if __name__ == "__main__":
