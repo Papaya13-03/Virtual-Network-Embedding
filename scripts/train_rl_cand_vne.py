@@ -163,7 +163,15 @@ def main():
     print(f"  reward       first-100={r_first:.4f}  last-100={r_last:.4f}")
     print(f"  cost/rev     first-100={cpr_first:.4f}  last-100={cpr_last:.4f}")
     print(f"  success_rate first-100={sr_first:.4f}  last-100={sr_last:.4f}")
-    converged = r_last >= 1.2 * r_first if r_first != 0 else False
+    # Rewards are negative (−cost/revenue). Convergence = last-100 mean strictly greater
+    # than first-100 mean by more than one stddev of first-100 (improvement signal that
+    # also tolerates noise).
+    import statistics as _stats
+    if first_100_reward:
+        first_std = _stats.pstdev(first_100_reward) or 1e-6
+        converged = (r_last - r_first) > first_std
+    else:
+        converged = False
     print(f"  {'CONVERGED' if converged else 'NOT_CONVERGED'}")
     print("=" * 60)
 

@@ -18,7 +18,6 @@ from algorithms.rl_cand_vne.policy_network import PolicyNetwork
 from algorithms.rl_cand_vne.trainer import Trainer
 from problem.embedding_solution import EmbeddingSolution
 from problem.request import VirtualNetworkRequest
-from problem.substrate_network import SubstrateNetwork
 from problem.virtual_network import VirtualNetwork
 
 
@@ -253,6 +252,7 @@ class RLCandVNE:
         os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
         payload = {
             "policy_state_dict": self.policy.state_dict(),
+            "optimizer_state_dict": self.trainer.optimizer.state_dict(),
             "config": self.config,
             "substrate_hash": substrate_hash,
             "episodes_trained": getattr(self, "_episodes_trained", 0),
@@ -265,6 +265,12 @@ class RLCandVNE:
             return False
         payload = torch.load(path, map_location="cpu", weights_only=False)
         self.policy.load_state_dict(payload["policy_state_dict"])
+        self._episodes_trained = int(payload.get("episodes_trained", 0))
+        if "optimizer_state_dict" in payload:
+            try:
+                self.trainer.optimizer.load_state_dict(payload["optimizer_state_dict"])
+            except Exception:
+                pass  # optimizer may differ (e.g., lr changed); skip
         stored_hash = payload.get("substrate_hash", "")
         if expected_hash and stored_hash and expected_hash != stored_hash:
             require = self.config.get("checkpoint", {}).get("require_hash_match", False)
@@ -276,8 +282,9 @@ class RLCandVNE:
                 f"[rl_cand_vne] WARNING: substrate hash mismatch "
                 f"(expected {expected_hash[:8]}, stored {stored_hash[:8]}). Continuing."
             )
-        # Restore baseline buffer best-effort
+        # Restore baseline buffer best-effort (replace, not append)
         try:
+            self.trainer._baseline_buf.clear()
             for r in payload.get("baseline_buffer", []):
                 self.trainer._baseline_buf.append(float(r))
         except Exception:
@@ -336,9 +343,10 @@ class RLCandVNE:
                 committed_snode_indices=committed,
                 success=success,
             )
+            self.global_controller.reset_allocations()
+            self.global_controller.clear_caches()
             if (ep + 1) % batch_size == 0:
                 self.trainer.update()
-            self.global_controller.clear_caches()
 
         if self.trainer.buffer:
             self.trainer.update()

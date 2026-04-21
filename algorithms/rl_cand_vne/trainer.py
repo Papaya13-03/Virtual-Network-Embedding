@@ -76,17 +76,16 @@ class Trainer:
 
             if ep["success"]:
                 success_count += 1
-                # Supervised aux: for each vnode, increase probability of the committed snode.
-                # snode_log_probs_per_vnode[i][0] is log π of the *first* sampled snode,
-                # which (on successful embedding) is the snode ultimately committed when
-                # the top-1 sampled candidate was picked by PSO. We use it as a teacher
-                # signal only if that index equals the committed one.
+                indices = ep["committed_snode_indices"]
+                # Supervised aux: maximize log-prob of the first sampled candidate per vnode
+                # on successful episodes. This is a weak teacher (it nudges the top Plackett-
+                # Luce draw upward) rather than a tight "exactly-committed-snode" signal,
+                # because PSO selects the committed index from the K-sized candidate set —
+                # not necessarily the first draw. A tighter teacher would require a second
+                # forward pass to compute log pi(committed | vnode, domain) directly.
                 for i, lps in enumerate(ep["snode_log_probs_per_vnode"]):
                     if not lps:
                         continue
-                    # Sup signal: maximize log π of the first-picked candidate that matches
-                    # the committed index. Any candidate log-prob is a valid surrogate; we
-                    # take the first draw for simplicity.
                     sup_loss = sup_loss + (-lps[0])
                     n_sup += 1
 
@@ -105,7 +104,7 @@ class Trainer:
         metrics = {
             "loss_total": float(total_loss.item()),
             "loss_rl": float(rl_loss.item()),
-            "loss_sup": float(sup_loss.item()) if isinstance(sup_loss, torch.Tensor) else 0.0,
+            "loss_sup": float(sup_loss.item()),
             "avg_reward": sum(ep["reward"] for ep in self.buffer) / n,
             "success_rate": success_count / n,
             "baseline": b_val,

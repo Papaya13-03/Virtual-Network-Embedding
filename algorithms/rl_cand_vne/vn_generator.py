@@ -14,7 +14,9 @@ def _sample_allowed_domains(
         return []
     if r < p_all + p_single:
         return [random.choice(domain_ids)]
-    k = random.randint(subset_min, min(subset_max, len(domain_ids)))
+    k_max = max(1, min(subset_max, len(domain_ids)))
+    k_min = max(1, min(subset_min, k_max))
+    k = random.randint(k_min, k_max)
     return random.sample(domain_ids, k)
 
 
