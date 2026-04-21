@@ -76,6 +76,23 @@ def main():
     first_100_cpr, last_100_cpr = [], []
     first_100_sr, last_100_sr = [], []
 
+    start_time = time.time()
+    total_eps = args.episodes
+
+    def _fmt_secs(s: float) -> str:
+        if s < 60:
+            return f"{s:4.0f}s"
+        m, s = divmod(int(s), 60)
+        if m < 60:
+            return f"{m:2d}m{s:02d}s"
+        h, m = divmod(m, 60)
+        return f"{h:d}h{m:02d}m"
+
+    print(f"Training rl_cand_vne on {total_eps} episodes (batch_size={batch_size})")
+    print(f"  substrate={args.substrate}  seed={args.seed}")
+    print(f"  checkpoint={args.checkpoint}  log={log_path}")
+    print("-" * 72)
+
     with open(log_path, "w", buffering=1) as log_f:  # line-buffered
         batch_rewards = []
 
@@ -138,14 +155,31 @@ def main():
                 log_f.write(json.dumps(log_line) + "\n")
                 batch_rewards.clear()
 
+                elapsed = time.time() - start_time
+                done = ep + 1
+                pct = 100.0 * done / total_eps
+                eta = elapsed * (total_eps - done) / max(done, 1)
+                print(
+                    f"[{done:5d}/{total_eps:5d} {pct:5.1f}%] "
+                    f"reward={m['avg_reward']:+7.3f} "
+                    f"sup={m['loss_sup']:5.2f} "
+                    f"rl={m['loss_rl']:+8.3f} "
+                    f"succ={m['success_rate']*100:5.1f}% "
+                    f"elapsed={_fmt_secs(elapsed)} ETA={_fmt_secs(eta)}",
+                    flush=True,
+                )
+
             if (ep + 1) % ckpt_every == 0:
                 algo.save_checkpoint(args.checkpoint, substrate_hash=sub_hash)
                 algo._episodes_trained = ep + 1
+                print(f"  [checkpoint saved at episode {ep + 1}]", flush=True)
 
         if algo.trainer.buffer:
             algo.trainer.update()
         algo.save_checkpoint(args.checkpoint, substrate_hash=sub_hash)
         algo._episodes_trained = args.episodes
+
+    print("-" * 72)
 
     def _mean(xs):
         xs = [x for x in xs if x == x]  # drop NaN
