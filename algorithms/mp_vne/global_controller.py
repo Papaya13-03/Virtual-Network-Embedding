@@ -1,4 +1,4 @@
-from typing import List, Dict, Set
+from typing import List, Dict, Set, Tuple
 from algorithms.mp_vne.local_controller import LocalController
 from problem.domain import MultiDomainNetwork, PhysicalDomain
 from problem.substrate_network import SubstrateNetwork, SubstrateNode, SubstrateLink
@@ -13,10 +13,26 @@ class GlobalController:
             self.snetwork.inter_domain_links = {}
         else:
             self.snetwork = snetwork
-            
+
         self.local_controllers: List[LocalController] = [LocalController(d) for d in self.snetwork.domains.values()]
         self._id_fw_cache = {}  # bw_required -> (dist, nxt)
+        self._boundary_of: Dict[str, Set[str]] = {}          # domain_id -> boundary node ids
+        self._boundary_between: Dict[Tuple[str, str], Set[str]] = {}  # (j, m) -> boundary ids of j facing m
+        self._build_boundary_index()
         self._initialize_resources()
+
+    def _build_boundary_index(self) -> None:
+        for dom_id in self.snetwork.domains:
+            self._boundary_of[dom_id] = set()
+        for (u, v) in self.snetwork.inter_domain_links.keys():
+            u_dom, _ = self._find_snode(u)
+            v_dom, _ = self._find_snode(v)
+            if u_dom:
+                self._boundary_of[u_dom].add(u)
+                self._boundary_between.setdefault((u_dom, v_dom), set()).add(u)
+            if v_dom:
+                self._boundary_of[v_dom].add(v)
+                self._boundary_between.setdefault((v_dom, u_dom), set()).add(v)
 
     def _initialize_resources(self):
         """Initialize available resources if they haven't been set yet."""
@@ -30,16 +46,93 @@ class GlobalController:
             lc.clear_cache()
 
     # ---------------- Public interface ----------------
-    def process_request(self, request: VirtualNetwork) -> List[List[SubstrateNode]]:
-        """Find candidate nodes for each vnode."""
-        all_candidates = []
+    def process_request(self, request: VirtualNetwork, top_k: int = 2) -> List[List[SubstrateNode]]:
+        """Select candidate nodes per vnode using PreCost (MP-VNE paper, Eq. 2).
+
+        For each virtual node, for each allowed domain, rank feasible physical nodes
+        by the estimated mapping cost and keep the `top_k` lowest.
+        """
+        all_domains = list(self.snetwork.domains.keys())
+
+        # Adjacency: vnode_id -> list of (VirtualLink, neighbor VirtualNode)
+        adjacency: Dict[str, List[Tuple[VirtualLink, VirtualNode]]] = {vid: [] for vid in request.nodes}
+        for vlink in request.links.values():
+            if vlink.source in request.nodes and vlink.target in request.nodes:
+                adjacency[vlink.source].append((vlink, request.nodes[vlink.target]))
+                adjacency[vlink.target].append((vlink, request.nodes[vlink.source]))
+
+        all_candidates: List[List[SubstrateNode]] = []
         for vnode in request.nodes.values():
-            candidates = []
-            for lc in self.local_controllers:
-                if not vnode.allowed_domains or lc.domain.id in vnode.allowed_domains:
-                    candidates.extend(lc.get_candidates(vnode))
-            all_candidates.append(candidates)
+            adj = adjacency[vnode.id]
+            allowed = vnode.allowed_domains or all_domains
+
+            vnode_candidates: List[SubstrateNode] = []
+            for dom_id in allowed:
+                if dom_id not in self.snetwork.domains:
+                    continue
+                lc = self._get_local_controller(dom_id)
+                feasible = lc.get_candidates(vnode)
+                ranked = sorted(
+                    feasible,
+                    key=lambda sn, d=dom_id: self._compute_precost(vnode, sn, d, adj, all_domains)
+                )
+                vnode_candidates.extend(ranked[:top_k])
+            all_candidates.append(vnode_candidates)
         return all_candidates
+
+    # ---------------- PreCost (Eq. 2 of MP-VNE paper) ----------------
+    def _compute_precost(self,
+                         vnode: VirtualNode,
+                         snode: SubstrateNode,
+                         domain_id: str,
+                         adjacent_vlinks: List[Tuple[VirtualLink, VirtualNode]],
+                         all_domains: List[str]) -> float:
+        """Estimated mapping cost of vnode -> snode in domain_id."""
+        node_term = vnode.cpu_demand * snode.cpu_price
+        if not adjacent_vlinks:
+            return node_term
+
+        lc = self._get_local_controller(domain_id)
+        boundary_all = self._boundary_of.get(domain_id, set())
+
+        link_term_sum = 0.0
+        num_combinations = 0
+
+        for vlink, neighbor in adjacent_vlinks:
+            neighbor_domains = neighbor.allowed_domains or all_domains
+            bw = vlink.bandwidth_demand
+
+            for m in neighbor_domains:
+                if m == domain_id:
+                    c_kb = 0.0
+                elif (domain_id, m) in self._boundary_between:
+                    targets = self._boundary_between[(domain_id, m)]
+                    c_kb = self._avg_link_price(lc, snode, targets)
+                else:
+                    c_kb = self._avg_link_price(lc, snode, boundary_all)
+
+                link_term_sum += bw * c_kb
+                num_combinations += 1
+
+        link_term = (link_term_sum / num_combinations) if num_combinations > 0 else 0.0
+        return node_term + link_term
+
+    def _avg_link_price(self, lc: LocalController, snode: SubstrateNode, boundary_ids: Set[str]) -> float:
+        if not boundary_ids:
+            return 0.0
+        costs: List[float] = []
+        for b_id in boundary_ids:
+            if b_id == snode.id:
+                costs.append(0.0)
+                continue
+            b_node = lc.domain.network.nodes.get(b_id)
+            if b_node is None:
+                continue
+            path = lc.shortest_path(snode, b_node, bw_required=0.0)
+            if not path:
+                continue
+            costs.append(sum(l.bandwidth_price for l in path))
+        return (sum(costs) / len(costs)) if costs else 0.0
 
     def commit_mapping(self, mapping: Dict[str, str], request: VirtualNetwork) -> Dict[tuple, List[tuple]]:
         """
