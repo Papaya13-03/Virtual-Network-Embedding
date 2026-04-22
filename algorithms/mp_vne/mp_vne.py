@@ -33,6 +33,9 @@ class MPVNE:
                     "c1": 1.5,
                     "c2": 1.5,
                     "mutation_rate": 0.1
+                },
+                "candidate_selection": {
+                    "top_k": 5
                 }
             }
 
@@ -53,7 +56,8 @@ class MPVNE:
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
-        candidate_nodes = self.global_controller.process_request(vnetwork)
+        top_k = self.config.get("candidate_selection", {}).get("top_k", 5)
+        candidate_nodes = self.global_controller.process_request(vnetwork, top_k=top_k)
         if any(not c for c in candidate_nodes):
             return solution  # Failed to find candidates for a virtual node
             

@@ -5,3 +5,5 @@ pso:
   c1: 1.5
   c2: 1.5
   mutation_rate: 0.1
+candidate_selection:
+  top_k: 5
