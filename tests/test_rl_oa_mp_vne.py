@@ -93,12 +93,13 @@ class TestPolicyNetwork(unittest.TestCase):
         domain_node_feats = [(sub_X,)] * 3  # 3 vnodes, each sees 1 domain
         domain_adj_mats = [(sub_A,)] * 3
 
-        node_scores, link_scores = net(
+        node_scores, link_scores, cand_scores = net(
             vnode_feats, vlink_feats,
             domain_node_feats, domain_adj_mats
         )
         self.assertEqual(node_scores.shape, (3,))
         self.assertEqual(link_scores.shape, (2,))
+        self.assertIsNone(cand_scores)
 
     def test_scores_are_differentiable(self):
         """Scores must support backpropagation for REINFORCE."""
@@ -109,12 +110,14 @@ class TestPolicyNetwork(unittest.TestCase):
         vlink_feats = torch.randn(2, 5)
         domain_node_feats = [(sub_X,)] * 3
         domain_adj_mats = [(sub_A,)] * 3
+        slacks = [torch.tensor([1.0, 2.0, 3.0, 4.0])] * 3
 
-        node_scores, link_scores = net(
+        node_scores, link_scores, cand_scores = net(
             vnode_feats, vlink_feats,
-            domain_node_feats, domain_adj_mats
+            domain_node_feats, domain_adj_mats,
+            per_vnode_cpu_slacks=slacks,
         )
-        loss = node_scores.sum() + link_scores.sum()
+        loss = node_scores.sum() + link_scores.sum() + sum(s.sum() for s in cand_scores)
         loss.backward()
         for p in net.parameters():
             if p.requires_grad:
@@ -135,7 +138,7 @@ class TestRankingTrainer(unittest.TestCase):
         """Recording an experience should grow the buffer."""
         policy = self._make_policy()
         trainer = RankingTrainer(policy, lr=0.001, gamma=0.99, batch_size=4)
-        log_probs = [torch.tensor(0.5, requires_grad=True)]
+        log_probs = {"node": [torch.tensor(0.5, requires_grad=True)]}
         trainer.record(log_probs, reward=2.0)
         self.assertEqual(len(trainer.buffer), 1)
 
@@ -144,7 +147,7 @@ class TestRankingTrainer(unittest.TestCase):
         policy = self._make_policy()
         trainer = RankingTrainer(policy, lr=0.001, gamma=0.99, batch_size=2)
         for _ in range(3):
-            log_probs = [torch.tensor(0.5, requires_grad=True)]
+            log_probs = {"node": [torch.tensor(0.5, requires_grad=True)]}
             trainer.record(log_probs, reward=1.0)
         trainer.update()
         self.assertEqual(len(trainer.buffer), 0)
@@ -157,17 +160,18 @@ class TestRankingTrainer(unittest.TestCase):
         vlink_feats = torch.randn(2, 5)
         domain_node_feats = [(sub_X,)] * 3
         domain_adj_mats = [(sub_A,)] * 3
-        node_scores, link_scores = policy(
+        node_scores, link_scores, _ = policy(
             vnode_feats, vlink_feats,
             domain_node_feats, domain_adj_mats,
         )
         # Plackett-Luce style: softmax then sample from Categorical
         node_dist = torch.distributions.Categorical(logits=node_scores)
         link_dist = torch.distributions.Categorical(logits=link_scores)
-        log_probs = [
-            node_dist.log_prob(node_dist.sample()),
-            link_dist.log_prob(link_dist.sample()),
-        ]
+        log_probs = {
+            "node": [node_dist.log_prob(node_dist.sample())],
+            "link": [link_dist.log_prob(link_dist.sample())],
+            "cand": []
+        }
         return log_probs
 
     def test_update_changes_weights(self):

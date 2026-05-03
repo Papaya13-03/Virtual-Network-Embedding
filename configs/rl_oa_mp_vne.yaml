@@ -12,8 +12,11 @@ policy_network:
   learning_rate: 0.001
   gamma: 0.99
 
+candidates:
+  K: 10
+
 training:
-  pretrain_episodes: 200
+  pretrain_episodes: 2000
   batch_size: 16
   online_k: 10
   vn_min_nodes: 2

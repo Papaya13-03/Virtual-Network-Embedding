@@ -172,7 +172,6 @@ def main():
             algos.add(algo_name)
     
     algos = sorted(list(algos))
-    algos = ['mp_vne', 'oa_mp_vne']
     print(f"Detected algorithms: {algos}")
     
     # Plotting setup
@@ -222,18 +221,6 @@ def main():
             if len(data) > 1:
                 ax.fill_between(time_pts, avg - std, avg + std, color=color, alpha=0.15)
  
-    for i, ax in enumerate(axes):
-        ax.set_title(titles[i])
-        ax.set_xlabel("Time")
-        ax.set_ylabel(ylabels[i])
-        ax.grid(True, linestyle="--", alpha=0.7)
-        ax.legend()
-
-    plt.tight_layout()
-    output_path = os.path.join(results_dir, "algorithm_comparison_plots.png")
-    plt.savefig(output_path)
-    print(f"Comparison plots saved to {output_path}")
-
     for i, ax in enumerate(axes):
         ax.set_title(titles[i])
         ax.set_xlabel("Time")
