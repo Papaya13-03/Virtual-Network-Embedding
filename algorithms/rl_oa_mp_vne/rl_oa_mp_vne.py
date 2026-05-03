@@ -50,8 +50,9 @@ class RLOAMPVNE:
                     "hidden_size": 64, "gcn_hidden": 32,
                     "learning_rate": 0.001, "gamma": 0.99,
                 },
+                "candidates": {"K": 10},
                 "training": {
-                    "pretrain_episodes": 200, "batch_size": 16, "online_k": 10,
+                    "pretrain_episodes": 800, "batch_size": 16, "online_k": 10,
                     "vn_min_nodes": 2, "vn_max_nodes": 8,
                     "vn_min_cpu": 1.0, "vn_max_cpu": 30.0,
                     "vn_min_bw": 5.0, "vn_max_bw": 80.0,
@@ -194,46 +195,64 @@ class RLOAMPVNE:
 
         return feats
 
-    def _get_domain_inputs(self, vn: VirtualNetwork) -> Tuple[list, list]:
+    def _get_domain_inputs(
+        self, vn: VirtualNetwork,
+    ) -> Tuple[list, list, List[List[SubstrateNode]], List[torch.Tensor]]:
         """
-        For each vnode, get the substrate domain features and adjacency matrices
-        of its allowed domains (or all domains if unconstrained).
-        Returns parallel lists: per_vnode_Xs, per_vnode_As
+        For each vnode, collect:
+          - Xs, As: per-domain GCN inputs for allowed domains (used by all heads)
+          - pool: flattened SubstrateNode list across allowed domains
+                  (index-aligned with the candidate head's score vector)
+          - cpu_slack: per-pool-snode (available_cpu - vnode.cpu_demand) as a tensor
         """
-        # Pre-compute all domain features
         domain_cache = {}
+        domain_node_lists = {}
         for lc in self.global_controller.local_controllers:
             X, A = self._extract_domain_features(lc)
             domain_cache[lc.domain.id] = (X, A)
+            domain_node_lists[lc.domain.id] = list(lc.domain.network.nodes.values())
 
-        per_vnode_Xs = []
-        per_vnode_As = []
+        all_domain_ids = [lc.domain.id for lc in self.global_controller.local_controllers]
+
+        per_vnode_Xs: list = []
+        per_vnode_As: list = []
+        per_vnode_pools: List[List[SubstrateNode]] = []
+        per_vnode_slacks: List[torch.Tensor] = []
+
         for vnode in vn.nodes.values():
-            allowed = vnode.allowed_domains or [lc.domain.id for lc in self.global_controller.local_controllers]
-            Xs = tuple(domain_cache[d][0] for d in allowed if d in domain_cache)
-            As = tuple(domain_cache[d][1] for d in allowed if d in domain_cache)
-            if not Xs:
-                # Fallback: use all domains
-                Xs = tuple(v[0] for v in domain_cache.values())
-                As = tuple(v[1] for v in domain_cache.values())
+            allowed = vnode.allowed_domains or all_domain_ids
+            allowed = [d for d in allowed if d in domain_cache] or all_domain_ids
+
+            Xs = tuple(domain_cache[d][0] for d in allowed)
+            As = tuple(domain_cache[d][1] for d in allowed)
+
+            pool: List[SubstrateNode] = []
+            slacks: List[float] = []
+            for d in allowed:
+                for snode in domain_node_lists[d]:
+                    avail = getattr(snode, "available_cpu", snode.cpu_capacity)
+                    pool.append(snode)
+                    slacks.append(avail - vnode.cpu_demand)
+
             per_vnode_Xs.append(Xs)
             per_vnode_As.append(As)
+            per_vnode_pools.append(pool)
+            per_vnode_slacks.append(torch.tensor(slacks, dtype=torch.float32))
 
-        return per_vnode_Xs, per_vnode_As
+        return per_vnode_Xs, per_vnode_As, per_vnode_pools, per_vnode_slacks
 
     # ---- NN-Based Ranking ----
 
     @staticmethod
     def _plackett_luce_sample(scores: torch.Tensor, items: list) -> Tuple[list, List[torch.Tensor]]:
-        """Sample a permutation from scores using Plackett-Luce model."""
+        """Sample a full permutation from scores using the Plackett-Luce model."""
         remaining_scores = scores.clone()
         remaining_indices = list(range(len(items)))
         ordered_indices = []
         log_probs = []
 
         for _ in range(len(items)):
-            probs = torch.softmax(remaining_scores, dim=0)
-            dist = torch.distributions.Categorical(probs)
+            dist = torch.distributions.Categorical(logits=remaining_scores)
             chosen_pos = dist.sample()
             log_probs.append(dist.log_prob(chosen_pos))
 
@@ -248,60 +267,115 @@ class RLOAMPVNE:
         return [items[i] for i in ordered_indices], log_probs
 
     @staticmethod
+    def _plackett_luce_topk(
+        scores: torch.Tensor, k: int,
+    ) -> Tuple[List[int], List[torch.Tensor]]:
+        """Sample up to k distinct indices by Plackett-Luce. Infeasible entries
+        (-inf in `scores`) are skipped; if fewer than k feasible entries exist,
+        sampling stops early. Returns parallel lists of length <= k."""
+        finite_count = int(torch.isfinite(scores).sum().item())
+        k = min(k, finite_count)
+        if k == 0:
+            return [], []
+
+        remaining = scores.clone()
+        remaining_indices = list(range(scores.shape[0]))
+        chosen: List[int] = []
+        log_probs: List[torch.Tensor] = []
+
+        for _ in range(k):
+            dist = torch.distributions.Categorical(logits=remaining)
+            pos = dist.sample()
+            log_probs.append(dist.log_prob(pos))
+
+            pos_item = pos.item()
+            chosen.append(remaining_indices[pos_item])
+
+            mask = torch.ones(len(remaining_indices), dtype=torch.bool)
+            mask[pos_item] = False
+            remaining = remaining[mask]
+            remaining_indices = [ri for j, ri in enumerate(remaining_indices) if j != pos_item]
+
+        return chosen, log_probs
+
+    @staticmethod
+    def _topk_greedy(scores: torch.Tensor, k: int) -> List[int]:
+        """Deterministic top-k selection; skips -inf entries."""
+        finite_count = int(torch.isfinite(scores).sum().item())
+        k = min(k, finite_count)
+        if k == 0:
+            return []
+        topk = torch.topk(scores, k).indices.tolist()
+        return topk
+
+    @staticmethod
     def _greedy_sort(scores: torch.Tensor, items: list) -> list:
-        """Sort items by scores descending (greedy, no log_probs)."""
+        """Sort items by scores descending (no log_probs)."""
         sorted_indices = torch.argsort(scores, descending=True).tolist()
         return [items[i] for i in sorted_indices]
 
-    def _forward_policy(self, vn: VirtualNetwork) -> Tuple[torch.Tensor, torch.Tensor]:
-        """Single forward pass through the policy network. Returns (node_scores, link_scores)."""
+    def _forward_policy(
+        self, vn: VirtualNetwork,
+    ) -> Tuple[torch.Tensor, torch.Tensor, List[torch.Tensor], List[List[SubstrateNode]]]:
+        """Single forward pass returning all three heads' outputs plus the
+        per-vnode SubstrateNode pools (index-aligned with candidate scores)."""
         vnode_feats = self._extract_vnode_features(vn)
         vlink_feats = self._extract_vlink_features(vn)
-        per_vnode_Xs, per_vnode_As = self._get_domain_inputs(vn)
-        return self.policy(vnode_feats, vlink_feats, per_vnode_Xs, per_vnode_As)
+        per_vnode_Xs, per_vnode_As, per_vnode_pools, per_vnode_slacks = self._get_domain_inputs(vn)
+        node_scores, link_scores, cand_scores = self.policy(
+            vnode_feats, vlink_feats,
+            per_vnode_Xs, per_vnode_As,
+            per_vnode_cpu_slacks=per_vnode_slacks,
+        )
+        return node_scores, link_scores, cand_scores, per_vnode_pools
 
     def rank_all_nn(
-        self, vn: VirtualNetwork, sample: bool = False
-    ) -> Tuple[List[VirtualNode], List[Tuple[Tuple[str, str], VirtualLink]], List[torch.Tensor]]:
+        self, vn: VirtualNetwork, sample: bool = False,
+    ) -> Tuple[
+        List[VirtualNode],
+        List[Tuple[Tuple[str, str], VirtualLink]],
+        List[List[SubstrateNode]],
+        Dict[str, List[torch.Tensor]],
+    ]:
         """
-        Rank both vnodes and vlinks with a single forward pass.
+        Rank vnodes + vlinks and pick top-K candidate snodes per vnode with a
+        single forward pass.
         Returns:
-            ordered_vnodes, ordered_links, log_probs (empty if sample=False)
+            ordered_vnodes, ordered_vlinks, candidate_nodes (aligned with
+            ordered_vnodes), log_probs (Dict of log probs for each component).
         """
-        node_scores, link_scores = self._forward_policy(vn)
+        node_scores, link_scores, cand_scores, cand_pools = self._forward_policy(vn)
         vnodes = list(vn.nodes.values())
         link_items = list(vn.links.items())
+        K = int(self.config.get("candidates", {}).get("K", 5))
 
         if sample:
             ordered_vnodes, node_lp = self._plackett_luce_sample(node_scores, vnodes)
             ordered_links, link_lp = self._plackett_luce_sample(link_scores, link_items)
-            return ordered_vnodes, ordered_links, node_lp + link_lp
         else:
             ordered_vnodes = self._greedy_sort(node_scores, vnodes)
             ordered_links = self._greedy_sort(link_scores, link_items)
-            return ordered_vnodes, ordered_links, []
+            node_lp, link_lp = [], []
 
-    def rank_virtual_nodes_nn(
-        self, vn: VirtualNetwork, sample: bool = False
-    ) -> Tuple[List[VirtualNode], List[torch.Tensor]]:
-        """Rank virtual nodes only (convenience wrapper)."""
-        node_scores, _ = self._forward_policy(vn)
-        vnodes = list(vn.nodes.values())
-        if sample:
-            ordered, lp = self._plackett_luce_sample(node_scores, vnodes)
-            return ordered, lp
-        return self._greedy_sort(node_scores, vnodes), []
+        orig_idx = {v.id: i for i, v in enumerate(vnodes)}
+        candidate_nodes: List[List[SubstrateNode]] = []
+        cand_lp: List[torch.Tensor] = []
+        for v in ordered_vnodes:
+            i = orig_idx[v.id]
+            scores_i = cand_scores[i]
+            pool_i = cand_pools[i]
+            if sample:
+                picked, lps = self._plackett_luce_topk(scores_i, K)
+                cand_lp.extend(lps)
+            else:
+                picked = self._topk_greedy(scores_i, K)
+            candidate_nodes.append([pool_i[j] for j in picked])
 
-    def rank_virtual_links_nn(
-        self, vn: VirtualNetwork, sample: bool = False
-    ) -> Tuple[List[Tuple[Tuple[str, str], VirtualLink]], List[torch.Tensor]]:
-        """Rank virtual links only (convenience wrapper)."""
-        _, link_scores = self._forward_policy(vn)
-        link_items = list(vn.links.items())
-        if sample:
-            ordered, lp = self._plackett_luce_sample(link_scores, link_items)
-            return ordered, lp
-        return self._greedy_sort(link_scores, link_items), []
+        return ordered_vnodes, ordered_links, candidate_nodes, {
+            "node": node_lp,
+            "link": link_lp,
+            "cand": cand_lp
+        }
 
     # ---- Pre-Training ----
 
@@ -329,17 +403,18 @@ class RLOAMPVNE:
             self.global_controller.reset_allocations()
             self.global_controller.clear_caches()
 
-            # NN-ranked ordering (sample for exploration, single forward pass)
-            ordered_vnodes, ordered_links, all_log_probs = self.rank_all_nn(vn, sample=True)
+            # NN-ranked ordering + candidate selection (single forward pass)
+            ordered_vnodes, ordered_links, candidate_nodes, all_log_probs = \
+                self.rank_all_nn(vn, sample=True)
 
-            # Try embedding with this ordering
-            reward = self._try_embedding(vn, ordered_vnodes, ordered_links)
+            # Try embedding with this ordering + learned candidates
+            reward = self._try_embedding(vn, ordered_vnodes, ordered_links, candidate_nodes)
             self.trainer.record(all_log_probs, reward)
 
             if (ep + 1) % batch_size == 0:
-                loss = self.trainer.update()
+                loss_dict = self.trainer.update()
                 if (ep + 1) % (batch_size * 5) == 0:
-                    print(f"    Episode {ep + 1}/{episodes}, loss={loss:.4f}")
+                    print(f"    Episode {ep + 1}/{episodes}, reward={loss_dict['avg_reward']:.4f}, loss={loss_dict['total_loss']:.4f} (n:{loss_dict['node_loss']:.4f}, l:{loss_dict['link_loss']:.4f}, c:{loss_dict['cand_loss']:.4f})")
 
         # Final update for remaining buffer
         if self.trainer.buffer:
@@ -354,24 +429,12 @@ class RLOAMPVNE:
         self, vn: VirtualNetwork,
         ordered_vnodes: List[VirtualNode],
         ordered_links: List[Tuple[Tuple[str, str], VirtualLink]],
+        candidate_nodes: List[List[SubstrateNode]],
     ) -> float:
         """
-        Attempt a full embedding with the given ordering. Returns reward.
-        Does NOT permanently allocate — rolls back after evaluation.
+        Attempt a full embedding with the given ordering + learned candidates.
+        Returns reward. Does NOT permanently allocate — rolls back after evaluation.
         """
-        # Collect candidates in ranked order
-        candidate_nodes = []
-        for vnode in ordered_vnodes:
-            candidates = []
-            seen = set()
-            for lc in self.global_controller.local_controllers:
-                if not vnode.allowed_domains or lc.domain.id in vnode.allowed_domains:
-                    for snode in lc.get_candidates(vnode):
-                        if snode.id not in seen:
-                            seen.add(snode.id)
-                            candidates.append(snode)
-            candidate_nodes.append(candidates)
-
         if any(not c for c in candidate_nodes):
             return -1.0
 
@@ -412,7 +475,10 @@ class RLOAMPVNE:
             return -1.0
 
     def _compute_cost(self, mapping: Dict[str, str], vn: VirtualNetwork, vlink_paths: Dict) -> float:
-        """Compute total embedding cost (CPU + BW)."""
+        """Total embedding cost aligned with the evaluation metric in
+        evaluation/visualize_results.py: node CPU cost (cpu_demand*cpu_price)
+        plus per-vlink bw*hop_count. Keeping reward consistent with the
+        evaluation metric avoids training/test-time objective mismatch."""
         cost = 0.0
         for vnode_id, snode_id in mapping.items():
             vnode = vn.nodes[vnode_id]
@@ -421,8 +487,7 @@ class RLOAMPVNE:
                 cost += vnode.cpu_demand * snode.cpu_price
         for (v_src, v_dst), paths in vlink_paths.items():
             for path_links, bw in paths:
-                for link in path_links:
-                    cost += bw * link.bandwidth_price
+                cost += bw * len(path_links)
         return cost
 
     # ---- PSO (reused from oa_mp_vne) ----
@@ -525,10 +590,8 @@ class RLOAMPVNE:
             )
             if not path:
                 return float('inf')
-            link_cost += sum(
-                l.transmission_delay + l.bandwidth_price * vlink_info["bw"]
-                for l in path
-            )
+            # Hop-count-based cost (matches _compute_cost and the evaluation metric)
+            link_cost += len(path) * vlink_info["bw"]
 
         return node_cost + link_cost
 
@@ -566,29 +629,40 @@ class RLOAMPVNE:
                 snode.available_cpu -= vnode.cpu_demand
                 allocated_cpu[snode.id] = allocated_cpu.get(snode.id, 0) + vnode.cpu_demand
 
-            # Allocate bandwidth in NN-ranked order
+            # Allocate bandwidth in NN-ranked order with MP-VNE multi-path splitting.
+            # A single shortest path may not have enough BW on its bottleneck link;
+            # splitting the demand across up to `max_paths` paths unlocks feasible
+            # embeddings that single-path would reject and tends to use shorter hops.
             for vlink_key, vlink in ordered_links:
                 src_snode_id = mapping[vlink.source]
                 dst_snode_id = mapping[vlink.target]
                 _, src_snode = self.global_controller._find_snode(src_snode_id)
                 _, dst_snode = self.global_controller._find_snode(dst_snode_id)
 
-                path = self.global_controller.shortest_path(
-                    src_snode, dst_snode, bw_required=vlink.bandwidth_demand, use_cache=False
-                )
-                if not path:
-                    raise ValueError(f"No path for vlink {vlink.source}->{vlink.target}")
+                demand_remaining = vlink.bandwidth_demand
+                allocated_paths = []
+                max_paths = 5
 
-                path_bw = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
-                if path_bw < vlink.bandwidth_demand:
-                    raise ValueError(f"Insufficient BW for vlink {vlink.source}->{vlink.target}")
+                while demand_remaining > 0.001 and len(allocated_paths) < max_paths:
+                    min_required = min(demand_remaining * 0.1, 1.0, demand_remaining)
+                    path = self.global_controller.shortest_path(
+                        src_snode, dst_snode, bw_required=min_required, use_cache=False,
+                    )
+                    if not path:
+                        break
+                    path_bw = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
+                    allocated = min(demand_remaining, path_bw)
+                    for link in path:
+                        link.available_bw -= allocated
+                        link_key = (link.source, link.target)
+                        allocated_bw[link_key] = allocated_bw.get(link_key, 0) + allocated
+                    allocated_paths.append((path, allocated))
+                    demand_remaining -= allocated
 
-                for link in path:
-                    link.available_bw -= vlink.bandwidth_demand
-                    link_key = (link.source, link.target)
-                    allocated_bw[link_key] = allocated_bw.get(link_key, 0) + vlink.bandwidth_demand
+                if demand_remaining > 0.001:
+                    raise ValueError(f"Insufficient multi-path BW for vlink {vlink.source}->{vlink.target}")
 
-                vlink_paths[vlink_key] = [(path, vlink.bandwidth_demand)]
+                vlink_paths[vlink_key] = allocated_paths
 
         except Exception as e:
             for snode_id, cpu in allocated_cpu.items():
@@ -631,22 +705,10 @@ class RLOAMPVNE:
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
-        # NN-ranked ordering via sampling (on-policy: log_probs match the executed action)
+        # NN-ranked ordering + candidate selection (on-policy: log_probs match the executed action)
         self.policy.train()
-        ordered_vnodes, ordered_links, log_probs = self.rank_all_nn(vnetwork, sample=True)
-
-        # Collect candidates in ranked order
-        candidate_nodes = []
-        for vnode in ordered_vnodes:
-            candidates = []
-            seen = set()
-            for lc in self.global_controller.local_controllers:
-                if not vnode.allowed_domains or lc.domain.id in vnode.allowed_domains:
-                    for snode in lc.get_candidates(vnode):
-                        if snode.id not in seen:
-                            seen.add(snode.id)
-                            candidates.append(snode)
-            candidate_nodes.append(candidates)
+        ordered_vnodes, ordered_links, candidate_nodes, log_probs = \
+            self.rank_all_nn(vnetwork, sample=True)
 
         if any(not c for c in candidate_nodes):
             self._record_online(log_probs, -1.0)
@@ -708,7 +770,7 @@ class RLOAMPVNE:
 
         return solution
 
-    def _record_online(self, log_probs: List[torch.Tensor], reward: float) -> None:
+    def _record_online(self, log_probs: Dict[str, List[torch.Tensor]], reward: float) -> None:
         """Record on-policy experience and update every k requests."""
         self._request_count += 1
         self.trainer.record(log_probs, reward)

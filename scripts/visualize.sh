@@ -3,7 +3,7 @@
 # Utility script to visualize VNE evaluation results.
 # Usage: ./evaluation/visualize.sh [scenario_name] [project_root]
 
-SCENARIO=${1:-"test_1"}
+SCENARIO=${1:-"scenario_large"}
 PROJECT_ROOT=${2:-"."}
 
 PYTHON_SCRIPT="$PROJECT_ROOT/evaluation/visualize_results.py"
