@@ -5,6 +5,10 @@ pso:
   c1: 1.5
   c2: 1.5
   mutation_rate: 0.1
+  # Option B: PSO fitness bias toward policy-preferred candidates.
+  # fitness = (node_cost + link_cost) - alpha * Σ softmax_prob_within_topK(picked)
+  # Higher alpha → PSO follows policy more; alpha=0 disables the bias.
+  policy_bias_alpha: 50.0
 
 policy_network:
   hidden_size: 64
@@ -13,12 +17,15 @@ policy_network:
   gamma: 0.99
 
 candidates:
-  K: 10
+  K: 5
 
 training:
-  pretrain_episodes: 2000
-  batch_size: 16
+  pretrain_episodes: 5000
+  batch_size: 64
   online_k: 10
+  critic_coef: 0.5
+  entropy_coef: 0.01
+  critic_warmup_batches: 4
   vn_min_nodes: 2
   vn_max_nodes: 8
   vn_min_cpu: 1.0

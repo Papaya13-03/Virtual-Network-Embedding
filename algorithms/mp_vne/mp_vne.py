@@ -187,9 +187,12 @@ class MPVNE:
             src_node: SubstrateNode = mapping[vlink_info["src_idx"]]
             dst_node: SubstrateNode = mapping[vlink_info["dst_idx"]]
             
-            # Use simple shortest path penalty logic inside PSO to avoid excessive multi-path simulation costs
-            # We use a small fraction of BW requirement to find a feasible path
-            path = self.global_controller.shortest_path(src_node, dst_node, bw_required=min(1.0, vlink_info["bw"]*0.1))
+            # Single-path constraint: PSO must see the same feasibility filter
+            # that commit will apply, otherwise it will keep picking mappings
+            # that pass fitness but fail commit. Probe with the FULL demand.
+            path = self.global_controller.shortest_path(
+                src_node, dst_node, bw_required=vlink_info["bw"],
+            )
             if not path:
                 return float('inf')
             link_cost += sum(l.transmission_delay + l.bandwidth_price * vlink_info["bw"] for l in path)

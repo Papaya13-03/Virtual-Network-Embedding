@@ -44,7 +44,7 @@ class CandidateHead(nn.Module):
         vnode_feat: torch.Tensor,    # (vnode_feat_size,)
         snode_embeds: torch.Tensor,  # (N, gcn_hidden)
         cpu_slack: torch.Tensor,     # (N,)
-    ) -> torch.Tensor:               # (N,) — infeasible entries masked to -inf
+    ) -> torch.Tensor:               # (N,) — infeasible entries soft-masked
         n = snode_embeds.shape[0]
         # Normalize slack for numerical stability; keep sign (negative = infeasible).
         denom = cpu_slack.abs().max().clamp(min=1.0)
@@ -59,9 +59,17 @@ class CandidateHead(nn.Module):
         mlp_input = torch.cat([q_expand, snode_embeds, slack_norm], dim=-1)
         residual = self.residual(mlp_input).squeeze(-1)
 
+        # Score stabilization: prevent softmax saturation that collapses the
+        # distribution to a deterministic argmax (kills exploration).
         scores = attn + residual
+        scores = scores / 5.0                                  # soften magnitude
+        scores = scores - scores.mean()                        # center
+        scores = torch.clamp(scores, -10.0, 10.0)              # bound
+
+        # Soft mask: -1e4 instead of -inf so softmax doesn't completely
+        # zero out infeasible entries (Gumbel + log_prob still well-defined).
         mask = cpu_slack < 0
-        scores = scores.masked_fill(mask, float("-inf"))
+        scores = scores.masked_fill(mask, -1e4)
         return scores
 
 
@@ -164,14 +172,22 @@ class PolicyNetwork(nn.Module):
                 0, self.gcn.W2.out_features
             )
             per_vnode_pools.append(pool)
-            node_contexts.append(pool.mean(dim=0) if pool.shape[0] > 0 else torch.zeros(self.gcn.W2.out_features))
+            # Max-pool substrate embeddings instead of mean: preserves the
+            # strongest-signal snode (CPU-rich, well-connected) per domain
+            # rather than averaging it out across mediocre alternatives.
+            if pool.shape[0] > 0:
+                node_contexts.append(pool.max(dim=0).values)
+            else:
+                node_contexts.append(torch.zeros(self.gcn.W2.out_features))
 
         substrate_ctx = torch.stack(node_contexts)
 
         node_input = torch.cat([vnode_feats, substrate_ctx], dim=1)
         node_scores = self.node_head(node_input).squeeze(-1)
 
-        link_ctx = substrate_ctx.mean(dim=0).unsqueeze(0).expand(num_vlinks, -1)
+        # Aggregate substrate_ctx across vnodes via max-pool (same reasoning
+        # as the per-vnode pool: preserve dominant signal).
+        link_ctx = substrate_ctx.max(dim=0).values.unsqueeze(0).expand(num_vlinks, -1)
         link_input = torch.cat([vlink_feats, link_ctx], dim=1)
         link_scores = self.link_head(link_input).squeeze(-1)
 
@@ -187,9 +203,10 @@ class PolicyNetwork(nn.Module):
                 scores = self.candidate_head(vnode_feats[i], pool, slack)
                 candidate_scores.append(scores)
 
-        # State value V(s): pool substrate context + vnode feature means.
-        substrate_pool = substrate_ctx.mean(dim=0)
-        vnode_pool = vnode_feats.mean(dim=0)
+        # State value V(s): max-pool (preserves dominant features) instead
+        # of mean-pool (which washes out per-node distinctions).
+        substrate_pool = substrate_ctx.max(dim=0).values
+        vnode_pool = vnode_feats.max(dim=0).values
         state_repr = torch.cat([substrate_pool, vnode_pool], dim=-1)
         value = self.value_head(state_repr).squeeze(-1)
 

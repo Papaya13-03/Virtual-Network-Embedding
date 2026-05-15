@@ -1,0 +1,19 @@
+Loading substrate from datasets/scenario_large/substrate.json
+Pretrain rl_oa_mp_vne: 2000 episodes, batch_size=64
+  load drop range: CPU U[0,0.7]  BW U[0,0.7]
+  checkpoint: checkpoints/rl_oa_mp_vne_pretrain_optB_k5_2k.pt
+  log: logs/rl_oa_mp_vne_pretrain_optB_k5_2k.csv
+------------------------------------------------------------------------
+  ep   320/2000  r=+0.530 V=+0.100 crit=0.202 ent=3.45 adv_std=0.130  loss=+2.836  (n:+0.389 l:+0.565 c:+1.816)  elapsed= 1m50s eta= 9m38s
+  ep   640/2000  r=+0.499 V=+0.203 crit=0.103 ent=3.45 adv_std=0.124  loss=+1.885  (n:+0.273 l:+0.384 c:+1.212)  elapsed= 3m56s eta= 8m22s
+  ep   960/2000  r=+0.511 V=+0.311 crit=0.054 ent=3.45 adv_std=0.118  loss=+1.166  (n:+0.168 l:+0.223 c:+0.782)  elapsed= 5m59s eta= 6m29s
+  ep  1280/2000  r=+0.513 V=+0.422 crit=0.025 ent=3.46 adv_std=0.129  loss=+0.304  (n:+0.041 l:+0.022 c:+0.263)  elapsed= 8m04s eta= 4m32s
+  ep  1600/2000  r=+0.501 V=+0.532 crit=0.015 ent=3.45 adv_std=0.117  loss=-0.536  (n:-0.078 l:-0.160 c:-0.270)  elapsed=10m24s eta= 2m36s
+  ep  1920/2000  r=+0.512 V=+0.586 crit=0.019 ent=3.47 adv_std=0.116  loss=-0.826  (n:-0.121 l:-0.221 c:-0.459)  elapsed=12m55s eta=  32s
+------------------------------------------------------------------------
+Pretrain done in 13m38s.
+  head-100 avg reward: +0.5004
+  tail-100 avg reward: +0.5078
+  delta:                  +0.0073
+  checkpoint saved to checkpoints/rl_oa_mp_vne_pretrain_optB_k5_2k.pt
+  loss log saved to    logs/rl_oa_mp_vne_pretrain_optB_k5_2k.csv
