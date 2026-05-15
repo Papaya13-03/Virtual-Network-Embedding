@@ -1,4 +1,4 @@
-# algorithms/rl_oa_mp_vne/rl_oa_mp_vne.py
+# algorithms/rl_oa_mp_vne_v2/rl_oa_mp_vne.py
 import os
 import random
 import yaml
@@ -8,9 +8,9 @@ from collections import OrderedDict
 
 from algorithms.oa_mp_vne.global_controller import GlobalController
 from algorithms.oa_mp_vne.local_controller import LocalController
-from algorithms.rl_oa_mp_vne.policy_network import PolicyNetwork
-from algorithms.rl_oa_mp_vne.trainer import RankingTrainer
-from algorithms.rl_oa_mp_vne.vn_generator import generate_random_vn
+from algorithms.rl_oa_mp_vne_v2.policy_network import PolicyNetwork
+from algorithms.rl_oa_mp_vne_v2.trainer import RankingTrainer
+from algorithms.rl_oa_mp_vne_v2.vn_generator import generate_random_vn
 from problem.substrate_network import SubstrateNetwork, SubstrateNode
 from problem.virtual_network import VirtualNetwork, VirtualNode, VirtualLink
 from problem.request import VirtualNetworkRequest
@@ -28,14 +28,14 @@ class RLOAMPVNE:
     """
 
     def __init__(self):
-        self.name = "RL-OA-MP-VNE"
+        self.name = "RL-OA-MP-VNE-V2"
         self._active_mappings: Dict[str, Dict] = OrderedDict()
         self._request_count = 0
         self._pretrained = False
 
         config_path = os.path.join(
             os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-            "configs", "rl_oa_mp_vne.yaml",
+            "configs", "rl_oa_mp_vne_v2.yaml",
         )
         try:
             with open(config_path, "r") as f:
@@ -69,24 +69,39 @@ class RLOAMPVNE:
             hidden_size=pn_cfg.get("hidden_size", 64),
         )
         train_cfg = self.config.get("training", {})
+        # Estimate total batches for cosine LR / entropy annealing horizon.
+        est_total_batches = max(
+            int(train_cfg.get("pretrain_episodes", 5000)) // max(int(train_cfg.get("batch_size", 64)), 1),
+            10,
+        )
         self.trainer = RankingTrainer(
             self.policy,
             lr=pn_cfg.get("learning_rate", 0.001),
             gamma=pn_cfg.get("gamma", 0.99),
             batch_size=train_cfg.get("batch_size", 64),
             critic_coef=train_cfg.get("critic_coef", 0.5),
-            entropy_coef=train_cfg.get("entropy_coef", 0.01),
-            critic_warmup_batches=train_cfg.get("critic_warmup_batches", 4),
+            entropy_start_coef=train_cfg.get("entropy_start_coef", 0.05),
+            entropy_end_coef=train_cfg.get("entropy_end_coef", 0.005),
+            entropy_anneal_batches=train_cfg.get(
+                "entropy_anneal_batches", int(0.7 * est_total_batches),
+            ),
+            critic_warmup_batches=train_cfg.get("critic_warmup_batches", 8),
+            weight_decay=train_cfg.get("weight_decay", 1e-4),
+            lr_cosine_total_batches=train_cfg.get(
+                "lr_cosine_total_batches", est_total_batches,
+            ),
+            lr_min_ratio=train_cfg.get("lr_min_ratio", 0.1),
+            normalize_advantage=train_cfg.get("normalize_advantage", True),
         )
         self.global_controller = None
 
         # Auto-load a pretrained checkpoint if available.
-        # Order: training.checkpoint (config) > default checkpoints/rl_oa_mp_vne_pretrain.pt
+        # Order: training.checkpoint (config) > default checkpoints/rl_oa_mp_vne_v2_pretrain.pt
         ckpt_path = self.config.get("training", {}).get("checkpoint")
         if not ckpt_path:
             default_ckpt = os.path.join(
                 os.path.dirname(os.path.dirname(os.path.dirname(__file__))),
-                "checkpoints", "rl_oa_mp_vne_pretrain.pt",
+                "checkpoints", "rl_oa_mp_vne_v2_pretrain.pt",
             )
             if os.path.exists(default_ckpt):
                 ckpt_path = default_ckpt
@@ -97,7 +112,7 @@ class RLOAMPVNE:
             # still load; value_head will use fresh random init.
             missing, unexpected = self.policy.load_state_dict(state_dict, strict=False)
             self._pretrained = True
-            print(f"  [RL-OA-MP-VNE] Loaded pretrained checkpoint: {ckpt_path}")
+            print(f"  [RL-OA-MP-VNE-V2] Loaded pretrained checkpoint: {ckpt_path}")
             if missing:
                 print(f"    Missing keys (using random init): {missing}")
             if unexpected:
@@ -268,70 +283,107 @@ class RLOAMPVNE:
 
         return per_vnode_Xs, per_vnode_As, per_vnode_pools, per_vnode_slacks
 
-    # ---- NN-Based Ranking ----
+    # ---- NN-Based Ranking (Gumbel-Max trick) ----
 
     @staticmethod
-    def _plackett_luce_sample(
+    def _gumbel_argmax(logits: torch.Tensor) -> torch.Tensor:
+        """Sample one categorical via Gumbel-Max trick. Equivalent in
+        distribution to torch.distributions.Categorical(logits).sample(),
+        but uses a different RNG path (additive Gumbel noise → argmax).
+
+        Mathematical equivalence (Gumbel-Max theorem):
+            argmax_i (z_i + g_i) ~ Categorical(softmax(z))  where g_i ~ Gumbel(0,1)
+
+        Why swap from sequential Categorical.sample() to Gumbel-Max:
+          - For full permutation sampling, the Gumbel-Top-K formulation is
+            vectorizable (single argsort instead of T sequential calls).
+          - Cleaner extension path to Gumbel-Softmax (temperature τ + ST estimator)
+            for future reparameterization-gradient experiments.
+        """
+        # Avoid log(0) — clamp uniforms away from zero.
+        u = torch.rand_like(logits).clamp_(min=1e-20, max=1.0 - 1e-20)
+        gumbel = -torch.log(-torch.log(u))
+        return (logits + gumbel).argmax()
+
+    @staticmethod
+    def _gumbel_top_k_sample(
         scores: torch.Tensor, items: list,
     ) -> Tuple[list, List[torch.Tensor], List[torch.Tensor]]:
-        """Sample a full permutation from scores using the Plackett-Luce model.
-        Returns (ordered_items, log_probs, entropies) — entropies per decision
-        step for entropy-regularized policy gradient."""
+        """Sample a full permutation via Gumbel-Top-K (vectorized).
+
+        Statistically identical to Plackett-Luce: argsort(logits + Gumbel)
+        produces a permutation drawn from PL(softmax(logits)).
+        Log_probs and entropies are then computed analytically via the
+        sequential PL chain rule for REINFORCE compatibility.
+        """
+        n = scores.shape[0]
+        if n == 0:
+            return [], [], []
+
+        # Vectorized Gumbel-Top-K: one perturbation, one argsort.
+        u = torch.rand_like(scores).clamp_(min=1e-20, max=1.0 - 1e-20)
+        gumbel = -torch.log(-torch.log(u))
+        perturbed = scores + gumbel
+        order = perturbed.argsort(descending=True).tolist()
+
+        # Analytical log_probs + entropies via the PL chain rule.
+        log_probs: List[torch.Tensor] = []
+        entropies: List[torch.Tensor] = []
         remaining_scores = scores.clone()
-        remaining_indices = list(range(len(items)))
-        ordered_indices = []
-        log_probs = []
-        entropies = []
-
-        for _ in range(len(items)):
+        remaining_indices = list(range(n))
+        for chosen_idx in order:
+            pos = remaining_indices.index(chosen_idx)
             dist = torch.distributions.Categorical(logits=remaining_scores)
-            chosen_pos = dist.sample()
-            log_probs.append(dist.log_prob(chosen_pos))
+            log_probs.append(dist.log_prob(torch.tensor(pos)))
             entropies.append(dist.entropy())
-
-            chosen_idx = remaining_indices[chosen_pos.item()]
-            ordered_indices.append(chosen_idx)
-
             mask = torch.ones(len(remaining_indices), dtype=torch.bool)
-            mask[chosen_pos.item()] = False
+            mask[pos] = False
             remaining_scores = remaining_scores[mask]
-            remaining_indices = [ri for j, ri in enumerate(remaining_indices) if j != chosen_pos.item()]
+            remaining_indices.pop(pos)
 
-        return [items[i] for i in ordered_indices], log_probs, entropies
+        return [items[i] for i in order], log_probs, entropies
 
     @staticmethod
-    def _plackett_luce_topk(
+    def _gumbel_top_k_subset(
         scores: torch.Tensor, k: int,
     ) -> Tuple[List[int], List[torch.Tensor], List[torch.Tensor]]:
-        """Sample up to k distinct indices by Plackett-Luce. Infeasible entries
-        (-inf in `scores`) are skipped; if fewer than k feasible entries exist,
-        sampling stops early. Returns (chosen_indices, log_probs, entropies)."""
-        finite_count = int(torch.isfinite(scores).sum().item())
+        """Gumbel-Top-K subset sample (up to k distinct indices).
+        Infeasible entries (-inf scores) are skipped automatically because
+        their Gumbel-perturbed values stay -inf."""
+        finite_mask = torch.isfinite(scores)
+        finite_count = int(finite_mask.sum().item())
         k = min(k, finite_count)
         if k == 0:
             return [], [], []
 
-        remaining = scores.clone()
-        remaining_indices = list(range(scores.shape[0]))
-        chosen: List[int] = []
+        u = torch.rand_like(scores).clamp_(min=1e-20, max=1.0 - 1e-20)
+        gumbel = -torch.log(-torch.log(u))
+        # -inf scores stay -inf after Gumbel addition.
+        perturbed = scores + gumbel
+        # Top-k indices by perturbed value (in descending order — preserves
+        # the PL order of selection).
+        order = perturbed.argsort(descending=True).tolist()[:k]
+
+        # Analytical PL log_probs + entropies for the chosen subset.
         log_probs: List[torch.Tensor] = []
         entropies: List[torch.Tensor] = []
-
-        for _ in range(k):
-            dist = torch.distributions.Categorical(logits=remaining)
-            pos = dist.sample()
-            log_probs.append(dist.log_prob(pos))
+        remaining_scores = scores.clone()
+        remaining_indices = list(range(scores.shape[0]))
+        for chosen_idx in order:
+            pos = remaining_indices.index(chosen_idx)
+            dist = torch.distributions.Categorical(logits=remaining_scores)
+            log_probs.append(dist.log_prob(torch.tensor(pos)))
             entropies.append(dist.entropy())
-
-            pos_item = pos.item()
-            chosen.append(remaining_indices[pos_item])
-
             mask = torch.ones(len(remaining_indices), dtype=torch.bool)
-            mask[pos_item] = False
-            remaining = remaining[mask]
-            remaining_indices = [ri for j, ri in enumerate(remaining_indices) if j != pos_item]
+            mask[pos] = False
+            remaining_scores = remaining_scores[mask]
+            remaining_indices.pop(pos)
 
-        return chosen, log_probs, entropies
+        return order, log_probs, entropies
+
+    # Backwards-compat aliases — old code paths still call these names.
+    _plackett_luce_sample = _gumbel_top_k_sample
+    _plackett_luce_topk = _gumbel_top_k_subset
 
     @staticmethod
     def _topk_greedy(scores: torch.Tensor, k: int) -> List[int]:
@@ -436,6 +488,132 @@ class RLOAMPVNE:
             "cand": cand_ent,
         }, value
 
+    # ---- Direct Autoregressive Decoding (no PSO) ----
+
+    def rank_direct(
+        self, vn: VirtualNetwork, sample: bool = False,
+    ) -> Tuple[
+        List[VirtualNode],
+        List[Tuple[Tuple[str, str], VirtualLink]],
+        Dict[str, str],
+        Dict[str, List[torch.Tensor]],
+        Dict[str, List[torch.Tensor]],
+        torch.Tensor,
+    ]:
+        """
+        Autoregressive snode selection with collision masking — no PSO.
+
+        Single forward pass produces cand_scores. For each ordered vnode
+        (in node_head ranking order), sample/argmax one snode from the
+        masked distribution: snodes already chosen by previous vnodes are
+        set to -inf. node_head + link_head determine the order; cand_head
+        determines the actual snode picked.
+
+        Returns:
+            ordered_vnodes, ordered_vlinks, mapping (Dict vnode_id → snode_id;
+            None if any vnode ran out of feasible snodes), log_probs,
+            entropies, value.
+
+        Notes:
+          - Number of cand log_probs equals number of vnodes (1 per vnode),
+            unlike top-K which has K * num_vnode log_probs.
+          - If sampling fails mid-trajectory, partial log_probs are still
+            returned so the failure (reward=-1) backprops through the
+            decisions made up to that point.
+        """
+        node_scores, link_scores, cand_scores, cand_pools, value = self._forward_policy(vn)
+        vnodes = list(vn.nodes.values())
+        link_items = list(vn.links.items())
+
+        if sample:
+            ordered_vnodes, node_lp, node_ent = self._plackett_luce_sample(node_scores, vnodes)
+            ordered_links, link_lp, link_ent = self._plackett_luce_sample(link_scores, link_items)
+        else:
+            ordered_vnodes = self._greedy_sort(node_scores, vnodes)
+            ordered_links = self._greedy_sort(link_scores, link_items)
+            node_lp, link_lp = [], []
+            node_ent, link_ent = [], []
+
+        orig_idx = {v.id: i for i, v in enumerate(vnodes)}
+        mapping: Dict[str, str] = {}
+        used_snode_ids = set()
+        cand_lp: List[torch.Tensor] = []
+        cand_ent: List[torch.Tensor] = []
+        failed = False
+
+        for v in ordered_vnodes:
+            i = orig_idx[v.id]
+            scores_i = cand_scores[i].clone()
+            pool_i = cand_pools[i]
+
+            # Collision mask: snodes already chosen → -inf.
+            if used_snode_ids:
+                mask_vals = torch.tensor(
+                    [float("-inf") if pool_i[j].id in used_snode_ids else 0.0
+                     for j in range(len(pool_i))],
+                    dtype=scores_i.dtype,
+                )
+                scores_i = scores_i + mask_vals
+
+            if not torch.isfinite(scores_i).any():
+                failed = True
+                break
+
+            if sample:
+                # Gumbel-Max sampling (equivalent to Categorical.sample but
+                # with explicit Gumbel noise). log_prob/entropy still come
+                # from the analytical Categorical distribution.
+                pos = self._gumbel_argmax(scores_i)
+                dist = torch.distributions.Categorical(logits=scores_i)
+                cand_lp.append(dist.log_prob(pos))
+                cand_ent.append(dist.entropy())
+            else:
+                pos = torch.argmax(scores_i)
+
+            chosen_snode = pool_i[int(pos.item())]
+            mapping[v.id] = chosen_snode.id
+            used_snode_ids.add(chosen_snode.id)
+
+        log_probs_dict = {"node": node_lp, "link": link_lp, "cand": cand_lp}
+        entropies_dict = {"node": node_ent, "link": link_ent, "cand": cand_ent}
+
+        if failed:
+            return ordered_vnodes, ordered_links, None, log_probs_dict, entropies_dict, value
+        return ordered_vnodes, ordered_links, mapping, log_probs_dict, entropies_dict, value
+
+    # ---- Reward (V2 — cost-minimization) ----
+
+    def _reward_from_cost(self, cost: float) -> float:
+        """V2 objective: directly minimize embedding cost.
+        Normalized to roughly [-5, ~0] for RL stability (cost typically
+        in [50, 5000] for scenario_stress)."""
+        scale = self.config.get("training", {}).get("reward_cost_scale", 1000.0)
+        return -cost / scale
+
+    def _reward_fail(self) -> float:
+        """Penalty for failed embedding — clearly worse than any success."""
+        return self.config.get("training", {}).get("reward_fail", -10.0)
+
+    def _try_embedding_direct(
+        self, vn: VirtualNetwork,
+        ordered_links: List[Tuple[Tuple[str, str], VirtualLink]],
+        mapping: Dict[str, str],
+    ) -> float:
+        """Attempt embedding from a direct mapping (no PSO). Rolls back on
+        completion to keep substrate clean (pretrain semantics)."""
+        if mapping is None:
+            return self._reward_fail()
+        try:
+            vlink_paths = self._commit_mapping_ordered(mapping, vn, ordered_links)
+            if not vlink_paths:
+                return self._reward_fail()
+            cost = self._compute_cost(mapping, vn, vlink_paths)
+            reward = self._reward_from_cost(cost)
+            self.global_controller.release_mapping(mapping, vn, vlink_paths)
+            return reward
+        except ValueError:
+            return self._reward_fail()
+
     # ---- Pre-Training ----
 
     def _pretrain(self, substrate_network: SubstrateNetwork) -> None:
@@ -462,14 +640,12 @@ class RLOAMPVNE:
             self.global_controller.reset_allocations()
             self.global_controller.clear_caches()
 
-            # NN-ranked ordering + candidate selection (single forward pass)
-            ordered_vnodes, ordered_links, candidate_nodes, cand_weights, all_log_probs, entropies, value = \
-                self.rank_all_nn(vn, sample=True)
+            # V2: Direct autoregressive sampling with collision masking.
+            # No PSO — policy fully owns mapping decisions.
+            ordered_vnodes, ordered_links, mapping, all_log_probs, entropies, value = \
+                self.rank_direct(vn, sample=True)
 
-            # Try embedding with this ordering + learned candidates
-            reward = self._try_embedding(
-                vn, ordered_vnodes, ordered_links, candidate_nodes, cand_weights,
-            )
+            reward = self._try_embedding_direct(vn, ordered_links, mapping)
             self.trainer.record(all_log_probs, value, entropies, reward)
 
             if (ep + 1) % batch_size == 0:
@@ -498,7 +674,7 @@ class RLOAMPVNE:
         Returns reward. Does NOT permanently allocate — rolls back after evaluation.
         """
         if any(not c for c in candidate_nodes):
-            return -1.0
+            return self._reward_fail()
 
         # Build index maps
         vnode_to_idx = {vnode.id: i for i, vnode in enumerate(ordered_vnodes)}
@@ -523,20 +699,17 @@ class RLOAMPVNE:
         try:
             vlink_paths = self._commit_mapping_ordered(mapping, vn, ordered_links)
             if not vlink_paths:
-                return -1.0
+                return self._reward_fail()
 
-            # Compute reward
-            revenue = sum(nd.cpu_demand for nd in vn.nodes.values()) + \
-                      sum(vl.bandwidth_demand for vl in vn.links.values())
             cost = self._compute_cost(mapping, vn, vlink_paths)
-            reward = revenue / (cost + 1e-6)
+            reward = self._reward_from_cost(cost)
 
             # Rollback — pre-training should not permanently allocate
             self.global_controller.release_mapping(mapping, vn, vlink_paths)
             return reward
 
         except ValueError:
-            return -1.0
+            return self._reward_fail()
 
     def _compute_cost(self, mapping: Dict[str, str], vn: VirtualNetwork, vlink_paths: Dict) -> float:
         """Total embedding cost aligned with the evaluation metric in
@@ -656,10 +829,8 @@ class RLOAMPVNE:
         for vlink_info in sorted_vlinks:
             src_node = mapping[vlink_info["src_idx"]]
             dst_node = mapping[vlink_info["dst_idx"]]
-            # Single-path constraint: probe with the full demand so PSO only
-            # accepts particles that can actually be committed end-to-end.
             path = self.global_controller.shortest_path(
-                src_node, dst_node, bw_required=vlink_info["bw"],
+                src_node, dst_node, bw_required=min(1.0, vlink_info["bw"] * 0.1)
             )
             if not path:
                 return float('inf')
@@ -715,38 +886,43 @@ class RLOAMPVNE:
                 snode.available_cpu -= vnode.cpu_demand
                 allocated_cpu[snode.id] = allocated_cpu.get(snode.id, 0) + vnode.cpu_demand
 
-            # Allocate bandwidth in NN-ranked order with SINGLE-PATH routing.
-            # Each vlink is embedded on exactly one continuous substrate path
-            # whose every link can carry the full demand. No splitting.
+            # V2 — single-path link embedding: each vlink maps to exactly ONE
+            # continuous chain of substrate links carrying the full demand.
+            # If no single path can carry the full BW, the entire embedding
+            # fails (no splitting).
             for vlink_key, vlink in ordered_links:
                 src_snode_id = mapping[vlink.source]
                 dst_snode_id = mapping[vlink.target]
                 _, src_snode = self.global_controller._find_snode(src_snode_id)
                 _, dst_snode = self.global_controller._find_snode(dst_snode_id)
 
-                demand = vlink.bandwidth_demand
                 path = self.global_controller.shortest_path(
-                    src_snode, dst_snode, bw_required=demand, use_cache=False,
+                    src_snode, dst_snode,
+                    bw_required=vlink.bandwidth_demand,
+                    use_cache=False,
                 )
                 if not path:
                     raise ValueError(
-                        f"No single-path substrate route with BW>={demand} for "
-                        f"vlink {vlink.source}->{vlink.target}"
+                        f"No single path with ≥{vlink.bandwidth_demand} BW "
+                        f"for vlink {vlink.source}->{vlink.target}"
                     )
 
-                bottleneck = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
-                if bottleneck < demand:
+                # Verify bottleneck can carry the full demand.
+                bottleneck = min(
+                    getattr(l, "available_bw", l.bandwidth_capacity) for l in path
+                )
+                if bottleneck < vlink.bandwidth_demand - 1e-6:
                     raise ValueError(
-                        f"Bottleneck BW {bottleneck} < demand {demand} on path for "
-                        f"vlink {vlink.source}->{vlink.target}"
+                        f"Bottleneck BW {bottleneck:.3f} < demand {vlink.bandwidth_demand:.3f} "
+                        f"for vlink {vlink.source}->{vlink.target}"
                     )
 
                 for link in path:
-                    link.available_bw -= demand
+                    link.available_bw -= vlink.bandwidth_demand
                     link_key = (link.source, link.target)
-                    allocated_bw[link_key] = allocated_bw.get(link_key, 0) + demand
+                    allocated_bw[link_key] = allocated_bw.get(link_key, 0) + vlink.bandwidth_demand
 
-                vlink_paths[vlink_key] = [(path, demand)]
+                vlink_paths[vlink_key] = [(path, vlink.bandwidth_demand)]
 
         except Exception as e:
             for snode_id, cpu in allocated_cpu.items():
@@ -789,48 +965,51 @@ class RLOAMPVNE:
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
-        # NN-ranked ordering + candidate selection (on-policy: log_probs match the executed action)
         self.policy.train()
-        ordered_vnodes, ordered_links, candidate_nodes, cand_weights, log_probs, entropies, value = \
-            self.rank_all_nn(vnetwork, sample=True)
+        mode = self.config.get("inference_mode", "direct")
 
-        if any(not c for c in candidate_nodes):
-            self._record_online(log_probs, value, entropies, -1.0)
-            return solution
+        if mode == "direct":
+            # V2 path: autoregressive sample, no PSO.
+            ordered_vnodes, ordered_links, best_mapping, log_probs, entropies, value = \
+                self.rank_direct(vnetwork, sample=True)
+            if best_mapping is None:
+                self._record_online(log_probs, value, entropies, self._reward_fail())
+                return solution
+        else:
+            # PSO path (legacy v1 behavior — kept for A/B comparison).
+            ordered_vnodes, ordered_links, candidate_nodes, cand_weights, log_probs, entropies, value = \
+                self.rank_all_nn(vnetwork, sample=True)
+            if any(not c for c in candidate_nodes):
+                self._record_online(log_probs, value, entropies, self._reward_fail())
+                return solution
+            vnode_to_idx = {vnode.id: i for i, vnode in enumerate(ordered_vnodes)}
+            vlink_indices = []
+            for vlink in vnetwork.links.values():
+                vlink_indices.append({
+                    "src_idx": vnode_to_idx[vlink.source],
+                    "dst_idx": vnode_to_idx[vlink.target],
+                    "bw": vlink.bandwidth_demand,
+                })
+            best_particle = self._pso(
+                candidate_nodes, vlink_indices, ordered_vnodes, cand_weights,
+            )
+            best_mapping = {
+                ordered_vnodes[i].id: candidate_nodes[i][idx].id
+                for i, idx in enumerate(best_particle)
+            }
 
-        # Build index maps
-        vnode_to_idx = {vnode.id: i for i, vnode in enumerate(ordered_vnodes)}
-        vlink_indices = []
-        for vlink in vnetwork.links.values():
-            vlink_indices.append({
-                "src_idx": vnode_to_idx[vlink.source],
-                "dst_idx": vnode_to_idx[vlink.target],
-                "bw": vlink.bandwidth_demand,
-            })
-
-        # PSO optimization (biased by policy via cand_weights — option B)
-        best_particle = self._pso(
-            candidate_nodes, vlink_indices, ordered_vnodes, cand_weights,
-        )
-        best_mapping = {
-            ordered_vnodes[i].id: candidate_nodes[i][idx].id
-            for i, idx in enumerate(best_particle)
-        }
-
-        # Commit
+        # Commit (shared by both modes)
         try:
             vlink_paths = self._commit_mapping_ordered(best_mapping, vnetwork, ordered_links)
             if not vlink_paths:
                 raise ValueError("No paths allocated")
             solution.is_successful = True
         except ValueError:
-            self._record_online(log_probs, value, entropies, -1.0)
+            self._record_online(log_probs, value, entropies, self._reward_fail())
             return solution
 
         cost = self._compute_cost(best_mapping, vnetwork, vlink_paths)
-        revenue = sum(nd.cpu_demand for nd in vnetwork.nodes.values()) + \
-                  sum(vl.bandwidth_demand for vl in vnetwork.links.values())
-        reward = revenue / (cost + 1e-6)
+        reward = self._reward_from_cost(cost)
 
         solution.node_mapping = best_mapping
         solution.embedding_cost = cost
@@ -870,3 +1049,21 @@ class RLOAMPVNE:
         online_k = self.config.get("training", {}).get("online_k", 10)
         if self._request_count % online_k == 0 and self.trainer.buffer:
             self.trainer.update()
+
+
+# ---- Inference variants (share same pretrain checkpoint) ----
+
+class RLOAMPVNEV2Direct(RLOAMPVNE):
+    """V2 — direct autoregressive decoding at inference (matches pretrain)."""
+    def __init__(self):
+        super().__init__()
+        self.config["inference_mode"] = "direct"
+        self.name = "RL-OA-MP-VNE-V2-Direct"
+
+
+class RLOAMPVNEV2PSO(RLOAMPVNE):
+    """V2 — PSO + top-K candidates at inference (legacy v1 path; for A/B)."""
+    def __init__(self):
+        super().__init__()
+        self.config["inference_mode"] = "pso"
+        self.name = "RL-OA-MP-VNE-V2-PSO"

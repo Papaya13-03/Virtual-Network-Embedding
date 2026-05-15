@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RL Framework cho V2 — Environment, Agent, State, Action, Reward</title>
+<script>
+window.MathJax = {
+  tex: { inlineMath: [['$', '$'], ['\\(', '\\)']], displayMath: [['$$', '$$'], ['\\[', '\\]']] },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+* { box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  line-height: 1.7;
+  color: #1f2937;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  background: #fafafa;
+}
+header {
+  background: linear-gradient(135deg, #059669 0%, #0ea5e9 100%);
+  color: white;
+  padding: 32px;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+header h1 { margin: 0 0 8px 0; font-size: 32px; }
+header p { margin: 0; opacity: 0.95; }
+nav {
+  background: white;
+  padding: 16px 24px;
+  border-radius: 8px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  position: sticky;
+  top: 12px;
+  z-index: 100;
+}
+nav ul { list-style: none; padding: 0; margin: 0; display: flex; flex-wrap: wrap; gap: 14px; }
+nav a { color: #059669; text-decoration: none; font-weight: 500; font-size: 14px; }
+nav a:hover { text-decoration: underline; }
+section {
+  background: white;
+  padding: 28px 32px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+h2 {
+  color: #059669;
+  border-bottom: 2px solid #e5e7eb;
+  padding-bottom: 8px;
+  margin-top: 0;
+  font-size: 22px;
+}
+h3 { color: #1f2937; margin-top: 28px; font-size: 18px; }
+h4 { color: #4b5563; font-size: 15px; }
+code {
+  background: #f3f4f6;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+  font-size: 0.9em;
+  color: #be185d;
+}
+pre {
+  background: #1f2937;
+  color: #f9fafb;
+  padding: 14px 18px;
+  border-radius: 8px;
+  overflow-x: auto;
+  font-size: 13px;
+  line-height: 1.55;
+}
+pre code { background: none; padding: 0; color: inherit; }
+.tag {
+  display: inline-block;
+  background: #d1fae5;
+  color: #065f46;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+}
+.tag.env { background: #dbeafe; color: #1e40af; }
+.tag.agent { background: #fce7f3; color: #9d174d; }
+.tag.state { background: #ede9fe; color: #5b21b6; }
+.tag.action { background: #fef3c7; color: #92400e; }
+.tag.reward { background: #d1fae5; color: #065f46; }
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 12px 0;
+  background: white;
+  font-size: 14px;
+}
+th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #e5e7eb; }
+th { background: #f9fafb; font-weight: 600; color: #4b5563; font-size: 13px; }
+tr:hover { background: #f9fafb; }
+.callout {
+  border-left: 4px solid #059669;
+  background: #ecfdf5;
+  padding: 14px 18px;
+  border-radius: 0 8px 8px 0;
+  margin: 14px 0;
+}
+.callout.warn { border-color: #f59e0b; background: #fffbeb; }
+.callout.info { border-color: #0ea5e9; background: #eff6ff; }
+.diagram-wrap {
+  background: #f9fafb;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  margin: 16px 0;
+  overflow-x: auto;
+}
+.formula-box {
+  background: #f3f4f6;
+  padding: 16px 20px;
+  border-radius: 8px;
+  margin: 12px 0;
+  border-left: 4px solid #059669;
+}
+.flex-row { display: flex; gap: 16px; flex-wrap: wrap; }
+.card {
+  flex: 1; min-width: 240px;
+  background: #f9fafb;
+  padding: 16px;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
+}
+.card h4 { margin-top: 0; }
+footer { text-align: center; padding: 32px 0; color: #6b7280; font-size: 14px; }
+.code-ref {
+  font-family: "SF Mono", Monaco, Consolas, monospace;
+  font-size: 12px;
+  color: #6b7280;
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>🤖 RL Framework — V2 Cost-Min</h1>
+  <p>Phân tích 5 thành phần RL trong rl_oa_mp_vne_v2: Environment, Agent, State, Action, Reward</p>
+  <p style="font-size: 14px; margin-top: 8px;">Contextual Bandit · Single-step MDP · Composite action space</p>
+</header>
+
+<nav>
+  <ul>
+    <li><a href="#bigpicture">Big picture</a></li>
+    <li><a href="#environment">1. Environment</a></li>
+    <li><a href="#agent">2. Agent</a></li>
+    <li><a href="#state">3. State</a></li>
+    <li><a href="#action">4. Action</a></li>
+    <li><a href="#reward">5. Reward</a></li>
+    <li><a href="#setting">6. Setting</a></li>
+    <li><a href="#loop">7. Training loop</a></li>
+  </ul>
+</nav>
+
+<!-- ===== BIG PICTURE ===== -->
+<section id="bigpicture">
+  <h2>📌 Big Picture — 5 thành phần RL</h2>
+
+  <div class="diagram-wrap">
+    <svg width="100%" height="540" viewBox="0 0 1100 540" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669"/>
+        </marker>
+        <marker id="ar-r" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626"/>
+        </marker>
+      </defs>
+
+      <!-- Environment block -->
+      <rect x="40" y="40" width="450" height="280" rx="12" fill="#dbeafe" stroke="#1e40af" stroke-width="2"/>
+      <text x="265" y="68" text-anchor="middle" font-size="18" font-weight="700" fill="#1e40af">🌍 MÔI TRƯỜNG (Environment)</text>
+
+      <rect x="60" y="90" width="195" height="100" rx="6" fill="white" stroke="#3b82f6"/>
+      <text x="157" y="113" text-anchor="middle" font-size="13" font-weight="600">Substrate Network</text>
+      <text x="157" y="132" text-anchor="middle" font-size="11" fill="#6b7280">snodes (CPU, price, delay)</text>
+      <text x="157" y="148" text-anchor="middle" font-size="11" fill="#6b7280">slinks (BW capacity)</text>
+      <text x="157" y="166" text-anchor="middle" font-size="11" fill="#6b7280">Multi-domain topology</text>
+      <text x="157" y="183" text-anchor="middle" font-size="10" fill="#9ca3af">+ shortest_path routing</text>
+
+      <rect x="275" y="90" width="195" height="100" rx="6" fill="white" stroke="#3b82f6"/>
+      <text x="372" y="113" text-anchor="middle" font-size="13" font-weight="600">VN Generator</text>
+      <text x="372" y="132" text-anchor="middle" font-size="11" fill="#6b7280">2-8 vnodes (random)</text>
+      <text x="372" y="148" text-anchor="middle" font-size="11" fill="#6b7280">cpu_demand ~ U[1, 30]</text>
+      <text x="372" y="164" text-anchor="middle" font-size="11" fill="#6b7280">bw_demand ~ U[5, 80]</text>
+      <text x="372" y="183" text-anchor="middle" font-size="10" fill="#9ca3af">+ fractional load drop</text>
+
+      <rect x="60" y="210" width="195" height="90" rx="6" fill="white" stroke="#3b82f6"/>
+      <text x="157" y="230" text-anchor="middle" font-size="13" font-weight="600">Commit Engine</text>
+      <text x="157" y="250" text-anchor="middle" font-size="11" fill="#6b7280">single-path only</text>
+      <text x="157" y="266" text-anchor="middle" font-size="11" fill="#6b7280">allocate CPU + BW</text>
+      <text x="157" y="282" text-anchor="middle" font-size="11" fill="#6b7280">rollback on fail</text>
+
+      <rect x="275" y="210" width="195" height="90" rx="6" fill="white" stroke="#3b82f6"/>
+      <text x="372" y="230" text-anchor="middle" font-size="13" font-weight="600">Cost Function</text>
+      <text x="372" y="250" text-anchor="middle" font-size="11" fill="#6b7280">Σ cpu·price</text>
+      <text x="372" y="266" text-anchor="middle" font-size="11" fill="#6b7280">+ Σ bw·hop_count</text>
+      <text x="372" y="284" text-anchor="middle" font-size="10" fill="#9ca3af">→ reward = -cost/1000</text>
+
+      <!-- Agent block -->
+      <rect x="610" y="40" width="450" height="280" rx="12" fill="#fce7f3" stroke="#9d174d" stroke-width="2"/>
+      <text x="835" y="68" text-anchor="middle" font-size="18" font-weight="700" fill="#9d174d">🧠 TÁC NHÂN (Agent)</text>
+      <text x="835" y="86" text-anchor="middle" font-size="12" fill="#9d174d" font-style="italic">PolicyNetwork (GCN + 4 heads)</text>
+
+      <rect x="630" y="100" width="195" height="90" rx="6" fill="white" stroke="#db2777"/>
+      <text x="727" y="120" text-anchor="middle" font-size="13" font-weight="600">GCN Encoder</text>
+      <text x="727" y="138" text-anchor="middle" font-size="11" fill="#6b7280">2-layer GCN</text>
+      <text x="727" y="154" text-anchor="middle" font-size="11" fill="#6b7280">5 → 32 dim</text>
+      <text x="727" y="170" text-anchor="middle" font-size="11" fill="#6b7280">Substrate embeddings</text>
+
+      <rect x="845" y="100" width="195" height="90" rx="6" fill="white" stroke="#db2777"/>
+      <text x="942" y="120" text-anchor="middle" font-size="13" font-weight="600">node_head + link_head</text>
+      <text x="942" y="138" text-anchor="middle" font-size="11" fill="#6b7280">MLP 3-layer</text>
+      <text x="942" y="154" text-anchor="middle" font-size="11" fill="#6b7280">→ rank vnodes/vlinks</text>
+      <text x="942" y="170" text-anchor="middle" font-size="11" fill="#6b7280">PL permutation</text>
+
+      <rect x="630" y="210" width="195" height="90" rx="6" fill="white" stroke="#db2777"/>
+      <text x="727" y="230" text-anchor="middle" font-size="13" font-weight="600">cand_head (Attention)</text>
+      <text x="727" y="248" text-anchor="middle" font-size="11" fill="#6b7280">Cross-attn + residual</text>
+      <text x="727" y="264" text-anchor="middle" font-size="11" fill="#6b7280">→ score per (v, s)</text>
+      <text x="727" y="282" text-anchor="middle" font-size="11" fill="#6b7280">Collision masking</text>
+
+      <rect x="845" y="210" width="195" height="90" rx="6" fill="white" stroke="#16a34a" stroke-width="2"/>
+      <text x="942" y="230" text-anchor="middle" font-size="13" font-weight="600">value_head V(s)</text>
+      <text x="942" y="248" text-anchor="middle" font-size="11" fill="#6b7280">MLP scalar output</text>
+      <text x="942" y="264" text-anchor="middle" font-size="11" fill="#6b7280">Per-instance baseline</text>
+      <text x="942" y="282" text-anchor="middle" font-size="11" fill="#16a34a" font-weight="600">→ critic loss MSE</text>
+
+      <!-- Action arrow Agent → Env -->
+      <path d="M 610 180 Q 550 180 490 200" stroke="#dc2626" stroke-width="3" fill="none" marker-end="url(#ar-r)"/>
+      <text x="550" y="170" font-size="13" font-weight="700" fill="#dc2626">action a</text>
+      <text x="550" y="187" font-size="10" fill="#dc2626">(σ_v, σ_e, mapping)</text>
+
+      <!-- Reward arrow Env → Agent -->
+      <path d="M 490 250 Q 550 250 610 230" stroke="#059669" stroke-width="3" fill="none" marker-end="url(#ar)"/>
+      <text x="550" y="245" font-size="13" font-weight="700" fill="#059669">reward r</text>
+      <text x="550" y="262" font-size="10" fill="#059669">= -cost/1000</text>
+
+      <!-- State block (bottom) -->
+      <rect x="40" y="360" width="1020" height="140" rx="12" fill="#ede9fe" stroke="#5b21b6" stroke-width="2"/>
+      <text x="550" y="386" text-anchor="middle" font-size="18" font-weight="700" fill="#5b21b6">📊 STATE — observation passed Env → Agent</text>
+
+      <rect x="60" y="406" width="320" height="80" rx="6" fill="white" stroke="#7c3aed"/>
+      <text x="220" y="426" text-anchor="middle" font-size="13" font-weight="600">Macro state (per VN request)</text>
+      <text x="220" y="445" text-anchor="middle" font-size="11" fill="#6b7280">G_s: substrate features + adjacency</text>
+      <text x="220" y="461" text-anchor="middle" font-size="11" fill="#6b7280">VN: vnode/vlink features</text>
+      <text x="220" y="477" text-anchor="middle" font-size="11" fill="#6b7280">cpu_slacks per (v, s)</text>
+
+      <rect x="400" y="406" width="320" height="80" rx="6" fill="white" stroke="#7c3aed"/>
+      <text x="560" y="426" text-anchor="middle" font-size="13" font-weight="600">Micro state (per vnode pick step)</text>
+      <text x="560" y="445" text-anchor="middle" font-size="11" fill="#6b7280">+ used_snode_ids (set of taken snodes)</text>
+      <text x="560" y="461" text-anchor="middle" font-size="11" fill="#6b7280">+ current_vnode v_t</text>
+      <text x="560" y="477" text-anchor="middle" font-size="11" fill="#6b7280">→ used to mask cand distribution</text>
+
+      <rect x="740" y="406" width="320" height="80" rx="6" fill="white" stroke="#7c3aed"/>
+      <text x="900" y="426" text-anchor="middle" font-size="13" font-weight="600">Hidden state inside Agent</text>
+      <text x="900" y="445" text-anchor="middle" font-size="11" fill="#6b7280">substrate_ctx (GCN out, max-pooled)</text>
+      <text x="900" y="461" text-anchor="middle" font-size="11" fill="#6b7280">vnode/vlink encodings</text>
+      <text x="900" y="477" text-anchor="middle" font-size="11" fill="#6b7280">→ inputs to all 4 heads</text>
+
+      <!-- Footer note -->
+      <text x="550" y="525" text-anchor="middle" font-size="12" fill="#6b7280" font-style="italic">
+        Single-step contextual bandit: 1 VN request = 1 episode = 1 composite action = 1 reward
+      </text>
+    </svg>
+  </div>
+
+  <div class="callout info">
+    <b>Setting RL:</b> Contextual Bandit (1-step MDP). Mỗi VN request là một episode hoàn chỉnh — agent quan sát state, chọn composite action, nhận reward terminal. Không có state transition giữa nhiều step trong cùng episode (về mặt MDP).
+  </div>
+</section>
+
+<!-- ===== ENVIRONMENT ===== -->
+<section id="environment">
+  <h2><span class="tag env">1</span> Môi trường (Environment)</h2>
+
+  <p>Môi trường gồm 4 thành phần phối hợp với nhau:</p>
+
+  <table>
+    <thead>
+      <tr><th>Object</th><th>Vai trò</th><th>Code reference</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>SubstrateNetwork</code></td>
+        <td>Mạng vật lý: snodes có CPU/giá/độ trễ, slinks có BW capacity. Multi-domain.</td>
+        <td class="code-ref">problem/substrate_network.py</td>
+      </tr>
+      <tr>
+        <td><code>VN Generator</code></td>
+        <td>Pretrain: sinh VN ngẫu nhiên 2–8 vnodes. Eval: đọc VNR sequence từ JSON.</td>
+        <td class="code-ref">algorithms/rl_oa_mp_vne_v2/vn_generator.py</td>
+      </tr>
+      <tr>
+        <td><code>GlobalController</code></td>
+        <td>Quản lý commit/release. Cung cấp <code>shortest_path</code> để route vlink.</td>
+        <td class="code-ref">algorithms/oa_mp_vne/global_controller.py</td>
+      </tr>
+      <tr>
+        <td><code>_compute_cost</code></td>
+        <td>Hàm tính tổng chi phí từ mapping đã commit.</td>
+        <td class="code-ref">rl_oa_mp_vne_v2/rl_oa_mp_vne.py:541-555</td>
+      </tr>
+      <tr>
+        <td><code>_commit_mapping_ordered</code></td>
+        <td><b>Single-path V2</b>: mỗi vlink ↔ 1 chain slinks. Nếu không có path đủ BW → fail.</td>
+        <td class="code-ref">rl_oa_mp_vne_v2/rl_oa_mp_vne.py:838-927</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h3>Đặc tính của Environment</h3>
+
+  <div class="flex-row">
+    <div class="card">
+      <h4>Stochastic ở khâu sinh state</h4>
+      <ul>
+        <li>VN topology + demand random</li>
+        <li>Substrate load <code>fractional_drop U[0, 0.7]</code> mỗi episode</li>
+        <li>Đây là nguồn nhiễu chính qua các batch</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>Deterministic ở khâu commit</h4>
+      <ul>
+        <li>Một khi mapping được chốt, cost xác định</li>
+        <li><code>shortest_path</code> deterministic (Dijkstra)</li>
+        <li>Reward = f(mapping, substrate) cố định</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ===== AGENT ===== -->
+<section id="agent">
+  <h2><span class="tag agent">2</span> Tác nhân (Agent — PolicyNetwork)</h2>
+
+  <p>Là <b>một neural network</b> với 4 heads chia sẻ chung 1 GCN encoder.</p>
+
+  <table>
+    <thead>
+      <tr><th>Head</th><th>Input</th><th>Output</th><th>Mục đích</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>GCN Encoder</b></td>
+        <td>(X, A_norm) per domain</td>
+        <td>snode embeddings (n_s, 32)</td>
+        <td>Encode substrate topology + tài nguyên</td>
+      </tr>
+      <tr>
+        <td><b>node_head</b></td>
+        <td>vnode_feat ⊕ substrate_ctx</td>
+        <td>logits (n_v,)</td>
+        <td>Rank vnodes (thứ tự embed)</td>
+      </tr>
+      <tr>
+        <td><b>link_head</b></td>
+        <td>vlink_feat ⊕ substrate_ctx</td>
+        <td>logits (n_e,)</td>
+        <td>Rank vlinks (thứ tự allocate BW)</td>
+      </tr>
+      <tr>
+        <td><b>cand_head</b></td>
+        <td>vnode_feat, snode_embeds, cpu_slack</td>
+        <td>scores per (v, s)</td>
+        <td>Chấm điểm snode cho mỗi vnode (attention)</td>
+      </tr>
+      <tr>
+        <td><b>value_head 🆕</b></td>
+        <td>mean_pool(ctx) ⊕ mean_pool(vnode_feats)</td>
+        <td>scalar V(s)</td>
+        <td>Critic baseline cho Actor-Critic</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p class="code-ref">File chính: <code>algorithms/rl_oa_mp_vne_v2/policy_network.py</code></p>
+
+  <div class="callout">
+    <b>Patches áp dụng (V2 final):</b>
+    <ul>
+      <li>cand_head scores được normalize: <code>/5 - mean → clamp[-10, 10]</code> để tránh softmax saturation</li>
+      <li>Soft mask <code>-1e4</code> thay <code>-inf</code> cho infeasible candidates</li>
+      <li>Max-pool thay mean-pool ở state representation (preserve dominant signal)</li>
+      <li>Gumbel-Max sampling thay Categorical.sample (equivalent ở τ=1, vectorizable cho Top-K)</li>
+    </ul>
+  </div>
+</section>
+
+<!-- ===== STATE ===== -->
+<section id="state">
+  <h2><span class="tag state">3</span> Trạng thái (State)</h2>
+
+  <p>State được chia thành <b>2 cấp</b>:</p>
+
+  <h3>3.1 Macro state — observed một lần đầu episode</h3>
+
+  <table>
+    <thead>
+      <tr><th>Thành phần</th><th>Shape</th><th>Mô tả</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><code>vnode_feats</code></td>
+        <td>(n_v, 5)</td>
+        <td>[cpu_demand, degree, adj_bw, n_nodes, n_links] normalized</td>
+      </tr>
+      <tr>
+        <td><code>vlink_feats</code></td>
+        <td>(n_e, 5)</td>
+        <td>[bw_demand, src_deg, dst_deg, src_cpu, dst_cpu]</td>
+      </tr>
+      <tr>
+        <td><code>domain_X</code></td>
+        <td>(n_s_d, 5)</td>
+        <td>[avail_cpu, cpu_price, delay, degree, avg_nbr_bw]</td>
+      </tr>
+      <tr>
+        <td><code>domain_A_norm</code></td>
+        <td>(n_s_d, n_s_d)</td>
+        <td>D^{-1/2}(A+I)D^{-1/2} — Kipf normalization, BW ratio weighted</td>
+      </tr>
+      <tr>
+        <td><code>cpu_slack</code></td>
+        <td>(n_s,) per vnode</td>
+        <td>avail_cpu(s) − cpu_demand(v) — feasibility signal</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="formula-box">
+    Macro state: $s_0 = (G_s, VN, \{\text{cpu\_slack}_{v,s}\})$
+  </div>
+
+  <h3>3.2 Micro state — evolve trong autoregressive decoding</h3>
+
+  <p>Trong <code>rank_direct</code>, sau mỗi vnode được pick một snode, state cập nhật:</p>
+
+  <div class="formula-box">
+    $s_t = (s_0,\ \underbrace{\text{used\_snode\_ids}_t}_{\text{collision mask}},\ \underbrace{v_t}_{\text{vnode hiện tại}})$
+  </div>
+
+  <p><code>used_snode_ids</code> tích lũy sau mỗi bước → cand distribution bị mask khác → policy thấy different "allowed actions".</p>
+
+  <p class="code-ref">Code: <code>algorithms/rl_oa_mp_vne_v2/rl_oa_mp_vne.py:511-582</code></p>
+</section>
+
+<!-- ===== ACTION ===== -->
+<section id="action">
+  <h2><span class="tag action">4</span> Hành động (Action)</h2>
+
+  <p>Action là <b>composite</b> — gồm 3 thành phần được sample tuần tự:</p>
+
+  <table>
+    <thead>
+      <tr><th>Component</th><th>Phân phối</th><th>Action space size</th><th>Sampling method</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><b>Vnode permutation</b> σ_v</td>
+        <td>Plackett-Luce trên <code>node_scores</code></td>
+        <td>n_v!</td>
+        <td>Gumbel-Top-K (vectorized)</td>
+      </tr>
+      <tr>
+        <td><b>Vlink permutation</b> σ_e</td>
+        <td>Plackett-Luce trên <code>link_scores</code></td>
+        <td>n_e!</td>
+        <td>Gumbel-Top-K</td>
+      </tr>
+      <tr>
+        <td><b>Snode mapping</b> {σ(v_i)}</td>
+        <td>Categorical autoregressive với collision mask</td>
+        <td>∏ (n_s − i)</td>
+        <td>Gumbel-Max + mask used</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="formula-box">
+    Composite action: $a = \big(\sigma_v,\ \sigma_e,\ [s_1, s_2, \ldots, s_{n_v}]\big)$
+  </div>
+
+  <h3>Snippet sampling cand (V2 cost-min)</h3>
+
+  <pre><code>for v in ordered_vnodes:
+    i = orig_idx[v.id]
+    scores_i = cand_scores[i].clone()
+
+    # Collision mask: snodes already used → -inf
+    if used_snode_ids:
+        mask_vals = [-inf if pool_i[j].id in used_snode_ids else 0.0
+                     for j in range(len(pool_i))]
+        scores_i = scores_i + mask_vals
+
+    # Gumbel-Max sample (equivalent to Categorical.sample at τ=1)
+    pos = self._gumbel_argmax(scores_i)
+
+    # log_prob and entropy still analytical via Categorical
+    dist = torch.distributions.Categorical(logits=scores_i)
+    cand_lp.append(dist.log_prob(pos))
+    cand_ent.append(dist.entropy())
+
+    chosen_snode = pool_i[int(pos.item())]
+    mapping[v.id] = chosen_snode.id
+    used_snode_ids.add(chosen_snode.id)</code></pre>
+
+  <p class="code-ref">Code đầy đủ: <code>rl_oa_mp_vne_v2/rl_oa_mp_vne.py:511-582</code></p>
+</section>
+
+<!-- ===== REWARD ===== -->
+<section id="reward">
+  <h2><span class="tag reward">5</span> Reward (V2 — Cost Minimization)</h2>
+
+  <p>Trước đây V2 dùng R/C ratio. <b>V2 hiện tại đổi sang cost minimization</b>:</p>
+
+  <div class="formula-box">
+    <p><b>Success</b> (mapping commit thành công):</p>
+    $$r = -\frac{\text{cost}}{\text{scale}},\quad \text{scale} = 1000$$
+    <p>Trong đó:</p>
+    $$\text{cost} = \underbrace{\sum_{v} \text{cpu\_demand}(v) \cdot \text{cpu\_price}(\sigma(v))}_{\text{node cost}} + \underbrace{\sum_{e} \text{bw}(e) \cdot |\text{path}(e)|}_{\text{link cost (single-path)}}$$
+    <p><b>Fail</b>:</p>
+    $$r = -10.0 \quad \text{(clearly worse than worst success)}$$
+  </div>
+
+  <h3>So sánh đổi objective</h3>
+
+  <table>
+    <thead>
+      <tr><th>Aspect</th><th>R/C (cũ)</th><th>Cost-min (V2 hiện tại)</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Công thức success</td><td>revenue / cost</td><td>-cost / 1000</td></tr>
+      <tr><td>Range</td><td>[0, ~1]</td><td>[-5, ~0]</td></tr>
+      <tr><td>Fail penalty</td><td>-1.0</td><td>-10.0</td></tr>
+      <tr><td>VN-normalized?</td><td>Yes (revenue trừ size)</td><td>No (cost ∝ size)</td></tr>
+      <tr><td><b>adv_std trong train</b></td><td>0.06</td><td><b>1.0 (×16)</b></td></tr>
+      <tr><td><b>Eval mean cost</b></td><td>1480</td><td><b>1422 (-3.9%)</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout">
+    <b>Quan trọng:</b> reward terminal — tính 1 lần ở cuối episode (sau khi commit). Không có intermediate reward giữa các vnode picks. Đây là đặc tính của contextual bandit.
+  </div>
+</section>
+
+<!-- ===== SETTING ===== -->
+<section id="setting">
+  <h2>6. Setting RL — Contextual Bandit</h2>
+
+  <p>Đây <b>không phải</b> multi-step MDP kinh điển. Phân biệt:</p>
+
+  <table>
+    <thead>
+      <tr><th>Đặc tính</th><th>Multi-step MDP (Atari, MuJoCo)</th><th><b>V2 (VNE)</b></th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Horizon</td><td>T steps per episode</td><td><b>1 step</b> (whole VN at once)</td></tr>
+      <tr><td>Action</td><td>Single action per step</td><td><b>Composite</b> (perm + mapping)</td></tr>
+      <tr><td>State transition</td><td>$s_t \to s_{t+1}$ qua action</td><td><b>Reset</b> giữa episodes (pretrain)</td></tr>
+      <tr><td>Reward</td><td>Per-step + terminal</td><td><b>Terminal only</b></td></tr>
+      <tr><td>Discount γ</td><td>&lt; 1</td><td><b>N/A</b> (1 step)</td></tr>
+      <tr><td>Tên gọi</td><td>RL (Reinforcement Learning)</td><td><b>Contextual Bandit</b></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout warn">
+    <b>Note:</b> Autoregressive cand decoding bên trong 1 episode có tạo "micro MDP" với state evolution. Nhưng đứng từ góc nhìn REINFORCE update (terminal reward, no γ), ta xem composite action như 1 big step.
+  </div>
+</section>
+
+<!-- ===== LOOP ===== -->
+<section id="loop">
+  <h2>7. Training Loop</h2>
+
+  <div class="diagram-wrap">
+    <svg width="100%" height="320" viewBox="0 0 1000 320" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto">
+          <path d="M 0 0 L 10 5 L 0 10 z" fill="#4b5563"/>
+        </marker>
+      </defs>
+
+      <rect x="30" y="120" width="160" height="80" rx="8" fill="#dbeafe" stroke="#2563eb" stroke-width="2"/>
+      <text x="110" y="148" text-anchor="middle" font-size="13" font-weight="600">env.reset()</text>
+      <text x="110" y="168" text-anchor="middle" font-size="11" fill="#6b7280">substrate += load drop</text>
+      <text x="110" y="184" text-anchor="middle" font-size="11" fill="#6b7280">VN ← generate_random_vn</text>
+
+      <rect x="230" y="120" width="160" height="80" rx="8" fill="#fce7f3" stroke="#db2777" stroke-width="2"/>
+      <text x="310" y="148" text-anchor="middle" font-size="13" font-weight="600">agent.forward(s₀)</text>
+      <text x="310" y="168" text-anchor="middle" font-size="11" fill="#6b7280">→ scores + V(s)</text>
+      <text x="310" y="184" text-anchor="middle" font-size="11" fill="#6b7280">→ sample composite a</text>
+
+      <rect x="430" y="120" width="160" height="80" rx="8" fill="#fef3c7" stroke="#f59e0b" stroke-width="2"/>
+      <text x="510" y="148" text-anchor="middle" font-size="13" font-weight="600">env.step(a)</text>
+      <text x="510" y="168" text-anchor="middle" font-size="11" fill="#6b7280">commit mapping</text>
+      <text x="510" y="184" text-anchor="middle" font-size="11" fill="#6b7280">→ cost / fail</text>
+
+      <rect x="630" y="120" width="160" height="80" rx="8" fill="#d1fae5" stroke="#16a34a" stroke-width="2"/>
+      <text x="710" y="148" text-anchor="middle" font-size="13" font-weight="600">compute reward</text>
+      <text x="710" y="168" text-anchor="middle" font-size="11" fill="#6b7280">-cost/1000 or -10</text>
+      <text x="710" y="184" text-anchor="middle" font-size="11" fill="#6b7280">→ trainer.record()</text>
+
+      <rect x="830" y="120" width="150" height="80" rx="8" fill="#ede9fe" stroke="#7c3aed" stroke-width="2"/>
+      <text x="905" y="148" text-anchor="middle" font-size="13" font-weight="600">every batch_size:</text>
+      <text x="905" y="168" text-anchor="middle" font-size="11" fill="#6b7280">trainer.update()</text>
+      <text x="905" y="184" text-anchor="middle" font-size="11" fill="#6b7280">policy + critic loss</text>
+
+      <line x1="190" y1="160" x2="225" y2="160" stroke="#4b5563" stroke-width="1.5" marker-end="url(#ar2)"/>
+      <line x1="390" y1="160" x2="425" y2="160" stroke="#4b5563" stroke-width="1.5" marker-end="url(#ar2)"/>
+      <line x1="590" y1="160" x2="625" y2="160" stroke="#4b5563" stroke-width="1.5" marker-end="url(#ar2)"/>
+      <line x1="790" y1="160" x2="825" y2="160" stroke="#4b5563" stroke-width="1.5" marker-end="url(#ar2)"/>
+
+      <!-- Loop back -->
+      <path d="M 905 200 Q 905 280 110 280 Q 110 230 110 205" stroke="#dc2626" stroke-width="2" stroke-dasharray="6,4" fill="none" marker-end="url(#ar2)"/>
+      <text x="500" y="305" text-anchor="middle" font-size="12" fill="#dc2626" font-style="italic">repeat 5000 episodes (pretrain) / per VN request (eval)</text>
+
+      <text x="500" y="40" text-anchor="middle" font-size="16" font-weight="700">RL Training Loop</text>
+      <text x="500" y="60" text-anchor="middle" font-size="12" fill="#6b7280">Contextual Bandit — 1 episode = 1 VN request</text>
+      <text x="500" y="80" text-anchor="middle" font-size="11" fill="#9ca3af">trainer.update() = Actor-Critic step (policy + critic + entropy)</text>
+    </svg>
+  </div>
+
+  <h3>Pseudo-code chính</h3>
+
+  <pre><code>for episode in 5000:
+    # 1. Environment reset
+    env.reset()              # substrate += fractional load drop
+    vn = generate_random_vn()
+
+    # 2. Agent forward — produce composite action a
+    ordered_vnodes, ordered_links, mapping, log_probs, entropies, value = \
+        agent.rank_direct(vn, sample=True)
+    #   - sample σ_v via Gumbel-Top-K on node_head
+    #   - sample σ_e via Gumbel-Top-K on link_head
+    #   - autoregressive: sample s_i via Gumbel-Max on cand_head[v_i],
+    #     mask used_snode_ids before each pick
+
+    # 3. Environment step — commit mapping + compute reward
+    reward = try_embedding_direct(vn, ordered_links, mapping)
+    #   - single-path commit
+    #   - reward = -cost/1000 if success else -10
+
+    # 4. Store transition + periodic Actor-Critic update
+    trainer.record(log_probs, value, entropies, reward)
+
+    if (episode + 1) % batch_size == 0:
+        trainer.update()
+        #   advantage = R - V(s).detach()   per-instance baseline
+        #   advantage = (adv - mean) / std   normalization
+        #   policy_loss = -mean(log_prob * adv)   per-head normalized
+        #   critic_loss = MSE(V(s), R)
+        #   entropy_bonus = -β(t) * H(π)   annealing β
+        #   total = policy_loss + 0.5*critic_loss - β*entropy
+        #   AdamW + cosine LR + grad clip 5.0</code></pre>
+
+  <p class="code-ref">Code chính: <code>algorithms/rl_oa_mp_vne_v2/rl_oa_mp_vne.py:617-647</code></p>
+</section>
+
+<!-- ===== SUMMARY ===== -->
+<section>
+  <h2>📋 Tóm tắt 1 đoạn cho giảng viên</h2>
+
+  <div class="callout">
+    <p><b>Mô hình của em là <i>Contextual Bandit</i> (single-step MDP) với:</b></p>
+    <ul>
+      <li><b>Môi trường</b>: SubstrateNetwork (mạng vật lý multi-domain) + VN generator (sinh request) + Commit engine (single-path V2 mới) + Cost function (Σ cpu·price + Σ bw·hop).</li>
+      <li><b>Tác nhân</b>: PolicyNetwork với 5 components: GCN encoder + 4 heads (node, link, cand, value). Tổng ~80k tham số.</li>
+      <li><b>State</b>: <i>macro</i> = (G_s, VN, cpu_slacks) — quan sát một lần đầu episode. <i>Micro</i> = (s₀, used_snode_ids, current_vnode) — evolve trong autoregressive decoding.</li>
+      <li><b>Action</b>: composite <code>a = (σ_v, σ_e, [s₁...s_n])</code> — permutation vnodes/vlinks + 1 snode/vnode (collision-masked).</li>
+      <li><b>Reward</b>: <i>cost minimization</i> — <code>r = -cost/1000</code> (success), <code>-10</code> (fail). Terminal, không γ.</li>
+      <li><b>Học</b>: Actor-Critic với V(s) baseline. Critic loss MSE = (R − V(s))². Entropy regularization annealing.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <p>RL Framework V2 — Cost-Min + Single-path · Generated 2026-05-14</p>
+  <p>← <a href="./index.html" style="color: #059669;">Báo cáo training analysis</a></p>
+</footer>
+
+</body>
+</html>

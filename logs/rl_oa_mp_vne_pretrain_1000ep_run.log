@@ -1,0 +1,26 @@
+Loading substrate from datasets/scenario_stress/substrate.json
+  [RL-OA-MP-VNE] Loaded pretrained checkpoint: /Users/duvannguyen/Workspace/Studies/Virtual-Network-Embedding/checkpoints/rl_oa_mp_vne_pretrain.pt
+Pretrain rl_oa_mp_vne: 1000 episodes, batch_size=16
+  load drop range: CPU U[0,0.7]  BW U[0,0.7]
+  checkpoint: checkpoints/rl_oa_mp_vne_pretrain_1000ep.pt
+  log: logs/rl_oa_mp_vne_pretrain_1000ep.csv
+------------------------------------------------------------------------
+  ep    80/1000  reward=+0.6746  loss=-1.0622  (n:-0.106 l:-0.425 c:-0.531)  elapsed=   5s eta=  53s
+  ep   160/1000  reward=+0.6945  loss=+0.0148  (n:+0.000 l:-0.083 c:+0.098)  elapsed=  10s eta=  54s
+  ep   240/1000  reward=+0.6898  loss=+0.0674  (n:+0.005 l:-0.003 c:+0.065)  elapsed=  16s eta=  49s
+  ep   320/1000  reward=+0.6749  loss=-1.0654  (n:-0.105 l:-0.466 c:-0.494)  elapsed=  22s eta=  47s
+  ep   400/1000  reward=+0.6787  loss=-1.5340  (n:-0.147 l:-0.547 c:-0.840)  elapsed=  27s eta=  40s
+  ep   480/1000  reward=+0.7068  loss=-2.7575  (n:-0.311 l:-0.984 c:-1.462)  elapsed=  33s eta=  35s
+  ep   560/1000  reward=+0.6823  loss=-1.2274  (n:-0.090 l:-0.504 c:-0.633)  elapsed=  38s eta=  30s
+  ep   640/1000  reward=+0.6915  loss=-0.9904  (n:-0.099 l:-0.442 c:-0.449)  elapsed=  42s eta=  24s
+  ep   720/1000  reward=+0.6845  loss=+0.0141  (n:-0.001 l:-0.017 c:+0.032)  elapsed=  46s eta=  18s
+  ep   800/1000  reward=+0.6983  loss=-1.8744  (n:-0.187 l:-0.720 c:-0.967)  elapsed=  50s eta=  12s
+  ep   880/1000  reward=+0.6397  loss=+0.0400  (n:+0.002 l:+0.065 c:-0.027)  elapsed=  53s eta=   7s
+  ep   960/1000  reward=+0.7152  loss=-0.2459  (n:-0.017 l:-0.003 c:-0.226)  elapsed=  57s eta=   2s
+------------------------------------------------------------------------
+Pretrain done in   59s.
+  head-100 avg reward: +0.6924
+  tail-100 avg reward: +0.6981
+  delta:                  +0.0058
+  checkpoint saved to checkpoints/rl_oa_mp_vne_pretrain_1000ep.pt
+  loss log saved to    logs/rl_oa_mp_vne_pretrain_1000ep.csv

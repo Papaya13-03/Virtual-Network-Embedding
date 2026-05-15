@@ -156,40 +156,43 @@ class GlobalController:
                 snode.available_cpu -= vnode.cpu_demand
                 allocated_cpu[snode.id] = allocated_cpu.get(snode.id, 0) + vnode.cpu_demand
 
-            # --- Allocate Bandwidth (MP-VNE Splitting) ---
+            # --- Allocate Bandwidth (SINGLE-PATH) ---
+            # Each vlink must be embedded on exactly one continuous substrate path
+            # where every link has available_bw >= vlink.bandwidth_demand.
+            # No splitting: shortest_path is queried with the full demand so the
+            # underlying Floyd-Warshall already prunes links that can't carry it.
             for vlink_key, vlink in request.links.items():
                 src_snode_id = mapping[vlink.source]
                 dst_snode_id = mapping[vlink.target]
                 _, src_snode = self._find_snode(src_snode_id)
                 _, dst_snode = self._find_snode(dst_snode_id)
-                
-                demand_remaining = vlink.bandwidth_demand
-                allocated_paths = []
-                max_paths = 5
-                
-                while demand_remaining > 0.001 and len(allocated_paths) < max_paths:
-                    min_required = min(demand_remaining * 0.1, 1.0, demand_remaining)
-                    path = self.shortest_path(src_snode, dst_snode, bw_required=min_required, use_cache=False)
-                    
-                    if not path:
-                        break # Cannot fulfill constraints anymore
-                        
-                    # Calculate how much we can push through this path
-                    path_bw = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
-                    allocated = min(demand_remaining, path_bw)
-                    
-                    for link in path:
-                        link.available_bw -= allocated
-                        link_key = (link.source, link.target)
-                        allocated_bw[link_key] = allocated_bw.get(link_key, 0) + allocated
-                        
-                    allocated_paths.append((path, allocated))
-                    demand_remaining -= allocated
-                    
-                if demand_remaining > 0.001:
-                    raise ValueError(f"Insufficient multi-path BW for vlink {vlink.source}->{vlink.target}")
-                    
-                vlink_paths[vlink_key] = allocated_paths
+
+                demand = vlink.bandwidth_demand
+                path = self.shortest_path(
+                    src_snode, dst_snode, bw_required=demand, use_cache=False,
+                )
+                if not path:
+                    raise ValueError(
+                        f"No single-path substrate route with BW>={demand} for "
+                        f"vlink {vlink.source}->{vlink.target}"
+                    )
+
+                # Defensive bottleneck check (shortest_path should already enforce).
+                bottleneck = min(getattr(l, 'available_bw', l.bandwidth_capacity) for l in path)
+                if bottleneck < demand:
+                    raise ValueError(
+                        f"Bottleneck BW {bottleneck} < demand {demand} on path for "
+                        f"vlink {vlink.source}->{vlink.target}"
+                    )
+
+                for link in path:
+                    link.available_bw -= demand
+                    link_key = (link.source, link.target)
+                    allocated_bw[link_key] = allocated_bw.get(link_key, 0) + demand
+
+                # Keep the (path, bw) list shape so release_mapping and
+                # solution serialization stay unchanged downstream.
+                vlink_paths[vlink_key] = [(path, demand)]
 
         except Exception as e:
             # Rollback

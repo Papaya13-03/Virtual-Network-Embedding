@@ -1,0 +1,75 @@
+Loading substrate from datasets/scenario_stress/substrate.json
+Pretrain rl_oa_mp_vne: 10000 episodes, batch_size=16
+  load drop range: CPU U[0,0.7]  BW U[0,0.7]
+  checkpoint: checkpoints/rl_oa_mp_vne_pretrain_k1_10k.pt
+  log: logs/rl_oa_mp_vne_pretrain_k1_10k.csv
+------------------------------------------------------------------------
+  ep   160/10000  reward=+0.0211  loss=-10.1620  (n:-1.695 l:-3.709 c:-4.757)  elapsed= 1m17s eta=1h19m
+  ep   320/10000  reward=+0.2678  loss=+0.0478  (n:+0.050 l:-0.278 c:+0.275)  elapsed= 2m34s eta=1h17m
+  ep   480/10000  reward=+0.3167  loss=-10.4157  (n:-1.463 l:-4.715 c:-4.238)  elapsed= 3m51s eta=1h16m
+  ep   640/10000  reward=+0.2937  loss=-6.2939  (n:-0.883 l:-2.761 c:-2.650)  elapsed= 5m24s eta=1h19m
+  ep   800/10000  reward=+0.1102  loss=+0.1263  (n:-0.125 l:+0.676 c:-0.426)  elapsed= 6m39s eta=1h16m
+  ep   960/10000  reward=+0.2804  loss=-2.8464  (n:-0.351 l:-1.615 c:-0.880)  elapsed= 7m45s eta=1h13m
+  ep  1120/10000  reward=+0.2295  loss=-1.4968  (n:-0.222 l:-0.381 c:-0.894)  elapsed= 9m09s eta=1h12m
+  ep  1280/10000  reward=+0.2599  loss=+1.0480  (n:+0.175 l:-0.035 c:+0.908)  elapsed=10m25s eta=1h11m
+  ep  1440/10000  reward=-0.0650  loss=-11.7400  (n:-1.418 l:-6.741 c:-3.581)  elapsed=11m47s eta=1h10m
+  ep  1600/10000  reward=+0.2080  loss=-10.7650  (n:-1.733 l:-4.486 c:-4.545)  elapsed=13m11s eta=1h09m
+  ep  1760/10000  reward=-0.0191  loss=-9.0871  (n:-1.466 l:-3.874 c:-3.747)  elapsed=14m24s eta=1h07m
+  ep  1920/10000  reward=+0.1253  loss=-4.6984  (n:-0.619 l:-2.154 c:-1.926)  elapsed=15m46s eta=1h06m
+  ep  2080/10000  reward=+0.1058  loss=+2.9895  (n:+0.691 l:+0.223 c:+2.075)  elapsed=17m23s eta=1h06m
+  ep  2240/10000  reward=-0.0451  loss=-12.9551  (n:-1.832 l:-6.179 c:-4.944)  elapsed=18m56s eta=1h05m
+  ep  2400/10000  reward=+0.2976  loss=-5.0450  (n:-0.808 l:-1.616 c:-2.621)  elapsed=20m25s eta=1h04m
+  ep  2560/10000  reward=+0.1172  loss=-9.3640  (n:-1.319 l:-4.300 c:-3.745)  elapsed=21m45s eta=1h03m
+  ep  2720/10000  reward=+0.2653  loss=-3.4771  (n:-0.480 l:-1.320 c:-1.677)  elapsed=23m05s eta=1h01m
+  ep  2880/10000  reward=+0.0494  loss=-6.7410  (n:-0.780 l:-3.722 c:-2.239)  elapsed=24m38s eta=1h00m
+  ep  3040/10000  reward=+0.0282  loss=-12.8630  (n:-1.254 l:-8.333 c:-3.276)  elapsed=26m15s eta=1h00m
+  ep  3200/10000  reward=+0.2192  loss=-3.2480  (n:-0.584 l:-0.766 c:-1.898)  elapsed=27m51s eta=59m11s
+  ep  3360/10000  reward=+0.2129  loss=-13.7954  (n:-1.803 l:-7.177 c:-4.816)  elapsed=29m32s eta=58m22s
+  ep  3520/10000  reward=-0.0531  loss=-0.7570  (n:-0.160 l:-0.072 c:-0.525)  elapsed=31m36s eta=58m11s
+  ep  3680/10000  reward=+0.2029  loss=-4.3418  (n:-0.685 l:-1.826 c:-1.830)  elapsed=35m19s eta=1h00m
+  ep  3840/10000  reward=+0.2817  loss=-12.1124  (n:-1.556 l:-6.099 c:-4.457)  elapsed=37m03s eta=59m26s
+  ep  4000/10000  reward=+0.0086  loss=-1.6765  (n:-0.105 l:-1.222 c:-0.350)  elapsed=38m33s eta=57m50s
+  ep  4160/10000  reward=+0.0988  loss=-7.3224  (n:-0.972 l:-3.985 c:-2.365)  elapsed=39m59s eta=56m08s
+  ep  4320/10000  reward=+0.0997  loss=-10.9557  (n:-1.572 l:-5.135 c:-4.249)  elapsed=41m24s eta=54m26s
+  ep  4480/10000  reward=+0.2795  loss=-2.4182  (n:-0.229 l:-1.627 c:-0.562)  elapsed=42m58s eta=52m56s
+  ep  4640/10000  reward=+0.2509  loss=-4.9688  (n:-0.588 l:-3.086 c:-1.295)  elapsed=44m42s eta=51m38s
+  ep  4800/10000  reward=+0.2614  loss=+2.4067  (n:+0.360 l:+0.945 c:+1.102)  elapsed=46m20s eta=50m12s
+  ep  4960/10000  reward=+0.0342  loss=-9.8324  (n:-1.588 l:-3.843 c:-4.402)  elapsed=47m56s eta=48m42s
+  ep  5120/10000  reward=+0.0469  loss=-7.5584  (n:-1.085 l:-3.302 c:-3.170)  elapsed=50m49s eta=48m26s
+  ep  5280/10000  reward=+0.2035  loss=-2.8099  (n:-0.480 l:-0.840 c:-1.490)  elapsed=52m49s eta=47m13s
+  ep  5440/10000  reward=+0.2804  loss=-10.5182  (n:-1.589 l:-4.231 c:-4.698)  elapsed=54m43s eta=45m52s
+  ep  5600/10000  reward=+0.2400  loss=+5.4279  (n:+0.847 l:+1.726 c:+2.854)  elapsed=56m23s eta=44m18s
+  ep  5760/10000  reward=+0.1285  loss=-6.5384  (n:-0.745 l:-3.594 c:-2.199)  elapsed=59m56s eta=44m07s
+  ep  5920/10000  reward=+0.1430  loss=-11.1939  (n:-1.431 l:-5.961 c:-3.803)  elapsed=1h02m eta=42m45s
+  ep  6080/10000  reward=+0.2174  loss=-5.5625  (n:-0.759 l:-2.443 c:-2.361)  elapsed=1h04m eta=41m36s
+  ep  6240/10000  reward=-0.0243  loss=-7.2243  (n:-1.061 l:-3.682 c:-2.481)  elapsed=1h06m eta=39m48s
+  ep  6400/10000  reward=+0.2587  loss=-7.7172  (n:-0.917 l:-4.196 c:-2.604)  elapsed=1h07m eta=38m03s
+  ep  6560/10000  reward=+0.0361  loss=-7.0522  (n:-1.081 l:-2.630 c:-3.341)  elapsed=1h09m eta=36m41s
+  ep  6720/10000  reward=+0.1871  loss=-10.2918  (n:-1.345 l:-5.527 c:-3.419)  elapsed=1h11m eta=35m02s
+  ep  6880/10000  reward=+0.3110  loss=-5.6709  (n:-0.777 l:-2.620 c:-2.274)  elapsed=1h13m eta=33m11s
+  ep  7040/10000  reward=+0.2092  loss=-4.8670  (n:-1.058 l:-0.775 c:-3.034)  elapsed=1h14m eta=31m26s
+  ep  7200/10000  reward=+0.1921  loss=-3.3250  (n:-0.463 l:-1.367 c:-1.495)  elapsed=1h16m eta=29m41s
+  ep  7360/10000  reward=+0.0313  loss=-3.5696  (n:-0.524 l:-1.430 c:-1.616)  elapsed=1h18m eta=28m01s
+  ep  7520/10000  reward=+0.2957  loss=-17.0295  (n:-2.233 l:-8.683 c:-6.114)  elapsed=1h19m eta=26m16s
+  ep  7680/10000  reward=-0.0470  loss=-4.5175  (n:-0.618 l:-2.176 c:-1.723)  elapsed=1h21m eta=24m29s
+  ep  7840/10000  reward=+0.2082  loss=-4.3484  (n:-0.884 l:-0.697 c:-2.767)  elapsed=1h23m eta=22m59s
+  ep  8000/10000  reward=+0.1214  loss=+7.4070  (n:+0.949 l:+3.724 c:+2.733)  elapsed=1h26m eta=21m42s
+  ep  8160/10000  reward=+0.1168  loss=-11.8813  (n:-1.222 l:-7.821 c:-2.838)  elapsed=1h28m eta=19m53s
+  ep  8320/10000  reward=+0.1222  loss=-8.0116  (n:-1.138 l:-3.558 c:-3.316)  elapsed=1h29m eta=18m04s
+  ep  8480/10000  reward=+0.1932  loss=-8.2277  (n:-0.985 l:-4.402 c:-2.840)  elapsed=1h30m eta=16m17s
+  ep  8640/10000  reward=+0.2212  loss=-9.3088  (n:-1.157 l:-4.983 c:-3.169)  elapsed=1h32m eta=14m31s
+  ep  8800/10000  reward=+0.0484  loss=-13.5738  (n:-2.076 l:-6.126 c:-5.372)  elapsed=1h33m eta=12m46s
+  ep  8960/10000  reward=+0.1973  loss=-7.6172  (n:-1.185 l:-3.538 c:-2.895)  elapsed=1h35m eta=11m05s
+  ep  9120/10000  reward=+0.2055  loss=-3.1792  (n:-0.400 l:-1.388 c:-1.391)  elapsed=1h37m eta= 9m23s
+  ep  9280/10000  reward=+0.2729  loss=-2.4395  (n:-0.308 l:-0.956 c:-1.175)  elapsed=1h39m eta= 7m42s
+  ep  9440/10000  reward=+0.2157  loss=-7.9484  (n:-1.310 l:-3.447 c:-3.191)  elapsed=1h40m eta= 5m59s
+  ep  9600/10000  reward=+0.1211  loss=-0.6158  (n:-0.066 l:+0.081 c:-0.631)  elapsed=1h42m eta= 4m16s
+  ep  9760/10000  reward=+0.0437  loss=-9.7758  (n:-1.368 l:-4.597 c:-3.811)  elapsed=1h46m eta= 2m36s
+  ep  9920/10000  reward=+0.1031  loss=+4.5527  (n:+0.631 l:+2.516 c:+1.406)  elapsed=1h48m eta=  53s
+------------------------------------------------------------------------
+Pretrain done in 1h49m.
+  head-100 avg reward: +0.1138
+  tail-100 avg reward: +0.1733
+  delta:                  +0.0594
+  checkpoint saved to checkpoints/rl_oa_mp_vne_pretrain_k1_10k.pt
+  loss log saved to    logs/rl_oa_mp_vne_pretrain_k1_10k.csv
