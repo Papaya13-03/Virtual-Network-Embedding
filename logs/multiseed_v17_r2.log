@@ -1,0 +1,105 @@
+
+=== running seed=42 ===
+uv run python -u scripts/run_eval.py --algorithm il_mp_vne_v17_pso --substrate datasets/scenario_100nodes/substrate.json --requests datasets/scenario_100nodes/virtual_requests.json --output results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_42 --seed 42 --checkpoint checkpoints/il_mp_vne_v6_100nodes_r2.pt
+
+=== Eval: il_mp_vne_v17_pso (seed=42) ===
+  substrate:  datasets/scenario_100nodes/substrate.json
+  requests:   datasets/scenario_100nodes/virtual_requests.json
+  checkpoint: checkpoints/il_mp_vne_v6_100nodes_r2.pt
+  200/3000  succ=64  (107s)
+  400/3000  succ=113  (231s)
+  600/3000  succ=168  (344s)
+  800/3000  succ=211  (441s)
+  1000/3000  succ=255  (541s)
+  1200/3000  succ=301  (652s)
+  1400/3000  succ=352  (785s)
+  1600/3000  succ=404  (893s)
+  1800/3000  succ=442  (991s)
+  2000/3000  succ=496  (1090s)
+  2200/3000  succ=546  (1199s)
+  2400/3000  succ=598  (1312s)
+  2600/3000  succ=643  (1420s)
+  2800/3000  succ=679  (1540s)
+  3000/3000  succ=729  (1649s)
+
+  Saved → results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_42/solutions.json, metrics.json
+
+  Results [il_mp_vne_v17_pso] (1649s):
+    acceptance_rate    : 24.3%  (729/3000)
+    revenue_rate       : 883.59
+    avg_cost           : 218.25
+    revenue_cost_ratio : 0.300
+    avg_delay          : 29.35
+
+=== running seed=43 ===
+uv run python -u scripts/run_eval.py --algorithm il_mp_vne_v17_pso --substrate datasets/scenario_100nodes/substrate.json --requests datasets/scenario_100nodes/virtual_requests.json --output results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_43 --seed 43 --checkpoint checkpoints/il_mp_vne_v6_100nodes_r2.pt
+
+=== Eval: il_mp_vne_v17_pso (seed=43) ===
+  substrate:  datasets/scenario_100nodes/substrate.json
+  requests:   datasets/scenario_100nodes/virtual_requests.json
+  checkpoint: checkpoints/il_mp_vne_v6_100nodes_r2.pt
+  200/3000  succ=53  (113s)
+  400/3000  succ=99  (233s)
+  600/3000  succ=150  (353s)
+  800/3000  succ=200  (475s)
+  1000/3000  succ=252  (596s)
+  1200/3000  succ=307  (705s)
+  1400/3000  succ=362  (812s)
+  1600/3000  succ=413  (914s)
+  1800/3000  succ=468  (1045s)
+  2000/3000  succ=521  (1145s)
+  2200/3000  succ=567  (1237s)
+  2400/3000  succ=621  (1365s)
+  2600/3000  succ=677  (1501s)
+  2800/3000  succ=721  (1619s)
+  3000/3000  succ=767  (1736s)
+
+  Saved → results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_43/solutions.json, metrics.json
+
+  Results [il_mp_vne_v17_pso] (1736s):
+    acceptance_rate    : 25.6%  (767/3000)
+    revenue_rate       : 900.66
+    avg_cost           : 216.90
+    revenue_cost_ratio : 0.313
+    avg_delay          : 29.30
+
+=== running seed=44 ===
+uv run python -u scripts/run_eval.py --algorithm il_mp_vne_v17_pso --substrate datasets/scenario_100nodes/substrate.json --requests datasets/scenario_100nodes/virtual_requests.json --output results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_44 --seed 44 --checkpoint checkpoints/il_mp_vne_v6_100nodes_r2.pt
+
+=== Eval: il_mp_vne_v17_pso (seed=44) ===
+  substrate:  datasets/scenario_100nodes/substrate.json
+  requests:   datasets/scenario_100nodes/virtual_requests.json
+  checkpoint: checkpoints/il_mp_vne_v6_100nodes_r2.pt
+  200/3000  succ=57  (118s)
+  400/3000  succ=108  (236s)
+  600/3000  succ=158  (343s)
+  800/3000  succ=204  (445s)
+  1000/3000  succ=260  (571s)
+  1200/3000  succ=313  (689s)
+  1400/3000  succ=368  (826s)
+  1600/3000  succ=420  (927s)
+  1800/3000  succ=471  (1026s)
+  2000/3000  succ=518  (1117s)
+  2200/3000  succ=569  (1224s)
+  2400/3000  succ=625  (1355s)
+  2600/3000  succ=679  (1472s)
+  2800/3000  succ=722  (1591s)
+  3000/3000  succ=778  (1705s)
+
+  Saved → results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/seed_44/solutions.json, metrics.json
+
+  Results [il_mp_vne_v17_pso] (1705s):
+    acceptance_rate    : 25.9%  (778/3000)
+    revenue_rate       : 908.94
+    avg_cost           : 221.18
+    revenue_cost_ratio : 0.305
+    avg_delay          : 29.53
+
+=== aggregate (3 seeds) → results/scenario_100nodes_multiseed/il_mp_vne_v17_pso_r2/metrics_avg.json ===
+  acceptance_rate               0.2527  ±   0.0086
+  avg_cost                    218.7747  ±   2.1922
+  revenue_rate                897.7275  ±  12.9271
+  revenue_cost_ratio            0.3060  ±   0.0067
+  avg_delay                    29.3927  ±   0.1187
+  n_success                   758.0000  ±  25.7099
+  elapsed_seconds            1697.0487  ±  44.0189

@@ -1,0 +1,61 @@
+Strong target generation:
+  substrate: datasets/scenario_100nodes_train/substrate.json
+  vnrs:      10000 (datasets/scenario_100nodes_train/virtual_requests.json)
+  restarts:  N=3
+  output:    data/strong_targets_100nodes.json
+---------------------------------------------------------------------------
+  200/10000  succ=82/200 (41.0%)  elapsed=5m50s  eta=4h46m
+  400/10000  succ=153/400 (38.2%)  elapsed=13m20s  eta=5h20m
+  600/10000  succ=218/600 (36.3%)  elapsed=18m35s  eta=4h51m
+  800/10000  succ=286/800 (35.8%)  elapsed=24m58s  eta=4h47m
+  1000/10000  succ=358/1000 (35.8%)  elapsed=30m07s  eta=4h31m
+  1200/10000  succ=426/1200 (35.5%)  elapsed=35m50s  eta=4h22m
+  1400/10000  succ=497/1400 (35.5%)  elapsed=40m51s  eta=4h10m
+  1600/10000  succ=568/1600 (35.5%)  elapsed=46m11s  eta=4h02m
+  1800/10000  succ=642/1800 (35.7%)  elapsed=51m39s  eta=3h55m
+  2000/10000  succ=710/2000 (35.5%)  elapsed=57m12s  eta=3h48m
+  2200/10000  succ=783/2200 (35.6%)  elapsed=1h02m  eta=3h42m
+  2400/10000  succ=859/2400 (35.8%)  elapsed=1h08m  eta=3h36m
+  2600/10000  succ=931/2600 (35.8%)  elapsed=1h14m  eta=3h30m
+  2800/10000  succ=1009/2800 (36.0%)  elapsed=1h19m  eta=3h25m
+  3000/10000  succ=1081/3000 (36.0%)  elapsed=1h25m  eta=3h19m
+  3200/10000  succ=1149/3200 (35.9%)  elapsed=1h30m  eta=3h11m
+  3400/10000  succ=1230/3400 (36.2%)  elapsed=1h35m  eta=3h05m
+  3600/10000  succ=1307/3600 (36.3%)  elapsed=1h41m  eta=2h59m
+  3800/10000  succ=1378/3800 (36.3%)  elapsed=1h46m  eta=2h54m
+  4000/10000  succ=1449/4000 (36.2%)  elapsed=1h52m  eta=2h48m
+  4200/10000  succ=1527/4200 (36.4%)  elapsed=1h57m  eta=2h41m
+  4400/10000  succ=1593/4400 (36.2%)  elapsed=2h02m  eta=2h35m
+  4600/10000  succ=1671/4600 (36.3%)  elapsed=2h07m  eta=2h29m
+  4800/10000  succ=1738/4800 (36.2%)  elapsed=2h13m  eta=2h24m
+  5000/10000  succ=1821/5000 (36.4%)  elapsed=2h18m  eta=2h18m
+  5200/10000  succ=1890/5200 (36.3%)  elapsed=2h24m  eta=2h13m
+  5400/10000  succ=1970/5400 (36.5%)  elapsed=2h29m  eta=2h07m
+  5600/10000  succ=2032/5600 (36.3%)  elapsed=5h45m  eta=4h31m
+  5800/10000  succ=2093/5800 (36.1%)  elapsed=6h31m  eta=4h43m
+  6000/10000  succ=2155/6000 (35.9%)  elapsed=8h36m  eta=5h44m
+  6200/10000  succ=2227/6200 (35.9%)  elapsed=9h17m  eta=5h41m
+  6400/10000  succ=2310/6400 (36.1%)  elapsed=9h23m  eta=5h16m
+  6600/10000  succ=2390/6600 (36.2%)  elapsed=9h30m  eta=4h53m
+  6800/10000  succ=2453/6800 (36.1%)  elapsed=9h36m  eta=4h31m
+  7000/10000  succ=2529/7000 (36.1%)  elapsed=9h42m  eta=4h09m
+  7200/10000  succ=2598/7200 (36.1%)  elapsed=9h48m  eta=3h49m
+  7400/10000  succ=2673/7400 (36.1%)  elapsed=9h54m  eta=3h28m
+  7600/10000  succ=2743/7600 (36.1%)  elapsed=10h00m  eta=3h09m
+  7800/10000  succ=2802/7800 (35.9%)  elapsed=10h05m  eta=2h50m
+  8000/10000  succ=2879/8000 (36.0%)  elapsed=10h11m  eta=2h32m
+  8200/10000  succ=2960/8200 (36.1%)  elapsed=10h17m  eta=2h15m
+  8400/10000  succ=3025/8400 (36.0%)  elapsed=10h23m  eta=1h58m
+  8600/10000  succ=3112/8600 (36.2%)  elapsed=10h28m  eta=1h42m
+  8800/10000  succ=3192/8800 (36.3%)  elapsed=10h35m  eta=1h26m
+  9000/10000  succ=3266/9000 (36.3%)  elapsed=10h41m  eta=1h11m
+  9200/10000  succ=3335/9200 (36.2%)  elapsed=10h47m  eta=56m16s
+  9400/10000  succ=3385/9400 (36.0%)  elapsed=10h51m  eta=41m35s
+  9600/10000  succ=3466/9600 (36.1%)  elapsed=10h57m  eta=27m24s
+  9800/10000  succ=3535/9800 (36.1%)  elapsed=11h03m  eta=13m32s
+  10000/10000  succ=3594/10000 (35.9%)  elapsed=11h09m  eta=0s
+---------------------------------------------------------------------------
+Done in 11h09m.
+  total      : 10000
+  successful : 3594 (35.9%)
+  output     : data/strong_targets_100nodes.json

@@ -1,0 +1,8 @@
+[16:56:47] skip pretrain 100 (ckpt exists)
+[16:56:47] eval mp_vne 100 — start
+[21:22:03] eval mp_vne 100 — done
+[21:22:03] eval il_mp_vne_pso 100 — start
+[21:39:08] eval il_mp_vne_pso 100 — done
+[21:39:08] pretrain 200 nodes — start
+[08:43:19] pretrain 200 — done
+[08:43:19] eval mp_vne 200 — start

@@ -1,0 +1,47 @@
+Loading substrate from datasets/scenario_200nodes_train/substrate.json
+Loading VNRs from datasets/scenario_200nodes_train/virtual_requests.json
+  Using 10000 VNRs
+  Trainable policy (il_mp_vne_v19) loaded from checkpoints/il_mp_vne_v19_100nodes.pt
+  rollout=direct → train: cand_head + encoder + value (ordering frozen) (19394 frozen, 36293 trainable)
+  Frozen reference policy loaded (KL enabled, β_KL=0.1)
+PPO fine-tune: 10000 VNRs, batch=16, lr=0.0003
+  baseline=critic V(s), normalize_adv=True, β_H=0.01, value_coef=0.5, success_bonus=1.0, fail_r=-1.0
+  checkpoint: checkpoints/il_mp_vne_v19_200nodes.pt
+------------------------------------------------------------------------
+  ep   320/10000 batch   20 loss=   0.819 pol=  0.319 vL= 0.530 kl= 0.15 H= 11.62 r̄=-0.643 succ=10.6% >exp= 0.0% el= 5m53s eta=2h58m
+  ep   640/10000 batch   40 loss=   0.343 pol= -0.328 vL= 0.210 kl= 0.25 H= 12.62 r̄=-0.887 succ= 8.6% >exp= 0.0% el=13m06s eta=3h11m
+  ep   960/10000 batch   60 loss=   0.146 pol=  2.723 vL= 0.061 kl= 0.32 H= 13.13 r̄=-1.000 succ= 9.2% >exp= 0.0% el=20m26s eta=3h12m
+  ep  1280/10000 batch   80 loss=   0.033 pol=  1.770 vL= 0.186 kl= 0.22 H= 13.21 r̄=-0.896 succ= 9.0% >exp= 0.0% el=26m02s eta=2h57m
+  ep  1600/10000 batch  100 loss=   1.002 pol=  3.564 vL= 0.071 kl= 0.49 H= 13.88 r̄=-1.000 succ= 8.8% >exp= 0.0% el=34m20s eta=3h00m
+  ep  1920/10000 batch  120 loss=   0.134 pol=  0.259 vL= 0.225 kl= 0.35 H= 12.46 r̄=-0.874 succ= 8.6% >exp= 0.0% el=41m14s eta=2h53m
+  ep  2240/10000 batch  140 loss=  -0.234 pol= -0.504 vL= 0.222 kl= 0.13 H= 11.94 r̄=-0.874 succ= 8.5% >exp= 0.0% el=47m16s eta=2h43m
+  ep  2560/10000 batch  160 loss=   0.437 pol= -0.383 vL= 0.228 kl= 0.09 H= 13.03 r̄=-0.880 succ= 8.6% >exp= 0.0% el=53m26s eta=2h35m
+  ep  2880/10000 batch  180 loss=   0.455 pol= -1.754 vL= 0.458 kl= 0.12 H= 11.10 r̄=-0.742 succ= 8.4% >exp= 0.0% el=1h00m eta=2h29m
+  ep  3200/10000 batch  200 loss=   0.643 pol=  2.084 vL= 0.052 kl= 0.12 H= 12.08 r̄=-1.000 succ= 8.2% >exp= 0.0% el=1h06m eta=2h21m
+  ep  3520/10000 batch  220 loss=   0.108 pol= -1.636 vL= 0.617 kl= 0.13 H= 10.52 r̄=-0.616 succ= 8.1% >exp= 0.0% el=1h12m eta=2h13m
+  ep  3840/10000 batch  240 loss=   0.299 pol=  0.882 vL= 0.033 kl= 0.16 H= 11.59 r̄=-1.000 succ= 8.0% >exp= 0.0% el=1h18m eta=2h05m
+  ep  4160/10000 batch  260 loss=   0.363 pol= -0.738 vL= 0.254 kl= 0.15 H= 10.49 r̄=-0.871 succ= 8.0% >exp= 0.0% el=1h24m eta=1h59m
+  ep  4480/10000 batch  280 loss=   0.585 pol= -1.758 vL= 0.597 kl= 0.11 H=  9.04 r̄=-0.605 succ= 7.9% >exp= 0.0% el=1h29m eta=1h50m
+  ep  4800/10000 batch  300 loss=   0.436 pol=  2.128 vL= 0.019 kl= 0.15 H= 11.78 r̄=-1.000 succ= 7.9% >exp= 0.0% el=1h35m eta=1h43m
+  ep  5120/10000 batch  320 loss=  -0.314 pol= -0.787 vL= 0.233 kl= 0.19 H=  9.28 r̄=-0.865 succ= 7.9% >exp= 0.0% el=1h40m eta=1h35m
+  ep  5440/10000 batch  340 loss=   0.164 pol=  0.086 vL= 0.196 kl= 0.16 H=  9.45 r̄=-0.884 succ= 8.0% >exp= 0.0% el=1h46m eta=1h29m
+  ep  5760/10000 batch  360 loss=   0.574 pol= -1.001 vL= 0.406 kl= 0.07 H= 11.01 r̄=-0.732 succ= 7.9% >exp= 0.0% el=1h51m eta=1h22m
+  ep  6080/10000 batch  380 loss=   0.480 pol=  4.270 vL= 0.044 kl= 0.07 H= 10.21 r̄=-1.000 succ= 7.8% >exp= 0.0% el=1h56m eta=1h15m
+  ep  6400/10000 batch  400 loss=  -0.381 pol= -1.042 vL= 0.404 kl= 0.08 H= 10.84 r̄=-0.752 succ= 8.0% >exp= 0.0% el=2h04m eta=1h09m
+  ep  6720/10000 batch  420 loss=   0.634 pol= -0.400 vL= 0.340 kl= 0.09 H= 12.51 r̄=-0.745 succ= 7.9% >exp= 0.0% el=2h10m eta=1h03m
+  ep  7040/10000 batch  440 loss=   1.066 pol=  0.125 vL= 0.226 kl= 0.19 H= 12.09 r̄=-0.869 succ= 7.9% >exp= 0.0% el=2h15m eta=57m06s
+  ep  7360/10000 batch  460 loss=   0.614 pol=  3.045 vL= 0.046 kl= 0.14 H= 14.55 r̄=-1.000 succ= 7.8% >exp= 0.0% el=2h21m eta=50m54s
+  ep  7680/10000 batch  480 loss=   0.754 pol=  4.809 vL= 0.066 kl= 0.20 H= 11.05 r̄=-1.000 succ= 7.8% >exp= 0.0% el=5h29m eta=1h39m
+  ep  8000/10000 batch  500 loss=   0.481 pol=  3.233 vL= 0.073 kl= 0.42 H= 12.70 r̄=-1.000 succ= 7.8% >exp= 0.0% el=8h06m eta=2h01m
+  ep  8320/10000 batch  520 loss=   0.123 pol=  3.122 vL= 0.117 kl= 0.48 H= 12.79 r̄=-1.000 succ= 7.9% >exp= 0.0% el=8h11m eta=1h39m
+  ep  8640/10000 batch  540 loss=  -0.309 pol=  0.300 vL= 0.381 kl= 0.67 H= 13.37 r̄=-0.791 succ= 8.0% >exp= 0.0% el=8h17m eta=1h18m
+  ep  8960/10000 batch  560 loss=   0.117 pol= -1.019 vL= 0.356 kl= 0.44 H= 11.67 r̄=-0.752 succ= 8.1% >exp= 0.0% el=8h23m eta=58m23s
+  ep  9280/10000 batch  580 loss=   1.354 pol=  2.907 vL= 0.044 kl= 0.28 H= 11.90 r̄=-1.000 succ= 8.0% >exp= 0.0% el=8h28m eta=39m27s
+  ep  9600/10000 batch  600 loss=   0.574 pol= -1.102 vL= 0.225 kl= 0.11 H= 10.24 r̄=-0.879 succ= 8.0% >exp= 0.0% el=8h33m eta=21m24s
+  ep  9920/10000 batch  620 loss=   0.217 pol= -2.523 vL= 0.570 kl= 0.13 H=  9.86 r̄=-0.622 succ= 7.9% >exp= 0.0% el=8h40m eta= 4m11s
+------------------------------------------------------------------------
+  total time:               8h41m
+  success rate:             794/10000 = 7.9%
+  final success_cost_ema:   301.29973475988675
+  final loss avg:           -0.1940
+  checkpoint saved to checkpoints/il_mp_vne_v19_200nodes.pt

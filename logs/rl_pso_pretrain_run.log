@@ -1,0 +1,19 @@
+Loading substrate from datasets/scenario_100nodes_train/substrate.json
+Loading VNRs from datasets/scenario_100nodes_train/virtual_requests.json
+  Using 5000 VNRs
+  Warm-started from checkpoints/il_mp_vne_100nodes.pt
+RL-PSO pretrain: 5000 VNRs, batch=16, N=4, lr=0.0003
+  checkpoint: checkpoints/il_mp_vne_100nodes_rlpso.pt
+  log: logs/rl_pso_pretrain.csv
+------------------------------------------------------------------------
+  ep   160/5000  batch   10  r=-0.875 cost= 253.5 succ=12%  loss=-332.3135  held= 19  elapsed= 2m23s eta=1h12m
+  ep   320/5000  batch   20  r=-0.828 cost= 168.8 succ=17%  loss=-289.5722  held= 16  elapsed= 5m19s eta=1h17m
+  ep   480/5000  batch   30  r=-0.734 cost= 154.4 succ=27%  loss=-227.5331  held= 26  elapsed= 9m39s eta=1h30m
+  ep   640/5000  batch   40  r=-0.938 cost= 226.3 succ=6%  loss=-329.1255  held= 16  elapsed=13m29s eta=1h31m
+  ep   800/5000  batch   50  r=-0.906 cost= 245.5 succ=9%  loss=-336.6428  held= 19  elapsed=18m46s eta=1h38m
+  ep   960/5000  batch   60  r=-0.859 cost= 177.0 succ=14%  loss=-329.8345  held= 16  elapsed=23m28s eta=1h38m
+  ep  1120/5000  batch   70  r=-0.781 cost= 155.7 succ=22%  loss=-323.4262  held= 18  elapsed=26m40s eta=1h32m
+  ep  1280/5000  batch   80  r=-0.984 cost= 165.3 succ=2%  loss=-367.0368  held= 12  elapsed=29m18s eta=1h25m
+  ep  1440/5000  batch   90  r=-0.891 cost= 366.7 succ=11%  loss=-299.8924  held= 15  elapsed=32m25s eta=1h20m
+  ep  1600/5000  batch  100  r=-0.812 cost= 244.1 succ=19%  loss=-294.2649  held= 14  elapsed=34m41s eta=1h13m
+  ep  1760/5000  batch  110  r=-0.766 cost= 215.1 succ=23%  loss=-312.1708  held= 15  elapsed=37m37s eta=1h09m

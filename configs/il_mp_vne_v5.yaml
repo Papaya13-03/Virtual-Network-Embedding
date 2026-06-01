@@ -1,0 +1,58 @@
+# V2 — direct autoregressive decoding (no PSO during pretrain). PSO config
+# below is only used by the `il_mp_vne_pso` inference variant.
+
+# Inference mode for solve(). Pretrain ALWAYS uses direct regardless.
+#   direct: autoregressive sampling with collision masking (no PSO)
+#   pso:    legacy top-K + PSO (kept for A/B comparison)
+inference_mode: direct
+
+pso:
+  num_particles: 20
+  num_iterations: 15
+  w: 0.7
+  c1: 1.5
+  c2: 1.5
+  mutation_rate: 0.1
+  policy_bias_alpha: 50.0
+
+policy_network:
+  hidden_size: 64
+  gcn_hidden: 32
+  learning_rate: 0.001
+  gamma: 0.99
+
+candidates:
+  K: 5   # only used by PSO inference variant; direct mode picks 1/vnode
+
+training:
+  pretrain_episodes: 5000
+  batch_size: 64
+  online_k: 10
+  # --- V2 objective: cost minimization + single-path ---
+  reward_cost_scale: 1000.0       # success reward = -cost / scale  (range ~ [-5, 0])
+  reward_fail: -10.0              # fail penalty — clearly worse than worst success
+  # --- Redesigned optimization (V2) ---
+  critic_coef: 0.5                # weight on MSE(V(s), R)
+  entropy_start_coef: 0.01        # 0.05 was too strong vs. policy-gradient magnitude → held entropy at log(K), policy never sharpened
+  entropy_end_coef: 0.001         # low β late → exploit
+  entropy_anneal_batches: 50      # ~65% of 78 batches (5000/64)
+  critic_warmup_batches: 10       # smooth ramp 0→1 (vs hard step before)
+  weight_decay: 1.0e-4            # AdamW regularization
+  lr_cosine_total_batches: 78     # 5000/64 batches
+  lr_min_ratio: 0.1               # cosine anneal to 10% of init lr
+  normalize_advantage: true       # (A − A.mean())/A.std() within batch
+  # --- VN distribution (matches scenario_stress_v2 eval distribution) ---
+  # Substrate is TIGHT: 10 domains × 10 nodes, CPU 10-30, BW 30-100.
+  # VN must be small enough that ~50 concurrent VNs fit.
+  vn_min_nodes: 3
+  vn_max_nodes: 7
+  vn_min_cpu: 1.0
+  vn_max_cpu: 8.0
+  vn_min_bw: 5.0
+  vn_max_bw: 25.0
+  vn_link_prob: 0.3
+  # Multi-domain constraint: 60% of vnodes get a regional constraint
+  # (1-2 domains). Matches eval distribution; without it, the policy never
+  # learns to respect allowed_domains.
+  allowed_domains_prob: 0.6
+  max_allowed_domains: 2

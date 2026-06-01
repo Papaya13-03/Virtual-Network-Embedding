@@ -1,0 +1,12 @@
+.build/
+*.pdf
+*.aux
+*.log
+*.bbl
+*.blg
+*.toc
+*.lof
+*.lot
+*.out
+.git/
+.DS_Store

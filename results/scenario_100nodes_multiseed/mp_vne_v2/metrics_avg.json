@@ -1,0 +1,60 @@
+{
+  "algorithm": "mp_vne_v2",
+  "seeds": [
+    42,
+    43,
+    44
+  ],
+  "per_seed": [
+    {
+      "n_total": 3000,
+      "n_success": 913,
+      "acceptance_rate": 0.30433333333333334,
+      "revenue_rate": 1033.2131538874612,
+      "avg_cost": 197.8351658269442,
+      "revenue_cost_ratio": 0.3361907637770263,
+      "avg_delay": 25.558734147257173,
+      "elapsed_seconds": 1527.0568418502808,
+      "algorithm": "mp_vne_v2",
+      "checkpoint": null
+    },
+    {
+      "n_total": 3000,
+      "n_success": 873,
+      "acceptance_rate": 0.291,
+      "revenue_rate": 1021.9540118169755,
+      "avg_cost": 199.9111778923251,
+      "revenue_cost_ratio": 0.33228653014510706,
+      "avg_delay": 25.850967049814155,
+      "elapsed_seconds": 2153.8666429519653,
+      "algorithm": "mp_vne_v2",
+      "checkpoint": null
+    },
+    {
+      "n_total": 3000,
+      "n_success": 892,
+      "acceptance_rate": 0.29733333333333334,
+      "revenue_rate": 979.7206493658847,
+      "avg_cost": 199.5027375560539,
+      "revenue_cost_ratio": 0.32041511189422495,
+      "avg_delay": 26.270880114000352,
+      "elapsed_seconds": 1827.6479029655457,
+      "algorithm": "mp_vne_v2",
+      "checkpoint": null
+    }
+  ],
+  "acceptance_rate_mean": 0.2975555555555556,
+  "acceptance_rate_std": 0.0066694438659817565,
+  "avg_cost_mean": 199.0830270917744,
+  "avg_cost_std": 1.0998064280913438,
+  "revenue_rate_mean": 1011.6292716901071,
+  "revenue_rate_std": 28.201280183942803,
+  "revenue_cost_ratio_mean": 0.3296308019387861,
+  "revenue_cost_ratio_std": 0.008216292796098488,
+  "avg_delay_mean": 25.89352710369056,
+  "avg_delay_std": 0.35797554124076164,
+  "n_success_mean": 892.6666666666666,
+  "n_success_std": 20.008331597945226,
+  "elapsed_seconds_mean": 1836.190462589264,
+  "elapsed_seconds_std": 313.4922059365702
+}

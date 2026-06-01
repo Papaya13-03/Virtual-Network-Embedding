@@ -1,0 +1,7 @@
+
+=== Eval: mp_vne ===
+  substrate:  datasets/scenario_200nodes/substrate.json
+  requests:   datasets/scenario_200nodes/virtual_requests.json
+  checkpoint: (none / heuristic)
+  200/3000  succ=51  (834s)
+  400/3000  succ=97  (1520s)

@@ -1,0 +1,15 @@
+Loading substrate from datasets/scenario_50nodes_train/substrate.json
+Loading VNRs from datasets/scenario_50nodes_train/virtual_requests.json
+  Using 5000 VNRs
+  Trainable policy (il_mp_vne_v19) loaded from checkpoints/il_mp_vne_v19_50nodes_10ep_cont.pt
+  rollout=direct → train: cand_head + encoder + value (ordering frozen) (19394 frozen, 36293 trainable)
+  Frozen reference policy loaded (KL enabled, β_KL=0.1)
+PPO fine-tune: 5000 VNRs, batch=16, lr=0.0003
+  baseline=critic V(s), normalize_adv=True, β_H=0.01, value_coef=0.5, reward=cost_rel α=1.0 λ=0.3, fail_r=-1.0
+  checkpoint: checkpoints/il_mp_vne_v19_50nodes_10ep_cont2.pt
+------------------------------------------------------------------------
+  ep   320/5000 batch   20 loss=  -0.039 pol= -0.319 vL= 0.711 kl= 0.06 H=  4.99 r̄=-0.366 succ=33.1% >exp= 0.0% el=  34s eta= 8m24s
+  ep   640/5000 batch   40 loss=   0.137 pol= -0.724 vL= 0.371 kl= 0.11 H=  5.83 r̄=-0.614 succ=32.3% >exp= 0.0% el= 1m02s eta= 7m04s
+  ep   960/5000 batch   60 loss=  -0.130 pol=  0.930 vL= 0.288 kl= 0.11 H=  5.39 r̄=-0.531 succ=31.9% >exp= 0.0% el= 1m40s eta= 7m04s
+  ep  1280/5000 batch   80 loss=  -0.348 pol= -0.721 vL= 0.578 kl= 0.23 H=  5.46 r̄=-0.110 succ=32.9% >exp= 0.0% el= 2m18s eta= 6m42s
+  ep  1600/5000 batch  100 loss=   0.214 pol=  0.750 vL= 0.727 kl= 0.12 H=  4.73 r̄=-0.508 succ=33.6% >exp= 0.0% el= 2m50s eta= 6m01s

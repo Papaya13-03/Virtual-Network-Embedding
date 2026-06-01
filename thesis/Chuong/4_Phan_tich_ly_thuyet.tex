@@ -1,0 +1,36 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\label{ch:phan_tich}
+% =============================================================
+% CHƯƠNG 4 — PHÂN TÍCH LÝ THUYẾT          Mục tiêu độ dài: ~4 trang
+% =============================================================
+
+% Tổng quan chương
+Chương này phân tích các tính chất lý thuyết của phương pháp đề xuất, gồm độ phức tạp tính toán, độ phức tạp bộ nhớ, và đặc tính hội tụ trong ngữ cảnh VNE.
+
+\section{Độ phức tạp tính toán}              % ~1.5 trang
+\label{sec:complexity-time}
+
+\subsection{Độ phức tạp suy diễn (inference)}
+% TODO: $\mathcal{O}(L\cdot|E^s|\cdot d)$ cho encoder, $\mathcal{O}(|N^v|\cdot K)$ cho decoder.
+
+\subsection{Độ phức tạp một bước huấn luyện}
+% TODO: forward+backward, vòng PPO epochs.
+
+\section{Độ phức tạp bộ nhớ}                 % ~1 trang
+\label{sec:complexity-mem}
+% TODO: số tham số, activation, replay buffer (nếu có).
+
+\section{Phân tích hội tụ}                   % ~1.5 trang
+\label{sec:convergence}
+
+\subsection{Monotonic improvement của PPO}
+% TODO: lược lại lý thuyết PPO clipping, dẫn về VNE.
+
+\subsection{Tác động của pre-training tới ổn định}
+% TODO: lập luận warm-start giúp giảm phương sai gradient.
+
+% Kết chương
+Chương này đã chứng minh phương pháp đề xuất có chi phí tính toán khả thi và đặc tính hội tụ phù hợp cho triển khai thực tế. Chương tiếp theo trình bày kết quả thực nghiệm để kiểm chứng các phân tích lý thuyết.
+
+\end{document}

@@ -1,0 +1,39 @@
+% Cấu hình định dạng cho khối mã nguồn (listings)
+\definecolor{lst-bg}{RGB}{248,248,248}
+\definecolor{lst-comment}{RGB}{96,139,78}
+\definecolor{lst-keyword}{RGB}{0,0,180}
+\definecolor{lst-string}{RGB}{163,21,21}
+\definecolor{lst-number}{RGB}{120,120,120}
+
+\lstdefinestyle{codestyle}{
+    backgroundcolor=\color{lst-bg},
+    commentstyle=\color{lst-comment}\itshape,
+    keywordstyle=\color{lst-keyword}\bfseries,
+    numberstyle=\tiny\color{lst-number},
+    stringstyle=\color{lst-string},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,
+    breaklines=true,
+    captionpos=b,
+    keepspaces=true,
+    numbers=left,
+    numbersep=8pt,
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    tabsize=4,
+    frame=single,
+    rulecolor=\color{lst-number},
+    xleftmargin=10pt,
+    aboveskip=10pt,
+    belowskip=10pt,
+}
+
+\lstset{style=codestyle}
+
+% Tên gọi tiếng Việt cho caption của listing
+\renewcommand{\lstlistingname}{Mã nguồn}
+\renewcommand{\lstlistlistingname}{Danh mục mã nguồn}
+
+% Đánh số listing theo từng chương: 1.1, 1.2, 2.1, ...
+\AtBeginDocument{\counterwithin{lstlisting}{chapter}}
