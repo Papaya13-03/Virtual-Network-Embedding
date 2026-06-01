@@ -1,0 +1,46 @@
+Loading substrate from datasets/scenario_100nodes_train_seed3/substrate.json
+Loading VNRs from datasets/scenario_100nodes_train_seed3/virtual_requests.json
+  Using 10000 VNRs
+  Resumed from checkpoints/il_mp_vne_v6_100nodes_r2.pt
+Imitation pretrain: 10000 VNRs, batch=16, lr=0.0005
+  checkpoint: checkpoints/il_mp_vne_v6_100nodes_r3.pt
+  log: logs/imitation_v6_r3_100nodes.csv
+------------------------------------------------------------------------
+  ep   320/10000  batch   20  loss=2.9365  expert_succ=18.8% (60/320)  match=100.0%  elapsed= 1m56s eta=58m32s
+  ep   640/10000  batch   40  loss=2.7929  expert_succ=17.2% (110/640)  match=100.0%  elapsed= 3m51s eta=56m28s
+  ep   960/10000  batch   60  loss=2.7810  expert_succ=17.5% (168/960)  match=100.0%  elapsed= 5m49s eta=54m49s
+  ep  1280/10000  batch   80  loss=2.6837  expert_succ=17.0% (218/1280)  match=100.0%  elapsed=1h56m eta=13h11m
+  ep  1600/10000  batch  100  loss=3.0205  expert_succ=16.5% (264/1600)  match=100.0%  elapsed=1h57m eta=10h18m
+  ep  1920/10000  batch  120  loss=2.6386  expert_succ=16.9% (325/1920)  match=100.0%  elapsed=1h59m eta=8h22m
+  ep  2240/10000  batch  140  loss=2.6364  expert_succ=17.1% (382/2240)  match=100.0%  elapsed=2h01m eta=6h59m
+  ep  2560/10000  batch  160  loss=2.5805  expert_succ=17.3% (444/2560)  match=100.0%  elapsed=2h02m eta=5h57m
+  ep  2880/10000  batch  180  loss=2.4665  expert_succ=17.3% (498/2880)  match=100.0%  elapsed=2h04m eta=5h08m
+  ep  3200/10000  batch  200  loss=2.7841  expert_succ=17.5% (559/3200)  match=100.0%  elapsed=2h07m eta=4h30m
+  ep  3520/10000  batch  220  loss=2.7161  expert_succ=17.5% (616/3520)  match=100.0%  elapsed=2h09m eta=3h58m
+  ep  3840/10000  batch  240  loss=2.8310  expert_succ=17.7% (681/3840)  match=100.0%  elapsed=2h11m eta=3h31m
+  ep  4160/10000  batch  260  loss=2.7098  expert_succ=17.8% (739/4160)  match=100.0%  elapsed=2h13m eta=3h07m
+  ep  4480/10000  batch  280  loss=2.6884  expert_succ=17.7% (793/4480)  match=100.0%  elapsed=2h15m eta=2h47m
+  ep  4800/10000  batch  300  loss=2.6572  expert_succ=17.7% (848/4800)  match=100.0%  elapsed=2h17m eta=2h29m
+  ep  5120/10000  batch  320  loss=2.6384  expert_succ=17.5% (895/5120)  match=100.0%  elapsed=2h19m eta=2h13m
+  ep  5440/10000  batch  340  loss=2.5706  expert_succ=17.6% (957/5440)  match=100.0%  elapsed=2h22m eta=1h59m
+  ep  5760/10000  batch  360  loss=2.9393  expert_succ=17.6% (1014/5760)  match=100.0%  elapsed=2h24m eta=1h46m
+  ep  6080/10000  batch  380  loss=2.7138  expert_succ=17.6% (1072/6080)  match=100.0%  elapsed=2h26m eta=1h34m
+  ep  6400/10000  batch  400  loss=2.7823  expert_succ=17.6% (1126/6400)  match=100.0%  elapsed=2h28m eta=1h23m
+  ep  6720/10000  batch  420  loss=2.7444  expert_succ=17.6% (1181/6720)  match=100.0%  elapsed=2h31m eta=1h13m
+  ep  7040/10000  batch  440  loss=2.5382  expert_succ=17.7% (1246/7040)  match=100.0%  elapsed=2h35m eta=1h05m
+  ep  7360/10000  batch  460  loss=2.7908  expert_succ=17.9% (1320/7360)  match=100.0%  elapsed=2h38m eta=56m49s
+  ep  7680/10000  batch  480  loss=2.6791  expert_succ=18.0% (1381/7680)  match=100.0%  elapsed=2h40m eta=48m36s
+  ep  8000/10000  batch  500  loss=2.6021  expert_succ=18.1% (1447/8000)  match=100.0%  elapsed=2h43m eta=40m45s
+  ep  8320/10000  batch  520  loss=2.8448  expert_succ=18.3% (1519/8320)  match=100.0%  elapsed=2h45m eta=33m25s
+  ep  8640/10000  batch  540  loss=2.6481  expert_succ=18.3% (1577/8640)  match=100.0%  elapsed=2h47m eta=26m24s
+  ep  8960/10000  batch  560  loss=2.6461  expert_succ=18.2% (1635/8960)  match=100.0%  elapsed=2h49m eta=19m42s
+  ep  9280/10000  batch  580  loss=2.5395  expert_succ=18.2% (1693/9280)  match=100.0%  elapsed=2h52m eta=13m22s
+  ep  9600/10000  batch  600  loss=2.7898  expert_succ=18.2% (1752/9600)  match=100.0%  elapsed=2h54m eta= 7m16s
+  ep  9920/10000  batch  620  loss=2.6505  expert_succ=18.3% (1814/9920)  match=100.0%  elapsed=2h56m eta= 1m25s
+------------------------------------------------------------------------
+Imitation done in 2h56m.
+  expert success rate: 1827/10000 = 18.3%
+  target match rate:   6324/6324 = 100.0%
+  final batch loss avg: 2.6985
+  checkpoint saved to checkpoints/il_mp_vne_v6_100nodes_r3.pt
+  log saved to        logs/imitation_v6_r3_100nodes.csv

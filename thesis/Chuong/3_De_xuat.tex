@@ -1,0 +1,90 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\label{ch:de_xuat}
+% =============================================================
+% CHƯƠNG 3 — PHƯƠNG PHÁP ĐỀ XUẤT       Mục tiêu độ dài: ~15 trang
+% =============================================================
+
+% Tổng quan chương
+Chương này trình bày chi tiết phương pháp đề xuất \textit{RL-OA-MP-VNE}. Phần đầu mô tả kiến trúc tổng thể. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn.
+
+\section{Tổng quan giải pháp}                  % ~2 trang
+\label{sec:overview}
+% TODO: kiến trúc cấp cao + sơ đồ luồng (Figure).
+% \begin{figure}[H]
+%   \centering
+%   \includegraphics[width=0.95\textwidth]{architecture.pdf}
+%   \caption{Kiến trúc tổng thể của RL-OA-MP-VNE.}
+%   \label{fig:arch}
+% \end{figure}
+
+\subsection{Sơ đồ khối hệ thống}
+% TODO: mô tả các khối Encoder/Decoder/Critic/Env.
+
+\subsection{Luồng tương tác môi trường - tác nhân}
+% TODO: per-step interaction.
+
+\section{Bộ mã hoá đồ thị (Graph Encoder)}     % ~3.5 trang
+\label{sec:encoder}
+
+\subsection{Mã hoá mạng vật lý}
+% TODO: feature đầu vào (cpu free, degree, betweenness, ...), L layer GAT.
+
+\subsection{Mã hoá yêu cầu mạng ảo}
+% TODO: features VNR, encoder riêng vs. shared weights.
+
+\subsection{Trộn biểu diễn substrate và VNR}
+% TODO: cross-attention hoặc concat + projection.
+
+\subsection{Phân tích thiết kế}
+% TODO: lý do chọn GAT, số lớp, hidden dim, ablation gọn ý.
+
+\section{Bộ giải mã chọn ứng viên (Candidate Decoder)} % ~3.5 trang
+\label{sec:decoder}
+
+\subsection{Sinh tập ứng viên cho mỗi nút ảo}
+% TODO: lọc theo CPU, neighbor reachability, top-K theo OA-MP score.
+
+\subsection{Cơ chế attention chọn ứng viên}
+% TODO: query/key/value, softmax có mask hợp lệ.
+
+\subsection{Ánh xạ liên kết bằng k-shortest path}
+% TODO: cách dùng kết quả node mapping để tìm path, fallback policy.
+
+\subsection{Tính toán xác suất hành động hợp thành}
+% TODO: log-prob tổng hợp toàn bộ VNR.
+
+\section{Môi trường học tăng cường}            % ~2.5 trang
+\label{sec:env}
+
+\subsection{Không gian trạng thái}
+% TODO: thông tin substrate hiện tại + VNR đang xử lý + masking.
+
+\subsection{Không gian hành động}
+% TODO: hành động cấp nút và hành động Stop/Backtrack.
+
+\subsection{Hàm phần thưởng và shaping}
+% TODO: dense reward dựa trên R/C, terminal reward, normalization.
+
+\subsection{Cơ chế xử lý hành động không hợp lệ}
+% TODO: invalid-action masking, penalty.
+
+\section{Quy trình huấn luyện hai giai đoạn}   % ~3.5 trang
+\label{sec:training}
+
+\subsection{Giai đoạn 1: Pre-training có giám sát từ OA-MP-VNE}
+% TODO: dataset từ heuristic, cross-entropy loss, schedule.
+
+\subsection{Giai đoạn 2: Fine-tuning PPO với self-critic baseline}
+% TODO: surrogate clipping, GAE, advantage normalization, self-critic.
+
+\subsection{Mã giả thuật toán huấn luyện tổng thể}
+% TODO: \begin{algorithm} ... \end{algorithm}
+
+\subsection{Các thủ thuật ổn định}
+% TODO: gradient clipping, learning rate schedule, entropy bonus, KL early stop.
+
+% Kết chương
+Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của RL-OA-MP-VNE. Chương tiếp theo phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán và đặc tính hội tụ.
+
+\end{document}

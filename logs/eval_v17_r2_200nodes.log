@@ -1,0 +1,29 @@
+
+=== Eval: il_mp_vne_v17_pso (seed=42) ===
+  substrate:  datasets/scenario_200nodes/substrate.json
+  requests:   datasets/scenario_200nodes/virtual_requests.json
+  checkpoint: checkpoints/il_mp_vne_v6_100nodes_r2.pt
+  200/3000  succ=31  (890s)
+  400/3000  succ=54  (1544s)
+  600/3000  succ=76  (2078s)
+  800/3000  succ=95  (2723s)
+  1000/3000  succ=123  (3522s)
+  1200/3000  succ=144  (4162s)
+  1400/3000  succ=171  (5234s)
+  1600/3000  succ=194  (6367s)
+  1800/3000  succ=213  (7302s)
+  2000/3000  succ=231  (7956s)
+  2200/3000  succ=260  (8769s)
+  2400/3000  succ=288  (9963s)
+  2600/3000  succ=302  (10383s)
+  2800/3000  succ=324  (10882s)
+  3000/3000  succ=349  (11393s)
+
+  Saved → results/scenario_200nodes/il_mp_vne_v17_r2/solutions.json, metrics.json
+
+  Results [il_mp_vne_v17_pso] (11393s):
+    acceptance_rate    : 11.6%  (349/3000)
+    revenue_rate       : 672.64
+    avg_cost           : 227.35
+    revenue_cost_ratio : 0.215
+    avg_delay          : 40.18

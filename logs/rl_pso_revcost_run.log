@@ -1,0 +1,10 @@
+Loading substrate from datasets/scenario_100nodes_train/substrate.json
+Loading VNRs from datasets/scenario_100nodes_train/virtual_requests.json
+  Using 5000 VNRs
+  Warm-started from checkpoints/il_mp_vne_v3_100nodes.pt
+RL-PSO pretrain: 5000 VNRs, batch=16, N=4, lr=0.0003
+  checkpoint: checkpoints/il_mp_vne_v3_rl_revcost.pt
+  log: logs/rl_pso_revcost.csv
+------------------------------------------------------------------------
+  ep   160/5000  batch   10  r=-0.000 cost= 207.2 succ=11%  loss=+3.2609  held= 20  elapsed= 2m25s eta=1h13m
+  ep   320/5000  batch   20  r=-0.000 cost= 172.0 succ=33%  loss=-0.4658  held= 16  elapsed= 4m37s eta=1h07m

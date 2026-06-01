@@ -1,0 +1,62 @@
+Strong target generation:
+  substrate: datasets/scenario_200nodes_train/substrate.json
+  vnrs:      10000 (datasets/scenario_200nodes_train/virtual_requests.json)
+  restarts:  N=3
+  output:    data/strong_targets_200nodes.json
+---------------------------------------------------------------------------
+  50/10000  succ=20/50 (40.0%)  elapsed=12m25s  eta=41h13m
+  100/10000  succ=38/100 (38.0%)  elapsed=21m48s  eta=35h58m
+  150/10000  succ=48/150 (32.0%)  elapsed=35m29s  eta=38h50m
+  200/10000  succ=62/200 (31.0%)  elapsed=47m19s  eta=38h39m
+  250/10000  succ=77/250 (30.8%)  elapsed=58m12s  eta=37h50m
+  300/10000  succ=91/300 (30.3%)  elapsed=1h11m  eta=38h41m
+  350/10000  succ=104/350 (29.7%)  elapsed=1h20m  eta=37h05m
+  400/10000  succ=115/400 (28.8%)  elapsed=1h31m  eta=36h32m
+  450/10000  succ=125/450 (27.8%)  elapsed=1h41m  eta=35h58m
+  500/10000  succ=140/500 (28.0%)  elapsed=1h50m  eta=35h08m
+  550/10000  succ=151/550 (27.5%)  elapsed=2h01m  eta=34h47m
+  600/10000  succ=161/600 (26.8%)  elapsed=2h15m  eta=35h20m
+  650/10000  succ=169/650 (26.0%)  elapsed=2h27m  eta=35h25m
+  700/10000  succ=181/700 (25.9%)  elapsed=2h40m  eta=35h38m
+  750/10000  succ=193/750 (25.7%)  elapsed=2h54m  eta=35h47m
+  800/10000  succ=205/800 (25.6%)  elapsed=3h04m  eta=35h25m
+  850/10000  succ=214/850 (25.2%)  elapsed=3h14m  eta=34h51m
+  900/10000  succ=226/900 (25.1%)  elapsed=3h28m  eta=35h10m
+  950/10000  succ=237/950 (24.9%)  elapsed=3h39m  eta=34h51m
+  1000/10000  succ=245/1000 (24.5%)  elapsed=3h52m  eta=34h56m
+  1050/10000  succ=257/1050 (24.5%)  elapsed=4h14m  eta=36h11m
+  1100/10000  succ=265/1100 (24.1%)  elapsed=4h29m  eta=36h22m
+  1150/10000  succ=275/1150 (23.9%)  elapsed=4h47m  eta=36h55m
+  1200/10000  succ=288/1200 (24.0%)  elapsed=5h06m  eta=37h24m
+  1250/10000  succ=300/1250 (24.0%)  elapsed=5h22m  eta=37h38m
+  1300/10000  succ=305/1300 (23.5%)  elapsed=5h37m  eta=37h38m
+  1350/10000  succ=320/1350 (23.7%)  elapsed=6h01m  eta=38h35m
+  1400/10000  succ=331/1400 (23.6%)  elapsed=6h19m  eta=38h54m
+  1450/10000  succ=345/1450 (23.8%)  elapsed=6h43m  eta=39h36m
+  1500/10000  succ=352/1500 (23.5%)  elapsed=6h58m  eta=39h30m
+  1550/10000  succ=364/1550 (23.5%)  elapsed=7h13m  eta=39h21m
+  1600/10000  succ=375/1600 (23.4%)  elapsed=7h32m  eta=39h34m
+  1650/10000  succ=391/1650 (23.7%)  elapsed=7h49m  eta=39h35m
+  1700/10000  succ=406/1700 (23.9%)  elapsed=8h04m  eta=39h24m
+  1750/10000  succ=420/1750 (24.0%)  elapsed=8h21m  eta=39h25m
+  1800/10000  succ=430/1800 (23.9%)  elapsed=8h33m  eta=38h58m
+  1850/10000  succ=438/1850 (23.7%)  elapsed=8h49m  eta=38h52m
+  1900/10000  succ=450/1900 (23.7%)  elapsed=9h06m  eta=38h51m
+  1950/10000  succ=460/1950 (23.6%)  elapsed=9h20m  eta=38h33m
+  2000/10000  succ=467/2000 (23.4%)  elapsed=9h30m  eta=38h00m
+  2050/10000  succ=478/2050 (23.3%)  elapsed=9h42m  eta=37h37m
+  2100/10000  succ=489/2100 (23.3%)  elapsed=9h57m  eta=37h29m
+  2150/10000  succ=498/2150 (23.2%)  elapsed=10h09m  eta=37h03m
+  2200/10000  succ=508/2200 (23.1%)  elapsed=10h18m  eta=36h32m
+  2250/10000  succ=522/2250 (23.2%)  elapsed=10h34m  eta=36h24m
+  2300/10000  succ=533/2300 (23.2%)  elapsed=10h50m  eta=36h19m
+  2350/10000  succ=546/2350 (23.2%)  elapsed=11h04m  eta=36h03m
+  2400/10000  succ=553/2400 (23.0%)  elapsed=11h14m  eta=35h36m
+  2450/10000  succ=564/2450 (23.0%)  elapsed=11h29m  eta=35h25m
+  2500/10000  succ=582/2500 (23.3%)  elapsed=23h35m  eta=70h47m
+  2550/10000  succ=589/2550 (23.1%)  elapsed=23h47m  eta=69h30m
+  2600/10000  succ=597/2600 (23.0%)  elapsed=24h01m  eta=68h21m
+  2650/10000  succ=611/2650 (23.1%)  elapsed=24h15m  eta=67h16m
+  2700/10000  succ=619/2700 (22.9%)  elapsed=24h33m  eta=66h22m
+  2750/10000  succ=635/2750 (23.1%)  elapsed=25h03m  eta=66h02m
+  2800/10000  succ=646/2800 (23.1%)  elapsed=25h18m  eta=65h04m

@@ -1,0 +1,62 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+% =============================================================
+% CHƯƠNG 1 — GIỚI THIỆU ĐỀ TÀI            Mục tiêu độ dài: ~4 trang
+% =============================================================
+
+Chương này giới thiệu bối cảnh và động lực của bài toán nhúng mạng ảo (Virtual Network Embedding - VNE), khảo sát ngắn gọn các hướng tiếp cận hiện hành cùng những hạn chế còn tồn đọng, xác định mục tiêu, định hướng giải pháp và đóng góp chính của đồ án. Phần cuối chương trình bày bố cục của báo cáo.
+
+\section{Đặt vấn đề}
+\label{sec:dvd}
+
+Trong vòng hai thập kỷ qua, sự bùng nổ của điện toán đám mây, Internet vạn vật (IoT) và các dịch vụ thời gian thực đã tạo nên áp lực rất lớn lên hạ tầng mạng truyền thống. Mỗi dịch vụ có yêu cầu khác biệt về băng thông, độ trễ và đặc tính bảo mật, dẫn đến nhu cầu chạy nhiều mạng logic độc lập trên cùng một hạ tầng vật lý. Công nghệ \textbf{ảo hoá mạng} (Network Virtualization) ra đời nhằm đáp ứng nhu cầu này, đóng vai trò nền tảng cho các kiến trúc \textit{Software-Defined Networking} (SDN) và \textit{Network Function Virtualization} (NFV) hiện đại\cite{kreutz2015sdn_survey,mijumbi2016nfv_survey}.
+
+Trong mô hình ảo hoá mạng, nhà cung cấp hạ tầng (Infrastructure Provider - InP) đồng thời phục vụ nhiều nhà cung cấp dịch vụ (Service Provider - SP). Mỗi SP gửi tới InP một \textit{yêu cầu mạng ảo} (Virtual Network Request - VNR) gồm tô-pô nút - cạnh cùng các yêu cầu tài nguyên (CPU cho nút, băng thông cho cạnh). Nhiệm vụ của InP là tìm cách \textbf{nhúng} từng VNR lên mạng vật lý sao cho thoả mãn ràng buộc tài nguyên và tối ưu một hàm mục tiêu đã định, chẳng hạn tỉ lệ chấp nhận yêu cầu hay tỉ số doanh thu trên chi phí (R/C)\cite{fischer2013vne_survey,cao2019vne_survey}.
+
+Bài toán nhúng mạng ảo là cốt lõi của các kịch bản 5G/6G network slicing, multi-tenant cloud và edge computing. Hiệu quả của thuật toán VNE ảnh hưởng trực tiếp tới khả năng tận dụng hạ tầng, chất lượng dịch vụ và doanh thu của nhà cung cấp. Mặt khác, VNE đã được chứng minh là NP-Hard~\cite{chowdhury2009vine}: ngay cả phiên bản ánh xạ nút đơn lẻ đã quy được về bài toán Multi-Way Separator Problem, do vậy không thể giải tối ưu trong thời gian đa thức ở quy mô thực tế. Tính chất NP-Hard, kết hợp với tô-pô mạng vật lý có thể lên đến hàng trăm nút và VNR đến liên tục theo thời gian, đặt ra một thách thức tính toán rất lớn cho thiết kế thuật toán.
+
+Trong các kịch bản thực tế, bài toán còn phức tạp hơn do tính \textbf{trực tuyến}: VNR đến theo phân phối Poisson, có thời gian sống ngẫu nhiên, và quyết định nhúng cho từng VNR phải đưa ra ngay lập tức mà không biết trước các yêu cầu trong tương lai. Một thuật toán tốt phải vừa khai thác hiệu quả tài nguyên hiện tại, vừa giữ ``khoảng trống'' chiến lược để phục vụ các yêu cầu sau.
+
+\section{Các giải pháp hiện tại và hạn chế}
+\label{sec:giaiphap}
+
+Các nghiên cứu hiện nay có thể chia thành ba nhóm chính như sau.
+
+\subsection{Hướng heuristic và metaheuristic}
+
+Nhóm này gồm các thuật toán dựa trên tri thức chuyên gia, sử dụng các luật heuristic để xếp hạng nút và tìm đường đi. Đại diện tiêu biểu là VNE-NR\cite{cheng2011vne_nr} ánh xạ nút theo NodeRank, ViNE\cite{chowdhury2009vine} dùng LP-relaxation để gợi ý ánh xạ nút rồi ánh xạ liên kết bằng đường đi ngắn nhất, và MP-VNE\cite{mp_vne} kết hợp lựa chọn ứng viên theo chi phí ước lượng với tối ưu hoá bầy hạt PSO. Ưu điểm của nhóm này là đơn giản, dễ triển khai và chạy nhanh. Nhược điểm là phụ thuộc nặng vào tri thức chuyên gia, khó tổng quát hoá khi tô-pô và phân phối yêu cầu thay đổi, đồng thời dễ rơi vào tối ưu cục bộ.
+
+\subsection{Hướng lập trình toán học}
+
+Bài toán VNE có thể được phát biểu chính xác dưới dạng quy hoạch nguyên tuyến tính (Integer Linear Programming - ILP) hoặc Mixed-Integer Linear Programming. Phương pháp này cho lời giải tối ưu trong từng bước, đồng thời cung cấp cận trên hữu ích để so sánh các phương pháp xấp xỉ. Tuy nhiên, độ phức tạp tính toán theo cấp số mũ khiến cách tiếp cận này chỉ khả thi trên các tô-pô rất nhỏ (dưới 30 nút vật lý), trong khi hạ tầng thực tế thường có hàng trăm đến hàng nghìn nút. Hơn nữa, ILP không thích hợp với kịch bản trực tuyến vì thời gian giải thường vượt quá ngân sách thời gian cho phép của mỗi VNR.
+
+\subsection{Hướng học tăng cường}
+
+Trong vài năm gần đây, học tăng cường sâu (Deep Reinforcement Learning - DRL) được ứng dụng rộng rãi cho VNE nhằm khắc phục các hạn chế của heuristic. Các nghiên cứu tiêu biểu gồm A3C-GCN của Yao và cộng sự\cite{yao2018a3c_gcn}, FlagVNE\cite{flagvne2024}. Tác nhân RL học chính sách ánh xạ end-to-end trực tiếp từ tín hiệu thưởng, không cần luật heuristic cứng nhắc. Tuy nhiên, các phương pháp hiện hành còn gặp ba hạn chế chính: (i) phụ thuộc mạnh vào việc \textit{reward shaping} chính xác, dễ bất ổn định khi reward thưa; (ii) bỏ qua tri thức tô-pô có sẵn từ các thuật toán heuristic mạnh, khiến tác nhân tốn rất nhiều mẫu để khám phá lại các quy luật đơn giản; và (iii) không gian hành động lớn (chọn một trong hàng trăm nút vật lý cho mỗi nút ảo) làm chính sách khó hội tụ ở các tô-pô lớn.
+
+\section{Mục tiêu và định hướng giải pháp}
+
+Trên cơ sở phân tích các hạn chế ở trên, đồ án đặt ra ba mục tiêu cụ thể:
+
+\begin{enumerate}
+\item \textbf{Trích xuất biểu diễn tô-pô đầy đủ} cho cả mạng vật lý và yêu cầu mạng ảo bằng mạng nơ-ron đồ thị (GNN), thay cho các đặc trưng thủ công của heuristic.
+\item \textbf{Thu hẹp không gian hành động} bằng cơ chế attention chọn tập ứng viên (candidate) cho từng nút ảo, giúp tác nhân tập trung học sự đánh đổi giữa các phương án thực sự khả thi.
+\item \textbf{Tận dụng tri thức từ heuristic} thông qua giai đoạn tiền huấn luyện có giám sát dựa trên lời giải của thuật toán MP-VNE / OA-MP-VNE, rồi tinh chỉnh chính sách bằng học tăng cường để vượt qua trần hiệu năng của heuristic.
+\end{enumerate}
+
+Định hướng giải pháp tổng thể là xây dựng kiến trúc \textit{RL-OA-MP-VNE} gồm một bộ mã hoá đồ thị (GCN encoder), ba đầu ra tác vụ (đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo và đầu chọn ứng viên cross-attention), kết hợp với quy trình huấn luyện hai giai đoạn: tiền huấn luyện có giám sát rồi tinh chỉnh bằng REINFORCE có baseline. Kết quả là một tác nhân vừa kế thừa các quy luật hợp lý của heuristic, vừa có khả năng tự khám phá những phương án ánh xạ tốt hơn mà heuristic không nhìn thấy.
+
+\section{Đóng góp của đồ án}
+
+Đồ án có ba đóng góp chính sau:
+\begin{enumerate}
+\item Đề xuất kiến trúc \textit{RL-OA-MP-VNE} kết hợp GCN encoder chung với ba đầu ra phối hợp: đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo, và đầu chọn ứng viên cross-attention với feasibility mask cứng cho ràng buộc CPU.
+\item Đề xuất quy trình huấn luyện hai giai đoạn gồm tiền huấn luyện có giám sát từ lời giải OA-MP-VNE và tinh chỉnh bằng REINFORCE với running-mean baseline, đồng thời sử dụng Plackett-Luce sampling cho phép vi phân hoá qua thao tác chọn hoán vị.
+\item Xây dựng bộ benchmark đa kịch bản (\texttt{scenario\_1} với tô-pô Waxman ngẫu nhiên, \texttt{conus75} với tô-pô thực CONUS-75, và \texttt{conus75\_strict} với ràng buộc tài nguyên chặt) và tiến hành đánh giá so sánh có hệ thống với các baseline heuristic (MC-VNM, MP-VNE) và RL hiện hành.
+\end{enumerate}
+
+\section{Bố cục đồ án}
+
+Phần còn lại của báo cáo được tổ chức như sau. Chương~\ref{ch:co_so} trình bày nền tảng lý thuyết, bao gồm hình thức hoá bài toán VNE dưới dạng ILP, khảo sát các hướng tiếp cận hiện có, và các kiến thức về học tăng cường sâu cũng như mạng nơ-ron đồ thị làm cơ sở cho phương pháp đề xuất. Chương~\ref{ch:de_xuat} trình bày phương pháp đề xuất của đồ án, gồm kiến trúc tổng thể, bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường và quy trình huấn luyện hai giai đoạn. Chương~\ref{ch:phan_tich} phân tích lý thuyết về độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ của thuật toán đề xuất. Chương~\ref{ch:thuc_nghiem} mô tả thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả. Chương~\ref{ch:ket_luan} tổng kết các kết quả đạt được, các hạn chế còn tồn tại và đề xuất các hướng nghiên cứu tiếp theo.
+
+\end{document}

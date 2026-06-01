@@ -1,0 +1,2991 @@
+{
+  "domains": [
+    {
+      "id": "domain_0",
+      "nodes": [
+        {
+          "id": "domain_0_node_0",
+          "cpu_capacity": 22.79,
+          "cpu_price": 1.1,
+          "processing_delay": 0.62
+        },
+        {
+          "id": "domain_0_node_1",
+          "cpu_capacity": 14.46,
+          "cpu_price": 3.95,
+          "processing_delay": 1.39
+        },
+        {
+          "id": "domain_0_node_2",
+          "cpu_capacity": 27.84,
+          "cpu_price": 1.35,
+          "processing_delay": 0.9
+        },
+        {
+          "id": "domain_0_node_3",
+          "cpu_capacity": 10.6,
+          "cpu_price": 1.87,
+          "processing_delay": 1.06
+        },
+        {
+          "id": "domain_0_node_4",
+          "cpu_capacity": 10.53,
+          "cpu_price": 1.8,
+          "processing_delay": 1.33
+        },
+        {
+          "id": "domain_0_node_5",
+          "cpu_capacity": 20.9,
+          "cpu_price": 1.88,
+          "processing_delay": 1.22
+        },
+        {
+          "id": "domain_0_node_6",
+          "cpu_capacity": 26.19,
+          "cpu_price": 1.03,
+          "processing_delay": 1.63
+        },
+        {
+          "id": "domain_0_node_7",
+          "cpu_capacity": 23.96,
+          "cpu_price": 2.36,
+          "processing_delay": 0.4
+        },
+        {
+          "id": "domain_0_node_8",
+          "cpu_capacity": 29.14,
+          "cpu_price": 2.35,
+          "processing_delay": 0.28
+        },
+        {
+          "id": "domain_0_node_9",
+          "cpu_capacity": 11.93,
+          "cpu_price": 4.39,
+          "processing_delay": 1.25
+        },
+        {
+          "id": "domain_0_node_10",
+          "cpu_capacity": 26.14,
+          "cpu_price": 3.92,
+          "processing_delay": 1.12
+        },
+        {
+          "id": "domain_0_node_11",
+          "cpu_capacity": 29.46,
+          "cpu_price": 2.51,
+          "processing_delay": 1.15
+        },
+        {
+          "id": "domain_0_node_12",
+          "cpu_capacity": 26.59,
+          "cpu_price": 3.47,
+          "processing_delay": 1.74
+        },
+        {
+          "id": "domain_0_node_13",
+          "cpu_capacity": 21.55,
+          "cpu_price": 3.82,
+          "processing_delay": 0.19
+        },
+        {
+          "id": "domain_0_node_14",
+          "cpu_capacity": 14.56,
+          "cpu_price": 2.16,
+          "processing_delay": 0.25
+        },
+        {
+          "id": "domain_0_node_15",
+          "cpu_capacity": 14.66,
+          "cpu_price": 1.4,
+          "processing_delay": 0.63
+        },
+        {
+          "id": "domain_0_node_16",
+          "cpu_capacity": 22.71,
+          "cpu_price": 2.46,
+          "processing_delay": 0.8
+        },
+        {
+          "id": "domain_0_node_17",
+          "cpu_capacity": 14.19,
+          "cpu_price": 2.07,
+          "processing_delay": 1.88
+        },
+        {
+          "id": "domain_0_node_18",
+          "cpu_capacity": 22.96,
+          "cpu_price": 3.44,
+          "processing_delay": 0.43
+        },
+        {
+          "id": "domain_0_node_19",
+          "cpu_capacity": 24.58,
+          "cpu_price": 1.65,
+          "processing_delay": 0.82
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_0_node_13",
+          "target": "domain_0_node_18",
+          "bandwidth_capacity": 30.8,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 7.14
+        },
+        {
+          "source": "domain_0_node_4",
+          "target": "domain_0_node_9",
+          "bandwidth_capacity": 67.59,
+          "bandwidth_price": 0.34,
+          "transmission_delay": 6.77
+        },
+        {
+          "source": "domain_0_node_4",
+          "target": "domain_0_node_12",
+          "bandwidth_capacity": 37.81,
+          "bandwidth_price": 0.49,
+          "transmission_delay": 5.08
+        },
+        {
+          "source": "domain_0_node_8",
+          "target": "domain_0_node_13",
+          "bandwidth_capacity": 96.77,
+          "bandwidth_price": 0.89,
+          "transmission_delay": 3.37
+        },
+        {
+          "source": "domain_0_node_0",
+          "target": "domain_0_node_18",
+          "bandwidth_capacity": 65.04,
+          "bandwidth_price": 0.26,
+          "transmission_delay": 9.21
+        },
+        {
+          "source": "domain_0_node_8",
+          "target": "domain_0_node_16",
+          "bandwidth_capacity": 90.94,
+          "bandwidth_price": 0.37,
+          "transmission_delay": 6.75
+        },
+        {
+          "source": "domain_0_node_6",
+          "target": "domain_0_node_16",
+          "bandwidth_capacity": 72.63,
+          "bandwidth_price": 0.24,
+          "transmission_delay": 7.86
+        },
+        {
+          "source": "domain_0_node_3",
+          "target": "domain_0_node_14",
+          "bandwidth_capacity": 67.76,
+          "bandwidth_price": 0.8,
+          "transmission_delay": 5.77
+        },
+        {
+          "source": "domain_0_node_7",
+          "target": "domain_0_node_16",
+          "bandwidth_capacity": 30.04,
+          "bandwidth_price": 0.39,
+          "transmission_delay": 1.18
+        },
+        {
+          "source": "domain_0_node_2",
+          "target": "domain_0_node_19",
+          "bandwidth_capacity": 95.04,
+          "bandwidth_price": 0.89,
+          "transmission_delay": 8.48
+        },
+        {
+          "source": "domain_0_node_7",
+          "target": "domain_0_node_10",
+          "bandwidth_capacity": 51.53,
+          "bandwidth_price": 0.15,
+          "transmission_delay": 8.9
+        },
+        {
+          "source": "domain_0_node_10",
+          "target": "domain_0_node_12",
+          "bandwidth_capacity": 96.29,
+          "bandwidth_price": 0.18,
+          "transmission_delay": 5.37
+        },
+        {
+          "source": "domain_0_node_0",
+          "target": "domain_0_node_2",
+          "bandwidth_capacity": 34.84,
+          "bandwidth_price": 0.78,
+          "transmission_delay": 7.89
+        },
+        {
+          "source": "domain_0_node_1",
+          "target": "domain_0_node_11",
+          "bandwidth_capacity": 38.99,
+          "bandwidth_price": 0.53,
+          "transmission_delay": 5.95
+        },
+        {
+          "source": "domain_0_node_3",
+          "target": "domain_0_node_9",
+          "bandwidth_capacity": 48.55,
+          "bandwidth_price": 0.89,
+          "transmission_delay": 4.81
+        },
+        {
+          "source": "domain_0_node_9",
+          "target": "domain_0_node_17",
+          "bandwidth_capacity": 44.83,
+          "bandwidth_price": 0.59,
+          "transmission_delay": 7.57
+        },
+        {
+          "source": "domain_0_node_15",
+          "target": "domain_0_node_17",
+          "bandwidth_capacity": 44.08,
+          "bandwidth_price": 0.38,
+          "transmission_delay": 9.96
+        },
+        {
+          "source": "domain_0_node_2",
+          "target": "domain_0_node_11",
+          "bandwidth_capacity": 75.49,
+          "bandwidth_price": 0.49,
+          "transmission_delay": 5.66
+        },
+        {
+          "source": "domain_0_node_5",
+          "target": "domain_0_node_15",
+          "bandwidth_capacity": 38.47,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 4.04
+        },
+        {
+          "source": "domain_0_node_8",
+          "target": "domain_0_node_18",
+          "bandwidth_capacity": 71.18,
+          "bandwidth_price": 0.31,
+          "transmission_delay": 2.98
+        },
+        {
+          "source": "domain_0_node_0",
+          "target": "domain_0_node_13",
+          "bandwidth_capacity": 34.97,
+          "bandwidth_price": 0.67,
+          "transmission_delay": 3.06
+        },
+        {
+          "source": "domain_0_node_9",
+          "target": "domain_0_node_12",
+          "bandwidth_capacity": 93.38,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 1.64
+        },
+        {
+          "source": "domain_0_node_6",
+          "target": "domain_0_node_8",
+          "bandwidth_capacity": 46.66,
+          "bandwidth_price": 0.7,
+          "transmission_delay": 2.93
+        }
+      ]
+    },
+    {
+      "id": "domain_1",
+      "nodes": [
+        {
+          "id": "domain_1_node_0",
+          "cpu_capacity": 12.65,
+          "cpu_price": 4.74,
+          "processing_delay": 1.18
+        },
+        {
+          "id": "domain_1_node_1",
+          "cpu_capacity": 19.45,
+          "cpu_price": 4.14,
+          "processing_delay": 1.63
+        },
+        {
+          "id": "domain_1_node_2",
+          "cpu_capacity": 13.81,
+          "cpu_price": 1.39,
+          "processing_delay": 0.92
+        },
+        {
+          "id": "domain_1_node_3",
+          "cpu_capacity": 18.47,
+          "cpu_price": 2.87,
+          "processing_delay": 1.49
+        },
+        {
+          "id": "domain_1_node_4",
+          "cpu_capacity": 23.47,
+          "cpu_price": 4.94,
+          "processing_delay": 0.29
+        },
+        {
+          "id": "domain_1_node_5",
+          "cpu_capacity": 18.05,
+          "cpu_price": 2.36,
+          "processing_delay": 1.74
+        },
+        {
+          "id": "domain_1_node_6",
+          "cpu_capacity": 14.97,
+          "cpu_price": 1.76,
+          "processing_delay": 0.95
+        },
+        {
+          "id": "domain_1_node_7",
+          "cpu_capacity": 18.44,
+          "cpu_price": 2.11,
+          "processing_delay": 0.57
+        },
+        {
+          "id": "domain_1_node_8",
+          "cpu_capacity": 28.47,
+          "cpu_price": 2.77,
+          "processing_delay": 1.74
+        },
+        {
+          "id": "domain_1_node_9",
+          "cpu_capacity": 21.01,
+          "cpu_price": 1.2,
+          "processing_delay": 2.0
+        },
+        {
+          "id": "domain_1_node_10",
+          "cpu_capacity": 26.72,
+          "cpu_price": 4.88,
+          "processing_delay": 1.86
+        },
+        {
+          "id": "domain_1_node_11",
+          "cpu_capacity": 26.97,
+          "cpu_price": 1.67,
+          "processing_delay": 1.02
+        },
+        {
+          "id": "domain_1_node_12",
+          "cpu_capacity": 14.27,
+          "cpu_price": 2.6,
+          "processing_delay": 0.21
+        },
+        {
+          "id": "domain_1_node_13",
+          "cpu_capacity": 17.58,
+          "cpu_price": 4.94,
+          "processing_delay": 0.6
+        },
+        {
+          "id": "domain_1_node_14",
+          "cpu_capacity": 25.68,
+          "cpu_price": 2.82,
+          "processing_delay": 0.9
+        },
+        {
+          "id": "domain_1_node_15",
+          "cpu_capacity": 29.15,
+          "cpu_price": 4.98,
+          "processing_delay": 1.16
+        },
+        {
+          "id": "domain_1_node_16",
+          "cpu_capacity": 24.37,
+          "cpu_price": 1.62,
+          "processing_delay": 0.66
+        },
+        {
+          "id": "domain_1_node_17",
+          "cpu_capacity": 29.37,
+          "cpu_price": 3.32,
+          "processing_delay": 1.13
+        },
+        {
+          "id": "domain_1_node_18",
+          "cpu_capacity": 24.96,
+          "cpu_price": 1.23,
+          "processing_delay": 1.21
+        },
+        {
+          "id": "domain_1_node_19",
+          "cpu_capacity": 20.06,
+          "cpu_price": 4.41,
+          "processing_delay": 0.4
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_1_node_0",
+          "target": "domain_1_node_13",
+          "bandwidth_capacity": 30.55,
+          "bandwidth_price": 0.84,
+          "transmission_delay": 3.69
+        },
+        {
+          "source": "domain_1_node_2",
+          "target": "domain_1_node_8",
+          "bandwidth_capacity": 76.44,
+          "bandwidth_price": 0.95,
+          "transmission_delay": 2.21
+        },
+        {
+          "source": "domain_1_node_1",
+          "target": "domain_1_node_4",
+          "bandwidth_capacity": 38.08,
+          "bandwidth_price": 0.2,
+          "transmission_delay": 5.98
+        },
+        {
+          "source": "domain_1_node_3",
+          "target": "domain_1_node_17",
+          "bandwidth_capacity": 49.06,
+          "bandwidth_price": 0.64,
+          "transmission_delay": 7.46
+        },
+        {
+          "source": "domain_1_node_10",
+          "target": "domain_1_node_14",
+          "bandwidth_capacity": 44.25,
+          "bandwidth_price": 0.67,
+          "transmission_delay": 3.38
+        },
+        {
+          "source": "domain_1_node_5",
+          "target": "domain_1_node_6",
+          "bandwidth_capacity": 64.2,
+          "bandwidth_price": 0.91,
+          "transmission_delay": 8.61
+        },
+        {
+          "source": "domain_1_node_0",
+          "target": "domain_1_node_7",
+          "bandwidth_capacity": 36.46,
+          "bandwidth_price": 0.48,
+          "transmission_delay": 3.49
+        },
+        {
+          "source": "domain_1_node_6",
+          "target": "domain_1_node_18",
+          "bandwidth_capacity": 30.25,
+          "bandwidth_price": 0.79,
+          "transmission_delay": 6.73
+        },
+        {
+          "source": "domain_1_node_4",
+          "target": "domain_1_node_9",
+          "bandwidth_capacity": 48.34,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 5.97
+        },
+        {
+          "source": "domain_1_node_8",
+          "target": "domain_1_node_11",
+          "bandwidth_capacity": 59.94,
+          "bandwidth_price": 0.11,
+          "transmission_delay": 1.68
+        },
+        {
+          "source": "domain_1_node_7",
+          "target": "domain_1_node_16",
+          "bandwidth_capacity": 91.82,
+          "bandwidth_price": 0.91,
+          "transmission_delay": 5.91
+        },
+        {
+          "source": "domain_1_node_2",
+          "target": "domain_1_node_5",
+          "bandwidth_capacity": 88.42,
+          "bandwidth_price": 0.62,
+          "transmission_delay": 2.33
+        },
+        {
+          "source": "domain_1_node_0",
+          "target": "domain_1_node_11",
+          "bandwidth_capacity": 38.92,
+          "bandwidth_price": 0.38,
+          "transmission_delay": 9.09
+        },
+        {
+          "source": "domain_1_node_15",
+          "target": "domain_1_node_19",
+          "bandwidth_capacity": 85.73,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 9.09
+        },
+        {
+          "source": "domain_1_node_6",
+          "target": "domain_1_node_9",
+          "bandwidth_capacity": 44.71,
+          "bandwidth_price": 0.32,
+          "transmission_delay": 1.93
+        },
+        {
+          "source": "domain_1_node_1",
+          "target": "domain_1_node_17",
+          "bandwidth_capacity": 84.61,
+          "bandwidth_price": 0.9,
+          "transmission_delay": 4.66
+        },
+        {
+          "source": "domain_1_node_4",
+          "target": "domain_1_node_10",
+          "bandwidth_capacity": 73.45,
+          "bandwidth_price": 0.24,
+          "transmission_delay": 9.37
+        },
+        {
+          "source": "domain_1_node_18",
+          "target": "domain_1_node_19",
+          "bandwidth_capacity": 90.52,
+          "bandwidth_price": 0.98,
+          "transmission_delay": 8.3
+        },
+        {
+          "source": "domain_1_node_9",
+          "target": "domain_1_node_12",
+          "bandwidth_capacity": 91.7,
+          "bandwidth_price": 0.12,
+          "transmission_delay": 7.63
+        },
+        {
+          "source": "domain_1_node_7",
+          "target": "domain_1_node_13",
+          "bandwidth_capacity": 53.25,
+          "bandwidth_price": 0.94,
+          "transmission_delay": 8.22
+        },
+        {
+          "source": "domain_1_node_2",
+          "target": "domain_1_node_11",
+          "bandwidth_capacity": 90.48,
+          "bandwidth_price": 0.83,
+          "transmission_delay": 3.4
+        },
+        {
+          "source": "domain_1_node_5",
+          "target": "domain_1_node_8",
+          "bandwidth_capacity": 85.12,
+          "bandwidth_price": 0.2,
+          "transmission_delay": 8.85
+        },
+        {
+          "source": "domain_1_node_8",
+          "target": "domain_1_node_16",
+          "bandwidth_capacity": 90.1,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 8.35
+        }
+      ]
+    },
+    {
+      "id": "domain_2",
+      "nodes": [
+        {
+          "id": "domain_2_node_0",
+          "cpu_capacity": 19.21,
+          "cpu_price": 2.22,
+          "processing_delay": 1.61
+        },
+        {
+          "id": "domain_2_node_1",
+          "cpu_capacity": 14.55,
+          "cpu_price": 1.09,
+          "processing_delay": 0.47
+        },
+        {
+          "id": "domain_2_node_2",
+          "cpu_capacity": 16.57,
+          "cpu_price": 4.46,
+          "processing_delay": 1.94
+        },
+        {
+          "id": "domain_2_node_3",
+          "cpu_capacity": 15.58,
+          "cpu_price": 3.57,
+          "processing_delay": 0.86
+        },
+        {
+          "id": "domain_2_node_4",
+          "cpu_capacity": 29.62,
+          "cpu_price": 3.14,
+          "processing_delay": 1.88
+        },
+        {
+          "id": "domain_2_node_5",
+          "cpu_capacity": 12.31,
+          "cpu_price": 4.88,
+          "processing_delay": 0.44
+        },
+        {
+          "id": "domain_2_node_6",
+          "cpu_capacity": 29.25,
+          "cpu_price": 2.06,
+          "processing_delay": 0.31
+        },
+        {
+          "id": "domain_2_node_7",
+          "cpu_capacity": 18.69,
+          "cpu_price": 3.91,
+          "processing_delay": 0.7
+        },
+        {
+          "id": "domain_2_node_8",
+          "cpu_capacity": 22.12,
+          "cpu_price": 3.05,
+          "processing_delay": 0.83
+        },
+        {
+          "id": "domain_2_node_9",
+          "cpu_capacity": 21.53,
+          "cpu_price": 2.02,
+          "processing_delay": 1.45
+        },
+        {
+          "id": "domain_2_node_10",
+          "cpu_capacity": 10.03,
+          "cpu_price": 4.7,
+          "processing_delay": 1.12
+        },
+        {
+          "id": "domain_2_node_11",
+          "cpu_capacity": 24.39,
+          "cpu_price": 3.97,
+          "processing_delay": 1.37
+        },
+        {
+          "id": "domain_2_node_12",
+          "cpu_capacity": 17.28,
+          "cpu_price": 1.28,
+          "processing_delay": 1.36
+        },
+        {
+          "id": "domain_2_node_13",
+          "cpu_capacity": 16.6,
+          "cpu_price": 2.26,
+          "processing_delay": 1.71
+        },
+        {
+          "id": "domain_2_node_14",
+          "cpu_capacity": 24.4,
+          "cpu_price": 2.2,
+          "processing_delay": 0.69
+        },
+        {
+          "id": "domain_2_node_15",
+          "cpu_capacity": 18.17,
+          "cpu_price": 2.61,
+          "processing_delay": 0.66
+        },
+        {
+          "id": "domain_2_node_16",
+          "cpu_capacity": 12.55,
+          "cpu_price": 2.68,
+          "processing_delay": 1.89
+        },
+        {
+          "id": "domain_2_node_17",
+          "cpu_capacity": 23.55,
+          "cpu_price": 4.61,
+          "processing_delay": 1.27
+        },
+        {
+          "id": "domain_2_node_18",
+          "cpu_capacity": 16.02,
+          "cpu_price": 3.19,
+          "processing_delay": 0.1
+        },
+        {
+          "id": "domain_2_node_19",
+          "cpu_capacity": 15.74,
+          "cpu_price": 2.72,
+          "processing_delay": 1.2
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_2_node_1",
+          "target": "domain_2_node_13",
+          "bandwidth_capacity": 61.95,
+          "bandwidth_price": 0.82,
+          "transmission_delay": 7.01
+        },
+        {
+          "source": "domain_2_node_6",
+          "target": "domain_2_node_15",
+          "bandwidth_capacity": 99.15,
+          "bandwidth_price": 0.64,
+          "transmission_delay": 9.55
+        },
+        {
+          "source": "domain_2_node_4",
+          "target": "domain_2_node_16",
+          "bandwidth_capacity": 92.4,
+          "bandwidth_price": 0.65,
+          "transmission_delay": 7.47
+        },
+        {
+          "source": "domain_2_node_3",
+          "target": "domain_2_node_10",
+          "bandwidth_capacity": 65.33,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 5.93
+        },
+        {
+          "source": "domain_2_node_5",
+          "target": "domain_2_node_7",
+          "bandwidth_capacity": 92.8,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 5.27
+        },
+        {
+          "source": "domain_2_node_0",
+          "target": "domain_2_node_5",
+          "bandwidth_capacity": 48.14,
+          "bandwidth_price": 0.32,
+          "transmission_delay": 6.74
+        },
+        {
+          "source": "domain_2_node_17",
+          "target": "domain_2_node_19",
+          "bandwidth_capacity": 83.61,
+          "bandwidth_price": 0.57,
+          "transmission_delay": 6.64
+        },
+        {
+          "source": "domain_2_node_3",
+          "target": "domain_2_node_7",
+          "bandwidth_capacity": 49.22,
+          "bandwidth_price": 0.17,
+          "transmission_delay": 3.57
+        },
+        {
+          "source": "domain_2_node_14",
+          "target": "domain_2_node_18",
+          "bandwidth_capacity": 49.02,
+          "bandwidth_price": 0.39,
+          "transmission_delay": 5.86
+        },
+        {
+          "source": "domain_2_node_9",
+          "target": "domain_2_node_16",
+          "bandwidth_capacity": 39.69,
+          "bandwidth_price": 0.31,
+          "transmission_delay": 7.25
+        },
+        {
+          "source": "domain_2_node_12",
+          "target": "domain_2_node_19",
+          "bandwidth_capacity": 79.45,
+          "bandwidth_price": 0.16,
+          "transmission_delay": 4.67
+        },
+        {
+          "source": "domain_2_node_5",
+          "target": "domain_2_node_13",
+          "bandwidth_capacity": 67.98,
+          "bandwidth_price": 0.47,
+          "transmission_delay": 2.86
+        },
+        {
+          "source": "domain_2_node_1",
+          "target": "domain_2_node_18",
+          "bandwidth_capacity": 59.41,
+          "bandwidth_price": 0.91,
+          "transmission_delay": 6.26
+        },
+        {
+          "source": "domain_2_node_4",
+          "target": "domain_2_node_12",
+          "bandwidth_capacity": 78.69,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 7.89
+        },
+        {
+          "source": "domain_2_node_9",
+          "target": "domain_2_node_11",
+          "bandwidth_capacity": 56.63,
+          "bandwidth_price": 0.11,
+          "transmission_delay": 4.17
+        },
+        {
+          "source": "domain_2_node_2",
+          "target": "domain_2_node_19",
+          "bandwidth_capacity": 82.74,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 9.58
+        },
+        {
+          "source": "domain_2_node_0",
+          "target": "domain_2_node_11",
+          "bandwidth_capacity": 59.33,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 5.92
+        },
+        {
+          "source": "domain_2_node_2",
+          "target": "domain_2_node_15",
+          "bandwidth_capacity": 72.23,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 2.97
+        },
+        {
+          "source": "domain_2_node_1",
+          "target": "domain_2_node_8",
+          "bandwidth_capacity": 60.51,
+          "bandwidth_price": 0.13,
+          "transmission_delay": 4.03
+        },
+        {
+          "source": "domain_2_node_4",
+          "target": "domain_2_node_9",
+          "bandwidth_capacity": 77.54,
+          "bandwidth_price": 0.46,
+          "transmission_delay": 2.49
+        },
+        {
+          "source": "domain_2_node_7",
+          "target": "domain_2_node_13",
+          "bandwidth_capacity": 62.72,
+          "bandwidth_price": 0.21,
+          "transmission_delay": 6.6
+        },
+        {
+          "source": "domain_2_node_13",
+          "target": "domain_2_node_18",
+          "bandwidth_capacity": 31.89,
+          "bandwidth_price": 0.45,
+          "transmission_delay": 6.08
+        },
+        {
+          "source": "domain_2_node_10",
+          "target": "domain_2_node_14",
+          "bandwidth_capacity": 31.9,
+          "bandwidth_price": 0.68,
+          "transmission_delay": 2.22
+        }
+      ]
+    },
+    {
+      "id": "domain_3",
+      "nodes": [
+        {
+          "id": "domain_3_node_0",
+          "cpu_capacity": 19.23,
+          "cpu_price": 1.2,
+          "processing_delay": 0.82
+        },
+        {
+          "id": "domain_3_node_1",
+          "cpu_capacity": 14.23,
+          "cpu_price": 2.31,
+          "processing_delay": 1.55
+        },
+        {
+          "id": "domain_3_node_2",
+          "cpu_capacity": 17.58,
+          "cpu_price": 4.01,
+          "processing_delay": 1.68
+        },
+        {
+          "id": "domain_3_node_3",
+          "cpu_capacity": 15.05,
+          "cpu_price": 1.33,
+          "processing_delay": 0.14
+        },
+        {
+          "id": "domain_3_node_4",
+          "cpu_capacity": 20.79,
+          "cpu_price": 5.0,
+          "processing_delay": 0.76
+        },
+        {
+          "id": "domain_3_node_5",
+          "cpu_capacity": 23.0,
+          "cpu_price": 4.12,
+          "processing_delay": 1.34
+        },
+        {
+          "id": "domain_3_node_6",
+          "cpu_capacity": 25.08,
+          "cpu_price": 4.8,
+          "processing_delay": 0.48
+        },
+        {
+          "id": "domain_3_node_7",
+          "cpu_capacity": 10.41,
+          "cpu_price": 1.61,
+          "processing_delay": 0.34
+        },
+        {
+          "id": "domain_3_node_8",
+          "cpu_capacity": 23.39,
+          "cpu_price": 3.26,
+          "processing_delay": 0.51
+        },
+        {
+          "id": "domain_3_node_9",
+          "cpu_capacity": 23.99,
+          "cpu_price": 4.07,
+          "processing_delay": 0.42
+        },
+        {
+          "id": "domain_3_node_10",
+          "cpu_capacity": 22.14,
+          "cpu_price": 3.99,
+          "processing_delay": 0.32
+        },
+        {
+          "id": "domain_3_node_11",
+          "cpu_capacity": 26.39,
+          "cpu_price": 4.86,
+          "processing_delay": 0.31
+        },
+        {
+          "id": "domain_3_node_12",
+          "cpu_capacity": 10.51,
+          "cpu_price": 2.25,
+          "processing_delay": 1.39
+        },
+        {
+          "id": "domain_3_node_13",
+          "cpu_capacity": 29.16,
+          "cpu_price": 2.59,
+          "processing_delay": 1.46
+        },
+        {
+          "id": "domain_3_node_14",
+          "cpu_capacity": 11.52,
+          "cpu_price": 3.76,
+          "processing_delay": 1.29
+        },
+        {
+          "id": "domain_3_node_15",
+          "cpu_capacity": 12.04,
+          "cpu_price": 4.09,
+          "processing_delay": 1.72
+        },
+        {
+          "id": "domain_3_node_16",
+          "cpu_capacity": 22.01,
+          "cpu_price": 1.48,
+          "processing_delay": 1.97
+        },
+        {
+          "id": "domain_3_node_17",
+          "cpu_capacity": 25.65,
+          "cpu_price": 2.39,
+          "processing_delay": 0.91
+        },
+        {
+          "id": "domain_3_node_18",
+          "cpu_capacity": 17.41,
+          "cpu_price": 3.02,
+          "processing_delay": 0.75
+        },
+        {
+          "id": "domain_3_node_19",
+          "cpu_capacity": 26.99,
+          "cpu_price": 4.29,
+          "processing_delay": 0.3
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_3_node_1",
+          "target": "domain_3_node_14",
+          "bandwidth_capacity": 85.51,
+          "bandwidth_price": 0.18,
+          "transmission_delay": 2.99
+        },
+        {
+          "source": "domain_3_node_8",
+          "target": "domain_3_node_11",
+          "bandwidth_capacity": 78.43,
+          "bandwidth_price": 0.38,
+          "transmission_delay": 6.23
+        },
+        {
+          "source": "domain_3_node_1",
+          "target": "domain_3_node_18",
+          "bandwidth_capacity": 63.13,
+          "bandwidth_price": 0.58,
+          "transmission_delay": 4.83
+        },
+        {
+          "source": "domain_3_node_17",
+          "target": "domain_3_node_19",
+          "bandwidth_capacity": 82.22,
+          "bandwidth_price": 0.4,
+          "transmission_delay": 7.33
+        },
+        {
+          "source": "domain_3_node_6",
+          "target": "domain_3_node_13",
+          "bandwidth_capacity": 48.96,
+          "bandwidth_price": 0.33,
+          "transmission_delay": 2.09
+        },
+        {
+          "source": "domain_3_node_4",
+          "target": "domain_3_node_17",
+          "bandwidth_capacity": 43.48,
+          "bandwidth_price": 0.21,
+          "transmission_delay": 5.82
+        },
+        {
+          "source": "domain_3_node_0",
+          "target": "domain_3_node_14",
+          "bandwidth_capacity": 83.35,
+          "bandwidth_price": 0.27,
+          "transmission_delay": 2.95
+        },
+        {
+          "source": "domain_3_node_10",
+          "target": "domain_3_node_19",
+          "bandwidth_capacity": 63.89,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 9.79
+        },
+        {
+          "source": "domain_3_node_1",
+          "target": "domain_3_node_7",
+          "bandwidth_capacity": 66.72,
+          "bandwidth_price": 0.35,
+          "transmission_delay": 1.9
+        },
+        {
+          "source": "domain_3_node_5",
+          "target": "domain_3_node_10",
+          "bandwidth_capacity": 43.59,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 2.61
+        },
+        {
+          "source": "domain_3_node_4",
+          "target": "domain_3_node_18",
+          "bandwidth_capacity": 30.99,
+          "bandwidth_price": 0.58,
+          "transmission_delay": 3.47
+        },
+        {
+          "source": "domain_3_node_6",
+          "target": "domain_3_node_10",
+          "bandwidth_capacity": 98.2,
+          "bandwidth_price": 0.6,
+          "transmission_delay": 7.28
+        },
+        {
+          "source": "domain_3_node_3",
+          "target": "domain_3_node_13",
+          "bandwidth_capacity": 38.84,
+          "bandwidth_price": 0.88,
+          "transmission_delay": 5.42
+        },
+        {
+          "source": "domain_3_node_3",
+          "target": "domain_3_node_16",
+          "bandwidth_capacity": 91.09,
+          "bandwidth_price": 0.62,
+          "transmission_delay": 5.22
+        },
+        {
+          "source": "domain_3_node_12",
+          "target": "domain_3_node_15",
+          "bandwidth_capacity": 60.83,
+          "bandwidth_price": 0.27,
+          "transmission_delay": 1.46
+        },
+        {
+          "source": "domain_3_node_5",
+          "target": "domain_3_node_9",
+          "bandwidth_capacity": 95.87,
+          "bandwidth_price": 0.53,
+          "transmission_delay": 8.4
+        },
+        {
+          "source": "domain_3_node_9",
+          "target": "domain_3_node_12",
+          "bandwidth_capacity": 58.05,
+          "bandwidth_price": 0.17,
+          "transmission_delay": 6.67
+        },
+        {
+          "source": "domain_3_node_2",
+          "target": "domain_3_node_5",
+          "bandwidth_capacity": 33.75,
+          "bandwidth_price": 0.23,
+          "transmission_delay": 6.07
+        },
+        {
+          "source": "domain_3_node_2",
+          "target": "domain_3_node_8",
+          "bandwidth_capacity": 51.27,
+          "bandwidth_price": 0.99,
+          "transmission_delay": 2.07
+        },
+        {
+          "source": "domain_3_node_14",
+          "target": "domain_3_node_18",
+          "bandwidth_capacity": 83.51,
+          "bandwidth_price": 0.65,
+          "transmission_delay": 8.12
+        },
+        {
+          "source": "domain_3_node_7",
+          "target": "domain_3_node_14",
+          "bandwidth_capacity": 45.8,
+          "bandwidth_price": 0.57,
+          "transmission_delay": 5.05
+        },
+        {
+          "source": "domain_3_node_0",
+          "target": "domain_3_node_1",
+          "bandwidth_capacity": 60.99,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 9.91
+        },
+        {
+          "source": "domain_3_node_10",
+          "target": "domain_3_node_17",
+          "bandwidth_capacity": 51.38,
+          "bandwidth_price": 0.66,
+          "transmission_delay": 6.49
+        }
+      ]
+    },
+    {
+      "id": "domain_4",
+      "nodes": [
+        {
+          "id": "domain_4_node_0",
+          "cpu_capacity": 24.8,
+          "cpu_price": 4.79,
+          "processing_delay": 0.49
+        },
+        {
+          "id": "domain_4_node_1",
+          "cpu_capacity": 14.22,
+          "cpu_price": 3.64,
+          "processing_delay": 0.4
+        },
+        {
+          "id": "domain_4_node_2",
+          "cpu_capacity": 13.48,
+          "cpu_price": 1.3,
+          "processing_delay": 0.11
+        },
+        {
+          "id": "domain_4_node_3",
+          "cpu_capacity": 19.01,
+          "cpu_price": 3.38,
+          "processing_delay": 0.65
+        },
+        {
+          "id": "domain_4_node_4",
+          "cpu_capacity": 14.63,
+          "cpu_price": 3.83,
+          "processing_delay": 1.44
+        },
+        {
+          "id": "domain_4_node_5",
+          "cpu_capacity": 19.08,
+          "cpu_price": 3.75,
+          "processing_delay": 1.86
+        },
+        {
+          "id": "domain_4_node_6",
+          "cpu_capacity": 25.76,
+          "cpu_price": 3.5,
+          "processing_delay": 1.36
+        },
+        {
+          "id": "domain_4_node_7",
+          "cpu_capacity": 28.67,
+          "cpu_price": 2.7,
+          "processing_delay": 1.13
+        },
+        {
+          "id": "domain_4_node_8",
+          "cpu_capacity": 22.95,
+          "cpu_price": 4.63,
+          "processing_delay": 1.67
+        },
+        {
+          "id": "domain_4_node_9",
+          "cpu_capacity": 11.43,
+          "cpu_price": 1.66,
+          "processing_delay": 0.68
+        },
+        {
+          "id": "domain_4_node_10",
+          "cpu_capacity": 24.98,
+          "cpu_price": 3.28,
+          "processing_delay": 0.65
+        },
+        {
+          "id": "domain_4_node_11",
+          "cpu_capacity": 12.49,
+          "cpu_price": 3.75,
+          "processing_delay": 1.43
+        },
+        {
+          "id": "domain_4_node_12",
+          "cpu_capacity": 28.85,
+          "cpu_price": 3.0,
+          "processing_delay": 1.04
+        },
+        {
+          "id": "domain_4_node_13",
+          "cpu_capacity": 11.61,
+          "cpu_price": 1.16,
+          "processing_delay": 0.92
+        },
+        {
+          "id": "domain_4_node_14",
+          "cpu_capacity": 16.45,
+          "cpu_price": 2.0,
+          "processing_delay": 0.27
+        },
+        {
+          "id": "domain_4_node_15",
+          "cpu_capacity": 29.24,
+          "cpu_price": 4.34,
+          "processing_delay": 1.19
+        },
+        {
+          "id": "domain_4_node_16",
+          "cpu_capacity": 29.02,
+          "cpu_price": 5.0,
+          "processing_delay": 1.38
+        },
+        {
+          "id": "domain_4_node_17",
+          "cpu_capacity": 15.39,
+          "cpu_price": 1.16,
+          "processing_delay": 1.54
+        },
+        {
+          "id": "domain_4_node_18",
+          "cpu_capacity": 19.41,
+          "cpu_price": 3.61,
+          "processing_delay": 1.84
+        },
+        {
+          "id": "domain_4_node_19",
+          "cpu_capacity": 13.63,
+          "cpu_price": 3.34,
+          "processing_delay": 1.31
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_4_node_4",
+          "target": "domain_4_node_7",
+          "bandwidth_capacity": 99.46,
+          "bandwidth_price": 0.92,
+          "transmission_delay": 5.15
+        },
+        {
+          "source": "domain_4_node_0",
+          "target": "domain_4_node_19",
+          "bandwidth_capacity": 38.22,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 5.49
+        },
+        {
+          "source": "domain_4_node_5",
+          "target": "domain_4_node_12",
+          "bandwidth_capacity": 80.16,
+          "bandwidth_price": 0.56,
+          "transmission_delay": 3.46
+        },
+        {
+          "source": "domain_4_node_3",
+          "target": "domain_4_node_15",
+          "bandwidth_capacity": 88.43,
+          "bandwidth_price": 0.98,
+          "transmission_delay": 3.19
+        },
+        {
+          "source": "domain_4_node_1",
+          "target": "domain_4_node_6",
+          "bandwidth_capacity": 68.59,
+          "bandwidth_price": 0.45,
+          "transmission_delay": 9.3
+        },
+        {
+          "source": "domain_4_node_6",
+          "target": "domain_4_node_10",
+          "bandwidth_capacity": 65.58,
+          "bandwidth_price": 0.89,
+          "transmission_delay": 8.78
+        },
+        {
+          "source": "domain_4_node_2",
+          "target": "domain_4_node_14",
+          "bandwidth_capacity": 49.34,
+          "bandwidth_price": 0.81,
+          "transmission_delay": 4.73
+        },
+        {
+          "source": "domain_4_node_13",
+          "target": "domain_4_node_17",
+          "bandwidth_capacity": 95.4,
+          "bandwidth_price": 0.56,
+          "transmission_delay": 8.38
+        },
+        {
+          "source": "domain_4_node_17",
+          "target": "domain_4_node_19",
+          "bandwidth_capacity": 49.8,
+          "bandwidth_price": 0.37,
+          "transmission_delay": 6.28
+        },
+        {
+          "source": "domain_4_node_1",
+          "target": "domain_4_node_11",
+          "bandwidth_capacity": 99.92,
+          "bandwidth_price": 0.54,
+          "transmission_delay": 2.34
+        },
+        {
+          "source": "domain_4_node_4",
+          "target": "domain_4_node_16",
+          "bandwidth_capacity": 67.7,
+          "bandwidth_price": 0.41,
+          "transmission_delay": 5.97
+        },
+        {
+          "source": "domain_4_node_6",
+          "target": "domain_4_node_17",
+          "bandwidth_capacity": 68.04,
+          "bandwidth_price": 0.51,
+          "transmission_delay": 3.9
+        },
+        {
+          "source": "domain_4_node_8",
+          "target": "domain_4_node_10",
+          "bandwidth_capacity": 43.21,
+          "bandwidth_price": 0.73,
+          "transmission_delay": 6.15
+        },
+        {
+          "source": "domain_4_node_8",
+          "target": "domain_4_node_15",
+          "bandwidth_capacity": 46.35,
+          "bandwidth_price": 0.8,
+          "transmission_delay": 1.39
+        },
+        {
+          "source": "domain_4_node_11",
+          "target": "domain_4_node_18",
+          "bandwidth_capacity": 82.13,
+          "bandwidth_price": 0.73,
+          "transmission_delay": 8.3
+        },
+        {
+          "source": "domain_4_node_5",
+          "target": "domain_4_node_9",
+          "bandwidth_capacity": 57.03,
+          "bandwidth_price": 0.7,
+          "transmission_delay": 8.39
+        },
+        {
+          "source": "domain_4_node_7",
+          "target": "domain_4_node_14",
+          "bandwidth_capacity": 98.66,
+          "bandwidth_price": 0.55,
+          "transmission_delay": 1.33
+        },
+        {
+          "source": "domain_4_node_2",
+          "target": "domain_4_node_12",
+          "bandwidth_capacity": 65.16,
+          "bandwidth_price": 0.63,
+          "transmission_delay": 8.83
+        },
+        {
+          "source": "domain_4_node_14",
+          "target": "domain_4_node_15",
+          "bandwidth_capacity": 91.19,
+          "bandwidth_price": 0.5,
+          "transmission_delay": 5.73
+        },
+        {
+          "source": "domain_4_node_10",
+          "target": "domain_4_node_17",
+          "bandwidth_capacity": 61.98,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 4.69
+        },
+        {
+          "source": "domain_4_node_0",
+          "target": "domain_4_node_17",
+          "bandwidth_capacity": 75.83,
+          "bandwidth_price": 0.24,
+          "transmission_delay": 5.23
+        },
+        {
+          "source": "domain_4_node_1",
+          "target": "domain_4_node_8",
+          "bandwidth_capacity": 97.84,
+          "bandwidth_price": 0.4,
+          "transmission_delay": 7.23
+        },
+        {
+          "source": "domain_4_node_3",
+          "target": "domain_4_node_8",
+          "bandwidth_capacity": 75.49,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 8.67
+        }
+      ]
+    },
+    {
+      "id": "domain_5",
+      "nodes": [
+        {
+          "id": "domain_5_node_0",
+          "cpu_capacity": 27.19,
+          "cpu_price": 2.52,
+          "processing_delay": 0.7
+        },
+        {
+          "id": "domain_5_node_1",
+          "cpu_capacity": 24.37,
+          "cpu_price": 4.04,
+          "processing_delay": 1.76
+        },
+        {
+          "id": "domain_5_node_2",
+          "cpu_capacity": 10.72,
+          "cpu_price": 1.27,
+          "processing_delay": 1.3
+        },
+        {
+          "id": "domain_5_node_3",
+          "cpu_capacity": 28.42,
+          "cpu_price": 4.99,
+          "processing_delay": 1.52
+        },
+        {
+          "id": "domain_5_node_4",
+          "cpu_capacity": 18.68,
+          "cpu_price": 1.39,
+          "processing_delay": 1.3
+        },
+        {
+          "id": "domain_5_node_5",
+          "cpu_capacity": 27.45,
+          "cpu_price": 2.77,
+          "processing_delay": 1.42
+        },
+        {
+          "id": "domain_5_node_6",
+          "cpu_capacity": 28.07,
+          "cpu_price": 1.18,
+          "processing_delay": 1.61
+        },
+        {
+          "id": "domain_5_node_7",
+          "cpu_capacity": 15.87,
+          "cpu_price": 2.5,
+          "processing_delay": 0.38
+        },
+        {
+          "id": "domain_5_node_8",
+          "cpu_capacity": 20.62,
+          "cpu_price": 3.26,
+          "processing_delay": 1.61
+        },
+        {
+          "id": "domain_5_node_9",
+          "cpu_capacity": 13.4,
+          "cpu_price": 1.32,
+          "processing_delay": 1.75
+        },
+        {
+          "id": "domain_5_node_10",
+          "cpu_capacity": 22.39,
+          "cpu_price": 1.96,
+          "processing_delay": 1.83
+        },
+        {
+          "id": "domain_5_node_11",
+          "cpu_capacity": 12.86,
+          "cpu_price": 2.84,
+          "processing_delay": 0.58
+        },
+        {
+          "id": "domain_5_node_12",
+          "cpu_capacity": 15.11,
+          "cpu_price": 1.04,
+          "processing_delay": 1.63
+        },
+        {
+          "id": "domain_5_node_13",
+          "cpu_capacity": 28.02,
+          "cpu_price": 3.71,
+          "processing_delay": 0.4
+        },
+        {
+          "id": "domain_5_node_14",
+          "cpu_capacity": 18.83,
+          "cpu_price": 2.38,
+          "processing_delay": 1.22
+        },
+        {
+          "id": "domain_5_node_15",
+          "cpu_capacity": 22.78,
+          "cpu_price": 2.7,
+          "processing_delay": 0.58
+        },
+        {
+          "id": "domain_5_node_16",
+          "cpu_capacity": 26.91,
+          "cpu_price": 1.8,
+          "processing_delay": 0.83
+        },
+        {
+          "id": "domain_5_node_17",
+          "cpu_capacity": 19.66,
+          "cpu_price": 1.95,
+          "processing_delay": 1.19
+        },
+        {
+          "id": "domain_5_node_18",
+          "cpu_capacity": 21.5,
+          "cpu_price": 4.97,
+          "processing_delay": 0.66
+        },
+        {
+          "id": "domain_5_node_19",
+          "cpu_capacity": 29.56,
+          "cpu_price": 3.63,
+          "processing_delay": 0.62
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_5_node_4",
+          "target": "domain_5_node_8",
+          "bandwidth_capacity": 38.06,
+          "bandwidth_price": 0.97,
+          "transmission_delay": 2.27
+        },
+        {
+          "source": "domain_5_node_0",
+          "target": "domain_5_node_11",
+          "bandwidth_capacity": 97.66,
+          "bandwidth_price": 0.87,
+          "transmission_delay": 7.52
+        },
+        {
+          "source": "domain_5_node_0",
+          "target": "domain_5_node_6",
+          "bandwidth_capacity": 98.6,
+          "bandwidth_price": 0.97,
+          "transmission_delay": 8.24
+        },
+        {
+          "source": "domain_5_node_8",
+          "target": "domain_5_node_9",
+          "bandwidth_capacity": 55.6,
+          "bandwidth_price": 0.81,
+          "transmission_delay": 1.13
+        },
+        {
+          "source": "domain_5_node_4",
+          "target": "domain_5_node_7",
+          "bandwidth_capacity": 67.56,
+          "bandwidth_price": 0.51,
+          "transmission_delay": 7.06
+        },
+        {
+          "source": "domain_5_node_6",
+          "target": "domain_5_node_7",
+          "bandwidth_capacity": 77.06,
+          "bandwidth_price": 0.63,
+          "transmission_delay": 8.4
+        },
+        {
+          "source": "domain_5_node_11",
+          "target": "domain_5_node_18",
+          "bandwidth_capacity": 95.82,
+          "bandwidth_price": 0.2,
+          "transmission_delay": 3.1
+        },
+        {
+          "source": "domain_5_node_1",
+          "target": "domain_5_node_13",
+          "bandwidth_capacity": 31.75,
+          "bandwidth_price": 0.9,
+          "transmission_delay": 6.05
+        },
+        {
+          "source": "domain_5_node_9",
+          "target": "domain_5_node_15",
+          "bandwidth_capacity": 94.07,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 1.57
+        },
+        {
+          "source": "domain_5_node_13",
+          "target": "domain_5_node_19",
+          "bandwidth_capacity": 87.67,
+          "bandwidth_price": 0.92,
+          "transmission_delay": 3.72
+        },
+        {
+          "source": "domain_5_node_3",
+          "target": "domain_5_node_19",
+          "bandwidth_capacity": 58.58,
+          "bandwidth_price": 0.23,
+          "transmission_delay": 9.52
+        },
+        {
+          "source": "domain_5_node_2",
+          "target": "domain_5_node_6",
+          "bandwidth_capacity": 51.31,
+          "bandwidth_price": 0.54,
+          "transmission_delay": 1.87
+        },
+        {
+          "source": "domain_5_node_9",
+          "target": "domain_5_node_16",
+          "bandwidth_capacity": 92.11,
+          "bandwidth_price": 0.22,
+          "transmission_delay": 5.08
+        },
+        {
+          "source": "domain_5_node_5",
+          "target": "domain_5_node_10",
+          "bandwidth_capacity": 76.93,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 9.51
+        },
+        {
+          "source": "domain_5_node_10",
+          "target": "domain_5_node_14",
+          "bandwidth_capacity": 59.34,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 2.39
+        },
+        {
+          "source": "domain_5_node_5",
+          "target": "domain_5_node_17",
+          "bandwidth_capacity": 59.04,
+          "bandwidth_price": 0.19,
+          "transmission_delay": 5.4
+        },
+        {
+          "source": "domain_5_node_2",
+          "target": "domain_5_node_19",
+          "bandwidth_capacity": 58.57,
+          "bandwidth_price": 0.96,
+          "transmission_delay": 1.29
+        },
+        {
+          "source": "domain_5_node_5",
+          "target": "domain_5_node_18",
+          "bandwidth_capacity": 55.94,
+          "bandwidth_price": 0.5,
+          "transmission_delay": 9.55
+        },
+        {
+          "source": "domain_5_node_12",
+          "target": "domain_5_node_14",
+          "bandwidth_capacity": 89.88,
+          "bandwidth_price": 0.19,
+          "transmission_delay": 7.17
+        },
+        {
+          "source": "domain_5_node_6",
+          "target": "domain_5_node_11",
+          "bandwidth_capacity": 68.11,
+          "bandwidth_price": 0.98,
+          "transmission_delay": 4.23
+        },
+        {
+          "source": "domain_5_node_4",
+          "target": "domain_5_node_9",
+          "bandwidth_capacity": 57.87,
+          "bandwidth_price": 0.27,
+          "transmission_delay": 2.1
+        },
+        {
+          "source": "domain_5_node_7",
+          "target": "domain_5_node_8",
+          "bandwidth_capacity": 89.36,
+          "bandwidth_price": 0.51,
+          "transmission_delay": 6.96
+        },
+        {
+          "source": "domain_5_node_0",
+          "target": "domain_5_node_18",
+          "bandwidth_capacity": 74.92,
+          "bandwidth_price": 0.64,
+          "transmission_delay": 1.19
+        }
+      ]
+    },
+    {
+      "id": "domain_6",
+      "nodes": [
+        {
+          "id": "domain_6_node_0",
+          "cpu_capacity": 25.74,
+          "cpu_price": 1.97,
+          "processing_delay": 0.34
+        },
+        {
+          "id": "domain_6_node_1",
+          "cpu_capacity": 21.29,
+          "cpu_price": 1.27,
+          "processing_delay": 1.55
+        },
+        {
+          "id": "domain_6_node_2",
+          "cpu_capacity": 14.14,
+          "cpu_price": 1.86,
+          "processing_delay": 1.75
+        },
+        {
+          "id": "domain_6_node_3",
+          "cpu_capacity": 16.57,
+          "cpu_price": 1.59,
+          "processing_delay": 1.81
+        },
+        {
+          "id": "domain_6_node_4",
+          "cpu_capacity": 10.06,
+          "cpu_price": 4.43,
+          "processing_delay": 0.37
+        },
+        {
+          "id": "domain_6_node_5",
+          "cpu_capacity": 12.6,
+          "cpu_price": 2.0,
+          "processing_delay": 0.43
+        },
+        {
+          "id": "domain_6_node_6",
+          "cpu_capacity": 23.22,
+          "cpu_price": 1.1,
+          "processing_delay": 0.13
+        },
+        {
+          "id": "domain_6_node_7",
+          "cpu_capacity": 25.8,
+          "cpu_price": 1.95,
+          "processing_delay": 0.72
+        },
+        {
+          "id": "domain_6_node_8",
+          "cpu_capacity": 13.48,
+          "cpu_price": 1.21,
+          "processing_delay": 1.51
+        },
+        {
+          "id": "domain_6_node_9",
+          "cpu_capacity": 20.52,
+          "cpu_price": 3.98,
+          "processing_delay": 1.0
+        },
+        {
+          "id": "domain_6_node_10",
+          "cpu_capacity": 25.56,
+          "cpu_price": 3.05,
+          "processing_delay": 0.31
+        },
+        {
+          "id": "domain_6_node_11",
+          "cpu_capacity": 20.08,
+          "cpu_price": 4.78,
+          "processing_delay": 0.18
+        },
+        {
+          "id": "domain_6_node_12",
+          "cpu_capacity": 25.66,
+          "cpu_price": 4.47,
+          "processing_delay": 1.09
+        },
+        {
+          "id": "domain_6_node_13",
+          "cpu_capacity": 19.16,
+          "cpu_price": 4.86,
+          "processing_delay": 0.22
+        },
+        {
+          "id": "domain_6_node_14",
+          "cpu_capacity": 19.58,
+          "cpu_price": 2.61,
+          "processing_delay": 1.4
+        },
+        {
+          "id": "domain_6_node_15",
+          "cpu_capacity": 19.81,
+          "cpu_price": 4.64,
+          "processing_delay": 0.24
+        },
+        {
+          "id": "domain_6_node_16",
+          "cpu_capacity": 11.62,
+          "cpu_price": 3.43,
+          "processing_delay": 0.22
+        },
+        {
+          "id": "domain_6_node_17",
+          "cpu_capacity": 15.5,
+          "cpu_price": 3.53,
+          "processing_delay": 1.14
+        },
+        {
+          "id": "domain_6_node_18",
+          "cpu_capacity": 16.5,
+          "cpu_price": 4.98,
+          "processing_delay": 1.11
+        },
+        {
+          "id": "domain_6_node_19",
+          "cpu_capacity": 19.07,
+          "cpu_price": 3.42,
+          "processing_delay": 0.29
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_6_node_0",
+          "target": "domain_6_node_15",
+          "bandwidth_capacity": 37.58,
+          "bandwidth_price": 0.86,
+          "transmission_delay": 4.31
+        },
+        {
+          "source": "domain_6_node_7",
+          "target": "domain_6_node_13",
+          "bandwidth_capacity": 83.38,
+          "bandwidth_price": 0.62,
+          "transmission_delay": 8.26
+        },
+        {
+          "source": "domain_6_node_2",
+          "target": "domain_6_node_19",
+          "bandwidth_capacity": 89.16,
+          "bandwidth_price": 0.98,
+          "transmission_delay": 8.37
+        },
+        {
+          "source": "domain_6_node_5",
+          "target": "domain_6_node_7",
+          "bandwidth_capacity": 72.95,
+          "bandwidth_price": 0.68,
+          "transmission_delay": 1.24
+        },
+        {
+          "source": "domain_6_node_6",
+          "target": "domain_6_node_14",
+          "bandwidth_capacity": 95.04,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 3.41
+        },
+        {
+          "source": "domain_6_node_18",
+          "target": "domain_6_node_19",
+          "bandwidth_capacity": 42.63,
+          "bandwidth_price": 0.73,
+          "transmission_delay": 3.78
+        },
+        {
+          "source": "domain_6_node_8",
+          "target": "domain_6_node_9",
+          "bandwidth_capacity": 53.79,
+          "bandwidth_price": 0.11,
+          "transmission_delay": 8.83
+        },
+        {
+          "source": "domain_6_node_0",
+          "target": "domain_6_node_1",
+          "bandwidth_capacity": 69.64,
+          "bandwidth_price": 0.46,
+          "transmission_delay": 2.28
+        },
+        {
+          "source": "domain_6_node_15",
+          "target": "domain_6_node_16",
+          "bandwidth_capacity": 74.32,
+          "bandwidth_price": 0.13,
+          "transmission_delay": 7.72
+        },
+        {
+          "source": "domain_6_node_3",
+          "target": "domain_6_node_7",
+          "bandwidth_capacity": 45.06,
+          "bandwidth_price": 0.48,
+          "transmission_delay": 4.07
+        },
+        {
+          "source": "domain_6_node_3",
+          "target": "domain_6_node_18",
+          "bandwidth_capacity": 55.9,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 7.99
+        },
+        {
+          "source": "domain_6_node_17",
+          "target": "domain_6_node_19",
+          "bandwidth_capacity": 69.73,
+          "bandwidth_price": 0.18,
+          "transmission_delay": 1.47
+        },
+        {
+          "source": "domain_6_node_2",
+          "target": "domain_6_node_9",
+          "bandwidth_capacity": 41.02,
+          "bandwidth_price": 0.66,
+          "transmission_delay": 7.07
+        },
+        {
+          "source": "domain_6_node_6",
+          "target": "domain_6_node_12",
+          "bandwidth_capacity": 49.05,
+          "bandwidth_price": 0.7,
+          "transmission_delay": 5.37
+        },
+        {
+          "source": "domain_6_node_12",
+          "target": "domain_6_node_17",
+          "bandwidth_capacity": 60.94,
+          "bandwidth_price": 0.35,
+          "transmission_delay": 7.79
+        },
+        {
+          "source": "domain_6_node_4",
+          "target": "domain_6_node_14",
+          "bandwidth_capacity": 37.97,
+          "bandwidth_price": 0.49,
+          "transmission_delay": 3.55
+        },
+        {
+          "source": "domain_6_node_1",
+          "target": "domain_6_node_12",
+          "bandwidth_capacity": 77.49,
+          "bandwidth_price": 0.54,
+          "transmission_delay": 7.0
+        },
+        {
+          "source": "domain_6_node_11",
+          "target": "domain_6_node_12",
+          "bandwidth_capacity": 33.18,
+          "bandwidth_price": 0.46,
+          "transmission_delay": 6.39
+        },
+        {
+          "source": "domain_6_node_10",
+          "target": "domain_6_node_14",
+          "bandwidth_capacity": 30.54,
+          "bandwidth_price": 0.37,
+          "transmission_delay": 2.9
+        },
+        {
+          "source": "domain_6_node_5",
+          "target": "domain_6_node_13",
+          "bandwidth_capacity": 39.61,
+          "bandwidth_price": 0.33,
+          "transmission_delay": 3.95
+        },
+        {
+          "source": "domain_6_node_0",
+          "target": "domain_6_node_16",
+          "bandwidth_capacity": 30.54,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 2.58
+        },
+        {
+          "source": "domain_6_node_3",
+          "target": "domain_6_node_5",
+          "bandwidth_capacity": 56.61,
+          "bandwidth_price": 0.73,
+          "transmission_delay": 5.5
+        },
+        {
+          "source": "domain_6_node_1",
+          "target": "domain_6_node_15",
+          "bandwidth_capacity": 88.33,
+          "bandwidth_price": 0.83,
+          "transmission_delay": 1.65
+        }
+      ]
+    },
+    {
+      "id": "domain_7",
+      "nodes": [
+        {
+          "id": "domain_7_node_0",
+          "cpu_capacity": 27.24,
+          "cpu_price": 1.17,
+          "processing_delay": 0.14
+        },
+        {
+          "id": "domain_7_node_1",
+          "cpu_capacity": 28.42,
+          "cpu_price": 4.45,
+          "processing_delay": 1.19
+        },
+        {
+          "id": "domain_7_node_2",
+          "cpu_capacity": 21.47,
+          "cpu_price": 3.84,
+          "processing_delay": 0.89
+        },
+        {
+          "id": "domain_7_node_3",
+          "cpu_capacity": 12.3,
+          "cpu_price": 1.08,
+          "processing_delay": 0.72
+        },
+        {
+          "id": "domain_7_node_4",
+          "cpu_capacity": 26.03,
+          "cpu_price": 3.47,
+          "processing_delay": 1.68
+        },
+        {
+          "id": "domain_7_node_5",
+          "cpu_capacity": 28.4,
+          "cpu_price": 1.35,
+          "processing_delay": 1.7
+        },
+        {
+          "id": "domain_7_node_6",
+          "cpu_capacity": 14.87,
+          "cpu_price": 3.36,
+          "processing_delay": 1.1
+        },
+        {
+          "id": "domain_7_node_7",
+          "cpu_capacity": 17.92,
+          "cpu_price": 2.24,
+          "processing_delay": 0.75
+        },
+        {
+          "id": "domain_7_node_8",
+          "cpu_capacity": 16.66,
+          "cpu_price": 1.67,
+          "processing_delay": 1.07
+        },
+        {
+          "id": "domain_7_node_9",
+          "cpu_capacity": 12.28,
+          "cpu_price": 3.04,
+          "processing_delay": 1.82
+        },
+        {
+          "id": "domain_7_node_10",
+          "cpu_capacity": 16.99,
+          "cpu_price": 3.91,
+          "processing_delay": 1.66
+        },
+        {
+          "id": "domain_7_node_11",
+          "cpu_capacity": 26.3,
+          "cpu_price": 1.95,
+          "processing_delay": 0.38
+        },
+        {
+          "id": "domain_7_node_12",
+          "cpu_capacity": 13.95,
+          "cpu_price": 3.41,
+          "processing_delay": 1.54
+        },
+        {
+          "id": "domain_7_node_13",
+          "cpu_capacity": 23.11,
+          "cpu_price": 1.71,
+          "processing_delay": 1.57
+        },
+        {
+          "id": "domain_7_node_14",
+          "cpu_capacity": 19.88,
+          "cpu_price": 4.02,
+          "processing_delay": 1.54
+        },
+        {
+          "id": "domain_7_node_15",
+          "cpu_capacity": 18.98,
+          "cpu_price": 4.7,
+          "processing_delay": 1.17
+        },
+        {
+          "id": "domain_7_node_16",
+          "cpu_capacity": 22.71,
+          "cpu_price": 3.5,
+          "processing_delay": 1.74
+        },
+        {
+          "id": "domain_7_node_17",
+          "cpu_capacity": 22.54,
+          "cpu_price": 1.6,
+          "processing_delay": 0.23
+        },
+        {
+          "id": "domain_7_node_18",
+          "cpu_capacity": 18.84,
+          "cpu_price": 2.21,
+          "processing_delay": 0.62
+        },
+        {
+          "id": "domain_7_node_19",
+          "cpu_capacity": 11.12,
+          "cpu_price": 3.03,
+          "processing_delay": 0.69
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_7_node_8",
+          "target": "domain_7_node_14",
+          "bandwidth_capacity": 49.89,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 6.91
+        },
+        {
+          "source": "domain_7_node_15",
+          "target": "domain_7_node_16",
+          "bandwidth_capacity": 93.44,
+          "bandwidth_price": 0.89,
+          "transmission_delay": 4.0
+        },
+        {
+          "source": "domain_7_node_2",
+          "target": "domain_7_node_5",
+          "bandwidth_capacity": 70.79,
+          "bandwidth_price": 0.23,
+          "transmission_delay": 4.15
+        },
+        {
+          "source": "domain_7_node_0",
+          "target": "domain_7_node_8",
+          "bandwidth_capacity": 97.74,
+          "bandwidth_price": 0.73,
+          "transmission_delay": 4.53
+        },
+        {
+          "source": "domain_7_node_3",
+          "target": "domain_7_node_11",
+          "bandwidth_capacity": 71.65,
+          "bandwidth_price": 0.94,
+          "transmission_delay": 3.79
+        },
+        {
+          "source": "domain_7_node_13",
+          "target": "domain_7_node_16",
+          "bandwidth_capacity": 56.37,
+          "bandwidth_price": 0.81,
+          "transmission_delay": 8.32
+        },
+        {
+          "source": "domain_7_node_4",
+          "target": "domain_7_node_13",
+          "bandwidth_capacity": 76.91,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 7.65
+        },
+        {
+          "source": "domain_7_node_6",
+          "target": "domain_7_node_17",
+          "bandwidth_capacity": 77.98,
+          "bandwidth_price": 0.57,
+          "transmission_delay": 6.81
+        },
+        {
+          "source": "domain_7_node_14",
+          "target": "domain_7_node_18",
+          "bandwidth_capacity": 59.64,
+          "bandwidth_price": 0.43,
+          "transmission_delay": 4.26
+        },
+        {
+          "source": "domain_7_node_3",
+          "target": "domain_7_node_4",
+          "bandwidth_capacity": 42.62,
+          "bandwidth_price": 0.29,
+          "transmission_delay": 9.53
+        },
+        {
+          "source": "domain_7_node_8",
+          "target": "domain_7_node_15",
+          "bandwidth_capacity": 64.04,
+          "bandwidth_price": 0.3,
+          "transmission_delay": 2.24
+        },
+        {
+          "source": "domain_7_node_9",
+          "target": "domain_7_node_12",
+          "bandwidth_capacity": 35.4,
+          "bandwidth_price": 0.86,
+          "transmission_delay": 1.91
+        },
+        {
+          "source": "domain_7_node_1",
+          "target": "domain_7_node_18",
+          "bandwidth_capacity": 83.96,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 8.95
+        },
+        {
+          "source": "domain_7_node_3",
+          "target": "domain_7_node_7",
+          "bandwidth_capacity": 32.64,
+          "bandwidth_price": 0.4,
+          "transmission_delay": 7.9
+        },
+        {
+          "source": "domain_7_node_12",
+          "target": "domain_7_node_15",
+          "bandwidth_capacity": 39.17,
+          "bandwidth_price": 0.44,
+          "transmission_delay": 2.46
+        },
+        {
+          "source": "domain_7_node_5",
+          "target": "domain_7_node_17",
+          "bandwidth_capacity": 88.19,
+          "bandwidth_price": 0.79,
+          "transmission_delay": 8.28
+        },
+        {
+          "source": "domain_7_node_10",
+          "target": "domain_7_node_11",
+          "bandwidth_capacity": 41.59,
+          "bandwidth_price": 0.49,
+          "transmission_delay": 4.7
+        },
+        {
+          "source": "domain_7_node_4",
+          "target": "domain_7_node_6",
+          "bandwidth_capacity": 77.35,
+          "bandwidth_price": 0.31,
+          "transmission_delay": 5.0
+        },
+        {
+          "source": "domain_7_node_6",
+          "target": "domain_7_node_19",
+          "bandwidth_capacity": 49.94,
+          "bandwidth_price": 0.77,
+          "transmission_delay": 5.04
+        },
+        {
+          "source": "domain_7_node_0",
+          "target": "domain_7_node_14",
+          "bandwidth_capacity": 67.38,
+          "bandwidth_price": 0.38,
+          "transmission_delay": 8.28
+        },
+        {
+          "source": "domain_7_node_13",
+          "target": "domain_7_node_15",
+          "bandwidth_capacity": 62.83,
+          "bandwidth_price": 0.85,
+          "transmission_delay": 4.31
+        },
+        {
+          "source": "domain_7_node_3",
+          "target": "domain_7_node_13",
+          "bandwidth_capacity": 96.3,
+          "bandwidth_price": 0.99,
+          "transmission_delay": 5.16
+        },
+        {
+          "source": "domain_7_node_8",
+          "target": "domain_7_node_18",
+          "bandwidth_capacity": 49.72,
+          "bandwidth_price": 0.44,
+          "transmission_delay": 5.75
+        }
+      ]
+    },
+    {
+      "id": "domain_8",
+      "nodes": [
+        {
+          "id": "domain_8_node_0",
+          "cpu_capacity": 29.33,
+          "cpu_price": 4.27,
+          "processing_delay": 1.62
+        },
+        {
+          "id": "domain_8_node_1",
+          "cpu_capacity": 12.77,
+          "cpu_price": 2.0,
+          "processing_delay": 1.32
+        },
+        {
+          "id": "domain_8_node_2",
+          "cpu_capacity": 27.48,
+          "cpu_price": 3.22,
+          "processing_delay": 0.29
+        },
+        {
+          "id": "domain_8_node_3",
+          "cpu_capacity": 26.92,
+          "cpu_price": 4.4,
+          "processing_delay": 0.64
+        },
+        {
+          "id": "domain_8_node_4",
+          "cpu_capacity": 25.26,
+          "cpu_price": 2.09,
+          "processing_delay": 1.82
+        },
+        {
+          "id": "domain_8_node_5",
+          "cpu_capacity": 12.95,
+          "cpu_price": 2.75,
+          "processing_delay": 1.9
+        },
+        {
+          "id": "domain_8_node_6",
+          "cpu_capacity": 14.44,
+          "cpu_price": 2.8,
+          "processing_delay": 0.76
+        },
+        {
+          "id": "domain_8_node_7",
+          "cpu_capacity": 10.53,
+          "cpu_price": 1.21,
+          "processing_delay": 1.05
+        },
+        {
+          "id": "domain_8_node_8",
+          "cpu_capacity": 14.72,
+          "cpu_price": 4.98,
+          "processing_delay": 0.81
+        },
+        {
+          "id": "domain_8_node_9",
+          "cpu_capacity": 10.56,
+          "cpu_price": 4.72,
+          "processing_delay": 1.69
+        },
+        {
+          "id": "domain_8_node_10",
+          "cpu_capacity": 23.0,
+          "cpu_price": 4.17,
+          "processing_delay": 0.36
+        },
+        {
+          "id": "domain_8_node_11",
+          "cpu_capacity": 15.74,
+          "cpu_price": 4.32,
+          "processing_delay": 1.42
+        },
+        {
+          "id": "domain_8_node_12",
+          "cpu_capacity": 12.78,
+          "cpu_price": 3.82,
+          "processing_delay": 0.95
+        },
+        {
+          "id": "domain_8_node_13",
+          "cpu_capacity": 10.11,
+          "cpu_price": 1.32,
+          "processing_delay": 0.59
+        },
+        {
+          "id": "domain_8_node_14",
+          "cpu_capacity": 26.7,
+          "cpu_price": 3.2,
+          "processing_delay": 1.48
+        },
+        {
+          "id": "domain_8_node_15",
+          "cpu_capacity": 20.56,
+          "cpu_price": 1.44,
+          "processing_delay": 0.65
+        },
+        {
+          "id": "domain_8_node_16",
+          "cpu_capacity": 16.02,
+          "cpu_price": 1.19,
+          "processing_delay": 0.9
+        },
+        {
+          "id": "domain_8_node_17",
+          "cpu_capacity": 25.88,
+          "cpu_price": 2.83,
+          "processing_delay": 0.31
+        },
+        {
+          "id": "domain_8_node_18",
+          "cpu_capacity": 28.1,
+          "cpu_price": 3.39,
+          "processing_delay": 0.13
+        },
+        {
+          "id": "domain_8_node_19",
+          "cpu_capacity": 20.31,
+          "cpu_price": 1.97,
+          "processing_delay": 0.37
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_8_node_8",
+          "target": "domain_8_node_12",
+          "bandwidth_capacity": 32.93,
+          "bandwidth_price": 0.94,
+          "transmission_delay": 5.64
+        },
+        {
+          "source": "domain_8_node_13",
+          "target": "domain_8_node_16",
+          "bandwidth_capacity": 99.24,
+          "bandwidth_price": 0.59,
+          "transmission_delay": 3.28
+        },
+        {
+          "source": "domain_8_node_0",
+          "target": "domain_8_node_15",
+          "bandwidth_capacity": 82.73,
+          "bandwidth_price": 0.27,
+          "transmission_delay": 4.21
+        },
+        {
+          "source": "domain_8_node_14",
+          "target": "domain_8_node_17",
+          "bandwidth_capacity": 84.66,
+          "bandwidth_price": 0.88,
+          "transmission_delay": 3.99
+        },
+        {
+          "source": "domain_8_node_10",
+          "target": "domain_8_node_11",
+          "bandwidth_capacity": 38.71,
+          "bandwidth_price": 0.43,
+          "transmission_delay": 9.01
+        },
+        {
+          "source": "domain_8_node_4",
+          "target": "domain_8_node_6",
+          "bandwidth_capacity": 82.03,
+          "bandwidth_price": 0.91,
+          "transmission_delay": 4.48
+        },
+        {
+          "source": "domain_8_node_13",
+          "target": "domain_8_node_15",
+          "bandwidth_capacity": 98.16,
+          "bandwidth_price": 0.55,
+          "transmission_delay": 5.48
+        },
+        {
+          "source": "domain_8_node_0",
+          "target": "domain_8_node_4",
+          "bandwidth_capacity": 94.7,
+          "bandwidth_price": 0.57,
+          "transmission_delay": 8.21
+        },
+        {
+          "source": "domain_8_node_1",
+          "target": "domain_8_node_6",
+          "bandwidth_capacity": 80.9,
+          "bandwidth_price": 0.17,
+          "transmission_delay": 6.42
+        },
+        {
+          "source": "domain_8_node_11",
+          "target": "domain_8_node_16",
+          "bandwidth_capacity": 87.56,
+          "bandwidth_price": 0.59,
+          "transmission_delay": 3.89
+        },
+        {
+          "source": "domain_8_node_7",
+          "target": "domain_8_node_16",
+          "bandwidth_capacity": 35.6,
+          "bandwidth_price": 0.69,
+          "transmission_delay": 3.76
+        },
+        {
+          "source": "domain_8_node_6",
+          "target": "domain_8_node_18",
+          "bandwidth_capacity": 72.18,
+          "bandwidth_price": 0.48,
+          "transmission_delay": 7.21
+        },
+        {
+          "source": "domain_8_node_5",
+          "target": "domain_8_node_10",
+          "bandwidth_capacity": 54.61,
+          "bandwidth_price": 0.14,
+          "transmission_delay": 8.83
+        },
+        {
+          "source": "domain_8_node_8",
+          "target": "domain_8_node_19",
+          "bandwidth_capacity": 54.68,
+          "bandwidth_price": 1.0,
+          "transmission_delay": 3.47
+        },
+        {
+          "source": "domain_8_node_12",
+          "target": "domain_8_node_18",
+          "bandwidth_capacity": 98.6,
+          "bandwidth_price": 0.95,
+          "transmission_delay": 1.68
+        },
+        {
+          "source": "domain_8_node_2",
+          "target": "domain_8_node_9",
+          "bandwidth_capacity": 74.63,
+          "bandwidth_price": 0.43,
+          "transmission_delay": 8.21
+        },
+        {
+          "source": "domain_8_node_9",
+          "target": "domain_8_node_10",
+          "bandwidth_capacity": 77.56,
+          "bandwidth_price": 0.96,
+          "transmission_delay": 2.29
+        },
+        {
+          "source": "domain_8_node_14",
+          "target": "domain_8_node_15",
+          "bandwidth_capacity": 72.53,
+          "bandwidth_price": 0.8,
+          "transmission_delay": 1.31
+        },
+        {
+          "source": "domain_8_node_2",
+          "target": "domain_8_node_3",
+          "bandwidth_capacity": 34.71,
+          "bandwidth_price": 0.8,
+          "transmission_delay": 4.3
+        },
+        {
+          "source": "domain_8_node_0",
+          "target": "domain_8_node_6",
+          "bandwidth_capacity": 56.8,
+          "bandwidth_price": 0.61,
+          "transmission_delay": 6.45
+        },
+        {
+          "source": "domain_8_node_7",
+          "target": "domain_8_node_13",
+          "bandwidth_capacity": 77.53,
+          "bandwidth_price": 0.95,
+          "transmission_delay": 4.35
+        },
+        {
+          "source": "domain_8_node_4",
+          "target": "domain_8_node_15",
+          "bandwidth_capacity": 83.42,
+          "bandwidth_price": 0.62,
+          "transmission_delay": 5.77
+        },
+        {
+          "source": "domain_8_node_15",
+          "target": "domain_8_node_16",
+          "bandwidth_capacity": 57.86,
+          "bandwidth_price": 0.68,
+          "transmission_delay": 3.25
+        }
+      ]
+    },
+    {
+      "id": "domain_9",
+      "nodes": [
+        {
+          "id": "domain_9_node_0",
+          "cpu_capacity": 12.27,
+          "cpu_price": 3.94,
+          "processing_delay": 1.05
+        },
+        {
+          "id": "domain_9_node_1",
+          "cpu_capacity": 17.74,
+          "cpu_price": 3.25,
+          "processing_delay": 0.6
+        },
+        {
+          "id": "domain_9_node_2",
+          "cpu_capacity": 15.21,
+          "cpu_price": 2.79,
+          "processing_delay": 1.99
+        },
+        {
+          "id": "domain_9_node_3",
+          "cpu_capacity": 15.71,
+          "cpu_price": 4.67,
+          "processing_delay": 1.03
+        },
+        {
+          "id": "domain_9_node_4",
+          "cpu_capacity": 12.45,
+          "cpu_price": 4.41,
+          "processing_delay": 0.96
+        },
+        {
+          "id": "domain_9_node_5",
+          "cpu_capacity": 27.97,
+          "cpu_price": 2.78,
+          "processing_delay": 0.27
+        },
+        {
+          "id": "domain_9_node_6",
+          "cpu_capacity": 23.64,
+          "cpu_price": 4.38,
+          "processing_delay": 0.71
+        },
+        {
+          "id": "domain_9_node_7",
+          "cpu_capacity": 16.95,
+          "cpu_price": 1.26,
+          "processing_delay": 1.13
+        },
+        {
+          "id": "domain_9_node_8",
+          "cpu_capacity": 27.83,
+          "cpu_price": 4.41,
+          "processing_delay": 1.45
+        },
+        {
+          "id": "domain_9_node_9",
+          "cpu_capacity": 28.55,
+          "cpu_price": 3.55,
+          "processing_delay": 1.61
+        },
+        {
+          "id": "domain_9_node_10",
+          "cpu_capacity": 20.18,
+          "cpu_price": 1.49,
+          "processing_delay": 0.48
+        },
+        {
+          "id": "domain_9_node_11",
+          "cpu_capacity": 12.78,
+          "cpu_price": 4.16,
+          "processing_delay": 0.15
+        },
+        {
+          "id": "domain_9_node_12",
+          "cpu_capacity": 21.08,
+          "cpu_price": 2.48,
+          "processing_delay": 1.63
+        },
+        {
+          "id": "domain_9_node_13",
+          "cpu_capacity": 21.03,
+          "cpu_price": 3.45,
+          "processing_delay": 0.26
+        },
+        {
+          "id": "domain_9_node_14",
+          "cpu_capacity": 16.19,
+          "cpu_price": 5.0,
+          "processing_delay": 1.47
+        },
+        {
+          "id": "domain_9_node_15",
+          "cpu_capacity": 20.51,
+          "cpu_price": 4.08,
+          "processing_delay": 1.66
+        },
+        {
+          "id": "domain_9_node_16",
+          "cpu_capacity": 11.48,
+          "cpu_price": 4.89,
+          "processing_delay": 1.32
+        },
+        {
+          "id": "domain_9_node_17",
+          "cpu_capacity": 19.0,
+          "cpu_price": 3.72,
+          "processing_delay": 0.75
+        },
+        {
+          "id": "domain_9_node_18",
+          "cpu_capacity": 27.56,
+          "cpu_price": 4.12,
+          "processing_delay": 1.32
+        },
+        {
+          "id": "domain_9_node_19",
+          "cpu_capacity": 13.64,
+          "cpu_price": 4.87,
+          "processing_delay": 0.92
+        }
+      ],
+      "links": [
+        {
+          "source": "domain_9_node_2",
+          "target": "domain_9_node_7",
+          "bandwidth_capacity": 86.33,
+          "bandwidth_price": 0.72,
+          "transmission_delay": 3.68
+        },
+        {
+          "source": "domain_9_node_6",
+          "target": "domain_9_node_17",
+          "bandwidth_capacity": 35.11,
+          "bandwidth_price": 0.15,
+          "transmission_delay": 4.96
+        },
+        {
+          "source": "domain_9_node_0",
+          "target": "domain_9_node_13",
+          "bandwidth_capacity": 63.9,
+          "bandwidth_price": 0.28,
+          "transmission_delay": 6.46
+        },
+        {
+          "source": "domain_9_node_3",
+          "target": "domain_9_node_16",
+          "bandwidth_capacity": 51.88,
+          "bandwidth_price": 0.75,
+          "transmission_delay": 7.61
+        },
+        {
+          "source": "domain_9_node_3",
+          "target": "domain_9_node_18",
+          "bandwidth_capacity": 90.25,
+          "bandwidth_price": 0.98,
+          "transmission_delay": 2.18
+        },
+        {
+          "source": "domain_9_node_6",
+          "target": "domain_9_node_11",
+          "bandwidth_capacity": 55.94,
+          "bandwidth_price": 0.61,
+          "transmission_delay": 3.87
+        },
+        {
+          "source": "domain_9_node_8",
+          "target": "domain_9_node_17",
+          "bandwidth_capacity": 62.65,
+          "bandwidth_price": 0.34,
+          "transmission_delay": 3.23
+        },
+        {
+          "source": "domain_9_node_10",
+          "target": "domain_9_node_14",
+          "bandwidth_capacity": 36.78,
+          "bandwidth_price": 0.36,
+          "transmission_delay": 4.46
+        },
+        {
+          "source": "domain_9_node_6",
+          "target": "domain_9_node_15",
+          "bandwidth_capacity": 73.08,
+          "bandwidth_price": 0.32,
+          "transmission_delay": 8.79
+        },
+        {
+          "source": "domain_9_node_11",
+          "target": "domain_9_node_12",
+          "bandwidth_capacity": 41.18,
+          "bandwidth_price": 0.39,
+          "transmission_delay": 6.2
+        },
+        {
+          "source": "domain_9_node_12",
+          "target": "domain_9_node_19",
+          "bandwidth_capacity": 51.89,
+          "bandwidth_price": 0.79,
+          "transmission_delay": 5.48
+        },
+        {
+          "source": "domain_9_node_1",
+          "target": "domain_9_node_7",
+          "bandwidth_capacity": 66.03,
+          "bandwidth_price": 0.55,
+          "transmission_delay": 3.78
+        },
+        {
+          "source": "domain_9_node_16",
+          "target": "domain_9_node_17",
+          "bandwidth_capacity": 31.62,
+          "bandwidth_price": 0.95,
+          "transmission_delay": 5.55
+        },
+        {
+          "source": "domain_9_node_3",
+          "target": "domain_9_node_5",
+          "bandwidth_capacity": 97.67,
+          "bandwidth_price": 0.29,
+          "transmission_delay": 4.18
+        },
+        {
+          "source": "domain_9_node_0",
+          "target": "domain_9_node_5",
+          "bandwidth_capacity": 33.54,
+          "bandwidth_price": 0.55,
+          "transmission_delay": 8.94
+        },
+        {
+          "source": "domain_9_node_9",
+          "target": "domain_9_node_10",
+          "bandwidth_capacity": 75.8,
+          "bandwidth_price": 0.52,
+          "transmission_delay": 5.83
+        },
+        {
+          "source": "domain_9_node_2",
+          "target": "domain_9_node_10",
+          "bandwidth_capacity": 89.3,
+          "bandwidth_price": 0.49,
+          "transmission_delay": 8.94
+        },
+        {
+          "source": "domain_9_node_4",
+          "target": "domain_9_node_12",
+          "bandwidth_capacity": 80.93,
+          "bandwidth_price": 0.79,
+          "transmission_delay": 4.29
+        },
+        {
+          "source": "domain_9_node_8",
+          "target": "domain_9_node_10",
+          "bandwidth_capacity": 58.04,
+          "bandwidth_price": 0.61,
+          "transmission_delay": 2.75
+        },
+        {
+          "source": "domain_9_node_6",
+          "target": "domain_9_node_8",
+          "bandwidth_capacity": 68.73,
+          "bandwidth_price": 0.17,
+          "transmission_delay": 5.54
+        },
+        {
+          "source": "domain_9_node_11",
+          "target": "domain_9_node_17",
+          "bandwidth_capacity": 83.51,
+          "bandwidth_price": 0.35,
+          "transmission_delay": 9.9
+        },
+        {
+          "source": "domain_9_node_11",
+          "target": "domain_9_node_15",
+          "bandwidth_capacity": 77.63,
+          "bandwidth_price": 0.21,
+          "transmission_delay": 9.78
+        },
+        {
+          "source": "domain_9_node_8",
+          "target": "domain_9_node_15",
+          "bandwidth_capacity": 57.57,
+          "bandwidth_price": 0.82,
+          "transmission_delay": 4.05
+        }
+      ]
+    }
+  ],
+  "inter_domain_links": [
+    {
+      "source": "domain_0_node_13",
+      "target": "domain_1_node_18",
+      "bandwidth_capacity": 174.47,
+      "bandwidth_price": 1.78,
+      "transmission_delay": 13.2
+    },
+    {
+      "source": "domain_1_node_13",
+      "target": "domain_2_node_12",
+      "bandwidth_capacity": 135.24,
+      "bandwidth_price": 1.78,
+      "transmission_delay": 17.3
+    },
+    {
+      "source": "domain_2_node_12",
+      "target": "domain_3_node_4",
+      "bandwidth_capacity": 119.15,
+      "bandwidth_price": 1.27,
+      "transmission_delay": 12.44
+    },
+    {
+      "source": "domain_3_node_12",
+      "target": "domain_4_node_19",
+      "bandwidth_capacity": 295.64,
+      "bandwidth_price": 0.91,
+      "transmission_delay": 7.73
+    },
+    {
+      "source": "domain_4_node_2",
+      "target": "domain_5_node_1",
+      "bandwidth_capacity": 215.85,
+      "bandwidth_price": 0.78,
+      "transmission_delay": 5.92
+    },
+    {
+      "source": "domain_5_node_5",
+      "target": "domain_6_node_9",
+      "bandwidth_capacity": 155.06,
+      "bandwidth_price": 0.62,
+      "transmission_delay": 14.35
+    },
+    {
+      "source": "domain_6_node_18",
+      "target": "domain_7_node_1",
+      "bandwidth_capacity": 118.82,
+      "bandwidth_price": 1.43,
+      "transmission_delay": 16.8
+    },
+    {
+      "source": "domain_7_node_10",
+      "target": "domain_8_node_10",
+      "bandwidth_capacity": 205.78,
+      "bandwidth_price": 1.55,
+      "transmission_delay": 7.5
+    },
+    {
+      "source": "domain_8_node_2",
+      "target": "domain_9_node_10",
+      "bandwidth_capacity": 110.02,
+      "bandwidth_price": 1.39,
+      "transmission_delay": 10.52
+    },
+    {
+      "source": "domain_9_node_5",
+      "target": "domain_0_node_19",
+      "bandwidth_capacity": 114.07,
+      "bandwidth_price": 1.99,
+      "transmission_delay": 14.94
+    },
+    {
+      "source": "domain_0_node_9",
+      "target": "domain_4_node_15",
+      "bandwidth_capacity": 279.87,
+      "bandwidth_price": 1.59,
+      "transmission_delay": 10.42
+    },
+    {
+      "source": "domain_2_node_13",
+      "target": "domain_7_node_1",
+      "bandwidth_capacity": 194.61,
+      "bandwidth_price": 1.12,
+      "transmission_delay": 16.6
+    },
+    {
+      "source": "domain_5_node_11",
+      "target": "domain_1_node_4",
+      "bandwidth_capacity": 228.99,
+      "bandwidth_price": 1.81,
+      "transmission_delay": 15.97
+    },
+    {
+      "source": "domain_7_node_18",
+      "target": "domain_9_node_9",
+      "bandwidth_capacity": 121.79,
+      "bandwidth_price": 1.3,
+      "transmission_delay": 11.65
+    },
+    {
+      "source": "domain_0_node_1",
+      "target": "domain_8_node_4",
+      "bandwidth_capacity": 100.5,
+      "bandwidth_price": 1.86,
+      "transmission_delay": 19.65
+    }
+  ]
+}

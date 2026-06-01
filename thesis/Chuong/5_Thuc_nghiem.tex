@@ -1,0 +1,71 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\label{ch:thuc_nghiem}
+% =============================================================
+% CHƯƠNG 5 — ĐÁNH GIÁ THỰC NGHIỆM       Mục tiêu độ dài: ~13 trang
+% =============================================================
+
+% Tổng quan chương
+Chương này trình bày thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả của phương pháp đề xuất so với các baseline. Các kết quả được phân tích trên ba kịch bản để kiểm chứng khả năng tổng quát hoá.
+
+\section{Cấu hình thực nghiệm}              % ~2.5 trang
+\label{sec:exp-setup}
+
+\subsection{Phần cứng và phần mềm}
+% TODO: GPU, RAM, PyTorch version, seed control.
+
+\subsection{Tập dữ liệu}
+% TODO: scenario_1 (Waxman ngẫu nhiên), conus75 (real CONUS-75), conus75_strict.
+% Bảng tham số: số nút, băng thông, CPU, tỉ lệ load.
+
+\subsection{Siêu tham số huấn luyện}
+% TODO: lr, batch, PPO epochs, clip eps, GAE lambda, entropy coef.
+
+\section{Baseline và độ đo}                 % ~2 trang
+\label{sec:baselines}
+
+\subsection{Các thuật toán so sánh}
+% TODO: MP-VNE, OA-MP-VNE, MC-VNM, FlagVNE. Mỗi thuật toán 1 đoạn.
+
+\subsection{Độ đo đánh giá}
+% TODO: acceptance ratio, R/C, long-term R/C, runtime, gini fairness.
+
+\section{Kết quả tổng thể}                  % ~3.5 trang
+\label{sec:results-overall}
+
+\subsection{Kết quả trên \texttt{scenario\_1}}
+% TODO: bảng + biểu đồ acceptance ratio theo VNR rate.
+
+\subsection{Kết quả trên CONUS-75}
+% TODO: bảng + biểu đồ R/C.
+
+\subsection{Kết quả trên CONUS-75 strict}
+% TODO: bảng + biểu đồ acceptance ratio và runtime.
+
+\subsection{Tổng hợp và bàn luận}
+% TODO: heatmap / radar chart 5 độ đo trên 3 kịch bản.
+
+\section{Phân tích ablation}                % ~2.5 trang
+\label{sec:ablation}
+
+\subsection{Ảnh hưởng của pre-training}
+% TODO: kết quả khi tắt giai đoạn 1; biểu đồ reward curve.
+
+\subsection{So sánh các bộ encoder}
+% TODO: MLP vs GCN vs GAT.
+
+\subsection{Ảnh hưởng của reward shaping}
+% TODO: terminal-only vs dense; tác động tới ổn định.
+
+\section{Trực quan hoá quỹ đạo huấn luyện}  % ~1.5 trang
+\label{sec:visualize}
+% TODO: chèn các hình từ logs/v2_conus75_trajectory.png, v2_selfcrit_reward_curve.png.
+
+\section{Thảo luận}                        % ~1 trang
+\label{sec:discuss}
+% TODO: vì sao phương pháp tốt hơn baseline, các trường hợp thất bại, sensitivity với phân phối VNR.
+
+% Kết chương
+Kết quả thực nghiệm cho thấy phương pháp đề xuất vượt trội các baseline về tỉ lệ chấp nhận và doanh thu trên cả ba kịch bản, đồng thời giữ thời gian chạy ở mức cạnh tranh. Chương cuối tổng kết các đóng góp và hướng phát triển.
+
+\end{document}
