@@ -5,13 +5,11 @@
     \Large{\textbf{TÓM TẮT NỘI DUNG ĐỒ ÁN}}\\
 \end{center}
 \vspace{1cm}
-% TODO: viết tóm tắt 200-350 từ với 4 nội dung:
-% (i) Giới thiệu vấn đề (VNE, vai trò, các hạn chế hiện tại)
-% (ii) Hướng tiếp cận chọn (RL kết hợp GNN), lý do
-% (iii) Tổng quan giải pháp đề xuất (kiến trúc, huấn luyện hai giai đoạn)
-% (iv) Đóng góp chính và kết quả thực nghiệm
+Bài toán nhúng mạng ảo (Virtual Network Embedding - VNE) là bài toán nền tảng của ảo hoá mạng, đòi hỏi ánh xạ mỗi yêu cầu mạng ảo lên hạ tầng vật lý sao cho thoả mãn ràng buộc tài nguyên và tối ưu hiệu quả phục vụ. VNE đã được chứng minh là NP-Hard, và các kịch bản thực tế còn phức tạp hơn do tính trực tuyến và quy mô lớn. Các phương pháp heuristic chạy nhanh nhưng phụ thuộc tri thức chuyên gia và khó tổng quát hoá; các phương pháp học tăng cường gần đây khắc phục được điều này nhưng thường bất ổn định, tốn mẫu và bỏ qua tri thức tô-pô sẵn có.
 
-Bài toán nhúng mạng ảo (Virtual Network Embedding - VNE) là bài toán nền tảng \ldots
+Đồ án đề xuất \textit{RL-OA-MP-VNE}, một phương pháp kết hợp mạng nơ-ron đồ thị với học tăng cường cho VNE đa miền. Phương pháp dùng một bộ mã hoá đồ thị \textit{phân cấp} (GCN nội miền kết hợp GCN liên miền) và một bộ giải mã chọn ứng viên dựa trên cơ chế attention với thiên lệch chi phí tường minh. Quy trình huấn luyện gồm hai giai đoạn: khởi động bằng học bắt chước từ heuristic OA-MP-VNE, rồi tinh chỉnh bằng phương pháp actor-critic có neo Kullback-Leibler. Đóng góp cốt lõi là phát hiện rằng \textit{lựa chọn ứng viên} mới là đòn bẩy hiệu quả của học tăng cường, và việc làm cho lựa chọn này ngẫu nhiên trong huấn luyện là điều kiện cần để vượt trần hiệu năng của mô hình bắt chước; nhờ đó hai đầu xếp hạng được đóng băng và chỉ đầu chọn ứng viên được tinh chỉnh.
+
+Thực nghiệm trên ba quy mô ($50$, $100$, $200$ nút) cho thấy phương pháp đề xuất đạt $33{,}1\%$ tỉ lệ chấp nhận trên kịch bản $50$ nút (vượt heuristic $29{,}0\%$), cải thiện $+8{,}8$ điểm phần trăm so với mô hình chỉ học bắt chước trên kịch bản $100$ nút ($26{,}0\%$ so với $17{,}2\%$), và chính sách học được chuyển giao tốt sang quy mô lớn hơn, đồng thời quá trình huấn luyện hội tụ ổn định.
 
 \begin{flushright}
 Sinh viên thực hiện\\

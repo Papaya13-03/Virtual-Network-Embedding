@@ -1,5 +1,6 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
+\label{ch:gioi_thieu}
 % =============================================================
 % CHƯƠNG 1 — GIỚI THIỆU ĐỀ TÀI            Mục tiêu độ dài: ~4 trang
 % =============================================================
@@ -44,15 +45,15 @@ Trên cơ sở phân tích các hạn chế ở trên, đồ án đặt ra ba m�
 \item \textbf{Tận dụng tri thức từ heuristic} thông qua giai đoạn tiền huấn luyện có giám sát dựa trên lời giải của thuật toán MP-VNE / OA-MP-VNE, rồi tinh chỉnh chính sách bằng học tăng cường để vượt qua trần hiệu năng của heuristic.
 \end{enumerate}
 
-Định hướng giải pháp tổng thể là xây dựng kiến trúc \textit{RL-OA-MP-VNE} gồm một bộ mã hoá đồ thị (GCN encoder), ba đầu ra tác vụ (đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo và đầu chọn ứng viên cross-attention), kết hợp với quy trình huấn luyện hai giai đoạn: tiền huấn luyện có giám sát rồi tinh chỉnh bằng REINFORCE có baseline. Kết quả là một tác nhân vừa kế thừa các quy luật hợp lý của heuristic, vừa có khả năng tự khám phá những phương án ánh xạ tốt hơn mà heuristic không nhìn thấy.
+Định hướng giải pháp tổng thể là xây dựng kiến trúc \textit{RL-OA-MP-VNE} gồm một bộ mã hoá đồ thị \textit{phân cấp đa miền} (GCN nội miền kết hợp GCN liên miền), ba đầu ra tác vụ (đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo và đầu chọn ứng viên cross-attention) cùng một bộ phê bình giá trị, kết hợp với quy trình huấn luyện hai giai đoạn: tiền huấn luyện có giám sát rồi tinh chỉnh bằng phương pháp \textit{actor-critic} (gradient chính sách với phê bình giá trị làm baseline) có neo Kullback-Leibler. Một phát hiện then chốt là \textit{lựa chọn ứng viên} mới là đòn bẩy hiệu quả của học tăng cường, nên ở giai đoạn tinh chỉnh hai đầu xếp hạng được đóng băng và chỉ đầu chọn ứng viên được huấn luyện. Kết quả là một tác nhân vừa kế thừa các quy luật hợp lý của heuristic, vừa có khả năng tự khám phá những phương án ánh xạ tốt hơn mà heuristic không nhìn thấy.
 
 \section{Đóng góp của đồ án}
 
 Đồ án có ba đóng góp chính sau:
 \begin{enumerate}
-\item Đề xuất kiến trúc \textit{RL-OA-MP-VNE} kết hợp GCN encoder chung với ba đầu ra phối hợp: đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo, và đầu chọn ứng viên cross-attention với feasibility mask cứng cho ràng buộc CPU.
-\item Đề xuất quy trình huấn luyện hai giai đoạn gồm tiền huấn luyện có giám sát từ lời giải OA-MP-VNE và tinh chỉnh bằng REINFORCE với running-mean baseline, đồng thời sử dụng Plackett-Luce sampling cho phép vi phân hoá qua thao tác chọn hoán vị.
-\item Xây dựng bộ benchmark đa kịch bản (\texttt{scenario\_1} với tô-pô Waxman ngẫu nhiên, \texttt{conus75} với tô-pô thực CONUS-75, và \texttt{conus75\_strict} với ràng buộc tài nguyên chặt) và tiến hành đánh giá so sánh có hệ thống với các baseline heuristic (MC-VNM, MP-VNE) và RL hiện hành.
+\item Đề xuất kiến trúc \textit{RL-OA-MP-VNE} với bộ mã hoá đồ thị phân cấp đa miền (GCN nội miền + liên miền) kết hợp ba đầu ra phối hợp: đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo, và đầu chọn ứng viên cross-attention có thiên lệch chi phí tường minh và mặt nạ khả thi cứng cho ràng buộc CPU.
+\item Đề xuất quy trình huấn luyện hai giai đoạn gồm tiền huấn luyện có giám sát từ lời giải OA-MP-VNE và tinh chỉnh bằng phương pháp actor-critic (phê bình giá trị làm baseline) có neo Kullback-Leibler, cùng phát hiện rằng lựa chọn ứng viên là đòn bẩy hiệu quả và việc làm cho nó ngẫu nhiên trong huấn luyện là điều kiện cần để vượt trần của mô hình bắt chước.
+\item Xây dựng bộ benchmark đa miền ở ba quy mô ($50$, $100$ và $200$ nút vật lý, mỗi mạng chia thành $10$ miền) và tiến hành đánh giá so sánh có hệ thống với các baseline heuristic (MP-VNE, MP-VNE-V4) và mô hình chỉ học bắt chước (R2).
 \end{enumerate}
 
 \section{Bố cục đồ án}

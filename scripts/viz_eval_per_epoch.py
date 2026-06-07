@@ -18,7 +18,7 @@ OUT = ROOT / "results" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-N_EPOCHS = 20
+N_EPOCHS = 30
 V4_BASELINE = 29.0   # mp_vne_v4 on 50-node
 
 
@@ -54,8 +54,10 @@ def main():
     fig, axes = plt.subplots(2, 2, figsize=(14, 9))
 
     def phase_boundary(ax):
-        ax.axvline(10.5, color="gray", linestyle=":", linewidth=1.2, alpha=0.6,
-                   label="continuation start")
+        ax.axvline(10.5, color="gray", linestyle=":", linewidth=1.2, alpha=0.55,
+                   label="cont1 start")
+        ax.axvline(20.5, color="gray", linestyle=":", linewidth=1.2, alpha=0.55,
+                   label="cont2 start")
 
     # (0,0) Acceptance ↑
     ax = axes[0, 0]
@@ -117,8 +119,8 @@ def main():
     ax.grid(alpha=0.3); ax.legend(fontsize=9)
 
     fig.suptitle(
-        f"V19 on 50-node — 20 epochs eval (best: ep {best_ep} = {best_acc:.2f}%, "
-        f"+{best_acc-V4_BASELINE:.1f}pp vs v4)",
+        f"V19 on 50-node — {len(rows)} epochs eval "
+        f"(best: ep {best_ep} = {best_acc:.2f}%, +{best_acc-V4_BASELINE:.1f}pp vs v4)",
         fontsize=14, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"50nodes_v19_eval_per_epoch_{DATE_TAG}.png"
