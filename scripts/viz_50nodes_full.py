@@ -57,10 +57,15 @@ CASES = [
      "results/scenario_50nodes/mp_vne_v4/metrics.json",
      "results/scenario_50nodes/mp_vne_v4/solutions.json",
      "tab:red", "-."),
-    ("V19 (IL + cand-PPO)",
+    ("V19 single-pass (5000 ep)",
      "logs/eval_v19_pso_50nodes.log",
      "results/scenario_50nodes/il_mp_vne_v19_pso/metrics.json",
      "results/scenario_50nodes/il_mp_vne_v19_pso/solutions.json",
+     "tab:gray", "--"),
+    ("V19 best (multi-epoch ep 19)",
+     "logs/eval_v19_50nodes_e19.log",
+     "results/scenario_50nodes/il_mp_vne_v19_e19/metrics.json",
+     "results/scenario_50nodes/il_mp_vne_v19_e19/solutions.json",
      "tab:blue", "-"),
 ]
 

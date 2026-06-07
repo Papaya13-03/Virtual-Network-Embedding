@@ -5,7 +5,10 @@
     \Large{\textbf{ABSTRACT}}\\
 \end{center}
 \vspace{1cm}
-% TODO: dịch tóm tắt sang tiếng Anh (tương đương 200-350 từ).
-Virtual Network Embedding (VNE) is a fundamental problem in network virtualization \ldots
+Virtual Network Embedding (VNE) is a fundamental problem in network virtualization: each virtual network request must be mapped onto a shared physical substrate so as to satisfy resource constraints while optimizing service efficiency. VNE is NP-Hard, and real deployments are harder still due to their online nature and large scale. Heuristic methods are fast but rely on expert knowledge and generalize poorly; recent reinforcement-learning (RL) methods overcome this but tend to be unstable, sample-inefficient, and ignore readily available topological knowledge.
+
+This thesis proposes \textit{RL-OA-MP-VNE}, a method that combines graph neural networks with reinforcement learning for multi-domain VNE. It uses a \textit{hierarchical} graph encoder (intra-domain GCN combined with an inter-domain GCN) and an attention-based candidate decoder with an explicit cost bias and a hard feasibility mask. Training proceeds in two stages: an imitation-learning warm-start from the OA-MP-VNE heuristic, followed by actor-critic fine-tuning with a Kullback-Leibler anchor. The core contribution is the finding that \textit{candidate selection}, rather than processing order, is the effective lever for RL, and that making this selection stochastic during training is necessary to surpass the imitation ceiling; accordingly, the two ranking heads are frozen and only the candidate head is fine-tuned.
+
+Experiments at three scales ($50$, $100$, $200$ nodes) show that the proposed method reaches $33.1\%$ acceptance on the $50$-node scenario (beating the $29.0\%$ heuristic), improves by $+8.8$ percentage points over the imitation-only model on the $100$-node scenario ($26.0\%$ vs.\ $17.2\%$), and transfers well to larger scales, all while converging stably during training.
 
 \end{document}

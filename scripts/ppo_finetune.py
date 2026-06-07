@@ -80,6 +80,220 @@ def compute_kl(cand_scores_new, cand_scores_ref):
     return torch.stack(kls).mean() if kls else torch.tensor(0.0)
 
 
+# ===== True PPO helpers =====
+#
+# Substrate state snapshot/restore so that PPO REPLAY (re-forwarding the policy
+# on the same VN with stored action choices) runs on the SAME substrate state
+# the actions were sampled under. Without this, ratio = π_new / π_old is
+# computed across DIFFERENT state distributions and the IS correction is
+# invalid.
+def snapshot_substrate(algo):
+    """Cheap deep snapshot of mutable substrate resources + active mappings.
+    Cost ~150 floats per call (50-node × ~3 numbers + ~100 links × 1)."""
+    from collections import OrderedDict
+    snap = {"nodes_cpu": {}, "links_bw": {},
+            "active_mappings": OrderedDict(algo._active_mappings)}
+    for lc in algo.global_controller.local_controllers:
+        for snode in lc.domain.network.nodes.values():
+            snap["nodes_cpu"][snode.id] = getattr(snode, "available_cpu",
+                                                  snode.cpu_capacity)
+        for key, link in lc.domain.network.links.items():
+            snap["links_bw"][key] = getattr(link, "available_bw",
+                                            link.bandwidth_capacity)
+    for key, link in algo.global_controller.snetwork.inter_domain_links.items():
+        snap["links_bw"][key] = getattr(link, "available_bw",
+                                        link.bandwidth_capacity)
+    return snap
+
+
+def restore_substrate(algo, snap):
+    """Re-apply a snapshot — main algo and ref_algo share substrate, so this
+    restores the world for both."""
+    from collections import OrderedDict
+    for lc in algo.global_controller.local_controllers:
+        for snode in lc.domain.network.nodes.values():
+            if snode.id in snap["nodes_cpu"]:
+                snode.available_cpu = snap["nodes_cpu"][snode.id]
+        for key, link in lc.domain.network.links.items():
+            if key in snap["links_bw"]:
+                link.available_bw = snap["links_bw"][key]
+    for key, link in algo.global_controller.snetwork.inter_domain_links.items():
+        if key in snap["links_bw"]:
+            link.available_bw = snap["links_bw"][key]
+    algo._active_mappings = OrderedDict(snap["active_mappings"])
+
+
+def replay_log_p_direct(algo, vn, mapping):
+    """Forward policy on `vn` under CURRENT substrate state and compute log_p
+    of the action sequence stored in `mapping` (vnode_id → snode_id).
+
+    Mirrors `rank_direct(sample_cand=True)` logic but instead of sampling,
+    computes Categorical.log_prob(stored_action) at each step. Mask collisions
+    accumulate exactly the same way as the original rollout because we replay
+    the same vnode order.
+
+    Returns (log_p_sum, entropy_sum, value) or None if any vnode's stored
+    snode is no longer in its candidate pool (substrate evolution changed
+    feasibility) — caller should skip the sample.
+    """
+    node_scores, link_scores, cand_scores, cand_pools, value = algo._forward_policy(vn)
+    vnodes = list(vn.nodes.values())
+    # Frozen ordering (target=cand): _greedy_sort is deterministic given node_scores.
+    ordered_vnodes = algo._greedy_sort(node_scores, vnodes)
+    orig_idx = {v.id: i for i, v in enumerate(vnodes)}
+    used_snode_ids = set()
+    lps, ents = [], []
+
+    for v in ordered_vnodes:
+        target_snode_id = mapping.get(v.id) if mapping else None
+        if target_snode_id is None:
+            return None
+        i = orig_idx[v.id]
+        scores_i = cand_scores[i].clone()
+        pool_i = cand_pools[i]
+        if used_snode_ids:
+            mask_vals = torch.tensor(
+                [float("-inf") if pool_i[j].id in used_snode_ids else 0.0
+                 for j in range(len(pool_i))],
+                dtype=scores_i.dtype,
+            )
+            scores_i = scores_i + mask_vals
+        try:
+            pos = next(j for j in range(len(pool_i))
+                       if pool_i[j].id == target_snode_id)
+        except StopIteration:
+            return None
+        if not torch.isfinite(scores_i[pos]):
+            return None
+        dist = torch.distributions.Categorical(logits=scores_i)
+        lps.append(dist.log_prob(torch.tensor(pos)))
+        ents.append(dist.entropy())
+        used_snode_ids.add(target_snode_id)
+
+    if not lps:
+        return None
+    return torch.stack(lps).sum(), torch.stack(ents).sum(), value
+
+
+def replay_cand_scores(algo, vn):
+    """Forward policy on `vn` and return ONLY the raw cand_scores list (for
+    KL computation). Cheap — same forward pass replay_log_p_direct does, but
+    we keep it separate so callers can choose what they need."""
+    _, _, cand_scores, _, _ = algo._forward_policy(vn)
+    return cand_scores
+
+
+def ppo_batch_update(algo, ref_algo, ppo_buf, optimizer, trainable_params,
+                     args, use_kl):
+    """One PPO batch update consisting of K gradient epochs over `ppo_buf`.
+
+    For each PPO epoch and each VNR in the buffer:
+      1. Restore substrate to the snapshot taken at rollout time.
+      2. Re-forward policy on vn → new_log_p, new_value, new_entropy (with grad).
+      3. ratio = exp(new_log_p − old_log_p.detach()).
+      4. Clipped surrogate: L_pol = -min(ratio·A, clip(ratio,1±ε)·A).
+      5. Add value MSE + entropy bonus + (optional) KL anchor.
+      6. backward + step.
+
+    Returns dict with last-epoch scalars for logging.
+    """
+    if not ppo_buf:
+        return None
+
+    # Save current substrate so we can return to S_N after the updates.
+    snap_post = snapshot_substrate(algo)
+
+    last = None
+    for k in range(args.ppo_epochs):
+        new_lps, old_lps, rewards_list = [], [], []
+        new_values, new_ents, kls = [], [], []
+
+        for item in ppo_buf:
+            if not item["mapping"]:
+                continue  # nothing to replay (mapping is None / empty)
+
+            restore_substrate(algo, item["snap_pre"])
+            algo.global_controller.clear_caches()
+            if ref_algo is not None:
+                ref_algo.global_controller.clear_caches()
+
+            res = replay_log_p_direct(algo, item["vn"], item["mapping"])
+            if res is None:
+                continue
+            new_lp, new_ent, new_v = res
+
+            new_lps.append(new_lp)
+            old_lps.append(item["old_log_p_sum"])
+            rewards_list.append(item["reward"])
+            new_values.append(new_v)
+            new_ents.append(new_ent)
+
+            if use_kl:
+                with torch.no_grad():
+                    ref_cs = replay_cand_scores(ref_algo, item["vn"])
+                new_cs = replay_cand_scores(algo, item["vn"])
+                kls.append(compute_kl(new_cs, ref_cs))
+
+        if not new_lps:
+            continue
+
+        new_lps_t = torch.stack(new_lps)
+        old_lps_t = torch.stack(old_lps)
+        rewards_t = torch.tensor(rewards_list, dtype=torch.float32)
+        values_t = torch.stack(new_values).reshape(-1)
+        ents_t = torch.stack(new_ents)
+
+        if args.use_critic:
+            advantages = rewards_t - values_t.detach()
+            value_loss = F.mse_loss(values_t, rewards_t)
+        else:
+            advantages = rewards_t - rewards_t.mean()
+            value_loss = torch.tensor(0.0)
+
+        if args.normalize_adv and advantages.numel() > 1:
+            advantages = (advantages - advantages.mean()) / (advantages.std() + 1e-8)
+
+        ratios = torch.exp(new_lps_t - old_lps_t)
+        s1 = ratios * advantages
+        s2 = torch.clamp(ratios, 1.0 - args.ppo_clip,
+                         1.0 + args.ppo_clip) * advantages
+        policy_loss = -torch.min(s1, s2).mean()
+        entropy_term = ents_t.mean()
+        kl_term = (torch.stack(kls).mean() if kls else torch.tensor(0.0))
+
+        loss = (policy_loss
+                + args.value_coef * value_loss
+                - args.beta_entropy * entropy_term
+                + args.beta_kl * kl_term)
+
+        optimizer.zero_grad()
+        loss.backward()
+        torch.nn.utils.clip_grad_norm_(trainable_params, max_norm=5.0)
+        optimizer.step()
+
+        last = {
+            "loss": loss.detach().item(),
+            "policy_loss": policy_loss.detach().item(),
+            "kl": kl_term.detach().item(),
+            "entropy": entropy_term.detach().item(),
+            "value_loss": (value_loss.detach().item()
+                           if args.use_critic else 0.0),
+            "ratio_mean": ratios.detach().mean().item(),
+            "ratio_clip_frac": ((ratios.detach() < 1 - args.ppo_clip)
+                                | (ratios.detach() > 1 + args.ppo_clip)
+                                ).float().mean().item(),
+            "reward_mean": rewards_t.mean().item(),
+            "advantage_mean": advantages.detach().mean().item(),
+        }
+
+    # Restore to S_N so the next batch picks up where we left off.
+    restore_substrate(algo, snap_post)
+    algo.global_controller.clear_caches()
+    if ref_algo is not None:
+        ref_algo.global_controller.clear_caches()
+    return last
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--substrate", required=True)
@@ -175,6 +389,23 @@ def main():
     p.add_argument("--success-cost-ema", type=float, default=0.95,
                    help="EMA decay for running successful-cost baseline.")
     p.add_argument("--fail-reward", type=float, default=-1.0)
+    # ---- True PPO (clipped surrogate) ----
+    p.add_argument("--ppo-mode", choices=["reinforce", "ppo"], default="reinforce",
+                   help="reinforce (default): current REINFORCE+critic+KL+entropy. "
+                        "ppo: TRUE PPO. Per-batch: snapshot substrate at each VNR "
+                        "rollout; after batch collected, restore each snapshot and "
+                        "REPLAY the policy on the same VN with stored action choices "
+                        "→ new_log_p (with grad). ratio = exp(new_log_p − old_log_p) "
+                        "with old_log_p detached at rollout. Apply CLIPPED SURROGATE: "
+                        "L = -min(ratio·A, clip(ratio,1±ε)·A). Run K gradient epochs "
+                        "over the same batch (off-policy correction via importance "
+                        "ratio). Only valid for --rollout direct + --target cand.")
+    p.add_argument("--ppo-clip", type=float, default=0.2,
+                   help="(ppo-mode=ppo) Clip epsilon ε for ratio. PPO paper uses 0.2.")
+    p.add_argument("--ppo-epochs", type=int, default=2,
+                   help="(ppo-mode=ppo) Number of gradient epochs per batch. K=1 is "
+                        "equivalent to REINFORCE since ratio=1 always. K≥2 gives real "
+                        "PPO behaviour. Each extra epoch ~ 1× rollout cost.")
     p.add_argument("--checkpoint", default="checkpoints/il_mp_vne_v17_ppo_100nodes.pt")
     p.add_argument("--log-file", default="logs/ppo_v17.csv")
     p.add_argument("--seed", type=int, default=42)
@@ -251,13 +482,16 @@ def main():
     log_path = Path(args.log_file)
     log_path.parent.mkdir(parents=True, exist_ok=True)
     log_f = open(log_path, "w")
-    log_f.write("epoch,episode,batch,loss,policy_loss,kl,entropy,avg_reward,succ_rate,elapsed_s\n")
+    log_f.write("epoch,episode,batch,loss,policy_loss,value_loss,kl,entropy,"
+                "avg_reward,advantage_mean,ratio_mean,ratio_clip_frac,"
+                "succ_rate,elapsed_s\n")
 
     # Per-epoch summary CSV (one row per epoch, suitable for learning curves).
     epoch_log_path = log_path.with_name(log_path.stem + "_epoch_summary.csv")
     epoch_f = open(epoch_log_path, "w")
     epoch_f.write("epoch,n_episodes,n_success,succ_rate,mean_loss,mean_policy_loss,"
-                  "mean_kl,mean_entropy,mean_reward,elapsed_s\n")
+                  "mean_value_loss,mean_kl,mean_entropy,mean_reward,"
+                  "mean_advantage,mean_ratio,mean_clip_frac,elapsed_s\n")
 
     crit = "critic V(s)" if args.use_critic else "reward EMA"
     print(f"PPO fine-tune: {len(vnrs)} VNRs, batch={args.batch_size}, lr={args.lr}")
@@ -283,6 +517,16 @@ def main():
     ratio_ema = None
     losses_recent = []
     buf = []
+    ppo_buf = []  # used only when args.ppo_mode == "ppo"
+    if args.ppo_mode == "ppo":
+        if args.rollout != "direct" or args.target != "cand":
+            raise ValueError(
+                "--ppo-mode ppo only supports --rollout direct + --target cand "
+                "(replay machinery is built around rank_direct's cand sampling)."
+            )
+        print(f"  PPO mode: clipped surrogate ε={args.ppo_clip}, "
+              f"K={args.ppo_epochs} grad epochs/batch, "
+              f"substrate snapshot+restore per VNR.")
     # Per-epoch accumulators (reset each epoch).
     epoch_idx = 0
     ep_n_total = 0
@@ -292,6 +536,10 @@ def main():
     ep_policy_sum = 0.0
     ep_kl_sum = 0.0
     ep_ent_sum = 0.0
+    ep_vloss_sum = 0.0
+    ep_advantage_sum = 0.0
+    ep_ratio_sum = 0.0
+    ep_clip_sum = 0.0
     ep_reward_sum = 0.0
     ep_reward_count = 0
     ep_start_time = time.time()
@@ -313,6 +561,7 @@ def main():
             success_cost_ema = None
             ratio_ema = None
             buf = []
+            ppo_buf = []
         # Reset per-epoch accumulators.
         ep_n_total = 0
         ep_n_success = 0
@@ -321,6 +570,10 @@ def main():
         ep_policy_sum = 0.0
         ep_kl_sum = 0.0
         ep_ent_sum = 0.0
+        ep_vloss_sum = 0.0
+        ep_advantage_sum = 0.0
+        ep_ratio_sum = 0.0
+        ep_clip_sum = 0.0
         ep_reward_sum = 0.0
         ep_reward_count = 0
         ep_start_time = time.time()
@@ -332,7 +585,11 @@ def main():
             if ref_algo is not None:
                 ref_algo._release_expired(vnr.arrival_time)
                 ref_algo.global_controller.clear_caches()
-    
+
+            # PPO needs the EXACT substrate state at this VNR's rollout time so
+            # the later replay can recompute log_p with consistent cand_pools.
+            snap_pre = snapshot_substrate(algo) if args.ppo_mode == "ppo" else None
+
             n_total += 1
             ep_n_total += 1
     
@@ -459,26 +716,63 @@ def main():
             entropy = torch.stack(ents).sum() if ents else torch.tensor(0.0)
     
             # KL vs frozen reference (only when shared encoder is NOT frozen).
+            # In PPO mode the KL is computed during the replay loop instead, so
+            # skip the extra per-VNR forward pass here.
             kl = None
-            if use_kl:
+            if use_kl and args.ppo_mode != "ppo":
                 with torch.no_grad():
                     _, _, ref_cand_scores, _, _ = ref_algo._forward_policy(vn)
                 _, _, new_cand_scores, _, _ = algo._forward_policy(vn)
                 kl = compute_kl(new_cand_scores, ref_cand_scores)
-    
+
             ep_reward_sum += reward
             ep_reward_count += 1
-            buf.append({
-                "log_p_sum": log_p_sum,
-                "entropy": entropy,
-                "value": value,          # scalar tensor with grad (critic)
-                "kl": kl,
-                "reward": reward,
-            })
+            if args.ppo_mode == "ppo":
+                # Store detached old log-prob + snapshot for the PPO replay.
+                # We drop the rollout's autograd graph (no grad path through
+                # rollout) — gradients in PPO mode come from the REPLAY forward.
+                ppo_buf.append({
+                    "vn": vn,
+                    "mapping": mapping,
+                    "snap_pre": snap_pre,
+                    "old_log_p_sum": log_p_sum.detach(),
+                    "reward": reward,
+                    "succeeded": succeeded,
+                })
+            else:
+                buf.append({
+                    "log_p_sum": log_p_sum,
+                    "entropy": entropy,
+                    "value": value,          # scalar tensor with grad (critic)
+                    "kl": kl,
+                    "reward": reward,
+                })
     
             # ---- Batch update: compute advantages across the batch, single backward ----
             if (ep + 1) % args.batch_size == 0:
-                if buf:
+                if args.ppo_mode == "ppo":
+                    last = ppo_batch_update(algo, ref_algo, ppo_buf, optimizer,
+                                            trainable_params, args, use_kl)
+                    if last is not None:
+                        losses_recent.append(last["loss"])
+                        last_policy = last["policy_loss"]
+                        last_kl = last["kl"]
+                        last_ent = last["entropy"]
+                        last_vloss = last["value_loss"]
+                        last_rmean = last["reward_mean"]
+                        last_radv = last["advantage_mean"]
+                        last_ratio = last["ratio_mean"]
+                        last_clip = last["ratio_clip_frac"]
+                        ep_loss_sum += last["loss"]
+                        ep_policy_sum += last_policy
+                        ep_kl_sum += last_kl
+                        ep_ent_sum += last_ent
+                        ep_vloss_sum += last_vloss
+                        ep_advantage_sum += last_radv
+                        ep_ratio_sum += last_ratio
+                        ep_clip_sum += last_clip
+                        ep_loss_count += 1
+                elif buf:
                     rewards = torch.tensor([b["reward"] for b in buf], dtype=torch.float32)
                     log_p_sums = torch.stack([b["log_p_sum"] for b in buf])
                     entropies = torch.stack([b["entropy"] for b in buf])
@@ -517,14 +811,23 @@ def main():
                     last_ent = entropy_term.detach().item()
                     last_vloss = value_loss.detach().item() if args.use_critic else 0.0
                     last_radv = advantages.detach().mean().item()
+                    # REINFORCE has no IS ratio — set to 1.0 / 0.0 placeholders so
+                    # CSV columns line up with the PPO mode case.
+                    last_ratio = 1.0
+                    last_clip = 0.0
                     # Per-epoch accumulators (batch-level metrics).
                     ep_loss_sum += loss.detach().item()
                     ep_policy_sum += last_policy
                     ep_kl_sum += last_kl
                     ep_ent_sum += last_ent
+                    ep_vloss_sum += last_vloss
+                    ep_advantage_sum += last_radv
+                    ep_ratio_sum += last_ratio
+                    ep_clip_sum += last_clip
                     ep_loss_count += 1
                     last_rmean = rewards.mean().item()
                 buf = []
+                ppo_buf = []
                 batch_idx += 1
     
                 if batch_idx % args.print_every == 0:
@@ -534,6 +837,9 @@ def main():
                     avg_loss = sum(recent) / max(len(recent), 1)
                     succ_rate = n_success / max(n_total, 1)
                     better_rate = n_better_than_expert / max(n_expert_compared, 1)
+                    # Extra PPO diagnostics in stdout (ratio, clip-fraction).
+                    ppo_extra = (f"r={last_ratio:5.3f} clip={last_clip:5.1%} "
+                                 if args.ppo_mode == "ppo" else "")
                     print(
                         f"  ep {ep+1:5d}/{len(vnrs)} batch {batch_idx:4d} "
                         f"loss={avg_loss:8.3f} "
@@ -541,6 +847,8 @@ def main():
                         f"vL={last_vloss:6.3f} "
                         f"kl={last_kl:5.2f} "
                         f"H={last_ent:6.2f} "
+                        f"adv={last_radv:+6.3f} "
+                        f"{ppo_extra}"
                         f"r̄={last_rmean:6.3f} "
                         f"succ={succ_rate:5.1%} "
                         f">exp={better_rate:5.1%} "
@@ -548,28 +856,38 @@ def main():
                     )
                     log_f.write(
                         f"{epoch_idx},{ep+1},{batch_idx},{avg_loss:.4f},"
-                        f"{last_policy:.4f},{last_kl:.4f},{last_ent:.4f},"
-                        f"{last_rmean:.4f},{succ_rate:.4f},{elapsed:.1f}\n"
+                        f"{last_policy:.4f},{last_vloss:.4f},{last_kl:.4f},"
+                        f"{last_ent:.4f},{last_rmean:.4f},{last_radv:.4f},"
+                        f"{last_ratio:.4f},{last_clip:.4f},"
+                        f"{succ_rate:.4f},{elapsed:.1f}\n"
                     )
                     log_f.flush()
         # --- End of one epoch over the VNR sequence: write summary row. ---
         ep_succ_rate = ep_n_success / max(ep_n_total, 1)
         mean_loss = ep_loss_sum / max(ep_loss_count, 1)
         mean_pol = ep_policy_sum / max(ep_loss_count, 1)
+        mean_vl = ep_vloss_sum / max(ep_loss_count, 1)
         mean_kl = ep_kl_sum / max(ep_loss_count, 1)
         mean_ent = ep_ent_sum / max(ep_loss_count, 1)
+        mean_adv = ep_advantage_sum / max(ep_loss_count, 1)
+        mean_ratio = ep_ratio_sum / max(ep_loss_count, 1)
+        mean_clip = ep_clip_sum / max(ep_loss_count, 1)
         mean_reward = ep_reward_sum / max(ep_reward_count, 1)
         ep_elapsed = time.time() - ep_start_time
+        ppo_extra_print = (f" mean_ratio={mean_ratio:.3f} mean_clip={mean_clip:.1%}"
+                           if args.ppo_mode == "ppo" else "")
         print(f"  >>> Epoch {epoch_idx}/{args.epochs} DONE: "
               f"succ={ep_succ_rate:.1%} ({ep_n_success}/{ep_n_total}) "
               f"mean_loss={mean_loss:7.4f} "
               f"mean_reward={mean_reward:6.3f} "
-              f"mean_KL={mean_kl:.3f} mean_H={mean_ent:.2f} "
+              f"mean_KL={mean_kl:.3f} mean_H={mean_ent:.2f}"
+              f"{ppo_extra_print} "
               f"epoch_time={fmt(ep_elapsed)}")
         epoch_f.write(
             f"{epoch_idx},{ep_n_total},{ep_n_success},{ep_succ_rate:.4f},"
-            f"{mean_loss:.4f},{mean_pol:.4f},{mean_kl:.4f},{mean_ent:.4f},"
-            f"{mean_reward:.4f},{ep_elapsed:.1f}\n"
+            f"{mean_loss:.4f},{mean_pol:.4f},{mean_vl:.4f},{mean_kl:.4f},"
+            f"{mean_ent:.4f},{mean_reward:.4f},{mean_adv:.4f},"
+            f"{mean_ratio:.4f},{mean_clip:.4f},{ep_elapsed:.1f}\n"
         )
         epoch_f.flush()
         # Save per-epoch checkpoint (epoch_idx suffix). Allows recovery of the

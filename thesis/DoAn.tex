@@ -36,6 +36,9 @@
 \usepackage{listings}
 \usepackage{float}
 \usepackage{subcaption}
+\usepackage{booktabs} % Bảng đẹp hơn (\toprule, \midrule, \bottomrule)
+\usepackage{tikz} % Vẽ sơ đồ kiến trúc
+\usetikzlibrary{arrows.meta,positioning,fit,backgrounds,calc}
 
 \usepackage[nonumberlist, nopostdot, nogroupskip, acronym]{glossaries}
 \usepackage{glossary-superragged}
@@ -290,9 +293,10 @@
 
 \newpage
 %\pagestyle{fancy} % Áp dụng header và footer
-\chapter*{MỘT SỐ LƯU Ý VỀ TÀI LIỆU THAM KHẢO} %Kết luận và hướng phát triển}
-\label{chapter:reference}
-\subfile{Chuong/7_Tai_lieu_tham_khao}
+% Mục hướng dẫn về TLTK của template đã được lược bỏ; danh mục TLTK thật được sinh tự động bằng \printbibliography bên dưới.
+% \chapter*{MỘT SỐ LƯU Ý VỀ TÀI LIỆU THAM KHẢO}
+% \label{chapter:reference}
+% \subfile{Chuong/7_Tai_lieu_tham_khao}
 
 % ===================================================
 \newpage
@@ -314,11 +318,11 @@
     {}         % unnumbered format
     {\titlerule*[0.3pc]{.}\contentspage} 
     
-\chapter{HƯỚNG DẪN VIẾT ĐATN}
+\chapter{CHI TIẾT KIẾN TRÚC, SIÊU THAM SỐ VÀ KẾT QUẢ}
 \subfile{Chuong/Phu_luc_A}
 
 \newpage
-\chapter{ĐẶC TẢ USE CASE}
+\chapter{CHI TIẾT TẬP DỮ LIỆU VÀ THUẬT TOÁN SO SÁNH}
 \subfile{Chuong/Phu_luc_B}
 
 \end{document}

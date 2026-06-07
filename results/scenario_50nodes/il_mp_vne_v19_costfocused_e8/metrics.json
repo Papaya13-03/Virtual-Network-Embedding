@@ -1,0 +1,12 @@
+{
+  "n_total": 3000,
+  "n_success": 969,
+  "acceptance_rate": 0.323,
+  "revenue_rate": 569.7920251805754,
+  "avg_cost": 237.65826852425212,
+  "revenue_cost_ratio": 0.3005471572873367,
+  "avg_delay": 25.92997413256395,
+  "elapsed_seconds": 405.27375888824463,
+  "algorithm": "il_mp_vne_v19_pso",
+  "checkpoint": "checkpoints/il_mp_vne_v19_50nodes_costfocused_e8.pt"
+}

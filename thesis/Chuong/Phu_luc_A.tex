@@ -1,131 +1,95 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
 
-\section{Quy định chung}
-Dưới đây là một số quy định và hướng dẫn viết đồ án tốt nghiệp mà bắt buộc sinh viên phải đọc kỹ và tuân thủ nghiêm ngặt.
+Phụ lục này cung cấp các chi tiết bổ sung về kiến trúc mạng chính sách, siêu tham số và kết quả thực nghiệm đầy đủ theo từng epoch, nhằm hỗ trợ tái lập kết quả của đồ án.
 
-Sinh viên cần đảm bảo tính thống nhất toàn báo cáo (font chữ, căn dòng hai bên, hình ảnh, bảng, margin trang, đánh số trang, v.v.). Để làm được như vậy, sinh viên chỉ cần sử dụng các định dạng theo đúng template ĐATN này. Khi paste nội dung văn bản từ tài liệu khác của mình, sinh viên cần chọn kiểu Copy là “Text Only” để định dạng văn bản của template không bị phá vỡ/vi phạm.
+\section{Chi tiết tham số mạng chính sách}
+\label{sec:app-params}
 
-Tuyệt đối cấm sinh viên đạo văn. Sinh viên cần ghi rõ nguồn cho tất cả những gì không tự mình viết/vẽ lên, bao gồm các câu trích dẫn, các hình ảnh, bảng biểu, v.v. Khi bị phát hiện, sinh viên sẽ không được phép bảo vệ ĐATN.
+Toàn bộ mạng chính sách RL-OA-MP-VNE có khoảng $55{,}700$ tham số, phân bổ theo các khối như Bảng~\ref{tab:app-params}. Ở giai đoạn tinh chỉnh tăng cường, hai đầu xếp hạng nút và liên kết (tổng $19{,}394$ tham số) bị đóng băng, còn lại $36{,}293$ tham số được cập nhật.
 
-Tất cả các hình vẽ, bảng biểu, công thức, và tài liệu tham khảo trong ĐATN nhất thiết phải được SV giải thích và tham chiếu tới ít nhất một lần. Không chấp nhận các trường hợp sinh viên đưa ra hình ảnh, bảng biểu tùy hứng và không có lời mô tả/giải thích nào.
-
-Sinh viên tuyệt đối không trình bày ĐATN theo kiểu viết ý hoặc gạch đầu dòng. ĐATN không phải là một slide thuyết trình; khi người đọc không hiểu sẽ không có ai giải thích hộ. Sinh viên cần viết thành các đoạn văn và phân tích, diễn giải đầy đủ, rõ ràng. Câu văn cần đúng ngữ pháp, đầy đủ chủ ngữ, vị ngữ và các thành phần câu.
-Khi thực sự cần liệt kê, sinh viên nên liệt kê theo phong cách khoa học với các ký tự La Mã. Ví dụ, nhiều sinh viên luôn cảm thấy hối hận vì (i) chưa cố gắng hết mình, (ii) chưa sắp xếp thời gian học/chơi một cách hợp lý, (iii) chưa tìm được người yêu để chia sẻ quãng đời sinh viên vất vả, và (iv) viết ĐATN một cách cẩu thả.
-
-Trong một số trường hợp nhất thiết phải dùng các bullet để liệt kê, sinh viên cần thống nhất Style cho toàn bộ các bullet các cấp mà mình sử dụng đến trong báo cáo. Nếu dùng bullet cấp 1 là hình tròn đen, toàn bộ báo cáo cần thống nhất cách dùng như vậy; ví dụ như sau:
-
-\begin{itemize}
-\item Đây là mục 1 – Thực sự không còn cách nào khác tôi mới dùng đến việc bullet trong báo cáo.
-\item Đây là mục 2 – Nghĩ lại thì tôi có thể không cần dùng bullet cũng được. Nên tôi sẽ xóa bullet và tổ chức lại hai mục này trong báo cáo của mình cho khoa học hơn. Tôi muốn thầy cô và người đọc cảm nhận được tâm huyết của tôi trong từng trang báo cáo ĐATN.
-\end{itemize}
-
-
-\section{Ngành học}
-Sinh viên lưu ý viết đúng ngành/chuyên ngành trên bìa và trên gáy theo đúng quy định của Trường. Ngành học hay chuyên ngành học phụ thuộc vào ngành học mà sinh viên đăng ký. Sinh viên có thể đăng nhập trên trang quản lý học tập của mình để xem lại chính xác ngành học của mình. 
-
-Một số ví dụ sinh viên có thể tham khảo dưới đây, trong trường hợp có chuyên ngành thì sinh viên không cần ghi chuyên ngành:
-
-\begin{outline}
- \1 Đối với kỹ sư chính quy:
-   \2 Từ K61 trở về trước: Ngành Kỹ thuật phần mềm
-   \2 Từ K62 trở về sau: Ngành Khoa học máy tính
- \1 Đối với cử nhân:
-   \2 Ngành Công nghệ thông tin
- \1 Đối với chương trình EliteTech:
-   \2 Chương trình Việt Nhật/KSTN: Ngành Công nghệ thông tin
-   \2 Chương trình ICT Global: Ngành Information Technology
-   \2 Chương trình DS\&AI: Ngành Khoa học dữ liệu
-\end{outline}
-
-\section{Đánh dấu (bullet) và đánh số (numering)}
-Việc sử dụng danh sách trong LaTeX khá đơn giản và không yêu cầu sinh viên phải thêm bất kỳ gói bổ sung nào. LaTeX cung cấp hai môi trường liệt kê đó là:
-\begin{itemize}
-\item Đánh dấu (bullet) là kiểu liệt kê không có thứ tự. Để sử dụng kiểu liệt kê đánh dấu, chúng ta khai báo như sau\\ 
-\verb$\begin{itemize}$\\
- \verb$\item$ Nội dung thứ nhất được viết ở đây.\\
-\verb$\item$ Nội dung thứ hai được viết ở đây.\\
- \verb$\item$ ...\\
-\verb$\end{itemize}$
-\item Đánh số (numering) là kiểu liệt kê có thứ tự. Để sử dụng kiểu liệt kê đánh số, chúng ta khai báo như sau\\
-\verb$\begin{enumerate}$\\
- \verb$\item$ Nội dung thứ nhất được viết ở đây.\\
-\verb$\item$ Nội dung thứ hai được viết ở đây.\\
- \verb$\item$ ...\\
-\verb$\end{enumerate}$
-\end{itemize}
-Chú ý các nội dung trình bày trong cả hai môi trường liệt kê theo sau lệnh \verb$\item$. Ngoài ra LaTeX còn cung cấp một số kiểu liệt kê khác, sinh viên có thể tham khảo tại \url{https://www.overleaf.com/learn/latex/Lists}
-\section{Cách thêm bảng}
-\begin{table}[h!]
+\begin{table}[H]
 \centering
-\begin{tabular}{||c c c c||} 
- \hline
- Col1 & Col2 & Col2 & Col3 \\ [0.5ex] 
- \hline\hline
- 1 & 6 & 87837 & 787 \\ 
- 2 & 7 & 78 & 5415 \\
- 3 & 545 & 778 & 7507 \\
- 4 & 545 & 18744 & 7560 \\
- 5 & 88 & 788 & 6344 \\ [1ex] 
- \hline
+\caption{Phân bổ tham số theo khối của mạng chính sách}
+\label{tab:app-params}
+\begin{tabular}{lcc}
+\toprule
+\textbf{Khối} & \textbf{Số tham số} & \textbf{Trạng thái (giai đoạn 2)} \\
+\midrule
+GCN nội miền + liên miền (substrate) & 7{,}296  & huấn luyện \\
+GCN mạng ảo (VN-GCN)                  & 1{,}376  & huấn luyện \\
+Self-attention mạng ảo               & 6{,}304  & huấn luyện \\
+Đầu chọn ứng viên (candidate head)   & 14{,}905 & huấn luyện \\
+Bộ phê bình giá trị (value head)     & 6{,}338  & huấn luyện \\
+Đầu xếp hạng nút (node head)         & 10{,}561 & \textbf{đóng băng} \\
+Đầu xếp hạng liên kết (link head)    & 8{,}833  & \textbf{đóng băng} \\
+\midrule
+\textbf{Tổng}                        & \textbf{55{,}613} & 36{,}293 huấn luyện \\
+\bottomrule
 \end{tabular}
-\caption{Table to test captions and labels.}
-\label{table:1}
 \end{table}
-Bảng \ref{table:1} là ví dụ về cách tạo bảng. Tất cả các bảng biểu phải được đề cập đến trong phần nội dung và phải được phân tích và bình luận.  Chú ý: Tạo bảng trong Latex khá phức tạp và mất thời gian, vì vậy sinh viên có thể sử dụng các công cụ hỗ trợ tạo bảng (Ví dụ: \url{https://www.tablesgenerator.com/}).
-Sinh viên có thể tìm hiểu sâu hơn về cách chèn ảnh trong Latex tại link \url{https://www.overleaf.com/learn/latex/Tables}.
 
-\section{Chèn hình ảnh}
-\begin{figure}
+\section{Cấu hình kiến trúc chi tiết}
+\label{sec:app-arch}
+
+Bảng~\ref{tab:app-arch} liệt kê các tham số cấu hình kiến trúc. Bộ mã hoá nội miền dùng GCN ba lớp, bộ mã hoá liên miền dùng GCN hai lớp, đều với chiều ẩn $32$. Khối self-attention mạng ảo dùng $4$ đầu. Đặc trưng đầu vào của nút vật lý và nút ảo đều có $7$ chiều.
+
+\begin{table}[H]
 \centering
-\includegraphics[width=0.75\linewidth]{Hinh_ve/IoT.png}
-\caption{Internet vạn vật}
-\label{fig:iot}
-\end{figure}
+\caption{Tham số cấu hình kiến trúc}
+\label{tab:app-arch}
+\begin{tabular}{lc}
+\toprule
+\textbf{Tham số} & \textbf{Giá trị} \\
+\midrule
+Số lớp GCN nội miền        & 3 \\
+Số lớp GCN liên miền       & 2 \\
+Chiều ẩn (mọi GCN)         & 32 \\
+Số lớp GCN mạng ảo         & 2 \\
+Số đầu self-attention      & 4 \\
+Chiều đặc trưng nút vật lý & 7 \\
+Chiều đặc trưng nút ảo     & 7 \\
+Chiều ẩn đầu chọn ứng viên & 64 \\
+Số ứng viên giữ lại / miền ($K$) & 1 \\
+Hàm kích hoạt              & ReLU \\
+Chuẩn hoá                  & LayerNorm + residual \\
+\bottomrule
+\end{tabular}
+\end{table}
 
-Hình \ref{fig:iot} là ví dụ về cách chèn ảnh. Lưu ý chú thích của hình vẽ được đặt ngay dưới hình vẽ. Sinh viên có thể tìm hiểu sâu hơn về cách chèn ảnh trong Latex tại \url{https://www.overleaf.com/learn/latex/Inserting_Images}.
+\section{Kết quả chi tiết theo epoch trên kịch bản 50 nút}
+\label{sec:app-epochs}
 
-Chú ý, tất cả các hình vẽ phải được đề cập đến trong phần nội dung và phải được phân tích và bình luận. 
+Bảng~\ref{tab:app-epochs} trình bày kết quả đánh giá trên $3000$ VNR kiểm thử ở từng epoch huấn luyện (cấu hình chuẩn normal-reward). Tỉ lệ chấp nhận đạt đỉnh $33{,}13\%$ tại epoch $19$; giá trị trung bình qua các epoch là khoảng $31{,}3\%$, ổn định và luôn cao hơn baseline MP-VNE-V4 ($29{,}03\%$).
 
-\section{Tài liệu tham khảo}
-\paragraph{Cách liệt kê}\mbox{}
-
-Áp dụng cách liệt kê theo quy định của IEEE. Ví dụ của việc trích dẫn như sau \cite{scott2013sdn}. Cụ thể, sinh viên sử dụng lệnh \verb!\cite{}! như sau \cite{ashton2009internet}. Chỉ những tài liệu được trích dẫn thì mới xuất hiện trong phần Tài liệu tham khảo. Tài liệu tham khảo cần có nguồn gốc rõ ràng và phải từ nguồn đáng tin cậy. Hạn chế trích dẫn tài liệu tham khảo từ các website, từ wikipedia.
-\paragraph{Các loại tài liệu tham khảo}\mbox{}
-
-Các nguồn tài liệu tham khảo chính là sách, bài báo trong các tạp chí, bài báo trong các hội nghị khoa học và các tài liệu tham khảo khác trên internet.
-
-\section{Cách viết phương trình và công thức toán học}
-Các gói amsmath, amssymb, amsfonts hỗ trợ viết phương trình/công thức toán học đã được bổ sung sẵn ở phần đầu của file main.tex. Một ví dụ về tạo phương trình \eqref{pt31} như sau 
-\begin{equation}\label{pt31}
-    F(x) = \int^a_b \frac{1}{3}x^3
-\end{equation}
-Phương trình \ref{pt31} là ví dụ về phương trình tích phân. Một phương trình khác không được đánh số thứ tự (gán nhãn)
-\begin{equation*}\label{pt32}
-    x[t_n] = \frac{1}{\sqrt{N}} \sum_{k=0}^{N-1}X[f_k]e^{j 2\pi n k/N}
-\end{equation*}
-Phương trình này thể hiện phép biến đổi Fourier rời rạc ngược (IDFT).
-
-
-\section{Qui cách đóng quyển}
-Phần bìa trước chế bản theo qui định; bìa trước và bìa sau là giấy liền khổ. Sử dụng keo nhiệt để dán gáy khi đóng quyển thay vì sử dụng băng dính và dập ghim như mô tả ở Hình~\ref{fig:Bia}
-\begin{figure}
+\begin{table}[H]
 \centering
-\includegraphics[width=0.5\linewidth]{Hinh_ve/Bia.PNG}
-\caption{Qui cách đóng quyển đồ án}
-\label{fig:Bia}
-\end{figure} 
-Phần gáy ĐATN cần ghi các thông tin tóm tắt sau:
-Kỳ làm ĐATN - Ngành đào tạo - Họ và tên sinh viên - Mã số sinh viên. Ví dụ:
-\begin{quote}
-2022.1 - KỸ THUẬT MÁY TÍNH - NGUYỄN VĂN A - 20221234
-\end{quote}
-Qui cách ghi chữ phần gáy như hình dưới đây:
-\begin{figure}
-\centering
-\includegraphics[width=0.5\linewidth]{Hinh_ve/GayBia.PNG}
-\caption{Qui cách đóng quyển đồ án}
-\label{fig:Bia}
-\end{figure} 
+\caption{Kết quả theo epoch trên kịch bản 50 nút (cấu hình chuẩn)}
+\label{tab:app-epochs}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{cccc|cccc}
+\toprule
+\textbf{Epoch} & \textbf{Chấp nhận} & \textbf{R/C} & \textbf{Chi phí} & \textbf{Epoch} & \textbf{Chấp nhận} & \textbf{R/C} & \textbf{Chi phí} \\
+\midrule
+1  & 0.3147 & 0.3143 & 231.5 & 17 & 0.3100 & 0.3048 & 233.4 \\
+2  & 0.2930 & 0.2836 & 242.3 & 18 & 0.3107 & 0.3050 & 224.5 \\
+3  & 0.3243 & 0.3070 & 243.6 & 19 & \textbf{0.3313} & 0.3099 & 233.8 \\
+4  & 0.3147 & 0.3087 & 236.9 & 20 & 0.3257 & 0.3092 & 233.5 \\
+5  & 0.3140 & 0.2970 & 240.2 & 21 & 0.3107 & 0.3013 & 234.8 \\
+6  & 0.3047 & 0.3045 & 233.2 & 22 & 0.3167 & 0.3090 & 227.3 \\
+7  & 0.3137 & 0.3015 & 235.1 & 23 & 0.3150 & 0.3046 & 237.7 \\
+8  & 0.2940 & 0.2918 & 241.3 & 24 & 0.3107 & 0.3010 & 239.1 \\
+9  & 0.3060 & 0.2988 & 241.9 & 25 & 0.3133 & 0.2975 & 241.0 \\
+10 & 0.3163 & 0.3128 & 228.1 & 26 & 0.3093 & 0.2975 & 239.9 \\
+11 & 0.3183 & 0.3059 & 236.6 & 27 & 0.3113 & 0.2997 & 235.7 \\
+12 & 0.3057 & 0.3067 & 237.5 & 28 & 0.3107 & 0.2934 & 243.2 \\
+13 & 0.3107 & 0.2954 & 240.3 & 29 & 0.3180 & 0.3079 & 238.5 \\
+14 & 0.3107 & 0.3002 & 237.6 & 30 & 0.2973 & 0.2948 & 245.5 \\
+15 & 0.3087 & 0.3000 & 235.0 & 31 & 0.3193 & 0.3046 & 237.0 \\
+16 & 0.3290 & 0.3050 & 235.7 & 32 & 0.3113 & 0.2996 & 240.2 \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
 
 \end{document}
