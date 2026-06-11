@@ -1,0 +1,219 @@
+"""Convergence chart for 100-node PPO: Normal vs Cost-focused (real ep 1-50).
+
+Phases (each = 10 epoch, except cont3 = 20 epoch):
+  Normal:  base (e1-10) + cont (e11-20) + cont2 (e21-30) + cont3 (e31-50)
+  CF   :  base (e1-10) + cont (e11-20) + cont2 (e21-30) + cont3 (e31-50)
+"""
+import csv
+from datetime import datetime
+from pathlib import Path
+
+import matplotlib.pyplot as plt
+import numpy as np
+
+ROOT = Path(__file__).resolve().parent.parent
+OUT = ROOT / "results" / "figures"
+OUT.mkdir(parents=True, exist_ok=True)
+DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
+
+NORMAL_PHASES = [
+    ("logs/ppo_v19_100nodes_normal_epoch_summary.csv", 0),
+    ("logs/ppo_v19_100nodes_normal_cont_epoch_summary.csv", 10),
+    ("logs/ppo_v19_100nodes_normal_cont2_epoch_summary.csv", 20),
+    ("logs/ppo_v19_100nodes_normal_cont3_epoch_summary.csv", 30),
+    ("logs/ppo_v19_100nodes_normal_cont4_epoch_summary.csv", 50),
+    ("logs/ppo_v19_100nodes_normal_cont5_epoch_summary.csv", 70),
+]
+CF_PHASES = [
+    ("logs/ppo_v19_100nodes_costfocused_epoch_summary.csv", 0),
+    ("logs/ppo_v19_100nodes_costfocused_cont_epoch_summary.csv", 10),
+    ("logs/ppo_v19_100nodes_costfocused_cont2_epoch_summary.csv", 20),
+    ("logs/ppo_v19_100nodes_costfocused_cont3_epoch_summary.csv", 30),
+    ("logs/ppo_v19_100nodes_costfocused_cont4_epoch_summary.csv", 50),
+    ("logs/ppo_v19_100nodes_costfocused_cont5_epoch_summary.csv", 70),
+]
+
+# Baselines on 100-node test set.
+MP_VNE_ACC = 32.83        # mp_vne (original) heuristic
+MP_VNE_V4_ACC = 23.30     # mp_vne_v4 heuristic
+
+
+def load_csv(path, offset=0):
+    rows = []
+    with open(path) as f:
+        for r in csv.DictReader(f):
+            # Skip duplicate header rows (script appends header on each invoke).
+            if r.get("epoch") == "epoch":
+                continue
+            rows.append({k: float(v) for k, v in r.items()})
+    if not rows:
+        return None
+    keys = rows[0].keys()
+    data = {k: np.array([r[k] for r in rows]) for k in keys}
+    data["epoch"] = data["epoch"] + offset
+    return data
+
+
+def rolling(arr, w=5):
+    return np.array([arr[max(0, i - w + 1):i + 1].mean() for i in range(len(arr))])
+
+
+def rolling_std(arr, w=5):
+    return np.array([arr[max(0, i - w + 1):i + 1].std() for i in range(len(arr))])
+
+
+def load_recipe(phases):
+    parts = []
+    for p, off in phases:
+        f = ROOT / p
+        if f.exists():
+            d = load_csv(f, off)
+            if d is not None:
+                parts.append(d)
+    if not parts:
+        return None
+    epochs = np.concatenate([d["epoch"] for d in parts])
+    succ = np.concatenate([d["succ_rate"] for d in parts]) * 100
+    reward = np.concatenate([d["mean_reward"] for d in parts])
+    return {"epoch": epochs, "succ": succ, "reward": reward}
+
+
+def main():
+    normal = load_recipe(NORMAL_PHASES)
+    cf = load_recipe(CF_PHASES)
+    if normal is None or cf is None:
+        print("Missing data.")
+        return
+
+    n_normal = len(normal["epoch"])
+    n_cf = len(cf["epoch"])
+    print(f"Normal: {n_normal} epochs loaded")
+    print(f"CF    : {n_cf} epochs loaded")
+
+    # Find peaks.
+    n_peak_i = int(np.argmax(normal["succ"]))
+    cf_peak_i = int(np.argmax(cf["succ"]))
+    n_peak = (int(normal["epoch"][n_peak_i]), normal["succ"][n_peak_i])
+    cf_peak = (int(cf["epoch"][cf_peak_i]), cf["succ"][cf_peak_i])
+    print(f"Normal peak: ep {n_peak[0]} = {n_peak[1]:.2f}%")
+    print(f"CF peak    : ep {cf_peak[0]} = {cf_peak[1]:.2f}%")
+
+    plt.rcParams.update({
+        "font.size": 11,
+        "axes.titleweight": "bold",
+        "axes.labelweight": "bold",
+    })
+
+    # === Figure 1: 2-panel overlay (acceptance + reward) ===
+    fig, axes = plt.subplots(2, 1, figsize=(14, 9), sharex=True)
+
+    # Panel 1: Acceptance rate.
+    ax = axes[0]
+    # Raw scatter.
+    ax.plot(normal["epoch"], normal["succ"], "o", color="tab:green",
+            markersize=4, alpha=0.35, label="Normal raw")
+    ax.plot(cf["epoch"], cf["succ"], "s", color="tab:purple",
+            markersize=4, alpha=0.35, label="CF raw")
+    # Rolling means.
+    n_mean = rolling(normal["succ"], 5)
+    cf_mean = rolling(cf["succ"], 5)
+    n_std = rolling_std(normal["succ"], 5)
+    cf_std = rolling_std(cf["succ"], 5)
+    ax.fill_between(normal["epoch"], n_mean - n_std, n_mean + n_std,
+                    color="tab:green", alpha=0.12)
+    ax.fill_between(cf["epoch"], cf_mean - cf_std, cf_mean + cf_std,
+                    color="tab:purple", alpha=0.12)
+    ax.plot(normal["epoch"], n_mean, "-", color="darkgreen", linewidth=2.4,
+            label="Normal rolling mean (w=5)")
+    ax.plot(cf["epoch"], cf_mean, "-", color="purple", linewidth=2.4,
+            label="CF rolling mean (w=5)")
+    # Peaks.
+    ax.scatter([n_peak[0]], [n_peak[1]], s=300, marker="*", color="lime",
+               edgecolors="black", linewidths=1.3, zorder=10,
+               label=f"Normal peak: ep{n_peak[0]} = {n_peak[1]:.2f}%")
+    ax.scatter([cf_peak[0]], [cf_peak[1]], s=300, marker="*", color="gold",
+               edgecolors="black", linewidths=1.3, zorder=10,
+               label=f"CF peak: ep{cf_peak[0]} = {cf_peak[1]:.2f}%")
+    # Baselines.
+    ax.axhline(MP_VNE_ACC, color="black", linestyle=":", linewidth=1.4,
+               alpha=0.7, label=f"mp_vne (heuristic best) = {MP_VNE_ACC}%")
+    ax.axhline(MP_VNE_V4_ACC, color="tab:red", linestyle=":", linewidth=1.4,
+               alpha=0.7, label=f"mp_vne_v4 = {MP_VNE_V4_ACC}%")
+    # Y-range tight.
+    all_succ = np.concatenate([normal["succ"], cf["succ"]])
+    lo = min(all_succ.min(), MP_VNE_V4_ACC) - 0.5
+    hi = max(all_succ.max(), MP_VNE_ACC) + 0.5
+    ax.set_ylim(lo, hi)
+    ax.set_ylabel("Online acceptance rate (%)")
+    ax.set_title(f"100-node PPO finetune — V19 cand head — online acceptance "
+                 f"(Normal {n_normal}ep, CF {n_cf}ep)")
+    ax.grid(alpha=0.3)
+    ax.legend(fontsize=9, loc="lower right", ncol=2)
+
+    # Panel 2: Reward.
+    ax = axes[1]
+    ax.plot(normal["epoch"], normal["reward"], "o", color="tab:green",
+            markersize=4, alpha=0.35)
+    ax.plot(cf["epoch"], cf["reward"], "s", color="tab:purple",
+            markersize=4, alpha=0.35)
+    nr_mean = rolling(normal["reward"], 5)
+    cfr_mean = rolling(cf["reward"], 5)
+    ax.plot(normal["epoch"], nr_mean, "-", color="darkgreen", linewidth=2.4,
+            label=f"Normal reward (avg={normal['reward'].mean():+.3f})")
+    ax.plot(cf["epoch"], cfr_mean, "-", color="purple", linewidth=2.4,
+            label=f"CF reward (avg={cf['reward'].mean():+.3f})")
+    ax.axhline(0, color="black", linewidth=0.6, linestyle=":", alpha=0.5)
+    ax.set_xlabel("Epoch (1 = real ep1 from IL pretrain checkpoint)")
+    ax.set_ylabel("Mean reward per epoch")
+    ax.set_title("Mean reward per epoch (Normal uses +1.0/-1.0,  CF uses +0.5/-0.5)")
+    ax.grid(alpha=0.3)
+    ax.legend(fontsize=10, loc="lower right")
+
+    fig.suptitle(
+        f"V19 cand-RL on 100-node — Normal vs Cost-focused convergence "
+        f"(up to ep {int(max(normal['epoch'].max(), cf['epoch'].max()))})",
+        fontsize=14, fontweight="bold")
+    fig.tight_layout()
+    out = OUT / f"100nodes_two_recipes_overlay_{DATE_TAG}.png"
+    fig.savefig(out, dpi=140, bbox_inches="tight")
+    plt.close(fig)
+    print(f"Saved: {out}")
+
+    # === Figure 2: Convergence indicators (slope of last-N) ===
+    fig, ax = plt.subplots(figsize=(13, 6))
+    ax.plot(normal["epoch"], n_mean, "-", color="darkgreen", linewidth=2.4,
+            label=f"Normal rolling mean (last={n_mean[-1]:.2f}%)")
+    ax.plot(cf["epoch"], cf_mean, "-", color="purple", linewidth=2.4,
+            label=f"CF rolling mean (last={cf_mean[-1]:.2f}%)")
+
+    # Last-N linear fit per recipe.
+    for name, d, color in [("Normal", normal, "darkgreen"),
+                            ("CF", cf, "purple")]:
+        succ = d["succ"]
+        eps = d["epoch"]
+        M = min(20, len(succ))
+        x = np.arange(M)
+        slope, intercept = np.polyfit(x, succ[-M:], 1)
+        fit = slope * x + intercept
+        ax.plot(eps[-M:], fit, "--", color=color, linewidth=2.0, alpha=0.7,
+                label=f"{name} last-{M}ep slope = {slope:+.4f} pp/ep")
+
+    ax.axhline(MP_VNE_ACC, color="black", linestyle=":", linewidth=1.4,
+               alpha=0.7, label=f"mp_vne = {MP_VNE_ACC}%")
+    ax.axhline(MP_VNE_V4_ACC, color="tab:red", linestyle=":", linewidth=1.4,
+               alpha=0.7, label=f"mp_vne_v4 = {MP_VNE_V4_ACC}%")
+    ax.set_xlabel("Epoch")
+    ax.set_ylabel("Acceptance rate (%) — rolling mean (w=5)")
+    ax.set_title(f"100-node convergence indicator — slope on tail "
+                 f"(Normal {n_normal}ep, CF {n_cf}ep)", fontsize=13)
+    ax.grid(alpha=0.3)
+    ax.legend(fontsize=10, loc="lower right", ncol=2)
+    fig.tight_layout()
+    out2 = OUT / f"100nodes_two_recipes_convergence_{DATE_TAG}.png"
+    fig.savefig(out2, dpi=140, bbox_inches="tight")
+    plt.close(fig)
+    print(f"Saved: {out2}")
+
+
+if __name__ == "__main__":
+    main()

@@ -75,7 +75,7 @@ EMA chi phí (suy giảm) & 0.95 \\
 \item \textbf{MP-VNE} (heuristic chuẩn): xếp hạng ứng viên theo chi phí ước lượng (PreCost) kết hợp tối ưu hoá bầy hạt PSO ($20$ hạt, $15$ vòng lặp), ánh xạ liên kết bằng đường đi ngắn nhất. Đây là baseline heuristic mạnh nhất, đóng vai trò \textit{trần hiệu năng} tham chiếu.
 \item \textbf{MP-VNE-V4} (bản trung thành với bài báo gốc): PSO với tham số đúng theo công bố ($10$ hạt, $50$ vòng lặp, hệ số quán tính/nhận thức/xã hội $0{,}3/0{,}3/0{,}4$, đột biến $10\%$). Là baseline heuristic được so sánh trực tiếp ở mọi quy mô.
 \item \textbf{R2} (\texttt{il\_mp\_vne\_v17}, chỉ học bắt chước): mô hình sau giai đoạn tiền huấn luyện bắt chước, \textit{chưa} qua tinh chỉnh tăng cường. Dùng để cô lập đóng góp của giai đoạn RL.
-\item \textbf{RL-OA-MP-VNE} (\texttt{il\_mp\_vne\_v19}, phương pháp đề xuất): mô hình R2 đã được tinh chỉnh actor-critic ở cấu hình chuẩn, triển khai qua PSO.
+\item \textbf{CARL-VNE} (\texttt{il\_mp\_vne\_v19}, phương pháp đề xuất): mô hình R2 đã được tinh chỉnh actor-critic ở cấu hình chuẩn, triển khai qua PSO.
 \end{itemize}
 
 Các thuật toán MC-VNM và FlagVNE được nhắc tới trong khảo sát (Chương~\ref{ch:co_so}) nhưng không được cài đặt lại trong khung thực nghiệm này; việc tích hợp chúng được để lại như hướng phát triển.
@@ -103,7 +103,7 @@ Bảng~\ref{tab:res50} so sánh phương pháp đề xuất (lấy ở epoch t�
 \textbf{Phương pháp} & \textbf{Chấp nhận (\%)} & \textbf{Số TC} & \textbf{Doanh thu} & \textbf{Chi phí TB} & \textbf{R/C} \\
 \midrule
 MP-VNE-V4 (heuristic)        & 29.03 & 871 & 460.6 & 216.5 & 0.314 \\
-\textbf{RL-OA-MP-VNE} (đề xuất, e19) & \textbf{33.13} & \textbf{994} & 573.1 & 233.8 & 0.310 \\
+\textbf{CARL-VNE} (đề xuất, e19) & \textbf{33.13} & \textbf{994} & 573.1 & 233.8 & 0.310 \\
 \bottomrule
 \end{tabular}%
 }
@@ -114,7 +114,7 @@ Hình~\ref{fig:normal_vs_v4} trực quan hoá so sánh theo từng epoch giữa 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.92\textwidth]{Hinh_ve/normal_vs_v4.png}
-  \caption{So sánh RL-OA-MP-VNE (theo từng epoch) với baseline MP-VNE-V4 trên kịch bản 50 nút, bốn độ đo: tỉ lệ chấp nhận, chi phí, R/C, độ trễ.}
+  \caption{So sánh CARL-VNE (theo từng epoch) với baseline MP-VNE-V4 trên kịch bản 50 nút, bốn độ đo: tỉ lệ chấp nhận, chi phí, R/C, độ trễ.}
   \label{fig:normal_vs_v4}
 \end{figure}
 
@@ -133,7 +133,7 @@ Bảng~\ref{tab:res100} trình bày kết quả trên kịch bản $100$ nút. �
 \textbf{Phương pháp} & \textbf{Chấp nhận (\%)} & \textbf{Số TC} & \textbf{Doanh thu} & \textbf{Chi phí TB} & \textbf{R/C} \\
 \midrule
 MP-VNE (heuristic, trần)      & 32.83 & 985 & 1173.5 & 193.9 & 0.340 \\
-\textbf{RL-OA-MP-VNE} (đề xuất) & \textbf{26.00} & \textbf{780} & 907.3 & 219.3 & 0.308 \\
+\textbf{CARL-VNE} (đề xuất) & \textbf{26.00} & \textbf{780} & 907.3 & 219.3 & 0.308 \\
 MP-VNE-V4 (heuristic)         & 23.30 & 699 & 773.6 & 230.3 & 0.293 \\
 R2 (chỉ học bắt chước)        & 17.20 & 516 & 604.0 & 292.3 & 0.217 \\
 \bottomrule
@@ -155,8 +155,8 @@ Bảng~\ref{tab:res200} đánh giá khả năng tổng quát hoá ở quy mô l�
 \textbf{Phương pháp} & \textbf{Chấp nhận (\%)} & \textbf{Số TC} \\
 \midrule
 MP-VNE-V4 (heuristic)                 & 13.37 & 401 \\
-\textbf{RL-OA-MP-VNE} (huấn luyện 50 nút) & \textbf{12.50} & 375 \\
-RL-OA-MP-VNE (huấn luyện 200 nút)     & 12.00 & 360 \\
+\textbf{CARL-VNE} (huấn luyện 50 nút) & \textbf{12.50} & 375 \\
+CARL-VNE (huấn luyện 200 nút)     & 12.00 & 360 \\
 R2 (chỉ học bắt chước)                & 11.63 & 349 \\
 \bottomrule
 \end{tabular}
@@ -173,7 +173,7 @@ Tổng hợp ba kịch bản cho thấy một bức tranh nhất quán: \textit{
 \subsection{Ảnh hưởng của giai đoạn học tăng cường}
 \label{subsec:abl-rl}
 
-So sánh R2 (chỉ học bắt chước) với RL-OA-MP-VNE (R2 cộng tinh chỉnh tăng cường) chính là phép ablation cô lập đóng góp của giai đoạn 2. Trên kịch bản $100$ nút, tỉ lệ chấp nhận tăng từ $17{,}2\%$ lên $26{,}0\%$ ($+8{,}8$ điểm phần trăm) và chi phí trung bình giảm từ $292{,}3$ xuống $219{,}3$. Điều này chứng tỏ giai đoạn tăng cường không chỉ chấp nhận nhiều yêu cầu hơn mà còn tìm được các lời giải \textit{rẻ hơn} — đúng với thiết kế hàm thưởng chuẩn (thưởng nhẹ cho lời giải tiết kiệm chi phí).
+So sánh R2 (chỉ học bắt chước) với CARL-VNE (R2 cộng tinh chỉnh tăng cường) chính là phép ablation cô lập đóng góp của giai đoạn 2. Trên kịch bản $100$ nút, tỉ lệ chấp nhận tăng từ $17{,}2\%$ lên $26{,}0\%$ ($+8{,}8$ điểm phần trăm) và chi phí trung bình giảm từ $292{,}3$ xuống $219{,}3$. Điều này chứng tỏ giai đoạn tăng cường không chỉ chấp nhận nhiều yêu cầu hơn mà còn tìm được các lời giải \textit{rẻ hơn} — đúng với thiết kế hàm thưởng chuẩn (thưởng nhẹ cho lời giải tiết kiệm chi phí).
 
 \subsection{Vai trò của khám phá trong lựa chọn ứng viên}
 \label{subsec:abl-explore}

@@ -6,7 +6,7 @@
 % =============================================================
 
 % Tổng quan chương
-Chương này trình bày chi tiết phương pháp đề xuất \textit{RL-OA-MP-VNE}. Trong đó, hậu tố \textit{OA-MP} kế thừa cơ chế ánh xạ liên kết đa đường có nhận biết thứ tự (Order-Aware Multi-Path) của thuật toán OA-MP-VNE, còn tiền tố \textit{RL} biểu thị việc tinh chỉnh bộ chọn ứng viên bằng học tăng cường trên nền một mô hình đã được khởi động bằng học bắt chước (imitation learning). Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn.
+Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate} — tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored} — chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp kế thừa cơ chế đa đường có nhận biết thứ tự (Order-Aware Multi-Path) của thuật toán heuristic OA-MP-VNE — cũng chính là thuật toán cung cấp lời giải mẫu cho giai đoạn học bắt chước. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn.
 
 \section{Tổng quan giải pháp}                  % ~2 trang
 \label{sec:overview}
@@ -76,7 +76,7 @@ Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bố
     \draw[->] (env.south) to[out=-90,in=-90] node[below]{\footnotesize thưởng $r$, $V(s)$} (hval.south);
   \end{tikzpicture}%
   }
-  \caption{Kiến trúc tổng thể của RL-OA-MP-VNE. Khối tô đậm được huấn luyện ở giai đoạn tinh chỉnh; khối nét đứt (hai đầu xếp hạng) bị đóng băng.}
+  \caption{Kiến trúc tổng thể của CARL-VNE. Khối tô đậm được huấn luyện ở giai đoạn tinh chỉnh; khối nét đứt (hai đầu xếp hạng) bị đóng băng.}
   \label{fig:arch}
 \end{figure}
 
@@ -230,7 +230,7 @@ với các hệ số mặc định $c_v=0.5$, $\beta_H=0.01$, $\beta_{\text{KL}}
 Thuật toán~\ref{alg:two-stage} tóm tắt toàn bộ quy trình hai giai đoạn.
 
 \begin{algorithm}[H]
-\caption{Huấn luyện hai giai đoạn của RL-OA-MP-VNE}
+\caption{Huấn luyện hai giai đoạn của CARL-VNE}
 \label{alg:two-stage}
 \SetAlgoLined
 \KwIn{Mạng vật lý $G^s$; bộ sinh VNR; heuristic OA-MP-VNE}
@@ -262,6 +262,6 @@ Lưu chính sách tham chiếu $\pi_{\text{ref}} \leftarrow \pi_\theta$ (mô hì
 Để huấn luyện ổn định, đồ án áp dụng: cắt chuẩn gradient ở ngưỡng $5.0$; bộ tối ưu AdamW với tốc độ học $3\times10^{-4}$ và suy giảm trọng số $10^{-4}$; chuẩn hoá lợi thế theo lô; phần thưởng entropy để duy trì khám phá; và neo KL về chính sách tham chiếu để tránh sụp đổ phân phối. Các đường cong huấn luyện (mất mát chính sách, mất mát giá trị, KL, entropy, tỉ lệ chấp nhận) được trình bày ở Chương~\ref{ch:thuc_nghiem} nhằm minh chứng tính hội tụ và ổn định của quá trình.
 
 % Kết chương
-Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của RL-OA-MP-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, đóng băng đầu xếp hạng và chỉ tinh chỉnh đầu chọn ứng viên, và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL. Chương tiếp theo phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
+Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, đóng băng đầu xếp hạng và chỉ tinh chỉnh đầu chọn ứng viên, và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL. Chương tiếp theo phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
 
 \end{document}

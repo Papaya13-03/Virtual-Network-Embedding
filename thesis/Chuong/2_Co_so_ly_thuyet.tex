@@ -200,6 +200,6 @@ Cơ chế \textit{scaled dot-product attention}\cite{vaswani2017attention} là k
 Hệ số $\sqrt{d}$ giúp ổn định gradient khi $d$ lớn. Trong bài toán VNE, mỗi nút ảo đóng vai trò truy vấn, mỗi nút vật lý ứng viên đóng vai trò khoá, và điểm số sau khi softmax biểu diễn xác suất chọn từng ứng viên. Đồ án mở rộng cơ chế này bằng cách kết hợp một nhánh MLP dư (residual) để học các tương tác phi tuyến phức tạp giữa đặc trưng của nút ảo và nút vật lý, và sử dụng \textit{feasibility mask} cứng để loại bỏ các ứng viên không thoả mãn ràng buộc CPU ngay tại bước tính điểm. Chi tiết kiến trúc được trình bày ở Chương~\ref{ch:de_xuat}.
 
 % Kết chương
-Chương này đã hệ thống hoá các khái niệm và mô hình cần thiết cho phương pháp đề xuất, bao gồm mô hình hoá VNE và phát biểu ILP, khảo sát ba hướng tiếp cận hiện hành, nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO, Plackett-Luce), và các khối GNN và attention. Chương tiếp theo sử dụng các nền tảng này để thiết kế kiến trúc và thuật toán huấn luyện của RL-OA-MP-VNE.
+Chương này đã hệ thống hoá các khái niệm và mô hình cần thiết cho phương pháp đề xuất, bao gồm mô hình hoá VNE và phát biểu ILP, khảo sát ba hướng tiếp cận hiện hành, nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO, Plackett-Luce), và các khối GNN và attention. Chương tiếp theo sử dụng các nền tảng này để thiết kế kiến trúc và thuật toán huấn luyện của CARL-VNE.
 
 \end{document}

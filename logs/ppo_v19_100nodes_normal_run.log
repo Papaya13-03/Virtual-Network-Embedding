@@ -1,0 +1,205 @@
+   Building vne @ file:///Users/duvannguyen/Workspace/Studies/Virtual-Network-Embedding
+      Built vne @ file:///Users/duvannguyen/Workspace/Studies/Virtual-Network-Embedding
+Uninstalled 1 package in 2ms
+Installed 1 package in 3ms
+Loading substrate from datasets/scenario_100nodes_train/substrate.json
+Loading VNRs from datasets/scenario_100nodes_train/virtual_requests.json
+  Using 5000 VNRs
+  Trainable policy (il_mp_vne_v19) loaded from checkpoints/il_mp_vne_v19_100nodes.pt
+  rollout=direct → train: cand_head + encoder + value (ordering frozen) (19394 frozen, 36293 trainable)
+  Frozen reference policy loaded (KL enabled, β_KL=0.1)
+PPO fine-tune: 5000 VNRs, batch=16, lr=0.0003
+  baseline=critic V(s), normalize_adv=True, β_H=0.01, value_coef=0.5, reward=cost_rel α=1.0 λ=0.3, fail_r=-1.0
+  checkpoint: checkpoints/il_mp_vne_v19_100nodes_normal.pt
+------------------------------------------------------------------------
+  ep   320/5000 batch   20 loss=   0.319 pol= -0.011 vL= 0.674 kl= 0.04 H= 10.00 adv=-0.000 r̄=-0.469 succ=16.9% >exp= 0.0% el= 2m48s eta=41m00s
+  ep   640/5000 batch   40 loss=  -0.238 pol= -0.809 vL= 0.445 kl= 0.08 H=  9.03 adv=-0.000 r̄=-0.745 succ=16.6% >exp= 0.0% el= 5m32s eta=37m46s
+  ep   960/5000 batch   60 loss=  -0.641 pol= -0.440 vL= 0.486 kl= 0.23 H=  8.89 adv=+0.000 r̄=-0.619 succ=17.2% >exp= 0.0% el= 7m55s eta=33m21s
+  ep  1280/5000 batch   80 loss=  -0.124 pol= -0.428 vL= 0.383 kl= 0.29 H=  9.72 adv=-0.000 r̄=-0.765 succ=18.1% >exp= 0.0% el=10m51s eta=31m34s
+  ep  1600/5000 batch  100 loss=  -0.020 pol= -0.500 vL= 0.534 kl= 0.26 H=  9.02 adv=+0.000 r̄=-0.619 succ=17.9% >exp= 0.0% el=13m45s eta=29m13s
+  ep  1920/5000 batch  120 loss=  -0.186 pol= -0.225 vL= 1.157 kl= 0.17 H=  8.61 adv=+0.000 r̄=-0.132 succ=18.3% >exp= 0.0% el=19m15s eta=30m54s
+  ep  2240/5000 batch  140 loss=  -0.472 pol= -1.069 vL= 0.685 kl= 0.24 H=  8.66 adv=+0.000 r̄=-0.490 succ=18.6% >exp= 0.0% el=21m39s eta=26m40s
+  ep  2560/5000 batch  160 loss=  -0.062 pol= -0.607 vL= 0.291 kl= 0.18 H= 10.73 adv=+0.000 r̄=-0.795 succ=18.5% >exp= 0.0% el=24m12s eta=23m04s
+  ep  2880/5000 batch  180 loss=  -0.388 pol= -1.389 vL= 0.438 kl= 0.29 H=  8.80 adv=-0.000 r̄=-0.649 succ=18.7% >exp= 0.0% el=29m39s eta=21m49s
+  ep  3200/5000 batch  200 loss=   0.120 pol= -0.773 vL= 0.250 kl= 0.21 H=  9.61 adv=-0.000 r̄=-0.769 succ=18.6% >exp= 0.0% el=32m37s eta=18m21s
+  ep  3520/5000 batch  220 loss=   0.266 pol= -1.113 vL= 0.842 kl= 0.37 H=  7.88 adv=+0.000 r̄=-0.340 succ=18.6% >exp= 0.0% el=35m39s eta=14m59s
+  ep  3840/5000 batch  240 loss=  -0.440 pol= -0.579 vL= 0.656 kl= 0.19 H=  9.85 adv=+0.000 r̄=-0.522 succ=18.8% >exp= 0.0% el=38m12s eta=11m32s
+  ep  4160/5000 batch  260 loss=   0.291 pol=  1.059 vL= 0.297 kl= 0.20 H=  9.25 adv=+0.000 r̄=-0.870 succ=18.6% >exp= 0.0% el=40m50s eta= 8m14s
+  ep  4480/5000 batch  280 loss=  -0.382 pol= -0.414 vL= 0.572 kl= 0.27 H=  7.96 adv=-0.000 r̄=-0.617 succ=18.7% >exp= 0.0% el=43m27s eta= 5m02s
+  ep  4800/5000 batch  300 loss=  -0.267 pol= -0.889 vL= 0.420 kl= 0.50 H= 12.42 adv=-0.000 r̄=-0.769 succ=18.6% >exp= 0.0% el=46m09s eta= 1m55s
+  >>> Epoch 1/10 DONE: succ=18.7% (935/5000) mean_loss=-0.1576 mean_reward=-0.624 mean_KL=0.234 mean_H=9.67 epoch_time=48m02s
+
+=== Epoch 2/10 — resetting substrate ===
+  ep   128/5000 batch  320 loss=  -0.466 pol=  2.046 vL= 0.491 kl= 0.40 H= 10.98 adv=-0.000 r̄=-0.867 succ=18.8% >exp= 0.0% el=49m00s eta=31h05m
+  ep   448/5000 batch  340 loss=  -0.378 pol= -0.052 vL= 0.547 kl= 0.50 H=  7.69 adv=+0.000 r̄=-0.612 succ=19.0% >exp= 0.0% el=51m42s eta=8h45m
+  ep   768/5000 batch  360 loss=   0.132 pol= -0.731 vL= 0.522 kl= 0.38 H=  9.34 adv=+0.000 r̄=-0.620 succ=18.8% >exp= 0.0% el=54m04s eta=4h57m
+  ep  1088/5000 batch  380 loss=  -0.070 pol= -1.254 vL= 0.606 kl= 0.31 H=  7.86 adv=+0.000 r̄=-0.608 succ=18.6% >exp= 0.0% el=56m34s eta=3h23m
+  ep  1408/5000 batch  400 loss=  -0.447 pol=  0.294 vL= 0.260 kl= 0.26 H=  9.90 adv=-0.000 r̄=-0.868 succ=18.7% >exp= 0.0% el=59m00s eta=2h30m
+  ep  1728/5000 batch  420 loss=   0.193 pol=  0.476 vL= 0.440 kl= 0.11 H=  8.70 adv=+0.000 r̄=-0.517 succ=18.7% >exp= 0.0% el=1h01m eta=1h56m
+  ep  2048/5000 batch  440 loss=  -0.197 pol=  0.355 vL= 0.458 kl= 0.12 H=  6.80 adv=-0.000 r̄=-0.739 succ=18.8% >exp= 0.0% el=1h03m eta=1h31m
+  ep  2368/5000 batch  460 loss=  -0.094 pol=  0.688 vL= 0.617 kl= 0.10 H=  8.91 adv=-0.000 r̄=-0.520 succ=18.9% >exp= 0.0% el=1h06m eta=1h13m
+  ep  2688/5000 batch  480 loss=  -0.123 pol=  0.539 vL= 0.352 kl= 0.13 H=  8.51 adv=+0.000 r̄=-0.730 succ=18.9% >exp= 0.0% el=1h08m eta=59m05s
+  ep  3008/5000 batch  500 loss=  -0.186 pol= -0.157 vL= 0.467 kl= 0.18 H=  7.29 adv=-0.000 r̄=-0.733 succ=19.0% >exp= 0.0% el=1h11m eta=47m15s
+  ep  3328/5000 batch  520 loss=   0.188 pol= -0.361 vL= 0.325 kl= 0.22 H=  7.53 adv=+0.000 r̄=-0.744 succ=19.1% >exp= 0.0% el=1h14m eta=37m30s
+  ep  3648/5000 batch  540 loss=  -0.056 pol= -1.592 vL= 0.524 kl= 0.22 H= 10.08 adv=+0.000 r̄=-0.487 succ=19.3% >exp= 0.0% el=1h16m eta=28m31s
+  ep  3968/5000 batch  560 loss=  -0.626 pol= -0.938 vL= 0.739 kl= 0.44 H=  7.97 adv=-0.000 r̄=-0.468 succ=19.4% >exp= 0.0% el=1h19m eta=20m36s
+  ep  4288/5000 batch  580 loss=   0.253 pol= -0.316 vL= 0.481 kl= 0.30 H=  8.32 adv=+0.000 r̄=-0.667 succ=19.4% >exp= 0.0% el=1h21m eta=13m33s
+  ep  4608/5000 batch  600 loss=   0.229 pol= -1.527 vL= 0.380 kl= 0.38 H=  8.75 adv=+0.000 r̄=-0.625 succ=19.3% >exp= 0.0% el=1h23m eta= 7m06s
+  ep  4928/5000 batch  620 loss=  -0.007 pol= -0.438 vL= 0.535 kl= 0.33 H=  9.52 adv=-0.000 r̄=-0.515 succ=19.4% >exp= 0.0% el=1h26m eta= 1m15s
+  >>> Epoch 2/10 DONE: succ=20.1% (1005/5000) mean_loss=-0.0983 mean_reward=-0.598 mean_KL=0.281 mean_H=8.40 epoch_time=38m47s
+
+=== Epoch 3/10 — resetting substrate ===
+  ep   256/5000 batch  640 loss=  -0.028 pol= -0.796 vL= 0.287 kl= 0.52 H=  9.18 adv=+0.000 r̄=-0.754 succ=19.5% >exp= 0.0% el=1h28m eta=27h28m
+  ep   576/5000 batch  660 loss=  -0.082 pol=  0.300 vL= 0.376 kl= 0.46 H=  8.17 adv=+0.000 r̄=-0.755 succ=19.5% >exp= 0.0% el=1h31m eta=11h41m
+  ep   896/5000 batch  680 loss=  -0.252 pol=  0.056 vL= 0.326 kl= 0.30 H=  7.97 adv=+0.000 r̄=-0.755 succ=19.4% >exp= 0.0% el=1h33m eta=7h09m
+  ep  1216/5000 batch  700 loss=  -0.081 pol= -0.597 vL= 0.364 kl= 0.36 H=  7.94 adv=+0.000 r̄=-0.638 succ=19.5% >exp= 0.0% el=1h36m eta=5h00m
+  ep  1536/5000 batch  720 loss=  -0.174 pol= -2.506 vL= 0.374 kl= 0.45 H=  6.68 adv=+0.000 r̄=-0.385 succ=19.5% >exp= 0.0% el=1h38m eta=3h42m
+  ep  1856/5000 batch  740 loss=   0.364 pol=  0.790 vL= 0.474 kl= 0.53 H=  8.32 adv=-0.000 r̄=-0.470 succ=19.6% >exp= 0.0% el=1h41m eta=2h52m
+  ep  2176/5000 batch  760 loss=   0.282 pol=  0.503 vL= 0.635 kl= 0.44 H= 10.52 adv=-0.000 r̄=-0.505 succ=19.5% >exp= 0.0% el=1h44m eta=2h16m
+  ep  2496/5000 batch  780 loss=  -0.283 pol= -0.024 vL= 0.563 kl= 0.40 H=  9.29 adv=-0.000 r̄=-0.637 succ=19.6% >exp= 0.0% el=1h47m eta=1h47m
+  ep  2816/5000 batch  800 loss=  -0.177 pol=  0.027 vL= 0.365 kl= 0.33 H=  8.89 adv=-0.000 r̄=-0.736 succ=19.6% >exp= 0.0% el=1h49m eta=1h25m
+  ep  3136/5000 batch  820 loss=   0.376 pol=  0.404 vL= 0.382 kl= 0.42 H=  8.28 adv=+0.000 r̄=-0.733 succ=19.6% >exp= 0.0% el=1h51m eta=1h06m
+  ep  3456/5000 batch  840 loss=   0.128 pol= -1.090 vL= 0.334 kl= 0.44 H= 10.93 adv=+0.000 r̄=-0.755 succ=19.6% >exp= 0.0% el=1h53m eta=50m54s
+  ep  3776/5000 batch  860 loss=  -0.142 pol=  0.978 vL= 0.375 kl= 0.38 H=  9.45 adv=+0.000 r̄=-0.760 succ=19.6% >exp= 0.0% el=1h56m eta=37m45s
+  ep  4096/5000 batch  880 loss=   0.159 pol= -0.832 vL= 0.342 kl= 0.47 H=  9.05 adv=+0.000 r̄=-0.740 succ=19.7% >exp= 0.0% el=1h58m eta=26m14s
+  ep  4416/5000 batch  900 loss=   0.275 pol= -0.893 vL= 0.612 kl= 0.42 H=  7.18 adv=-0.000 r̄=-0.471 succ=19.7% >exp= 0.0% el=2h01m eta=16m03s
+  ep  4736/5000 batch  920 loss=   0.253 pol=  0.242 vL= 0.245 kl= 0.44 H= 10.30 adv=-0.000 r̄=-0.863 succ=19.8% >exp= 0.0% el=2h03m eta= 6m54s
+  >>> Epoch 3/10 DONE: succ=20.5% (1026/5000) mean_loss= 0.0313 mean_reward=-0.587 mean_KL=0.443 mean_H=8.52 epoch_time=39m26s
+
+=== Epoch 4/10 — resetting substrate ===
+  ep    64/5000 batch  940 loss=  -0.304 pol= -0.667 vL= 0.635 kl= 0.39 H=  8.63 adv=-0.000 r̄=-0.323 succ=19.9% >exp= 0.0% el=2h06m eta=163h03m
+  ep   384/5000 batch  960 loss=   0.510 pol= -0.679 vL= 0.473 kl= 0.36 H=  8.01 adv=-0.000 r̄=-0.616 succ=19.8% >exp= 0.0% el=2h09m eta=25h56m
+  ep   704/5000 batch  980 loss=   0.027 pol=  0.356 vL= 0.493 kl= 0.42 H=  8.81 adv=-0.000 r̄=-0.531 succ=19.8% >exp= 0.0% el=2h11m eta=13h24m
+  ep  1024/5000 batch 1000 loss=  -0.154 pol= -1.402 vL= 0.333 kl= 0.40 H=  7.30 adv=-0.000 r̄=-0.375 succ=19.8% >exp= 0.0% el=2h14m eta=8h41m
+  ep  1344/5000 batch 1020 loss=  -0.104 pol= -1.780 vL= 0.693 kl= 0.47 H=  9.24 adv=+0.000 r̄=-0.487 succ=19.8% >exp= 0.0% el=2h18m eta=6h17m
+  ep  1664/5000 batch 1040 loss=  -0.036 pol= -2.174 vL= 0.687 kl= 0.39 H= 10.51 adv=+0.000 r̄=-0.327 succ=19.8% >exp= 0.0% el=2h21m eta=4h44m
+  ep  1984/5000 batch 1060 loss=   0.225 pol= -0.448 vL= 0.181 kl= 0.36 H= 10.48 adv=+0.000 r̄=-0.869 succ=19.8% >exp= 0.0% el=2h25m eta=3h40m
+  ep  2304/5000 batch 1080 loss=   0.019 pol= -0.675 vL= 0.516 kl= 0.26 H= 10.39 adv=+0.000 r̄=-0.605 succ=19.8% >exp= 0.0% el=2h28m eta=2h53m
+  ep  2624/5000 batch 1100 loss=  -0.067 pol=  1.521 vL= 0.555 kl= 0.40 H= 10.11 adv=+0.000 r̄=-0.283 succ=19.8% >exp= 0.0% el=2h32m eta=2h18m
+  ep  2944/5000 batch 1120 loss=   0.279 pol=  1.872 vL= 0.212 kl= 0.40 H= 10.52 adv=-0.000 r̄=-0.864 succ=19.8% >exp= 0.0% el=2h37m eta=1h49m
+  ep  3264/5000 batch 1140 loss=  -0.248 pol=  0.667 vL= 0.224 kl= 0.31 H= 10.87 adv=-0.000 r̄=-0.866 succ=19.9% >exp= 0.0% el=2h40m eta=1h25m
+  ep  3584/5000 batch 1160 loss=  -0.066 pol= -0.531 vL= 0.492 kl= 0.28 H=  8.95 adv=+0.000 r̄=-0.508 succ=19.9% >exp= 0.0% el=2h44m eta=1h05m
+  ep  3904/5000 batch 1180 loss=   0.023 pol=  0.541 vL= 0.693 kl= 0.63 H= 10.41 adv=+0.000 r̄=-0.487 succ=19.9% >exp= 0.0% el=2h48m eta=47m10s
+  ep  4224/5000 batch 1200 loss=   0.110 pol= -0.468 vL= 0.731 kl= 0.46 H=  9.46 adv=+0.000 r̄=-0.240 succ=19.9% >exp= 0.0% el=2h52m eta=31m37s
+  ep  4544/5000 batch 1220 loss=  -0.412 pol= -1.520 vL= 0.859 kl= 0.64 H=  8.95 adv=-0.000 r̄= 0.076 succ=20.0% >exp= 0.0% el=2h56m eta=17m43s
+  ep  4864/5000 batch 1240 loss=   0.150 pol= -0.310 vL= 0.166 kl= 0.38 H=  8.56 adv=-0.000 r̄=-0.866 succ=19.9% >exp= 0.0% el=3h01m eta= 5m05s
+  >>> Epoch 4/10 DONE: succ=20.4% (1018/5000) mean_loss= 0.0317 mean_reward=-0.591 mean_KL=0.436 mean_H=9.37 epoch_time=59m11s
+
+=== Epoch 5/10 — resetting substrate ===
+  ep   192/5000 batch 1260 loss=   0.325 pol= -0.174 vL= 0.543 kl= 0.46 H=  8.04 adv=-0.000 r̄=-0.750 succ=20.0% >exp= 0.0% el=3h11m eta=80h07m
+  ep   512/5000 batch 1280 loss=  -0.280 pol= -0.439 vL= 0.337 kl= 0.35 H=  5.96 adv=+0.000 r̄=-0.758 succ=20.0% >exp= 0.0% el=3h19m eta=29h08m
+  ep   832/5000 batch 1300 loss=   0.065 pol= -1.668 vL= 0.523 kl= 0.34 H=  7.97 adv=-0.000 r̄=-0.459 succ=20.0% >exp= 0.0% el=3h22m eta=16h55m
+  ep  1152/5000 batch 1320 loss=  -0.150 pol= -0.395 vL= 0.298 kl= 0.43 H=  8.73 adv=+0.000 r̄=-0.868 succ=20.0% >exp= 0.0% el=3h25m eta=11h27m
+  ep  1472/5000 batch 1340 loss=  -0.085 pol= -0.907 vL= 0.338 kl= 0.33 H=  7.90 adv=+0.000 r̄=-0.494 succ=20.0% >exp= 0.0% el=3h28m eta=8h20m
+  ep  1792/5000 batch 1360 loss=  -0.067 pol= -0.435 vL= 0.463 kl= 0.40 H=  7.72 adv=-0.000 r̄=-0.604 succ=20.1% >exp= 0.0% el=3h31m eta=6h17m
+  ep  2112/5000 batch 1380 loss=   0.393 pol=  2.215 vL= 0.061 kl= 0.55 H=  7.48 adv=-0.000 r̄=-1.000 succ=20.1% >exp= 0.0% el=3h34m eta=4h53m
+  ep  2432/5000 batch 1400 loss=   0.124 pol=  0.147 vL= 0.234 kl= 0.54 H= 12.15 adv=+0.000 r̄=-0.779 succ=20.1% >exp= 0.0% el=3h38m eta=3h50m
+  ep  2752/5000 batch 1420 loss=  -0.204 pol=  0.461 vL= 0.656 kl= 0.84 H=  7.29 adv=+0.000 r̄=-0.379 succ=20.1% >exp= 0.0% el=3h41m eta=3h01m
+  ep  3072/5000 batch 1440 loss=  -0.275 pol=  0.427 vL= 0.294 kl= 0.39 H=  8.98 adv=+0.000 r̄=-0.870 succ=20.0% >exp= 0.0% el=3h43m eta=2h20m
+  ep  3392/5000 batch 1460 loss=  -0.228 pol= -1.210 vL= 0.505 kl= 0.39 H=  7.42 adv=-0.000 r̄=-0.481 succ=20.1% >exp= 0.0% el=3h47m eta=1h47m
+  ep  3712/5000 batch 1480 loss=   0.053 pol= -1.583 vL= 0.505 kl= 0.59 H=  8.93 adv=-0.000 r̄=-0.470 succ=20.1% >exp= 0.0% el=3h49m eta=1h19m
+  ep  4032/5000 batch 1500 loss=  -0.019 pol=  0.203 vL= 0.594 kl= 0.68 H=  6.90 adv=+0.000 r̄=-0.619 succ=20.1% >exp= 0.0% el=3h52m eta=55m48s
+  ep  4352/5000 batch 1520 loss=   0.228 pol=  0.514 vL= 0.153 kl= 0.53 H=  9.32 adv=+0.000 r̄=-0.868 succ=20.1% >exp= 0.0% el=3h57m eta=35m22s
+  ep  4672/5000 batch 1540 loss=  -0.047 pol= -0.333 vL= 0.596 kl= 0.74 H=  6.43 adv=+0.000 r̄=-0.203 succ=20.1% >exp= 0.0% el=4h01m eta=16m55s
+  ep  4992/5000 batch 1560 loss=   0.279 pol= -0.771 vL= 0.574 kl= 0.58 H=  8.27 adv=-0.000 r̄=-0.528 succ=20.1% >exp= 0.0% el=4h06m eta=  24s
+  >>> Epoch 5/10 DONE: succ=20.9% (1045/5000) mean_loss=-0.0119 mean_reward=-0.580 mean_KL=0.471 mean_H=8.40 epoch_time=1h00m
+
+=== Epoch 6/10 — resetting substrate ===
+  ep   320/5000 batch 1580 loss=   0.171 pol= -1.452 vL= 0.507 kl= 0.43 H=  7.94 adv=+0.000 r̄=-0.327 succ=20.2% >exp= 0.0% el=4h10m eta=61h03m
+  ep   640/5000 batch 1600 loss=   0.192 pol= -0.501 vL= 0.699 kl= 0.55 H=  8.35 adv=+0.000 r̄=-0.360 succ=20.1% >exp= 0.0% el=4h13m eta=28h46m
+  ep   960/5000 batch 1620 loss=  -0.051 pol= -0.031 vL= 0.361 kl= 0.54 H=  7.97 adv=-0.000 r̄=-0.623 succ=20.1% >exp= 0.0% el=4h16m eta=18h00m
+  ep  1280/5000 batch 1640 loss=  -0.069 pol= -0.067 vL= 0.398 kl= 0.58 H=  8.07 adv=-0.000 r̄=-0.548 succ=20.1% >exp= 0.0% el=4h19m eta=12h33m
+  ep  1600/5000 batch 1660 loss=   0.286 pol=  1.325 vL= 0.378 kl= 0.48 H=  8.03 adv=-0.000 r̄=-0.762 succ=20.1% >exp= 0.0% el=4h22m eta=9h17m
+  ep  1920/5000 batch 1680 loss=  -0.211 pol= -2.419 vL= 0.821 kl= 0.49 H=  7.14 adv=+0.000 r̄= 0.013 succ=20.2% >exp= 0.0% el=4h26m eta=7h06m
+  ep  2240/5000 batch 1700 loss=   0.105 pol=  0.751 vL= 0.584 kl= 0.49 H=  7.54 adv=+0.000 r̄=-0.655 succ=20.1% >exp= 0.0% el=4h29m eta=5h32m
+  ep  2560/5000 batch 1720 loss=  -0.213 pol= -1.775 vL= 0.254 kl= 0.51 H= 11.76 adv=-0.000 r̄=-0.736 succ=20.2% >exp= 0.0% el=4h32m eta=4h20m
+  ep  2880/5000 batch 1740 loss=  -0.209 pol=  0.948 vL= 0.461 kl= 0.65 H=  9.55 adv=-0.000 r̄=-0.637 succ=20.2% >exp= 0.0% el=4h37m eta=3h24m
+  ep  3200/5000 batch 1760 loss=   0.489 pol=  1.154 vL= 0.611 kl= 0.53 H=  9.29 adv=-0.000 r̄=-0.655 succ=20.2% >exp= 0.0% el=4h40m eta=2h37m
+  ep  3520/5000 batch 1780 loss=  -0.294 pol= -1.344 vL= 0.522 kl= 0.80 H=  7.53 adv=+0.000 r̄=-0.590 succ=20.3% >exp= 0.0% el=4h43m eta=1h59m
+  ep  3840/5000 batch 1800 loss=   0.464 pol=  0.166 vL= 0.263 kl= 0.82 H=  9.95 adv=-0.000 r̄=-0.496 succ=20.3% >exp= 0.0% el=4h45m eta=1h26m
+  ep  4160/5000 batch 1820 loss=  -0.238 pol= -0.879 vL= 0.552 kl= 0.76 H=  9.17 adv=+0.000 r̄=-0.478 succ=20.4% >exp= 0.0% el=4h49m eta=58m22s
+  ep  4480/5000 batch 1840 loss=   0.221 pol= -1.484 vL= 0.609 kl= 0.49 H=  8.12 adv=+0.000 r̄=-0.504 succ=20.4% >exp= 0.0% el=4h51m eta=33m52s
+  ep  4800/5000 batch 1860 loss=  -0.043 pol=  2.452 vL= 0.212 kl= 0.34 H= 10.75 adv=+0.000 r̄=-0.900 succ=20.3% >exp= 0.0% el=4h55m eta=12m18s
+  >>> Epoch 6/10 DONE: succ=21.5% (1073/5000) mean_loss= 0.0271 mean_reward=-0.568 mean_KL=0.565 mean_H=8.99 epoch_time=52m04s
+
+=== Epoch 7/10 — resetting substrate ===
+  ep   128/5000 batch 1880 loss=  -0.304 pol= -1.356 vL= 0.607 kl= 0.77 H=  8.40 adv=-0.000 r̄=-0.366 succ=20.4% >exp= 0.0% el=5h00m eta=190h30m
+  ep   448/5000 batch 1900 loss=  -0.034 pol=  0.449 vL= 0.435 kl= 0.81 H=  7.01 adv=+0.000 r̄=-0.511 succ=20.4% >exp= 0.0% el=5h02m eta=51h18m
+  ep   768/5000 batch 1920 loss=   0.179 pol= -0.120 vL= 0.332 kl= 0.62 H=  8.88 adv=+0.000 r̄=-0.763 succ=20.4% >exp= 0.0% el=5h05m eta=28h05m
+  ep  1088/5000 batch 1940 loss=   0.148 pol=  0.076 vL= 0.300 kl= 0.91 H=  7.15 adv=+0.000 r̄=-0.510 succ=20.4% >exp= 0.0% el=5h08m eta=18h29m
+  ep  1408/5000 batch 1960 loss=  -0.085 pol=  1.575 vL= 0.407 kl= 0.36 H=  8.45 adv=+0.000 r̄=-0.886 succ=20.4% >exp= 0.0% el=5h11m eta=13h14m
+  ep  1728/5000 batch 1980 loss=  -0.260 pol= -1.247 vL= 0.491 kl= 0.38 H=  9.84 adv=-0.000 r̄=-0.393 succ=20.4% >exp= 0.0% el=5h14m eta=9h55m
+  ep  2048/5000 batch 2000 loss=  -0.121 pol=  1.010 vL= 0.356 kl= 0.62 H=  7.03 adv=+0.000 r̄=-0.631 succ=20.4% >exp= 0.0% el=5h17m eta=7h38m
+  ep  2368/5000 batch 2020 loss=  -0.083 pol=  0.673 vL= 0.544 kl= 0.46 H=  8.08 adv=-0.000 r̄=-0.753 succ=20.4% >exp= 0.0% el=5h20m eta=5h56m
+  ep  2688/5000 batch 2040 loss=   0.224 pol= -0.434 vL= 0.444 kl= 0.60 H=  7.33 adv=-0.000 r̄=-0.510 succ=20.4% >exp= 0.0% el=5h23m eta=4h38m
+  ep  3008/5000 batch 2060 loss=   0.483 pol=  0.345 vL= 0.538 kl= 0.44 H=  7.43 adv=-0.000 r̄=-0.654 succ=20.4% >exp= 0.0% el=5h26m eta=3h36m
+  ep  3328/5000 batch 2080 loss=   0.186 pol= -1.255 vL= 0.312 kl= 0.23 H=  9.23 adv=+0.000 r̄=-0.618 succ=20.4% >exp= 0.0% el=5h28m eta=2h44m
+  ep  3648/5000 batch 2100 loss=  -0.487 pol= -1.491 vL= 0.517 kl= 0.29 H=  8.73 adv=+0.000 r̄=-0.532 succ=20.4% >exp= 0.0% el=5h30m eta=2h02m
+  ep  3968/5000 batch 2120 loss=   0.764 pol= -0.024 vL= 0.512 kl= 0.33 H=  8.78 adv=-0.000 r̄=-0.239 succ=20.4% >exp= 0.0% el=5h32m eta=1h26m
+  ep  4288/5000 batch 2140 loss=  -0.054 pol=  1.154 vL= 0.357 kl= 0.28 H= 10.58 adv=+0.000 r̄=-0.801 succ=20.4% >exp= 0.0% el=5h34m eta=55m35s
+  ep  4608/5000 batch 2160 loss=  -0.146 pol=  0.913 vL= 0.307 kl= 0.32 H= 12.87 adv=-0.000 r̄=-0.867 succ=20.5% >exp= 0.0% el=5h36m eta=28m39s
+  ep  4928/5000 batch 2180 loss=   0.499 pol= -1.866 vL= 0.243 kl= 0.42 H=  9.44 adv=+0.000 r̄=-0.474 succ=20.5% >exp= 0.0% el=5h38m eta= 4m57s
+  >>> Epoch 7/10 DONE: succ=21.0% (1052/5000) mean_loss= 0.0713 mean_reward=-0.578 mean_KL=0.441 mean_H=8.66 epoch_time=40m50s
+
+=== Epoch 8/10 — resetting substrate ===
+  ep   256/5000 batch 2200 loss=   0.261 pol= -1.604 vL= 0.262 kl= 0.31 H=  9.40 adv=+0.000 r̄=-0.750 succ=20.5% >exp= 0.0% el=5h40m eta=105h16m
+  ep   576/5000 batch 2220 loss=   0.088 pol=  2.161 vL= 0.512 kl= 0.50 H=  9.02 adv=-0.000 r̄=-0.643 succ=20.5% >exp= 0.0% el=5h43m eta=43h55m
+  ep   896/5000 batch 2240 loss=   0.040 pol=  1.388 vL= 0.259 kl= 0.50 H= 11.07 adv=-0.000 r̄=-0.747 succ=20.4% >exp= 0.0% el=5h46m eta=26h27m
+  ep  1216/5000 batch 2260 loss=   0.221 pol=  1.944 vL= 0.489 kl= 0.59 H=  9.08 adv=+0.000 r̄=-0.896 succ=20.5% >exp= 0.0% el=5h50m eta=18h09m
+  ep  1536/5000 batch 2280 loss=  -0.310 pol=  1.816 vL= 0.289 kl= 0.37 H=  8.88 adv=-0.000 r̄=-0.875 succ=20.5% >exp= 0.0% el=5h52m eta=13h14m
+  ep  1856/5000 batch 2300 loss=  -0.020 pol= -1.599 vL= 0.405 kl= 0.44 H=  9.07 adv=-0.000 r̄=-0.347 succ=20.5% >exp= 0.0% el=5h54m eta=10h00m
+  ep  2176/5000 batch 2320 loss=   0.153 pol=  1.486 vL= 0.211 kl= 0.57 H=  9.02 adv=+0.000 r̄=-0.869 succ=20.5% >exp= 0.0% el=5h56m eta=7h42m
+  ep  2496/5000 batch 2340 loss=   0.041 pol= -0.307 vL= 0.503 kl= 0.46 H=  7.84 adv=+0.000 r̄=-0.606 succ=20.5% >exp= 0.0% el=5h59m eta=6h00m
+  ep  2816/5000 batch 2360 loss=  -0.042 pol= -1.857 vL= 0.437 kl= 0.49 H=  7.79 adv=-0.000 r̄=-0.513 succ=20.5% >exp= 0.0% el=6h01m eta=4h40m
+  ep  3136/5000 batch 2380 loss=   0.081 pol= -0.384 vL= 0.484 kl= 0.49 H=  7.34 adv=+0.000 r̄=-0.604 succ=20.5% >exp= 0.0% el=6h04m eta=3h36m
+  ep  3456/5000 batch 2400 loss=   0.806 pol=  2.917 vL= 0.040 kl= 0.44 H= 10.89 adv=+0.000 r̄=-1.000 succ=20.5% >exp= 0.0% el=6h06m eta=2h43m
+  ep  3776/5000 batch 2420 loss=  -0.046 pol=  1.162 vL= 0.365 kl= 0.66 H=  9.06 adv=-0.000 r̄=-0.761 succ=20.5% >exp= 0.0% el=6h09m eta=1h59m
+  ep  4096/5000 batch 2440 loss=   0.214 pol=  0.084 vL= 0.544 kl= 0.50 H=  7.83 adv=+0.000 r̄=-0.393 succ=20.5% >exp= 0.0% el=6h12m eta=1h22m
+  ep  4416/5000 batch 2460 loss=   0.208 pol= -1.295 vL= 0.333 kl= 0.48 H=  7.24 adv=-0.000 r̄=-0.617 succ=20.5% >exp= 0.0% el=6h15m eta=49m41s
+  ep  4736/5000 batch 2480 loss=   0.099 pol=  3.082 vL= 0.217 kl= 0.36 H=  9.47 adv=-0.000 r̄=-1.000 succ=20.5% >exp= 0.0% el=6h18m eta=21m05s
+  >>> Epoch 8/10 DONE: succ=21.1% (1057/5000) mean_loss= 0.1009 mean_reward=-0.575 mean_KL=0.499 mean_H=8.41 epoch_time=41m08s
+
+=== Epoch 9/10 — resetting substrate ===
+  ep    64/5000 batch 2500 loss=  -0.362 pol=  0.197 vL= 0.432 kl= 0.51 H=  8.70 adv=+0.000 r̄=-0.610 succ=20.6% >exp= 0.0% el=6h21m eta=489h44m
+  ep   384/5000 batch 2520 loss=   0.151 pol= -0.745 vL= 0.444 kl= 0.39 H=  9.49 adv=+0.000 r̄=-0.524 succ=20.6% >exp= 0.0% el=6h23m eta=76h49m
+  ep   704/5000 batch 2540 loss=  -0.013 pol= -0.242 vL= 0.277 kl= 0.58 H= 10.26 adv=-0.000 r̄=-0.496 succ=20.6% >exp= 0.0% el=6h25m eta=39h15m
+  ep  1024/5000 batch 2560 loss=  -0.072 pol=  0.794 vL= 0.355 kl= 0.58 H=  7.81 adv=-0.000 r̄=-0.623 succ=20.6% >exp= 0.0% el=6h28m eta=25h07m
+  ep  1344/5000 batch 2580 loss=   0.314 pol= -2.067 vL= 0.453 kl= 0.76 H=  8.13 adv=+0.000 r̄=-0.239 succ=20.6% >exp= 0.0% el=6h31m eta=17h44m
+  ep  1664/5000 batch 2600 loss=   0.081 pol= -0.390 vL= 0.587 kl= 0.41 H=  8.41 adv=-0.000 r̄=-0.339 succ=20.6% >exp= 0.0% el=6h33m eta=13h08m
+  ep  1984/5000 batch 2620 loss=  -0.270 pol=  2.416 vL= 0.371 kl= 0.42 H=  9.68 adv=-0.000 r̄=-0.864 succ=20.7% >exp= 0.0% el=6h36m eta=10h02m
+  ep  2304/5000 batch 2640 loss=   0.223 pol= -2.727 vL= 0.322 kl= 0.37 H=  9.54 adv=+0.000 r̄=-0.354 succ=20.7% >exp= 0.0% el=6h38m eta=7h46m
+  ep  2624/5000 batch 2660 loss=   0.109 pol= -0.169 vL= 0.786 kl= 0.42 H=  9.06 adv=+0.000 r̄=-0.363 succ=20.7% >exp= 0.0% el=6h41m eta=6h03m
+  ep  2944/5000 batch 2680 loss=  -0.239 pol= -1.397 vL= 0.394 kl= 0.26 H=  8.89 adv=+0.000 r̄=-0.508 succ=20.7% >exp= 0.0% el=9h13m eta=6h26m
+  ep  3264/5000 batch 2700 loss=   0.223 pol= -1.035 vL= 0.578 kl= 0.42 H= 10.51 adv=+0.000 r̄=-0.499 succ=20.7% >exp= 0.0% el=9h43m eta=5h10m
+  ep  3584/5000 batch 2720 loss=   0.185 pol= -0.490 vL= 0.614 kl= 0.45 H=  9.34 adv=-0.000 r̄=-0.368 succ=20.7% >exp= 0.0% el=9h45m eta=3h51m
+  ep  3904/5000 batch 2740 loss=   0.345 pol=  0.041 vL= 0.560 kl= 0.43 H=  8.17 adv=+0.000 r̄=-0.221 succ=20.7% >exp= 0.0% el=9h47m eta=2h44m
+  ep  4224/5000 batch 2760 loss=  -0.204 pol= -1.194 vL= 0.448 kl= 0.46 H=  7.51 adv=+0.000 r̄=-0.356 succ=20.7% >exp= 0.0% el=9h49m eta=1h48m
+  ep  4544/5000 batch 2780 loss=   0.203 pol=  0.472 vL= 0.628 kl= 0.53 H=  8.39 adv=+0.000 r̄=-0.205 succ=20.7% >exp= 0.0% el=9h51m eta=59m22s
+  ep  4864/5000 batch 2800 loss=   0.310 pol= -0.074 vL= 0.231 kl= 0.71 H=  8.52 adv=+0.000 r̄=-0.760 succ=20.7% >exp= 0.0% el=9h53m eta=16m36s
+  >>> Epoch 9/10 DONE: succ=22.1% (1106/5000) mean_loss= 0.0704 mean_reward=-0.555 mean_KL=0.506 mean_H=8.95 epoch_time=3h34m
+
+=== Epoch 10/10 — resetting substrate ===
+  ep   192/5000 batch 2820 loss=  -0.180 pol=  4.153 vL= 0.543 kl= 0.86 H=  8.03 adv=-0.000 r̄=-1.000 succ=20.7% >exp= 0.0% el=9h56m eta=248h59m
+  ep   512/5000 batch 2840 loss=  -0.152 pol= -0.359 vL= 0.320 kl= 0.88 H=  6.33 adv=-0.000 r̄=-0.630 succ=20.8% >exp= 0.0% el=9h59m eta=87h34m
+  ep   832/5000 batch 2860 loss=   0.441 pol= -1.117 vL= 0.493 kl= 0.70 H= 10.24 adv=-0.000 r̄=-0.493 succ=20.8% >exp= 0.0% el=10h02m eta=50h17m
+  ep  1152/5000 batch 2880 loss=  -0.151 pol=  0.261 vL= 0.162 kl= 0.56 H=  9.20 adv=+0.000 r̄=-0.864 succ=20.7% >exp= 0.0% el=10h05m eta=33h42m
+  ep  1472/5000 batch 2900 loss=   0.344 pol=  0.059 vL= 0.618 kl= 0.44 H=  9.54 adv=+0.000 r̄=-0.606 succ=20.7% >exp= 0.0% el=10h08m eta=24h17m
+  ep  1792/5000 batch 2920 loss=  -0.284 pol= -0.019 vL= 0.415 kl= 0.53 H=  9.71 adv=-0.000 r̄=-0.364 succ=20.7% >exp= 0.0% el=10h11m eta=18h13m
+  ep  2112/5000 batch 2940 loss=   0.152 pol= -1.497 vL= 0.489 kl= 0.43 H=  9.51 adv=-0.000 r̄=-0.627 succ=20.7% >exp= 0.0% el=10h14m eta=13h59m
+  ep  2432/5000 batch 2960 loss=  -0.031 pol=  1.912 vL= 0.255 kl= 0.45 H= 13.56 adv=+0.000 r̄=-0.899 succ=20.7% >exp= 0.0% el=10h17m eta=10h51m
+  ep  2752/5000 batch 2980 loss=  -0.027 pol=  1.727 vL= 0.740 kl= 0.90 H=  9.35 adv=+0.000 r̄=-0.745 succ=20.7% >exp= 0.0% el=10h20m eta=8h26m
+  ep  3072/5000 batch 3000 loss=  -0.271 pol= -1.589 vL= 0.645 kl= 0.58 H= 10.05 adv=+0.000 r̄=-0.226 succ=20.7% >exp= 0.0% el=10h23m eta=6h31m
+  ep  3392/5000 batch 3020 loss=   0.647 pol= -0.490 vL= 0.409 kl= 0.64 H=  8.84 adv=+0.000 r̄=-0.613 succ=20.7% >exp= 0.0% el=10h25m eta=4h56m
+  ep  3712/5000 batch 3040 loss=  -0.133 pol= -0.511 vL= 0.620 kl= 0.53 H= 10.36 adv=+0.000 r̄=-0.371 succ=20.8% >exp= 0.0% el=10h27m eta=3h37m
+  ep  4032/5000 batch 3060 loss=   0.052 pol= -0.765 vL= 0.652 kl= 0.73 H=  8.98 adv=+0.000 r̄=-0.296 succ=20.8% >exp= 0.0% el=10h29m eta=2h31m
+  ep  4352/5000 batch 3080 loss=   0.181 pol=  1.367 vL= 0.228 kl= 0.66 H= 12.52 adv=+0.000 r̄=-0.867 succ=20.8% >exp= 0.0% el=10h31m eta=1h34m
+  ep  4672/5000 batch 3100 loss=  -0.134 pol=  0.378 vL= 0.571 kl= 0.62 H=  6.72 adv=-0.000 r̄=-0.726 succ=20.8% >exp= 0.0% el=10h33m eta=44m29s
+  ep  4992/5000 batch 3120 loss=   0.076 pol= -0.219 vL= 0.470 kl= 0.47 H= 11.01 adv=-0.000 r̄=-0.633 succ=20.8% >exp= 0.0% el=10h35m eta= 1m01s
+  >>> Epoch 10/10 DONE: succ=21.5% (1075/5000) mean_loss= 0.0391 mean_reward=-0.569 mean_KL=0.579 mean_H=9.91 epoch_time=40m58s
+------------------------------------------------------------------------
+  total time:               10h35m
+  success rate:             10392/50000 = 20.8%
+  final success_cost_ema:   293.3233250657314
+  final loss avg:           0.0764
+  checkpoint saved to checkpoints/il_mp_vne_v19_100nodes_normal.pt
+  epoch summary log: logs/ppo_v19_100nodes_normal_epoch_summary.csv

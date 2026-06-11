@@ -1,6 +1,6 @@
 # Virtual Network Embedding (VNE)
 
-Research project comparing VNE algorithms: heuristic (MP-VNE, OA-MP-VNE, MC-VNM) and reinforcement learning (RL-OA-MP-VNE, RL-Cand-VNE).
+Research project comparing VNE algorithms: heuristic (MP-VNE, OA-MP-VNE, MC-VNM) and reinforcement learning (CARL-VNE, RL-Cand-VNE).
 
 ## Layout
 
