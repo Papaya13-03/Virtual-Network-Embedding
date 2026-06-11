@@ -164,7 +164,7 @@ request sống lâu hơn)*
 
 - **Câu hỏi**: cài đặt có đúng không — mô hình có *học* được không, hay chỉ dao động
   ngẫu nhiên?
-- **Bằng chứng cần trưng ra** (từ log epoch `logs/ppo_v19_50nodes_*_epoch_summary.csv`):
+- **Bằng chứng cần trưng ra** (từ log epoch `experiments/carl_vne_50nodes/*/logs/*_epoch_summary.csv`):
   1. **succ_rate trực tuyến tăng** theo epoch rồi đạt bình nguyên (✅ đã có:
      ~0.308 → ~0.35).
   2. **acceptance trên tập kiểm thử tăng** so với mốc R2 ban đầu (✅: đỉnh 33.1% @e19).
@@ -193,10 +193,10 @@ request sống lâu hơn)*
   cùng số episode**, khác đúng một cờ:
   ```bash
   # actor-critic (đã là kết quả chính)
-  python scripts/ppo_finetune.py ... --ppo-mode reinforce --log-file logs/ac_50.csv  --checkpoint checkpoints/v19_ac.pt
+  python scripts/ppo_finetune.py ... --ppo-mode reinforce --log-file experiments/carl_vne_50nodes/ac/training.csv --checkpoint experiments/carl_vne_50nodes/ac/checkpoints/ckpt.pt
   # PPO có cắt
   python scripts/ppo_finetune.py ... --ppo-mode ppo --ppo-clip 0.2 --ppo-epochs 2 \
-         --log-file logs/ppo_50.csv --checkpoint checkpoints/v19_ppo.pt
+         --log-file experiments/carl_vne_50nodes/ppo/training.csv --checkpoint experiments/carl_vne_50nodes/ppo/checkpoints/ckpt.pt
   # rồi run_eval cả hai checkpoint trên cùng tập kiểm thử
   ```
 - **Độ đo so sánh**: (i) acceptance cuối cùng; (ii) tốc độ hội tụ (số epoch đạt 95%

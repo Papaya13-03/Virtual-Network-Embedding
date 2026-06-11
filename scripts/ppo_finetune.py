@@ -34,21 +34,16 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-from algorithms.il_mp_vne_v6.il_mp_vne_v6 import ILMPVNEV6
-from algorithms.il_mp_vne_v17.il_mp_vne_v17 import ILMPVNEV17
-from algorithms.il_mp_vne_v19.il_mp_vne_v19 import ILMPVNEV19
-from algorithms.il_mp_vne_v20.il_mp_vne_v20 import ILMPVNEV20
-from algorithms.il_mp_vne_v21.il_mp_vne_v21 import ILMPVNEV21
-from algorithms.il_mp_vne_v22.il_mp_vne_v22 import ILMPVNEV22
+from algorithms.carl_vne.il_mp_vne_v6 import ILMPVNEV6
+from algorithms.carl_vne.il_mp_vne_v17 import ILMPVNEV17
+from algorithms.carl_vne.carl_vne import CARLVNE
 from utils.load_dataset import read_substrate, read_virtual_requests
 
 ALGO_CLASSES = {
     "il_mp_vne_v6": ILMPVNEV6,
     "il_mp_vne_v17": ILMPVNEV17,
-    "il_mp_vne_v19": ILMPVNEV19,
-    "il_mp_vne_v20": ILMPVNEV20,
-    "il_mp_vne_v21": ILMPVNEV21,
-    "il_mp_vne_v22": ILMPVNEV22,
+    "carl_vne": CARLVNE,
+    "il_mp_vne_v19": CARLVNE,  # backwards-compatible alias
 }
 
 
@@ -363,6 +358,12 @@ def main():
                         "substrate (reload from JSON, clear active mappings) "
                         "so per-epoch metrics are comparable. Default 1 = "
                         "single-pass legacy behaviour.")
+    p.add_argument("--start-epoch", type=int, default=None,
+                   help="Global index of the first epoch of this run (for "
+                        "continuation runs: 20 epochs trained before => 21). "
+                        "Default: auto-derived from the last row of the "
+                        "existing epoch summary CSV (last epoch + 1), else 1. "
+                        "CSV logs are appended, never overwritten.")
     p.add_argument("--train-ordering", action="store_true", default=True,
                    help="Include node/link ordering log-probs in the policy "
                         "gradient (they are random after IL pretrain — the main "
@@ -481,17 +482,36 @@ def main():
 
     log_path = Path(args.log_file)
     log_path.parent.mkdir(parents=True, exist_ok=True)
-    log_f = open(log_path, "w")
-    log_f.write("epoch,episode,batch,loss,policy_loss,value_loss,kl,entropy,"
-                "avg_reward,advantage_mean,ratio_mean,ratio_clip_frac,"
-                "succ_rate,elapsed_s\n")
+    log_has_data = log_path.exists() and log_path.stat().st_size > 0
+    log_f = open(log_path, "a")
+    if not log_has_data:
+        log_f.write("epoch,episode,batch,loss,policy_loss,value_loss,kl,entropy,"
+                    "avg_reward,advantage_mean,ratio_mean,ratio_clip_frac,"
+                    "succ_rate,elapsed_s\n")
 
     # Per-epoch summary CSV (one row per epoch, suitable for learning curves).
     epoch_log_path = log_path.with_name(log_path.stem + "_epoch_summary.csv")
-    epoch_f = open(epoch_log_path, "w")
-    epoch_f.write("epoch,n_episodes,n_success,succ_rate,mean_loss,mean_policy_loss,"
-                  "mean_value_loss,mean_kl,mean_entropy,mean_reward,"
-                  "mean_advantage,mean_ratio,mean_clip_frac,elapsed_s\n")
+    epoch_has_data = epoch_log_path.exists() and epoch_log_path.stat().st_size > 0
+    epoch_f = open(epoch_log_path, "a")
+    if not epoch_has_data:
+        epoch_f.write("epoch,n_episodes,n_success,succ_rate,mean_loss,mean_policy_loss,"
+                      "mean_value_loss,mean_kl,mean_entropy,mean_reward,"
+                      "mean_advantage,mean_ratio,mean_clip_frac,elapsed_s\n")
+
+    # Global epoch numbering: a continuation run appends to the same CSVs and
+    # continues the epoch count instead of restarting at 1.
+    start_epoch = args.start_epoch
+    if start_epoch is None:
+        start_epoch = 1
+        if epoch_has_data:
+            with open(epoch_log_path) as f:
+                data_rows = [r for r in f.read().splitlines()
+                             if r and not r.startswith("epoch,")]
+            if data_rows:
+                start_epoch = int(float(data_rows[-1].split(",")[0])) + 1
+    if start_epoch > 1:
+        print(f"  Continuation: global epochs {start_epoch}.."
+              f"{start_epoch + args.epochs - 1} (appending to {epoch_log_path})")
 
     crit = "critic V(s)" if args.use_critic else "reward EMA"
     print(f"PPO fine-tune: {len(vnrs)} VNRs, batch={args.batch_size}, lr={args.lr}")
@@ -545,11 +565,11 @@ def main():
     ep_start_time = time.time()
 
     for epoch in range(args.epochs):
-        epoch_idx = epoch + 1
+        epoch_idx = start_epoch + epoch
         if args.epochs > 1 and epoch > 0:
             # Reset substrate to fresh state at the start of each epoch (except
             # the first which already loaded fresh substrate).
-            print(f"\n=== Epoch {epoch_idx}/{args.epochs} — resetting substrate ===")
+            print(f"\n=== Epoch {epoch_idx}/{start_epoch + args.epochs - 1} — resetting substrate ===")
             substrate = read_substrate(args.substrate)
             algo._init_controller(substrate)
             algo._active_mappings.clear()
@@ -876,7 +896,7 @@ def main():
         ep_elapsed = time.time() - ep_start_time
         ppo_extra_print = (f" mean_ratio={mean_ratio:.3f} mean_clip={mean_clip:.1%}"
                            if args.ppo_mode == "ppo" else "")
-        print(f"  >>> Epoch {epoch_idx}/{args.epochs} DONE: "
+        print(f"  >>> Epoch {epoch_idx}/{start_epoch + args.epochs - 1} DONE: "
               f"succ={ep_succ_rate:.1%} ({ep_n_success}/{ep_n_total}) "
               f"mean_loss={mean_loss:7.4f} "
               f"mean_reward={mean_reward:6.3f} "
@@ -893,7 +913,7 @@ def main():
         # Save per-epoch checkpoint (epoch_idx suffix). Allows recovery of the
         # best-online-success checkpoint after training (e.g. when the final
         # epoch over-trains relative to a mid-training peak).
-        if args.epochs > 1:
+        if args.epochs > 1 or start_epoch > 1:
             ckpt_stem = Path(args.checkpoint)
             ep_ckpt = ckpt_stem.with_name(
                 ckpt_stem.stem + f"_e{epoch_idx}" + ckpt_stem.suffix)

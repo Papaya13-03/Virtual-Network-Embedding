@@ -1,8 +1,9 @@
-"""Convergence chart for 100-node PPO: Normal vs Cost-focused (real ep 1-50).
+"""Convergence chart for 100-node PPO: Normal vs Cost-focused recipes.
 
-Phases (each = 10 epoch, except cont3 = 20 epoch):
-  Normal:  base (e1-10) + cont (e11-20) + cont2 (e21-30) + cont3 (e31-50)
-  CF   :  base (e1-10) + cont (e11-20) + cont2 (e21-30) + cont3 (e31-50)
+Reads the merged global-epoch summaries written by ppo_finetune.py
+(continuation runs append to the same CSV with global epoch numbers):
+  experiments/carl_vne_100nodes/normal/training_epoch_summary.csv
+  experiments/carl_vne_100nodes/costfocused/training_epoch_summary.csv
 """
 import csv
 from datetime import datetime
@@ -12,46 +13,16 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "results" / "figures"
+OUT = ROOT / "experiments" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 
-NORMAL_PHASES = [
-    ("logs/ppo_v19_100nodes_normal_epoch_summary.csv", 0),
-    ("logs/ppo_v19_100nodes_normal_cont_epoch_summary.csv", 10),
-    ("logs/ppo_v19_100nodes_normal_cont2_epoch_summary.csv", 20),
-    ("logs/ppo_v19_100nodes_normal_cont3_epoch_summary.csv", 30),
-    ("logs/ppo_v19_100nodes_normal_cont4_epoch_summary.csv", 50),
-    ("logs/ppo_v19_100nodes_normal_cont5_epoch_summary.csv", 70),
-]
-CF_PHASES = [
-    ("logs/ppo_v19_100nodes_costfocused_epoch_summary.csv", 0),
-    ("logs/ppo_v19_100nodes_costfocused_cont_epoch_summary.csv", 10),
-    ("logs/ppo_v19_100nodes_costfocused_cont2_epoch_summary.csv", 20),
-    ("logs/ppo_v19_100nodes_costfocused_cont3_epoch_summary.csv", 30),
-    ("logs/ppo_v19_100nodes_costfocused_cont4_epoch_summary.csv", 50),
-    ("logs/ppo_v19_100nodes_costfocused_cont5_epoch_summary.csv", 70),
-]
+NORMAL_CSV = ROOT / "experiments/carl_vne_100nodes/normal/training_epoch_summary.csv"
+CF_CSV = ROOT / "experiments/carl_vne_100nodes/costfocused/training_epoch_summary.csv"
 
 # Baselines on 100-node test set.
 MP_VNE_ACC = 32.83        # mp_vne (original) heuristic
 MP_VNE_V4_ACC = 23.30     # mp_vne_v4 heuristic
-
-
-def load_csv(path, offset=0):
-    rows = []
-    with open(path) as f:
-        for r in csv.DictReader(f):
-            # Skip duplicate header rows (script appends header on each invoke).
-            if r.get("epoch") == "epoch":
-                continue
-            rows.append({k: float(v) for k, v in r.items()})
-    if not rows:
-        return None
-    keys = rows[0].keys()
-    data = {k: np.array([r[k] for r in rows]) for k in keys}
-    data["epoch"] = data["epoch"] + offset
-    return data
 
 
 def rolling(arr, w=5):
@@ -62,25 +33,28 @@ def rolling_std(arr, w=5):
     return np.array([arr[max(0, i - w + 1):i + 1].std() for i in range(len(arr))])
 
 
-def load_recipe(phases):
-    parts = []
-    for p, off in phases:
-        f = ROOT / p
-        if f.exists():
-            d = load_csv(f, off)
-            if d is not None:
-                parts.append(d)
-    if not parts:
+def load_recipe(path):
+    if not path.exists():
         return None
-    epochs = np.concatenate([d["epoch"] for d in parts])
-    succ = np.concatenate([d["succ_rate"] for d in parts]) * 100
-    reward = np.concatenate([d["mean_reward"] for d in parts])
-    return {"epoch": epochs, "succ": succ, "reward": reward}
+    rows = []
+    with open(path) as f:
+        for r in csv.DictReader(f):
+            # Skip stray repeated header rows (defensive).
+            if r.get("epoch") == "epoch":
+                continue
+            rows.append({k: float(v) for k, v in r.items()})
+    if not rows:
+        return None
+    return {
+        "epoch": np.array([r["epoch"] for r in rows]),
+        "succ": np.array([r["succ_rate"] for r in rows]) * 100,
+        "reward": np.array([r["mean_reward"] for r in rows]),
+    }
 
 
 def main():
-    normal = load_recipe(NORMAL_PHASES)
-    cf = load_recipe(CF_PHASES)
+    normal = load_recipe(NORMAL_CSV)
+    cf = load_recipe(CF_CSV)
     if normal is None or cf is None:
         print("Missing data.")
         return
@@ -145,7 +119,7 @@ def main():
     hi = max(all_succ.max(), MP_VNE_ACC) + 0.5
     ax.set_ylim(lo, hi)
     ax.set_ylabel("Online acceptance rate (%)")
-    ax.set_title(f"100-node PPO finetune — V19 cand head — online acceptance "
+    ax.set_title(f"100-node PPO finetune — CARL-VNE cand head — online acceptance "
                  f"(Normal {n_normal}ep, CF {n_cf}ep)")
     ax.grid(alpha=0.3)
     ax.legend(fontsize=9, loc="lower right", ncol=2)
@@ -170,7 +144,7 @@ def main():
     ax.legend(fontsize=10, loc="lower right")
 
     fig.suptitle(
-        f"V19 cand-RL on 100-node — Normal vs Cost-focused convergence "
+        f"CARL-VNE on 100-node — Normal vs Cost-focused convergence "
         f"(up to ep {int(max(normal['epoch'].max(), cf['epoch'].max()))})",
         fontsize=14, fontweight="bold")
     fig.tight_layout()

@@ -38,34 +38,16 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-from algorithms.il_mp_vne.il_mp_vne import ILMPVNE
-from algorithms.il_mp_vne_v3.il_mp_vne_v3 import ILMPVNEV3
-from algorithms.il_mp_vne_v5.il_mp_vne_v5 import ILMPVNEV5
-from algorithms.il_mp_vne_v6.il_mp_vne_v6 import ILMPVNEV6
-from algorithms.il_mp_vne_v7.il_mp_vne_v7 import ILMPVNEV7
-from algorithms.il_mp_vne_v9.il_mp_vne_v9 import ILMPVNEV9
-from algorithms.il_mp_vne_v11.il_mp_vne_v11 import ILMPVNEV11
-from algorithms.il_mp_vne_v12.il_mp_vne_v12 import ILMPVNEV12
-from algorithms.il_mp_vne_v14.il_mp_vne_v14 import ILMPVNEV14
-from algorithms.il_mp_vne_v16.il_mp_vne_v16 import ILMPVNEV16
-from algorithms.il_mp_vne_v17.il_mp_vne_v17 import ILMPVNEV17
-from algorithms.il_mp_vne_v21.il_mp_vne_v21 import ILMPVNEV21
+from algorithms.carl_vne.il_mp_vne_v6 import ILMPVNEV6
+from algorithms.carl_vne.il_mp_vne_v16 import ILMPVNEV16
+from algorithms.carl_vne.il_mp_vne_v17 import ILMPVNEV17
 from algorithms.mp_vne.mp_vne import MPVNE
 from utils.load_dataset import read_substrate, read_virtual_requests
 
 ALGO_CLASSES = {
-    "il_mp_vne": ILMPVNE,
-    "il_mp_vne_v3": ILMPVNEV3,
-    "il_mp_vne_v5": ILMPVNEV5,
     "il_mp_vne_v6": ILMPVNEV6,
-    "il_mp_vne_v7": ILMPVNEV7,
-    "il_mp_vne_v9": ILMPVNEV9,
-    "il_mp_vne_v11": ILMPVNEV11,
-    "il_mp_vne_v12": ILMPVNEV12,
-    "il_mp_vne_v14": ILMPVNEV14,
     "il_mp_vne_v16": ILMPVNEV16,
     "il_mp_vne_v17": ILMPVNEV17,
-    "il_mp_vne_v21": ILMPVNEV21,
 }
 
 
@@ -145,7 +127,7 @@ def main():
     p.add_argument("--resume", default=None,
                    help="Path to a checkpoint to resume from. Loads policy_state_dict "
                         "into the algorithm before training continues.")
-    p.add_argument("--algorithm", default="il_mp_vne",
+    p.add_argument("--algorithm", default="il_mp_vne_v17",
                    choices=list(ALGO_CLASSES.keys()),
                    help="Which IL policy architecture to train.")
     p.add_argument("--targets-file", default=None,

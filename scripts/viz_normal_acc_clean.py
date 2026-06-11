@@ -11,19 +11,19 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "results" / "figures"
+OUT = ROOT / "experiments" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 NORMAL_PHASES = [
-    ("logs/ppo_v19_50nodes_10ep_epoch_summary.csv", 0),
-    ("logs/ppo_v19_50nodes_10ep_cont_epoch_summary.csv", 10),
-    ("logs/ppo_v19_50nodes_10ep_cont2_epoch_summary.csv", 20),
-    ("logs/ppo_v19_50nodes_10ep_cont3_epoch_summary.csv", 30),
-    ("logs/ppo_v19_50nodes_10ep_cont4_epoch_summary.csv", 50),
-    ("logs/ppo_v19_50nodes_10ep_cont5_epoch_summary.csv", 80),
-    ("logs/ppo_v19_50nodes_10ep_cont6_epoch_summary.csv", 130),
-    ("logs/ppo_v19_50nodes_10ep_cont7_epoch_summary.csv", 150),  # in-progress
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_epoch_summary.csv", 0),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont_epoch_summary.csv", 10),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont2_epoch_summary.csv", 20),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont3_epoch_summary.csv", 30),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont4_epoch_summary.csv", 50),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont5_epoch_summary.csv", 80),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont6_epoch_summary.csv", 130),
+    ("experiments/carl_vne_50nodes/normal/logs/ppo_v19_50nodes_10ep_cont7_epoch_summary.csv", 150),  # in-progress
 ]
 
 V4_ACC = 29.03

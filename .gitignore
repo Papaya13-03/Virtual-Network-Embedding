@@ -1,3 +1,2 @@
 /.rules/
-checkpoints/
-logs/rl_cand_vne/
+experiments/**/checkpoints/

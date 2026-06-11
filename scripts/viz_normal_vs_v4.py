@@ -14,7 +14,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "results" / "figures"
+OUT = ROOT / "experiments" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 

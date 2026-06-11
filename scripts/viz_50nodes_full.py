@@ -16,7 +16,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 ROOT = Path(__file__).resolve().parent.parent
-OUT = ROOT / "results" / "figures"
+OUT = ROOT / "experiments" / "figures"
 OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 
@@ -53,17 +53,17 @@ def inst_cost_from_mapping(vn, sol, node_prices):
 CASES = [
     # label, eval_log, metrics, solutions, color, ls
     ("mp_vne_v4 (heuristic)",
-     "logs/eval_mp_vne_v4_50nodes.log",
+     "experiments/baselines/mp_vne_v4/eval_mp_vne_v4_50nodes.log",
      "results/scenario_50nodes/mp_vne_v4/metrics.json",
      "results/scenario_50nodes/mp_vne_v4/solutions.json",
      "tab:red", "-."),
     ("V19 single-pass (5000 ep)",
-     "logs/eval_v19_pso_50nodes.log",
+     "experiments/carl_vne_50nodes/misc/eval_v19_pso_50nodes.log",
      "results/scenario_50nodes/il_mp_vne_v19_pso/metrics.json",
      "results/scenario_50nodes/il_mp_vne_v19_pso/solutions.json",
      "tab:gray", "--"),
     ("V19 best (multi-epoch ep 19)",
-     "logs/eval_v19_50nodes_e19.log",
+     "experiments/carl_vne_50nodes/normal/eval_logs/eval_v19_50nodes_e19.log",
      "results/scenario_50nodes/il_mp_vne_v19_e19/metrics.json",
      "results/scenario_50nodes/il_mp_vne_v19_e19/solutions.json",
      "tab:blue", "-"),
@@ -367,8 +367,8 @@ def fig_lines():
 # ---------------------------------------------------------------------------
 
 def fig_loss_reward():
-    il = load_csv(ROOT / "logs" / "imitation_50nodes.csv")
-    ppo = load_csv(ROOT / "logs" / "ppo_v19_50nodes.csv")
+    il = load_csv(ROOT / "experiments/pretrain/logs/imitation_50nodes.csv")
+    ppo = load_csv(ROOT / "experiments/carl_vne_50nodes/misc/ppo_v19_50nodes.csv")
     if il is None or ppo is None:
         print("(missing IL or PPO csv — skip loss_reward)")
         return
