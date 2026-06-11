@@ -3,7 +3,7 @@ import unittest
 from problem.substrate_network import SubstrateNetwork, SubstrateNode, SubstrateLink
 from problem.virtual_network import VirtualNetwork, VirtualNode, VirtualLink
 from problem.request import VirtualNetworkRequest
-from algorithms.registry import get_algorithm
+from algorithms.mp_vne.legacy import MPVNELegacy
 
 class TestMPVNE(unittest.TestCase):
     def setUp(self):
@@ -35,7 +35,7 @@ class TestMPVNE(unittest.TestCase):
         request = VirtualNetworkRequest(id="req1", virtual_network=vnr, arrival_time=0.0, lifetime=100.0)
         
         # Act
-        mp_vne = get_algorithm("mp_vne")
+        mp_vne = MPVNELegacy()
         
         # Force the algorithm to map v1 to s1 and v2 to s3 
         # (Since they are the only ones big enough if we restrict CPU dynamically, but our greedy will hit them anyway)

@@ -1,13 +1,13 @@
 # Virtual Network Embedding (VNE)
 
 Research project for the thesis method **CARL-VNE** (Candidate-RL VNE: IL
-pretrain + PPO fine-tuned candidate head) against the heuristic baselines
-**MP-VNE** and **MP-VNE-V4**.
+pretrain + PPO fine-tuned candidate head) against the heuristic baseline
+**MP-VNE** (paper-faithful PSO; the pre-rename `mp_vne` survives internally as `MPVNELegacy` — IL expert + parent class).
 
 ## Layout
 
 ```
-algorithms/       carl_vne (proposed method, self-contained), mp_vne, mp_vne_v4
+algorithms/       carl_vne (proposed method, self-contained), mp_vne (baseline + legacy expert)
 problem/          Problem model: substrate, virtual network, requests, solutions
 configs/          YAML configs (il_mp_vne_v6.yaml = CARL-VNE base net, mp_vne.yaml)
 datasets/         Scenario substrate + VNR JSON files (50/100/200 nodes, + generator)
@@ -16,7 +16,7 @@ experiments/      Training artifacts, one dir per experiment:
   carl_vne_100nodes/   normal/, costfocused/ — GLOBAL epoch numbering:
                        training_epoch_summary.csv + checkpoints/ckpt_e{N}.pt
   carl_vne_200nodes/   200-node scaling experiment
-  baselines/           mp_vne, mp_vne_v4 eval logs
+  baselines/           MP-VNE eval logs (mp_vne_v4 = old name of mp_vne)
   pretrain/            IL-pretrain checkpoints (incl. thesis R2: il_mp_vne_v6_100nodes_r2.pt)
   figures/             Generated charts
 results/          Eval outputs per scenario (solutions.json + metrics.json)

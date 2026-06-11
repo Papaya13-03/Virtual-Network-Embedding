@@ -168,7 +168,7 @@ def main():
     ax.axhline(33.13, color="darkgreen", linestyle=":", linewidth=1.3,
                label=f"V19-best (ep19) = 33.13%")
     ax.axhline(29.03, color="tab:red", linestyle="--", linewidth=1.3, alpha=0.7,
-               label="mp_vne_v4 = 29.03%")
+               label="MP-VNE = 29.03%")
     best_idx = int(np.argmax(eval_acc))
     ax.scatter([eval_ep[best_idx]], [eval_acc[best_idx]], s=300, marker="*",
                color="gold", edgecolors="black", linewidths=1.3, zorder=10,

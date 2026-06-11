@@ -1,67 +1,76 @@
-import random
-import time
-import uuid
-import os
-import yaml
-from typing import List, Dict
-from collections import OrderedDict
+"""MP-VNE V4 — paper-faithful PSO operators + paper hyperparameters.
 
-from algorithms.mp_vne.global_controller import GlobalController
+Paper: https://arxiv.org/pdf/2202.12830 (Zhang et al., "MP-VNE")
+
+V4 implements PSO exactly as paper describes:
+
+  Eq. 3:  v_new = α·v + β·rand1·δ(x_pb, x) + γ·rand2·δ(x_gb, x)
+  Eq. 4:  x_new = x + v_new
+
+  where δ(a,b) = 0 if a == b else 1     ← paper page 8 point 7
+
+Paper hyperparams (page 13):
+  particles=10, iterations=50, α=0.3, β=0.3, γ=0.4, mutation=10%
+  + paper Algorithm 2 says "resetParticalPosition" on mutation (whole particle).
+
+Candidate selection: paper-accurate top-K total (mp_vne_v2 strategy).
+Multi-restart: K=3 to be fair vs V16/V17.
+"""
+import random
+from typing import List, Dict
+
 from problem.substrate_network import SubstrateNetwork, SubstrateNode
-from problem.virtual_network import VirtualNetwork, VirtualNode, VirtualLink
+from problem.virtual_network import VirtualNetwork, VirtualNode
 from problem.request import VirtualNetworkRequest
 from problem.embedding_solution import EmbeddingSolution
 
+from algorithms.mp_vne.global_controller import GlobalController as GCPerDom  # top-K per domain
+from algorithms.mp_vne.legacy import MPVNELegacy
 
-class MPVNE:
+
+# Paper hyperparameters
+PAPER_PARTICLES = 10
+PAPER_ITERATIONS = 50
+PAPER_ALPHA = 0.3   # inertia
+PAPER_BETA = 0.3    # cognitive (c1)
+PAPER_GAMMA = 0.4   # social (c2)
+PAPER_MUTATION = 0.10
+
+NUM_RESTARTS = 3    # multi-restart wrapper to match V16/V17
+
+
+class MPVNE(MPVNELegacy):
+    NUM_RESTARTS = NUM_RESTARTS
+
     def __init__(self):
+        super().__init__()
         self.name = "MP-VNE"
-        self._active_mappings: Dict[str, Dict] = OrderedDict()  # request_id -> {"mapping", "vlink_paths", "expire_time"}
-        
-        # Load configs
-        config_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "configs", "mp_vne.yaml")
-        try:
-            with open(config_path, "r") as f:
-                self.config = yaml.safe_load(f)
-        except Exception:
-            # Fallback to defaults if file not found
-            self.config = {
-                "pso": {
-                    "num_particles": 20,
-                    "num_iterations": 15,
-                    "w": 0.7,
-                    "c1": 1.5,
-                    "c2": 1.5,
-                    "mutation_rate": 0.1
-                },
-                "candidate_selection": {
-                    "top_k": 5
-                }
-            }
+        # Override config with paper-faithful values.
+        self.config["pso"] = {
+            "num_particles": PAPER_PARTICLES,
+            "num_iterations": PAPER_ITERATIONS,
+            "alpha": PAPER_ALPHA,
+            "beta": PAPER_BETA,
+            "gamma": PAPER_GAMMA,
+            "mutation_rate": PAPER_MUTATION,
+        }
+        self.config["candidate_selection"] = {"top_k": 1}  # top-1 per domain (paper-strict)
 
-    def _release_expired(self, current_time: float) -> None:
-        expired_ids = [rid for rid, data in self._active_mappings.items()
-                       if data["expire_time"] <= current_time]
-        for expired_id in expired_ids:
-            data = self._active_mappings.pop(expired_id)
-            self.global_controller.release_mapping(
-                data["mapping"], data["vnetwork"], data["vlink_paths"]
-            )
-
-    def solve(self, substrate_network: SubstrateNetwork, virtual_request: VirtualNetworkRequest) -> EmbeddingSolution:
-        self.global_controller = GlobalController(substrate_network)
+    def solve(self, substrate_network, virtual_request):
+        # Cache GlobalController (per-domain top-K selection, paper-strict).
+        if getattr(self, "global_controller", None) is None:
+            self.global_controller = GCPerDom(substrate_network)
         self._release_expired(virtual_request.arrival_time)
         self.global_controller.clear_caches()
 
         vnetwork = virtual_request.virtual_network
         solution = EmbeddingSolution(vnr_id=virtual_request.id, is_successful=False)
 
-        top_k = self.config.get("candidate_selection", {}).get("top_k", 5)
+        top_k = self.config["candidate_selection"]["top_k"]
         candidate_nodes = self.global_controller.process_request(vnetwork, top_k=top_k)
         if any(not c for c in candidate_nodes):
-            return solution  # Failed to find candidates for a virtual node
-            
-        # Pre-calculate virtual link endpoint indices to speed up fitness calculation
+            return solution
+
         vnodes_list = list(vnetwork.nodes.values())
         vnode_to_idx = {vnode.id: i for i, vnode in enumerate(vnodes_list)}
         vlink_indices = []
@@ -69,34 +78,42 @@ class MPVNE:
             vlink_indices.append({
                 "src_idx": vnode_to_idx[vlink.source],
                 "dst_idx": vnode_to_idx[vlink.target],
-                "bw": vlink.bandwidth_demand
+                "bw": vlink.bandwidth_demand,
             })
-            
-        best_particle_idx = self.pso(candidate_nodes, virtual_request, vlink_indices)
 
-        # Build mapping dictionaries
-        vnodes = list(vnetwork.nodes.values())
+        # Multi-restart wrapper (K=3) — fair vs V16/V17.
+        best_particle = None
+        best_score = float("inf")
+        master_seed = getattr(self, "_master_seed", 42)
+        for k in range(self.NUM_RESTARTS):
+            random.seed(k * 1337 + master_seed)
+            particle = self.pso_paper(candidate_nodes, virtual_request, vlink_indices)
+            score = self.fitness(particle, candidate_nodes, virtual_request, vlink_indices)
+            if score < best_score:
+                best_score = score
+                best_particle = particle
+        if best_particle is None:
+            best_particle = particle  # fallback to last
+
         best_mapping = {
-            vnodes[i].id: candidate_nodes[i][idx].id
-            for i, idx in enumerate(best_particle_idx)
+            vnodes_list[i].id: candidate_nodes[i][idx].id
+            for i, idx in enumerate(best_particle)
         }
-        
+
         try:
             vlink_paths = self.global_controller.commit_mapping(best_mapping, vnetwork)
-            # Post-mapping verification
             if not vlink_paths:
                 raise ValueError("No paths allocated")
             solution.is_successful = True
         except ValueError:
-            return solution  # Mapping failed
+            return solution
 
-        cost = self.fitness(best_particle_idx, candidate_nodes, virtual_request, vlink_indices)
-        
-        # Populate solution
+        cost = self.fitness(best_particle, candidate_nodes, virtual_request, vlink_indices)
+
         solution.node_mapping = best_mapping
         solution.is_successful = True
         solution.embedding_cost = cost
-        
+
         formatted_link_mapping = {}
         for (v_src, v_dst), allocated_paths in vlink_paths.items():
             formatted_paths = []
@@ -104,7 +121,6 @@ class MPVNE:
                 link_tuples = [(l.source, l.target) for l in path_links]
                 formatted_paths.append((link_tuples, allocated_bw))
             formatted_link_mapping[(v_src, v_dst)] = formatted_paths
-            
         solution.link_mapping = formatted_link_mapping
 
         self._active_mappings[virtual_request.id] = {
@@ -113,88 +129,86 @@ class MPVNE:
             "vlink_paths": vlink_paths,
             "expire_time": virtual_request.arrival_time + virtual_request.lifetime,
         }
-
         return solution
 
-    # ---------------- PSO & mapping ----------------
-    def pso(self, candidates: List[List[SubstrateNode]], request: VirtualNetworkRequest, vlink_indices: List[Dict]) -> List[int]:
-        pso_config = self.config.get("pso", {})
-        num_particles: int = pso_config.get("num_particles", 20)
-        num_iterations: int = pso_config.get("num_iterations", 15)
-        w: float = pso_config.get("w", 0.7)
-        c1: float = pso_config.get("c1", 1.5)
-        c2: float = pso_config.get("c2", 1.5)
-        mutation_rate: float = pso_config.get("mutation_rate", 0.1)
-        num_vnode: int = len(candidates)
+    def pso_paper(self, candidates, request, vlink_indices):
+        """Paper-faithful PSO with BOTH operators redefined per paper page 8:
 
+        Point 7 (minus δ):
+          a - b = 0 if a == b else 1
+
+        Point 8 (plus, binary threshold at 0.5):
+          a + b = 1 if (a + b) > 0.5 else 0
+
+        Eq.3:  v_new = α·v ⊕ β·r1·δ(x_pb, x) ⊕ γ·r2·δ(x_gb, x)
+        Eq.4:  x_new = x ⊕ v_new      (interpreted: v=1 → change x toward best)
+
+        Velocity therefore lives in {0, 1} after each update.
+        """
+        cfg = self.config["pso"]
+        num_particles = cfg["num_particles"]
+        num_iterations = cfg["num_iterations"]
+        alpha = cfg["alpha"]
+        beta = cfg["beta"]
+        gamma = cfg["gamma"]
+        mutation_rate = cfg["mutation_rate"]
+        num_vnode = len(candidates)
+
+        # Initialize population (random indices into per-vnode candidate lists).
         population: List[List[int]] = [
             [random.randint(0, len(candidates[j]) - 1) for j in range(num_vnode)]
             for _ in range(num_particles)
         ]
-        velocities: List[List[float]] = [[0.0 for _ in range(num_vnode)] for _ in range(num_particles)]
+        # Velocity is binary {0, 1} per dimension under paper's redefined +.
+        velocities: List[List[int]] = [[0] * num_vnode for _ in range(num_particles)]
 
-        pbest: List[List[int]] = [p[:] for p in population]
-        pbest_score: List[float] = [self.fitness(p, candidates, request, vlink_indices) for p in population]
+        pbest = [p[:] for p in population]
+        pbest_score = [self.fitness(p, candidates, request, vlink_indices) for p in population]
 
-        gbest_idx: int = pbest_score.index(min(pbest_score))
-        gbest: List[int] = pbest[gbest_idx][:]
-        gbest_score: float = pbest_score[gbest_idx]
+        gbest_idx = pbest_score.index(min(pbest_score))
+        gbest = pbest[gbest_idx][:]
+        gbest_score = pbest_score[gbest_idx]
 
         for _ in range(num_iterations):
-            # print(f"  Iteration {_ + 1}/{num_iterations}...")
             for i in range(num_particles):
+                # Eq.3 with binary δ (minus) and binary threshold + (plus).
                 for j in range(num_vnode):
                     r1, r2 = random.random(), random.random()
-                    velocities[i][j] = (
-                        w * velocities[i][j]
-                        + c1 * r1 * (pbest[i][j] - population[i][j])
-                        + c2 * r2 * (gbest[j] - population[i][j])
+                    delta_pb = 0 if pbest[i][j] == population[i][j] else 1
+                    delta_gb = 0 if gbest[j] == population[i][j] else 1
+                    raw_sum = (
+                        alpha * velocities[i][j]
+                        + beta * r1 * delta_pb
+                        + gamma * r2 * delta_gb
                     )
-                    new_idx: int = int(round(population[i][j] + velocities[i][j])) % len(candidates[j])
-                    population[i][j] = new_idx
+                    # Paper page 8 point 8: plus → 1 if >0.5 else 0.
+                    velocities[i][j] = 1 if raw_sum > 0.5 else 0
 
+                # Eq.4: x_new = x ⊕ v_new.
+                # When v_new[j] == 1, position moves toward best.
+                # Source of move: probabilistic blend of pbest and gbest,
+                # weighted by their respective coefficients β and γ.
+                for j in range(num_vnode):
+                    if velocities[i][j] == 1:
+                        if random.random() < beta / (beta + gamma):
+                            population[i][j] = pbest[i][j]
+                        else:
+                            population[i][j] = gbest[j]
+                    # velocity 0 → keep x[j]
+
+                # Genetic variation factor (Algorithm 2 line 6-9).
                 if random.random() < mutation_rate:
-                    mut_idx = random.randint(0, num_vnode - 1)
-                    population[i][mut_idx] = random.randint(0, len(candidates[mut_idx]) - 1)
+                    population[i] = [
+                        random.randint(0, len(candidates[j]) - 1)
+                        for j in range(num_vnode)
+                    ]
 
-                score: float = self.fitness(population[i], candidates, request, vlink_indices)
+                score = self.fitness(population[i], candidates, request, vlink_indices)
                 if score < pbest_score[i]:
                     pbest[i] = population[i][:]
                     pbest_score[i] = score
+                if score < gbest_score:
+                    gbest = population[i][:]
+                    gbest_score = score
 
-            current_best_score: float = min(pbest_score)
-            if current_best_score < gbest_score:
-                gbest = pbest[pbest_score.index(current_best_score)][:]
-                gbest_score = current_best_score
-            
         return gbest
-
-    def fitness(self, particle_idx: List[int], candidates: List[List[SubstrateNode]], request: VirtualNetworkRequest, vlink_indices: List[Dict]) -> float:
-        vnetwork: VirtualNetwork = request.virtual_network
-        vnodes: List[VirtualNode] = list(vnetwork.nodes.values())
-
-        mapping: List[SubstrateNode] = [candidates[i][idx] for i, idx in enumerate(particle_idx)]
-        
-        # Penalize if multiple virtual nodes map to the same substrate node
-        snode_ids = {s.id for s in mapping}
-        if len(snode_ids) != len(mapping):
-            return float('inf')
-
-        node_cost: float = sum(vnode.cpu_demand * snode.cpu_price for vnode, snode in zip(vnodes, mapping))
-        link_cost: float = 0.0
-        
-        for vlink_info in vlink_indices:
-            src_node: SubstrateNode = mapping[vlink_info["src_idx"]]
-            dst_node: SubstrateNode = mapping[vlink_info["dst_idx"]]
-            
-            # Single-path constraint: PSO must see the same feasibility filter
-            # that commit will apply, otherwise it will keep picking mappings
-            # that pass fitness but fail commit. Probe with the FULL demand.
-            path = self.global_controller.shortest_path(
-                src_node, dst_node, bw_required=vlink_info["bw"],
-            )
-            if not path:
-                return float('inf')
-            link_cost += sum(l.transmission_delay + l.bandwidth_price * vlink_info["bw"] for l in path)
-
-        return node_cost + link_cost

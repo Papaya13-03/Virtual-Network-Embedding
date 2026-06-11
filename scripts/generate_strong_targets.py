@@ -26,7 +26,7 @@ _PROJECT_ROOT = _SCRIPT_DIR.parent
 if str(_PROJECT_ROOT) not in sys.path:
     sys.path.insert(0, str(_PROJECT_ROOT))
 
-from algorithms.mp_vne.mp_vne import MPVNE
+from algorithms.mp_vne.legacy import MPVNELegacy
 from utils.load_dataset import read_substrate, read_virtual_requests
 
 
@@ -97,7 +97,7 @@ def main():
     # is the canonical state; restarts use ISOLATED copies so they can't
     # corrupt the shared state via _release_expired pops).
     import copy as _copy
-    expert = MPVNE()
+    expert = MPVNELegacy()
 
     print(f"Strong target generation:")
     print(f"  substrate: {args.substrate}")
@@ -127,7 +127,7 @@ def main():
             restore_substrate(substrate, snap)
             seed = args.seed_base + i * args.num_restarts + k
             random.seed(seed)
-            mp_try = MPVNE()
+            mp_try = MPVNELegacy()
             # Deep copy of expert's lifecycle so restart can release/commit
             # without permanently mutating canonical state.
             mp_try._active_mappings = _copy.deepcopy(expert._active_mappings)

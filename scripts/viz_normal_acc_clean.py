@@ -99,7 +99,7 @@ def main():
     ax.axhline(V19_BEST_EVAL, color="tab:green", linestyle=":", linewidth=1.5,
                alpha=0.9, label=f"V19-best EVAL = {V19_BEST_EVAL}%")
     ax.axhline(V4_ACC, color="tab:red", linestyle=":", linewidth=1.5,
-               alpha=0.85, label=f"mp_vne_v4 EVAL = {V4_ACC}%")
+               alpha=0.85, label=f"MP-VNE EVAL = {V4_ACC}%")
     # Peak star.
     ax.scatter([peak_ep], [peak_acc], s=350, marker="*", color="gold",
                edgecolors="black", linewidths=1.4, zorder=10,

@@ -21,8 +21,8 @@ NORMAL_CSV = ROOT / "experiments/carl_vne_100nodes/normal/training_epoch_summary
 CF_CSV = ROOT / "experiments/carl_vne_100nodes/costfocused/training_epoch_summary.csv"
 
 # Baselines on 100-node test set.
-MP_VNE_ACC = 32.83        # mp_vne (original) heuristic
-MP_VNE_V4_ACC = 23.30     # mp_vne_v4 heuristic
+MP_VNE_ACC = 32.83        # MP-VNE-Legacy (pre-rename mp_vne)
+MP_VNE_V4_ACC = 23.30     # MP-VNE (paper-faithful PSO; former mp_vne_v4)
 
 
 def rolling(arr, w=5):
@@ -110,9 +110,9 @@ def main():
                label=f"CF peak: ep{cf_peak[0]} = {cf_peak[1]:.2f}%")
     # Baselines.
     ax.axhline(MP_VNE_ACC, color="black", linestyle=":", linewidth=1.4,
-               alpha=0.7, label=f"mp_vne (heuristic best) = {MP_VNE_ACC}%")
+               alpha=0.7, label=f"MP-VNE-Legacy = {MP_VNE_ACC}%")
     ax.axhline(MP_VNE_V4_ACC, color="tab:red", linestyle=":", linewidth=1.4,
-               alpha=0.7, label=f"mp_vne_v4 = {MP_VNE_V4_ACC}%")
+               alpha=0.7, label=f"MP-VNE = {MP_VNE_V4_ACC}%")
     # Y-range tight.
     all_succ = np.concatenate([normal["succ"], cf["succ"]])
     lo = min(all_succ.min(), MP_VNE_V4_ACC) - 0.5
@@ -175,7 +175,7 @@ def main():
     ax.axhline(MP_VNE_ACC, color="black", linestyle=":", linewidth=1.4,
                alpha=0.7, label=f"mp_vne = {MP_VNE_ACC}%")
     ax.axhline(MP_VNE_V4_ACC, color="tab:red", linestyle=":", linewidth=1.4,
-               alpha=0.7, label=f"mp_vne_v4 = {MP_VNE_V4_ACC}%")
+               alpha=0.7, label=f"MP-VNE = {MP_VNE_V4_ACC}%")
     ax.set_xlabel("Epoch")
     ax.set_ylabel("Acceptance rate (%) — rolling mean (w=5)")
     ax.set_title(f"100-node convergence indicator — slope on tail "

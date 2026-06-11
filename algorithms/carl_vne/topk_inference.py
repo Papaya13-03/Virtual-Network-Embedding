@@ -23,18 +23,18 @@ from typing import Dict, List, Tuple
 
 import torch
 
-from algorithms.carl_vne.il_mp_vne_v6 import (
-    ILMPVNEV6 as _V6Base,
-    ILMPVNEV6Direct as _V6Direct,
-    ILMPVNEV6PSO as _V6PSO,
+from algorithms.carl_vne.base_vne import (
+    BaseVNE as _V6Base,
+    BaseVNEDirect as _V6Direct,
+    BaseVNEPSO as _V6PSO,
 )
-from algorithms.carl_vne.il_mp_vne_v10 import _MultiRestartMixin
+from algorithms.carl_vne.multi_restart import MultiRestartMixin
 
 
 DEFAULT_PER_DOMAIN_K = 5    # candidates per (vnode, allowed_domain)
 
 
-class _V16InferenceMixin:
+class TopKInferenceMixin:
     """Override candidate selection + fitness to match mp_vne's inference pipeline."""
 
     PER_DOMAIN_K = DEFAULT_PER_DOMAIN_K
@@ -195,20 +195,20 @@ class _V16InferenceMixin:
         return base
 
 
-class ILMPVNEV16(_V16InferenceMixin, _V6Base):
+class TopKVNE(TopKInferenceMixin, _V6Base):
     def __init__(self):
         super().__init__()
-        self.name = "IL-MP-VNE-V16"
+        self.name = "CARL-VNE-TopK"
 
 
-class ILMPVNEV16Direct(_V16InferenceMixin, _V6Direct):
+class TopKVNEDirect(TopKInferenceMixin, _V6Direct):
     def __init__(self):
         super().__init__()
-        self.name = "IL-MP-VNE-V16-Direct"
+        self.name = "CARL-VNE-TopK-Direct"
 
 
-class ILMPVNEV16PSO(_V16InferenceMixin, _MultiRestartMixin, _V6PSO):
+class TopKVNEPSO(TopKInferenceMixin, MultiRestartMixin, _V6PSO):
     """V16 PSO inference + multi-restart (inherits from V10's mixin)."""
     def __init__(self):
         super().__init__()
-        self.name = "IL-MP-VNE-V16-PSO"
+        self.name = "CARL-VNE-TopK-PSO"

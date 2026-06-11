@@ -52,7 +52,7 @@ def inst_cost_from_mapping(vn, sol, node_prices):
 
 CASES = [
     # label, eval_log, metrics, solutions, color, ls
-    ("mp_vne_v4 (heuristic)",
+    ("MP-VNE (heuristic)",
      "experiments/baselines/mp_vne_v4/eval_mp_vne_v4_50nodes.log",
      "results/scenario_50nodes/mp_vne_v4/metrics.json",
      "results/scenario_50nodes/mp_vne_v4/solutions.json",
@@ -210,7 +210,7 @@ def fig_metrics_grid():
         pad = (max(vals) - min(vals) + 1e-9) * 0.18
         ax.set_ylim(min(vals) - pad * 0.5, max(vals) + pad)
 
-    fig.suptitle("50-node metrics: V19 (IL+PPO) vs mp_vne_v4",
+    fig.suptitle("50-node metrics: V19 (IL+PPO) vs MP-VNE",
                  fontsize=14, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"50nodes_metrics_grid_{DATE_TAG}.png"
@@ -285,7 +285,7 @@ def fig_cumulative():
                     fontsize=10, fontweight="bold")
         ax.set_xlim(0, xmax)
 
-    fig.suptitle("50-node: V19 vs mp_vne_v4", fontsize=14, fontweight="bold")
+    fig.suptitle("50-node: V19 vs MP-VNE", fontsize=14, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"50nodes_cumulative_{DATE_TAG}.png"
     fig.savefig(out, dpi=150, bbox_inches="tight")

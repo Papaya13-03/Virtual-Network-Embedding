@@ -38,16 +38,17 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-from algorithms.carl_vne.il_mp_vne_v6 import ILMPVNEV6
-from algorithms.carl_vne.il_mp_vne_v16 import ILMPVNEV16
-from algorithms.carl_vne.il_mp_vne_v17 import ILMPVNEV17
-from algorithms.mp_vne.mp_vne import MPVNE
+from algorithms.carl_vne.base_vne import BaseVNE
+from algorithms.carl_vne.topk_inference import TopKVNE
+from algorithms.carl_vne.r2_pretrain import R2Pretrain
+from algorithms.mp_vne.legacy import MPVNELegacy
 from utils.load_dataset import read_substrate, read_virtual_requests
 
 ALGO_CLASSES = {
-    "il_mp_vne_v6": ILMPVNEV6,
-    "il_mp_vne_v16": ILMPVNEV16,
-    "il_mp_vne_v17": ILMPVNEV17,
+    "base_vne": BaseVNE,
+    "topk_vne": TopKVNE,
+    "r2": R2Pretrain,
+    "il_mp_vne_v17": R2Pretrain,  # backwards-compatible alias
 }
 
 
@@ -151,7 +152,7 @@ def main():
 
     algo = ALGO_CLASSES[args.algorithm]()
     algo._init_controller(substrate)
-    expert = MPVNE()
+    expert = MPVNELegacy()
 
     # Pre-computed targets (Option A — stronger expert)
     offline_targets = None

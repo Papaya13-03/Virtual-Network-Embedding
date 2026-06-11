@@ -22,7 +22,7 @@ OUT.mkdir(parents=True, exist_ok=True)
 DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 
 ALGOS = [
-    ("mp_vne_v4", "mp_vne_v4_re", "tab:red", "-"),
+    ("MP-VNE", "mp_vne_v4_re", "tab:red", "-"),
     ("Normal ep19 (V19-best)", "il_mp_vne_v19_e19", "tab:green", "-"),
     ("CF cf ep195 ★", "il_mp_vne_v19_cf_ep195", "tab:purple", "-"),
 ]
@@ -179,7 +179,7 @@ def main():
     ax.grid(alpha=0.3); ax.legend(fontsize=10, loc="upper right")
 
     fig.suptitle(
-        "50-node test set (3000 VNRs) — running metrics: CF cf ep195 vs Normal V19-best vs mp_vne_v4",
+        "50-node test set (3000 VNRs) — running metrics: CF cf ep195 vs Normal V19-best vs MP-VNE",
         fontsize=13, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"50nodes_lines_3algos_{DATE_TAG}.png"

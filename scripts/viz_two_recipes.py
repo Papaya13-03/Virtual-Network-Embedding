@@ -137,7 +137,7 @@ def main():
     ax.axhline(V19_BEST_EVAL, color="tab:green", linestyle=":", linewidth=1.3,
                alpha=0.8, label=f"V19-best eval={V19_BEST_EVAL}%")
     ax.axhline(V4_ACC, color="tab:red", linestyle=":", linewidth=1.3,
-               alpha=0.8, label=f"mp_vne_v4 eval={V4_ACC}%")
+               alpha=0.8, label=f"MP-VNE eval={V4_ACC}%")
     ax.scatter([n_ep[n_peak]], [n_succ[n_peak]], s=300, marker="*",
                color="gold", edgecolors="black", linewidths=1.3, zorder=10,
                label=f"peak: ep{int(n_ep[n_peak])}={n_succ[n_peak]:.2f}%")
@@ -196,7 +196,7 @@ def main():
     ax.axhline(V19_BEST_EVAL, color="tab:green", linestyle=":", linewidth=1.3,
                alpha=0.8, label=f"V19-best eval={V19_BEST_EVAL}%")
     ax.axhline(V4_ACC, color="tab:red", linestyle=":", linewidth=1.3,
-               alpha=0.8, label=f"mp_vne_v4 eval={V4_ACC}%")
+               alpha=0.8, label=f"MP-VNE eval={V4_ACC}%")
     ax.scatter([c_ep[c_peak]], [c_succ[c_peak]], s=300, marker="*",
                color="gold", edgecolors="black", linewidths=1.3, zorder=10,
                label=f"peak: ep{int(c_ep[c_peak])}={c_succ[c_peak]:.2f}%")
@@ -237,7 +237,7 @@ def main():
     ax.axhline(V19_BEST_EVAL, color="tab:green", linestyle=":", linewidth=1.3,
                alpha=0.8, label=f"V19-best eval={V19_BEST_EVAL}%")
     ax.axhline(V4_ACC, color="tab:red", linestyle=":", linewidth=1.3,
-               alpha=0.8, label=f"mp_vne_v4 eval={V4_ACC}%")
+               alpha=0.8, label=f"MP-VNE eval={V4_ACC}%")
     ax.scatter([n_ep[n_peak]], [n_succ[n_peak]], s=350, marker="*",
                color="gold", edgecolors="black", linewidths=1.5, zorder=10,
                label=f"Normal peak: ep{int(n_ep[n_peak])}={n_succ[n_peak]:.2f}%")

@@ -34,14 +34,15 @@ import torch
 import torch.nn.functional as F
 import torch.optim as optim
 
-from algorithms.carl_vne.il_mp_vne_v6 import ILMPVNEV6
-from algorithms.carl_vne.il_mp_vne_v17 import ILMPVNEV17
+from algorithms.carl_vne.base_vne import BaseVNE
+from algorithms.carl_vne.r2_pretrain import R2Pretrain
 from algorithms.carl_vne.carl_vne import CARLVNE
 from utils.load_dataset import read_substrate, read_virtual_requests
 
 ALGO_CLASSES = {
-    "il_mp_vne_v6": ILMPVNEV6,
-    "il_mp_vne_v17": ILMPVNEV17,
+    "base_vne": BaseVNE,
+    "r2": R2Pretrain,
+    "il_mp_vne_v17": R2Pretrain,  # backwards-compatible alias
     "carl_vne": CARLVNE,
     "il_mp_vne_v19": CARLVNE,  # backwards-compatible alias
 }

@@ -1,4 +1,4 @@
-"""Normal-reward (V19 PPO) per-epoch eval vs mp_vne_v4 baseline on 50-node test.
+"""Normal-reward (V19 PPO) per-epoch eval vs MP-VNE baseline on 50-node test.
 
 Reward = +1.0 + 0.3·rel_cost (success) | -1.0 (fail).
 Reads results/scenario_50nodes/il_mp_vne_v19_e{ep}/metrics.json for all available
@@ -60,7 +60,7 @@ def main():
         ax.plot(epochs, vals, "o-", color=color, linewidth=2.2, markersize=7,
                 label=f"V19 normal-reward (per-epoch eval)")
         ax.axhline(v4_val, color="tab:red", linestyle="--", linewidth=1.8,
-                   alpha=0.85, label=f"mp_vne_v4 = {v4_val:{fmt}}")
+                   alpha=0.85, label=f"MP-VNE = {v4_val:{fmt}}")
         # Mark best.
         marker_color = "gold"
         ax.scatter([epochs[best_idx]], [vals[best_idx]], s=320, marker="*",
@@ -103,7 +103,7 @@ def main():
           lower_better=True, color="tab:orange", fmt=".2f")
 
     fig.suptitle(
-        f"V19 normal-reward PPO on 50-node — per-epoch eval vs mp_vne_v4  ({len(rows)} epochs)\n"
+        f"V19 normal-reward PPO on 50-node — per-epoch eval vs MP-VNE  ({len(rows)} epochs)\n"
         f"Reward = +1.0 + 0.3·rel_cost (success) | −1.0 (fail)",
         fontsize=13, fontweight="bold")
     fig.tight_layout()

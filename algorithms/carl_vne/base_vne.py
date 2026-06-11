@@ -1,4 +1,4 @@
-# algorithms/il_mp_vne_v6/il_mp_vne_v6.py
+# CARL-VNE base: GCN encoder + cand/node/link heads + PreCost features.
 import os
 import random
 import yaml
@@ -17,7 +17,7 @@ from problem.request import VirtualNetworkRequest
 from problem.embedding_solution import EmbeddingSolution
 
 
-class ILMPVNEV6:
+class BaseVNE:
     """
     RL-enhanced Order-Aware Multi-Path VNE.
 
@@ -28,7 +28,7 @@ class ILMPVNEV6:
     """
 
     def __init__(self):
-        self.name = "IL-MP-VNE-V6"
+        self.name = "CARL-VNE-Base"
         self._active_mappings: Dict[str, Dict] = OrderedDict()
         self._request_count = 0
         self._pretrained = False
@@ -1316,17 +1316,17 @@ class ILMPVNEV6:
 
 # ---- Inference variants (share same pretrain checkpoint) ----
 
-class ILMPVNEV6Direct(ILMPVNEV6):
+class BaseVNEDirect(BaseVNE):
     """V2 — direct autoregressive decoding at inference (matches pretrain)."""
     def __init__(self):
         super().__init__()
         self.config["inference_mode"] = "direct"
-        self.name = "IL-MP-VNE-V6-Direct"
+        self.name = "CARL-VNE-Base-Direct"
 
 
-class ILMPVNEV6PSO(ILMPVNEV6):
+class BaseVNEPSO(BaseVNE):
     """V2 — PSO + top-K candidates at inference (legacy v1 path; for A/B)."""
     def __init__(self):
         super().__init__()
         self.config["inference_mode"] = "pso"
-        self.name = "IL-MP-VNE-V6-PSO"
+        self.name = "CARL-VNE-Base-PSO"

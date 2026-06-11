@@ -24,10 +24,10 @@ over the R2-pso baseline — the exploration the strict K=1 argmax path lacked.
 Checkpoint: experiments/pretrain/checkpoints/il_mp_vne_v19_100nodes.pt
 (== il_mp_vne_v17_ppo_direct).
 """
-from algorithms.carl_vne.il_mp_vne_v17 import (
-    ILMPVNEV17 as _V17Base,
-    ILMPVNEV17Direct as _V17Direct,
-    ILMPVNEV17PSO as _V17PSO,
+from algorithms.carl_vne.r2_pretrain import (
+    R2Pretrain as _V17Base,
+    R2PretrainDirect as _V17Direct,
+    R2PretrainPSO as _V17PSO,
 )
 
 
