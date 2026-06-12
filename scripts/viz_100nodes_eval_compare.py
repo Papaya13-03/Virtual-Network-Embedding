@@ -112,21 +112,29 @@ def main():
     if not data:
         return
 
-    # === Figure 1: running metrics 2x2 ===
+    # === Figure 1: running metrics 2x2 (skip noisy warm-up) ===
     N = len(next(iter(data.values()))[2])
     x = np.arange(1, N + 1)
+    SKIP = 100  # first VNRs swing wildly and compress the y-range
+    # (panel value index, title, ylabel, metrics.json key, format)
     panels = [
-        (2, "Running acceptance rate  (↑ better)", "Cumulative acceptance (%)"),
-        (3, "Running avg cost per success  (↓ better)", "Σ cost / successes"),
-        (4, "Running revenue / cost  (↑ better)", "Σ revenue / Σ cost"),
-        (5, "Running avg delay per success  (↓ better)", "Σ delay / successes"),
+        (2, "Running acceptance rate  (↑ better)", "Cumulative acceptance (%)",
+         "acceptance_rate", lambda v: f"{v*100:.1f}%"),
+        (3, "Running avg cost per success  (↓ better)", "Σ cost / successes",
+         "avg_cost", lambda v: f"{v:.1f}"),
+        (4, "Running revenue / cost  (↑ better)", "Σ revenue / Σ cost",
+         "revenue_cost_ratio", lambda v: f"{v:.3f}"),
+        (5, "Running avg delay per success  (↓ better)", "Σ delay / successes",
+         "avg_delay", lambda v: f"{v:.1f}"),
     ]
-    fig, axes = plt.subplots(2, 2, figsize=(13, 8))
-    for ax, (idx, title, ylab) in zip(axes.flat, panels):
+    fig, axes = plt.subplots(2, 2, figsize=(14, 9))
+    for ax, (idx, title, ylab, mkey, fmt) in zip(axes.flat, panels):
         for label, vals in data.items():
-            ax.plot(x, vals[idx], vals[1], color=vals[0], linewidth=2.0, label=label)
+            final = fmt(finals[label][1][mkey])
+            ax.plot(x[SKIP:], vals[idx][SKIP:], vals[1], color=vals[0],
+                    linewidth=2.0, label=f"{label}  →  {final}")
         ax.set_title(title, fontsize=12, fontweight="bold")
-        ax.set_xlabel("VNR index")
+        ax.set_xlabel("VNRs processed")
         ax.set_ylabel(ylab)
         ax.grid(alpha=0.3)
         ax.legend(fontsize=9, loc="best")
@@ -134,7 +142,7 @@ def main():
                  fontsize=13, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"100nodes_eval_lines_{DATE_TAG}.png"
-    fig.savefig(out, dpi=110, bbox_inches="tight")
+    fig.savefig(out, dpi=130, bbox_inches="tight")
     plt.close(fig)
     print(f"Saved: {out}")
 
