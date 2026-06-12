@@ -173,7 +173,7 @@ def main():
                 label=f"{name} last-{M}ep slope = {slope:+.4f} pp/ep")
 
     ax.axhline(MP_VNE_ACC, color="black", linestyle=":", linewidth=1.4,
-               alpha=0.7, label=f"mp_vne = {MP_VNE_ACC}%")
+               alpha=0.7, label=f"MP-VNE-Legacy = {MP_VNE_ACC}%")
     ax.axhline(MP_VNE_V4_ACC, color="tab:red", linestyle=":", linewidth=1.4,
                alpha=0.7, label=f"MP-VNE = {MP_VNE_V4_ACC}%")
     ax.set_xlabel("Epoch")

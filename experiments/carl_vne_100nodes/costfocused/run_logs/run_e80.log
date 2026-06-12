@@ -1,0 +1,34 @@
+Loading substrate from datasets/scenario_100nodes_train/substrate.json
+Loading VNRs from datasets/scenario_100nodes_train/virtual_requests.json
+  Using 5000 VNRs
+  Trainable policy (carl_vne) loaded from experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt_e79.pt
+  rollout=direct → train: cand_head + encoder + value (ordering frozen) (19394 frozen, 36293 trainable)
+  Frozen reference policy loaded (KL enabled, β_KL=0.1)
+  Continuation: global epochs 80..80 (appending to experiments/carl_vne_100nodes/costfocused/training_epoch_summary.csv)
+PPO fine-tune: 5000 VNRs, batch=16, lr=0.0003
+  baseline=critic V(s), normalize_adv=True, β_H=0.01, value_coef=0.5, reward=cost_rel α=0.5 λ=1.0, fail_r=-0.5
+  checkpoint: experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt.pt
+------------------------------------------------------------------------
+  ep   320/5000 batch   20 loss=   0.330 pol= -1.433 vL= 0.214 kl= 0.13 H= 10.48 adv=+0.000 r̄=-0.191 succ=23.4% >exp= 0.0% el= 4m02s eta=59m08s
+  ep   640/5000 batch   40 loss=  -0.503 pol=  0.493 vL= 0.259 kl= 0.09 H=  8.79 adv=-0.000 r̄=-0.197 succ=22.7% >exp= 0.0% el= 8m11s eta=55m47s
+  ep   960/5000 batch   60 loss=   0.638 pol= -0.525 vL= 0.117 kl= 0.16 H= 11.17 adv=+0.000 r̄=-0.307 succ=23.0% >exp= 0.0% el=10m14s eta=43m07s
+  ep  1280/5000 batch   80 loss=  -0.136 pol= -1.222 vL= 0.284 kl= 0.11 H= 12.42 adv=-0.000 r̄=-0.506 succ=23.1% >exp= 0.0% el=12m24s eta=36m03s
+  ep  1600/5000 batch  100 loss=  -0.339 pol=  1.529 vL= 0.232 kl= 0.34 H=  9.52 adv=-0.000 r̄=-0.388 succ=23.4% >exp= 0.0% el=15m36s eta=33m10s
+  ep  1920/5000 batch  120 loss=   0.243 pol= -3.601 vL= 0.151 kl= 0.39 H=  9.95 adv=-0.000 r̄=-0.014 succ=23.6% >exp= 0.0% el=19m12s eta=30m49s
+  ep  2240/5000 batch  140 loss=  -0.806 pol= -2.566 vL= 0.119 kl= 0.33 H= 10.76 adv=-0.000 r̄=-0.126 succ=23.4% >exp= 0.0% el=21m22s eta=26m19s
+  ep  2560/5000 batch  160 loss=   0.239 pol=  1.939 vL= 0.081 kl= 0.04 H= 14.45 adv=-0.000 r̄=-0.348 succ=23.3% >exp= 0.0% el=23m17s eta=22m12s
+  ep  2880/5000 batch  180 loss=   0.861 pol=  1.750 vL= 0.098 kl= 0.11 H= 11.37 adv=-0.000 r̄=-0.310 succ=23.7% >exp= 0.0% el=25m39s eta=18m53s
+  ep  3200/5000 batch  200 loss=  -0.135 pol= -0.245 vL= 0.161 kl= 0.15 H= 13.12 adv=+0.000 r̄=-0.347 succ=23.5% >exp= 0.0% el=27m53s eta=15m41s
+  ep  3520/5000 batch  220 loss=   0.574 pol= -0.857 vL= 0.298 kl= 0.12 H=  6.78 adv=-0.000 r̄=-0.182 succ=23.5% >exp= 0.0% el=30m02s eta=12m37s
+  ep  3840/5000 batch  240 loss=  -0.477 pol=  0.845 vL= 0.171 kl= 0.19 H= 10.92 adv=+0.000 r̄=-0.284 succ=23.8% >exp= 0.0% el=31m55s eta= 9m38s
+  ep  4160/5000 batch  260 loss=   0.649 pol= -0.393 vL= 0.122 kl= 0.27 H= 10.10 adv=-0.000 r̄=-0.285 succ=23.7% >exp= 0.0% el=33m29s eta= 6m45s
+  ep  4480/5000 batch  280 loss=   0.655 pol=  2.837 vL= 0.289 kl= 0.27 H=  7.50 adv=-0.000 r̄=-0.375 succ=23.7% >exp= 0.0% el=35m16s eta= 4m05s
+  ep  4800/5000 batch  300 loss=   1.015 pol=  3.188 vL= 0.051 kl= 0.06 H= 12.26 adv=+0.000 r̄=-0.450 succ=23.3% >exp= 0.0% el=37m00s eta= 1m32s
+  >>> Epoch 80/80 DONE: succ=23.4% (1172/5000) mean_loss= 0.1305 mean_reward=-0.264 mean_KL=0.180 mean_H=11.31 epoch_time=38m12s
+------------------------------------------------------------------------
+  total time:               38m12s
+  success rate:             1172/5000 = 23.4%
+  final success_cost_ema:   294.0980902652402
+  final loss avg:           -0.5729
+  checkpoint saved to experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt.pt
+  epoch summary log: experiments/carl_vne_100nodes/costfocused/training_epoch_summary.csv
