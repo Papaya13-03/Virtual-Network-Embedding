@@ -1,0 +1,29 @@
+
+=== Eval: carl_vne_pso (seed=42) ===
+  substrate:  datasets/scenario_100nodes/substrate.json
+  requests:   datasets/scenario_100nodes/virtual_requests.json
+  checkpoint: experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt_e147.pt
+  200/3000  succ=65  (230s)
+  400/3000  succ=117  (453s)
+  600/3000  succ=159  (665s)
+  800/3000  succ=209  (924s)
+  1000/3000  succ=256  (1153s)
+  1200/3000  succ=313  (1345s)
+  1400/3000  succ=363  (1549s)
+  1600/3000  succ=416  (1737s)
+  1800/3000  succ=471  (1967s)
+  2000/3000  succ=524  (2124s)
+  2200/3000  succ=565  (2292s)
+  2400/3000  succ=614  (2492s)
+  2600/3000  succ=652  (2668s)
+  2800/3000  succ=694  (2926s)
+  3000/3000  succ=733  (3207s)
+
+  Saved → results/scenario_100nodes/carl_vne_cf_e147/solutions.json, metrics.json
+
+  Results [carl_vne_pso] (3207s):
+    acceptance_rate    : 24.4%  (733/3000)
+    revenue_rate       : 888.81
+    avg_cost           : 234.14
+    revenue_cost_ratio : 0.284
+    avg_delay          : 30.40
