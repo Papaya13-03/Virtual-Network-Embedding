@@ -19,8 +19,8 @@ DATE_TAG = datetime.now().strftime("%Y%m%d_%H%M%S")
 RESULTS = ROOT / "results/scenario_100nodes"
 ALGOS = [
     ("MP-VNE", "mp_vne_v4", "tab:red", "-"),
-    ("CARL-VNE (Normal, e96)", "carl_vne_normal_e96", "tab:green", "-"),
-    ("CARL-VNE (Cost-focused, e83) ★", "carl_vne_cf_e83", "tab:purple", "-"),
+    ("CARL-VNE (Normal, e125)", "carl_vne_normal_e125", "tab:green", "-"),
+    ("CARL-VNE (Cost-focused, e90) ★", "carl_vne_cf_e90", "tab:purple", "-"),
 ]
 
 
@@ -157,8 +157,8 @@ def main():
     fig, axes = plt.subplots(1, 5, figsize=(16, 4))
     labels = list(finals.keys())
     SHORT = {"MP-VNE": "MP-VNE",
-             "CARL-VNE (Normal, e96)": "CARL-VNE\nNormal",
-             "CARL-VNE (Cost-focused, e83) ★": "CARL-VNE\nCF ★"}
+             "CARL-VNE (Normal, e125)": "CARL-VNE\nNormal",
+             "CARL-VNE (Cost-focused, e90) ★": "CARL-VNE\nCF ★"}
     short = [SHORT.get(l, l) for l in labels]
     for ax, (key, title, scale, arrow) in zip(axes, metrics):
         vals = [finals[l][1][key] * scale for l in labels]
