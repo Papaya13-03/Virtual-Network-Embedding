@@ -1,0 +1,76 @@
+\documentclass[../DoAn.tex]{subfiles}
+\begin{document}
+\label{ch:bai_toan}
+% =============================================================
+% CHƯƠNG 2 — BÀI TOÁN NHÚNG MẠNG ẢO       Mục tiêu độ dài: ~6 trang
+% =============================================================
+
+Chương này hình thức hoá bài toán nhúng mạng ảo (Virtual Network Embedding - VNE). Phần đầu mô tả mô hình mạng vật lý và yêu cầu mạng ảo. Tiếp theo trình bày hai pha ánh xạ nút và liên kết, hàm mục tiêu cùng các độ đo hiệu năng. Phần cuối phát biểu bài toán dưới dạng quy hoạch nguyên tuyến tính (ILP) và phân tích tính bất khả thi của lời giải tối ưu ở quy mô thực tế, làm rõ động lực cho phương pháp xấp xỉ đề xuất ở Chương~\ref{ch:de_xuat}.
+
+\section{Mạng vật lý và mạng ảo}
+\label{sec:vne_model}
+
+\textbf{Mạng vật lý} (substrate network) được biểu diễn bằng đồ thị vô hướng có trọng số
+\[
+    G^s = (N^s, E^s),
+\]
+trong đó $N^s$ là tập các nút vật lý và $E^s$ là tập các liên kết. Mỗi nút $n^s \in N^s$ được đặc trưng bởi dung lượng CPU $C(n^s)$, đơn giá CPU $P(n^s)$ và độ trễ xử lý $D(n^s)$. Mỗi liên kết $e^s = (u^s, v^s) \in E^s$ được đặc trưng bởi băng thông $B(e^s)$, đơn giá băng thông $P(e^s)$ và độ trễ truyền dẫn $D(e^s)$. Tại thời điểm bất kỳ, tài nguyên còn lại của mỗi nút và liên kết là $C^{\text{avail}}(n^s) \leq C(n^s)$ và $B^{\text{avail}}(e^s) \leq B(e^s)$.
+
+Một \textbf{yêu cầu mạng ảo} (Virtual Network Request - VNR) bao gồm đồ thị mạng ảo và các thông tin thời gian:
+\[
+    \text{VNR} = (G^v, t_a, t_l), \quad G^v = (N^v, E^v),
+\]
+với $t_a$ là thời điểm đến và $t_l$ là thời gian sống. Mỗi nút ảo $n^v \in N^v$ có yêu cầu CPU $c(n^v)$, và mỗi liên kết ảo $e^v = (u^v, v^v) \in E^v$ có yêu cầu băng thông $b(e^v)$. Trong cấu hình đa miền, mỗi nút ảo có thể có thêm tập miền cho phép $\mathcal{D}(n^v) \subseteq \mathcal{D}$.
+
+\section{Hai pha: ánh xạ nút và ánh xạ liên kết}
+\label{sec:two-phase}
+
+Một lời giải nhúng cho VNR là một cặp ánh xạ $(f_N, f_E)$ trong đó:
+\begin{itemize}
+\item \textbf{Ánh xạ nút} $f_N : N^v \to N^s$ thoả mãn (i) ràng buộc tài nguyên $c(n^v) \leq C^{\text{avail}}(f_N(n^v))$ với mọi $n^v$, (ii) ràng buộc đơn ánh: $f_N(u^v) \neq f_N(v^v)$ với $u^v \neq v^v$, và (iii) ràng buộc miền $f_N(n^v) \in \mathcal{D}(n^v)$ nếu có.
+\item \textbf{Ánh xạ liên kết} $f_E : E^v \to \mathcal{P}(E^s)$ ánh xạ mỗi liên kết ảo tới một tập đường đi vật lý nối $f_N(u^v)$ và $f_N(v^v)$, với tổng băng thông trên các đường đi bằng $b(e^v)$ và không vượt quá băng thông còn lại của bất kỳ liên kết vật lý nào.
+\end{itemize}
+
+Do tính chất NP-Hard của bài toán, các phương pháp thực tế thường giải hai pha một cách phối hợp nhưng không đồng thời tối ưu: pha ánh xạ nút sử dụng một chính sách xếp hạng/lựa chọn, sau đó pha ánh xạ liên kết dùng đường đi ngắn nhất hoặc multi-path để hoàn thiện. Đồ án này đi theo hướng đó, với cải tiến là sử dụng học tăng cường để học chính sách xếp hạng và chọn ứng viên thay cho heuristic cứng.
+
+\section{Hàm mục tiêu và độ đo hiệu năng}
+\label{sec:objective}
+
+Đối với mỗi VNR được nhúng thành công, \textbf{doanh thu} (revenue) và \textbf{chi phí} (cost) được định nghĩa:
+\begin{equation}
+    \mathcal{R}(\text{VNR}) = \sum_{n^v \in N^v} c(n^v) + \sum_{e^v \in E^v} b(e^v),
+    \label{eq:revenue}
+\end{equation}
+\begin{equation}
+    \mathcal{C}(\text{VNR}) = \sum_{n^v \in N^v} c(n^v) + \sum_{e^v \in E^v} b(e^v) \cdot \ell(f_E(e^v)),
+    \label{eq:cost}
+\end{equation}
+trong đó $\ell(\cdot)$ là tổng số chặng vật lý của tập đường đi ánh xạ liên kết ảo. Hai độ đo hiệu năng phổ biến nhất là:
+\begin{itemize}
+\item \textbf{Tỉ lệ chấp nhận} (Acceptance Ratio - AR): tỉ số giữa số VNR được nhúng thành công và tổng số VNR đến trong khoảng thời gian khảo sát.
+\item \textbf{Tỉ số doanh thu trên chi phí} (Revenue-to-Cost - R/C): được định nghĩa cho mỗi VNR là $\mathcal{R}(\text{VNR}) / \mathcal{C}(\text{VNR})$, đo mức độ ``tiết kiệm tài nguyên'' khi nhúng. Ở mức hệ thống, R/C tổng được tính bằng tỉ số của tổng doanh thu và tổng chi phí trên toàn bộ VNR đã nhúng.
+\end{itemize}
+
+Ngoài AR và R/C, các độ đo bổ sung gồm thời gian chạy trung bình mỗi VNR, độ trễ trung bình của các đường đi, và độ ổn định của reward trong quá trình huấn luyện. Đồ án này sử dụng đồng thời cả bốn độ đo để so sánh.
+
+\section{Phát biểu bài toán dưới dạng ILP}
+\label{sec:ilp}
+
+Để có hình thức hoá đầy đủ, đặt biến nhị phân $x_{n^v, n^s} \in \{0,1\}$ bằng $1$ nếu nút ảo $n^v$ được ánh xạ tới nút vật lý $n^s$, và biến $y^{u^v v^v}_{u^s v^s} \in [0, 1]$ biểu diễn tỉ lệ băng thông của liên kết ảo $(u^v, v^v)$ đi qua liên kết vật lý $(u^s, v^s)$. Với mục tiêu cực đại hoá tỉ số R/C, bài toán có thể viết:
+\begin{equation}
+    \max \quad \frac{\mathcal{R}(\text{VNR})}{\mathcal{C}(\text{VNR})}
+\end{equation}
+với các ràng buộc:
+\begin{align}
+    \sum_{n^s \in N^s} x_{n^v, n^s} &= 1, \quad \forall n^v \in N^v, \label{eq:c1}\\
+    \sum_{n^v \in N^v} x_{n^v, n^s} \cdot c(n^v) &\leq C^{\text{avail}}(n^s), \quad \forall n^s \in N^s, \label{eq:c2}\\
+    \sum_{n^v \in N^v} x_{n^v, n^s} &\leq 1, \quad \forall n^s \in N^s, \label{eq:c3}\\
+    \sum_{(u^s, v^s) \in E^s} y^{u^v v^v}_{u^s v^s} \cdot b(u^v, v^v) &\leq B^{\text{avail}}(u^s, v^s), \quad \forall (u^s, v^s), \label{eq:c4}\\
+    \sum_{v^s : (u^s, v^s) \in E^s} (y^{u^v v^v}_{u^s v^s} - y^{u^v v^v}_{v^s u^s}) &= x_{u^v, u^s} - x_{v^v, u^s}, \quad \forall u^s, (u^v, v^v). \label{eq:c5}
+\end{align}
+Ràng buộc \eqref{eq:c1} đảm bảo mỗi nút ảo được ánh xạ tới đúng một nút vật lý; \eqref{eq:c2} đảm bảo không vượt CPU; \eqref{eq:c3} đảm bảo tính đơn ánh; \eqref{eq:c4} đảm bảo không vượt băng thông; và \eqref{eq:c5} là ràng buộc bảo toàn luồng (multi-commodity flow) cho ánh xạ liên kết. Dạng ILP này có $|N^v| \cdot |N^s|$ biến nhị phân nút và $|E^v| \cdot |E^s|$ biến liên kết; do không gian nghiệm tăng theo cấp số mũ, việc giải tối ưu trở nên không khả thi với mạng vật lý cỡ trăm nút trở lên (phân tích độ phức tạp chi tiết được trình bày ở Mục~\ref{sec:complexity-time} của Chương~\ref{ch:de_xuat}). Đây chính là lý do đồ án theo đuổi hướng xấp xỉ bằng học tăng cường thay vì giải ILP trực tiếp.
+
+% Kết chương
+Chương này đã phát biểu hình thức bài toán nhúng mạng ảo: mô hình mạng vật lý và mạng ảo, hai pha ánh xạ nút và liên kết, hàm mục tiêu cùng các độ đo, và dạng ILP với phân tích tính bất khả thi ở quy mô lớn. Chương tiếp theo trình bày phương pháp đề xuất CARL-VNE.
+
+\end{document}

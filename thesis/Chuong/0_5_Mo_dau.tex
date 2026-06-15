@@ -1,13 +1,11 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
-\label{ch:gioi_thieu}
+\label{ch:mo_dau}
 % =============================================================
-% CHƯƠNG 1 — GIỚI THIỆU ĐỀ TÀI            Mục tiêu độ dài: ~4 trang
+% MỞ ĐẦU (chương không đánh số)            Mục tiêu độ dài: ~3 trang
 % =============================================================
 
-Chương này giới thiệu bối cảnh và động lực của bài toán nhúng mạng ảo (Virtual Network Embedding - VNE), khảo sát ngắn gọn các hướng tiếp cận hiện hành cùng những hạn chế còn tồn đọng, xác định mục tiêu, định hướng giải pháp và đóng góp chính của đồ án. Phần cuối chương trình bày bố cục của báo cáo.
-
-\section{Đặt vấn đề}
+\section*{Đặt vấn đề}
 \label{sec:dvd}
 
 Trong vòng hai thập kỷ qua, sự bùng nổ của điện toán đám mây, Internet vạn vật (IoT) và các dịch vụ thời gian thực đã tạo nên áp lực rất lớn lên hạ tầng mạng truyền thống. Mỗi dịch vụ có yêu cầu khác biệt về băng thông, độ trễ và đặc tính bảo mật, dẫn đến nhu cầu chạy nhiều mạng logic độc lập trên cùng một hạ tầng vật lý. Công nghệ \textbf{ảo hoá mạng} (Network Virtualization) ra đời nhằm đáp ứng nhu cầu này, đóng vai trò nền tảng cho các kiến trúc \textit{Software-Defined Networking} (SDN) và \textit{Network Function Virtualization} (NFV) hiện đại\cite{kreutz2015sdn_survey,mijumbi2016nfv_survey}.
@@ -18,24 +16,9 @@ Bài toán nhúng mạng ảo là cốt lõi của các kịch bản 5G/6G netwo
 
 Trong các kịch bản thực tế, bài toán còn phức tạp hơn do tính \textbf{trực tuyến}: VNR đến theo phân phối Poisson, có thời gian sống ngẫu nhiên, và quyết định nhúng cho từng VNR phải đưa ra ngay lập tức mà không biết trước các yêu cầu trong tương lai. Một thuật toán tốt phải vừa khai thác hiệu quả tài nguyên hiện tại, vừa giữ ``khoảng trống'' chiến lược để phục vụ các yêu cầu sau.
 
-\section{Các giải pháp hiện tại và hạn chế}
-\label{sec:giaiphap}
+Các nghiên cứu hiện nay chia thành ba nhóm chính: hướng heuristic/metaheuristic dựa trên tri thức chuyên gia (đơn giản, nhanh nhưng khó tổng quát hoá và dễ rơi vào tối ưu cục bộ), hướng lập trình toán học dạng ILP (cho lời giải tối ưu nhưng chỉ khả thi ở quy mô rất nhỏ), và hướng học tăng cường sâu (học chính sách ánh xạ end-to-end nhưng còn phụ thuộc reward shaping, bỏ qua tri thức tô-pô có sẵn và khó hội tụ ở không gian hành động lớn). Phần khảo sát chi tiết các hướng tiếp cận này được trình bày ở Chương~\ref{ch:nen_tang}. Chính ba hạn chế của hướng học tăng cường là động lực trực tiếp cho phương pháp đề xuất của đồ án.
 
-Các nghiên cứu hiện nay có thể chia thành ba nhóm chính như sau.
-
-\subsection{Hướng heuristic và metaheuristic}
-
-Nhóm này gồm các thuật toán dựa trên tri thức chuyên gia, sử dụng các luật heuristic để xếp hạng nút và tìm đường đi. Đại diện tiêu biểu là VNE-NR\cite{cheng2011vne_nr} ánh xạ nút theo NodeRank, ViNE\cite{chowdhury2009vine} dùng LP-relaxation để gợi ý ánh xạ nút rồi ánh xạ liên kết bằng đường đi ngắn nhất, và MP-VNE\cite{mp_vne} kết hợp lựa chọn ứng viên theo chi phí ước lượng với tối ưu hoá bầy hạt PSO. Ưu điểm của nhóm này là đơn giản, dễ triển khai và chạy nhanh. Nhược điểm là phụ thuộc nặng vào tri thức chuyên gia, khó tổng quát hoá khi tô-pô và phân phối yêu cầu thay đổi, đồng thời dễ rơi vào tối ưu cục bộ.
-
-\subsection{Hướng lập trình toán học}
-
-Bài toán VNE có thể được phát biểu chính xác dưới dạng quy hoạch nguyên tuyến tính (Integer Linear Programming - ILP) hoặc Mixed-Integer Linear Programming. Phương pháp này cho lời giải tối ưu trong từng bước, đồng thời cung cấp cận trên hữu ích để so sánh các phương pháp xấp xỉ. Tuy nhiên, độ phức tạp tính toán theo cấp số mũ khiến cách tiếp cận này chỉ khả thi trên các tô-pô rất nhỏ (dưới 30 nút vật lý), trong khi hạ tầng thực tế thường có hàng trăm đến hàng nghìn nút. Hơn nữa, ILP không thích hợp với kịch bản trực tuyến vì thời gian giải thường vượt quá ngân sách thời gian cho phép của mỗi VNR.
-
-\subsection{Hướng học tăng cường}
-
-Trong vài năm gần đây, học tăng cường sâu (Deep Reinforcement Learning - DRL) được ứng dụng rộng rãi cho VNE nhằm khắc phục các hạn chế của heuristic. Các nghiên cứu tiêu biểu gồm A3C-GCN của Yao và cộng sự\cite{yao2018a3c_gcn}, FlagVNE\cite{flagvne2024}. Tác nhân RL học chính sách ánh xạ end-to-end trực tiếp từ tín hiệu thưởng, không cần luật heuristic cứng nhắc. Tuy nhiên, các phương pháp hiện hành còn gặp ba hạn chế chính: (i) phụ thuộc mạnh vào việc \textit{reward shaping} chính xác, dễ bất ổn định khi reward thưa; (ii) bỏ qua tri thức tô-pô có sẵn từ các thuật toán heuristic mạnh, khiến tác nhân tốn rất nhiều mẫu để khám phá lại các quy luật đơn giản; và (iii) không gian hành động lớn (chọn một trong hàng trăm nút vật lý cho mỗi nút ảo) làm chính sách khó hội tụ ở các tô-pô lớn.
-
-\section{Mục tiêu và định hướng giải pháp}
+\section*{Mục tiêu và định hướng giải pháp}
 
 Trên cơ sở phân tích các hạn chế ở trên, đồ án đặt ra ba mục tiêu cụ thể:
 
@@ -47,7 +30,7 @@ Trên cơ sở phân tích các hạn chế ở trên, đồ án đặt ra ba m�
 
 Định hướng giải pháp tổng thể là xây dựng kiến trúc \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding — học tăng cường chọn ứng viên có neo) gồm một bộ mã hoá đồ thị \textit{phân cấp đa miền} (GCN nội miền kết hợp GCN liên miền), ba đầu ra tác vụ (đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo và đầu chọn ứng viên cross-attention) cùng một bộ phê bình giá trị, kết hợp với quy trình huấn luyện hai giai đoạn: tiền huấn luyện có giám sát rồi tinh chỉnh bằng phương pháp \textit{actor-critic} (gradient chính sách với phê bình giá trị làm baseline) có neo Kullback-Leibler. Một phát hiện then chốt là \textit{lựa chọn ứng viên} mới là đòn bẩy hiệu quả của học tăng cường, nên ở giai đoạn tinh chỉnh hai đầu xếp hạng được đóng băng và chỉ đầu chọn ứng viên được huấn luyện. Kết quả là một tác nhân vừa kế thừa các quy luật hợp lý của heuristic, vừa có khả năng tự khám phá những phương án ánh xạ tốt hơn mà heuristic không nhìn thấy.
 
-\section{Đóng góp của đồ án}
+\section*{Đóng góp của đồ án}
 
 Đồ án có ba đóng góp chính sau:
 \begin{enumerate}
@@ -56,8 +39,8 @@ Trên cơ sở phân tích các hạn chế ở trên, đồ án đặt ra ba m�
 \item Xây dựng bộ benchmark đa miền ở ba quy mô ($50$, $100$ và $200$ nút vật lý, mỗi mạng chia thành $10$ miền) và tiến hành đánh giá so sánh có hệ thống với các baseline heuristic (MP-VNE, MP-VNE-V4) và mô hình chỉ học bắt chước (R2).
 \end{enumerate}
 
-\section{Bố cục đồ án}
+\section*{Bố cục đồ án}
 
-Phần còn lại của báo cáo được tổ chức như sau. Chương~\ref{ch:co_so} trình bày nền tảng lý thuyết, bao gồm hình thức hoá bài toán VNE dưới dạng ILP, khảo sát các hướng tiếp cận hiện có, và các kiến thức về học tăng cường sâu cũng như mạng nơ-ron đồ thị làm cơ sở cho phương pháp đề xuất. Chương~\ref{ch:de_xuat} trình bày phương pháp đề xuất của đồ án, gồm kiến trúc tổng thể, bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường và quy trình huấn luyện hai giai đoạn. Chương~\ref{ch:phan_tich} phân tích lý thuyết về độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ của thuật toán đề xuất. Chương~\ref{ch:thuc_nghiem} mô tả thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả. Chương~\ref{ch:ket_luan} tổng kết các kết quả đạt được, các hạn chế còn tồn tại và đề xuất các hướng nghiên cứu tiếp theo.
+Phần còn lại của báo cáo được tổ chức như sau. Chương~\ref{ch:nen_tang} trình bày nền tảng lý thuyết, bao gồm các kiến thức về học tăng cường sâu, mạng nơ-ron đồ thị và cơ chế attention, cùng phần khảo sát các hướng tiếp cận hiện có cho bài toán VNE. Chương~\ref{ch:bai_toan} hình thức hoá bài toán nhúng mạng ảo: mô hình mạng vật lý và mạng ảo, hai pha ánh xạ nút và liên kết, hàm mục tiêu, các độ đo hiệu năng và phát biểu dưới dạng quy hoạch nguyên tuyến tính. Chương~\ref{ch:de_xuat} trình bày phương pháp đề xuất của đồ án, gồm kiến trúc tổng thể, bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, quy trình huấn luyện hai giai đoạn và phân tích lý thuyết về độ phức tạp cùng đặc tính hội tụ. Chương~\ref{ch:thuc_nghiem} mô tả thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả. Phần Kết luận tổng kết các kết quả đạt được, các hạn chế còn tồn tại và đề xuất các hướng nghiên cứu tiếp theo.
 
 \end{document}

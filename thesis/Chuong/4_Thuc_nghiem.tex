@@ -6,7 +6,7 @@
 % =============================================================
 
 % Tổng quan chương
-Chương này trình bày thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả của phương pháp đề xuất (cấu hình chuẩn V19 normal-reward) so với các baseline. Các kết quả được phân tích trên ba quy mô mạng vật lý ($50$, $100$ và $200$ nút) để kiểm chứng khả năng tổng quát hoá, kèm phân tích ablation và trực quan hoá quỹ đạo huấn luyện nhằm minh chứng tính hội tụ.
+Chương này trình bày thiết lập thực nghiệm, các tập dữ liệu, độ đo so sánh và phân tích kết quả của phương pháp đề xuất (cấu hình chuẩn V19 normal-reward) so với các baseline. Các kết quả được phân tích trên ba quy mô mạng vật lý ($50$, $100$ và $200$ nút) để kiểm chứng khả năng tổng quát hoá, kèm phân tích robustness theo phân phối yêu cầu mạng ảo, phân tích ablation và trực quan hoá quỹ đạo huấn luyện nhằm minh chứng tính hội tụ.
 
 \section{Cấu hình thực nghiệm}              % ~2.5 trang
 \label{sec:exp-setup}
@@ -78,7 +78,7 @@ EMA chi phí (suy giảm) & 0.95 \\
 \item \textbf{CARL-VNE} (\texttt{il\_mp\_vne\_v19}, phương pháp đề xuất): mô hình R2 đã được tinh chỉnh actor-critic ở cấu hình chuẩn, triển khai qua PSO.
 \end{itemize}
 
-Các thuật toán MC-VNM và FlagVNE được nhắc tới trong khảo sát (Chương~\ref{ch:co_so}) nhưng không được cài đặt lại trong khung thực nghiệm này; việc tích hợp chúng được để lại như hướng phát triển.
+Các thuật toán MC-VNM và FlagVNE được nhắc tới trong khảo sát (Chương~\ref{ch:nen_tang}) nhưng không được cài đặt lại trong khung thực nghiệm này; việc tích hợp chúng được để lại như hướng phát triển.
 
 \subsection{Độ đo đánh giá}
 \label{subsec:metrics}
@@ -167,6 +167,45 @@ R2 (chỉ học bắt chước)                & 11.63 & 349 \\
 
 Tổng hợp ba kịch bản cho thấy một bức tranh nhất quán: \textit{tinh chỉnh tăng cường luôn cải thiện so với mô hình chỉ học bắt chước} (R2), và phương pháp đề xuất \textit{vượt hoặc bám sát} baseline heuristic được so sánh trực tiếp (MP-VNE-V4) ở mọi quy mô, thậm chí vượt cả ở quy mô $50$–$100$ nút. Khoảng cách tới heuristic MP-VNE đầy đủ thu hẹp khi quy mô tăng. Kết quả này khẳng định luận điểm trung tâm của đồ án: \textit{lựa chọn ứng viên là đòn bẩy hiệu quả}, và làm cho lựa chọn này ngẫu nhiên trong huấn luyện cho phép RL vượt trần của mô hình bắt chước.
 
+\section{Phân tích robustness theo phân phối VNR}   % ~2 trang
+\label{sec:robustness}
+
+Các kết quả ở Mục~\ref{sec:results-overall} được đo trên một phân phối VNR cố định. Để đánh giá mức độ \textit{bền vững} (robustness) của phương pháp khi điều kiện vận hành thay đổi, mục này tiến hành một \textit{sweep} có hệ thống trên năm trục phân phối VNR độc lập, mỗi trục quét năm điểm xoay quanh một kịch bản trung tâm chung. Năm trục gồm: (1) \textbf{thời gian sống} trung bình của VNR ($125$–$2000$), (2) \textbf{kích thước} VNR (từ $2$–$3$ đến $8$–$12$ nút), (3) \textbf{mật độ liên kết} của VNR (xác suất cạnh $0{,}0$–$0{,}8$), (4) \textbf{hệ số nhu cầu tài nguyên} ($0{,}5\times$–$2{,}0\times$ so với chuẩn), và (5) độ \textbf{siết ràng buộc miền} (tỉ lệ nút ảo bị buộc miền $0{,}2$–$1{,}0$). Tổng cộng $21$ kịch bản (một trung tâm dùng chung cộng $5\times4$ điểm biên), mỗi kịch bản đánh giá trên $3000$ VNR kiểm thử. Phương pháp đề xuất ở đây dùng \textit{cấu hình cost-focused} (CF, biến thể thưởng \texttt{rev\_cost} ở Mục~\ref{subsec:env-reward}, checkpoint epoch $195$), so sánh trực tiếp với heuristic mạnh \textbf{MP-VNE} (trần hiệu năng tham chiếu). Toàn bộ sweep gồm $42$ phép đánh giá ($21$ kịch bản $\times$ hai thuật toán) trên kịch bản $50$ nút.
+
+Hình~\ref{fig:robust50} trình bày tỉ lệ chấp nhận của CARL-VNE và MP-VNE dọc theo cả năm trục. Có thể thấy CARL-VNE duy trì đường cong nằm trên MP-VNE ở gần như toàn bộ dải quét.
+
+\begin{figure}[H]
+  \centering
+  \includegraphics[width=\textwidth]{Hinh_ve/robust_50nodes_overview.png}
+  \caption{Tỉ lệ chấp nhận của CARL-VNE (cost-focused) so với MP-VNE trên năm trục phân phối VNR (kịch bản 50 nút, mỗi điểm $3000$ VNR kiểm thử).}
+  \label{fig:robust50}
+\end{figure}
+
+Bảng~\ref{tab:robust50} tóm tắt định lượng tại hai điểm biên của mỗi trục. Tại kịch bản trung tâm dùng chung, CARL-VNE đạt $32{,}7\%$ so với $25{,}5\%$ của MP-VNE (chênh lệch $+7{,}2$ điểm phần trăm) trên cả năm trục.
+
+\begin{table}[H]
+\centering
+\caption{Tỉ lệ chấp nhận (\%) tại hai điểm biên của mỗi trục phân phối VNR (50 nút). Kịch bản trung tâm chung: CARL $32{,}7$ / MP $25{,}5$ ($\Delta\,{+}7{,}2$).}
+\label{tab:robust50}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{llccccc}
+\toprule
+\textbf{Trục} & \textbf{Khoảng quét} & \textbf{CARL (thấp)} & \textbf{MP (thấp)} & \textbf{CARL (cao)} & \textbf{MP (cao)} & \textbf{$\Delta$ thấp\,$\to$\,cao} \\
+\midrule
+Thời gian sống      & $125$–$2000$        & 54,1 & 44,3 & 14,2 & 15,0 & $+9{,}8 \to -0{,}7$ \\
+Kích thước VNR      & $2$–$12$ nút        & 81,4 & 82,5 & 3,2  & 2,3  & $-1{,}1 \to +0{,}9$ \\
+Mật độ liên kết     & $0{,}0$–$0{,}8$     & 44,5 & 38,7 & 23,9 & 18,9 & $+5{,}8 \to +5{,}0$ \\
+Nhu cầu tài nguyên  & $0{,}5\times$–$2{,}0\times$ & 49,1 & 38,4 & 18,2 & 15,2 & $+10{,}7 \to +3{,}0$ \\
+Ràng buộc miền      & $0{,}2$–$1{,}0$     & 42,3 & 33,0 & 25,0 & 22,6 & $+9{,}3 \to +2{,}4$ \\
+\bottomrule
+\end{tabular}%
+}
+\end{table}
+
+Phân tích theo từng trục cho thấy các xu hướng nhất quán với thiết kế của phương pháp. Ở trục \textbf{thời gian sống}, CARL-VNE dẫn mạnh nhất khi VNR sống ngắn ($+9{,}8$) rồi thu hẹp dần và đảo nhẹ ($-0{,}7$) khi thời gian sống rất dài — lúc này tài nguyên bão hoà nên mọi thuật toán tiệm cận nhau. Ở trục \textbf{kích thước}, lợi thế rõ rệt ở VNR cỡ vừa ($+7$) nhưng hoà ở hai cực: VNR rất nhỏ thì thuật toán nào cũng nhúng được, còn VNR rất lớn thì hầu như không nhúng được. Trục \textbf{mật độ liên kết} cho lợi thế \textit{ổn định nhất}, duy trì $\approx +5$ điểm ở mọi mức mật độ. Trục \textbf{nhu cầu tài nguyên} cho lợi thế lớn nhất khi tài nguyên dồi dào ($+10{,}7$) và giảm dần khi tài nguyên khan hiếm ($+3{,}0$). Tương tự, trục \textbf{ràng buộc miền} cho thấy CARL-VNE dẫn mạnh khi ràng buộc lỏng ($+9{,}3$) và thu hẹp khi siết chặt ($+2{,}4$).
+
+Tổng hợp lại, CARL-VNE thắng MP-VNE ở $23/25$ điểm quét, chỉ thua biên ở hai trường hợp cực trị (thời gian sống rất dài $-0{,}7$ và VNR rất nhỏ $-1{,}1$) — đều là các vùng mà bài toán hoặc quá bão hoà hoặc quá dễ nên dư địa cải thiện gần như bằng không. Đáng chú ý, khi đối chiếu với sweep tương ứng ở quy mô $100$ nút (cùng thiết lập), lợi thế tại kịch bản trung tâm rộng hơn rõ rệt ở $50$ nút ($+7{,}2$ điểm) so với $100$ nút ($+2{,}5$ điểm: $25{,}8\%$ so với $23{,}3\%$); quan trọng hơn, \textit{hình mẫu} biến thiên — dẫn mạnh ở vùng dễ và tài nguyên dồi dào, thu hẹp ở vùng khan hiếm — \textit{nhất quán} giữa hai quy mô. Tính nhất quán này cho thấy ưu thế của phương pháp không phải do may rủi ở một phân phối cụ thể mà bền vững trên một dải điều kiện vận hành rộng, qua đó củng cố luận điểm trung tâm của đồ án về hiệu quả của cơ chế lựa chọn ứng viên.
+
 \section{Phân tích ablation}                % ~2.5 trang
 \label{sec:ablation}
 
@@ -189,7 +228,7 @@ Như phân tích ở Mục~\ref{subsec:cand-sampling}, nếu giữ đường arg
 \section{Trực quan hoá quỹ đạo huấn luyện}  % ~1.5 trang
 \label{sec:visualize}
 
-Để minh chứng tính hội tụ và đúng đắn của cài đặt, Hình~\ref{fig:normal_conv} trình bày các chỉ báo hội tụ qua khoảng $150$ epoch huấn luyện (gộp từ sáu phase liên tiếp). Có thể quan sát ba xu hướng phù hợp với phân tích lý thuyết ở Chương~\ref{ch:phan_tich}: (i) entropy của chính sách giảm dần từ khoảng $9{,}4$ về khoảng $4{,}3$ rồi bão hoà — chính sách ngày càng tự tin; (ii) độ phân kỳ KL dao động quanh một mức nhỏ ổn định ($\approx 0{,}1$–$0{,}25$) thay vì bùng nổ, nhờ tác dụng của neo KL; và (iii) tỉ lệ thành công trực tuyến tăng rồi đạt bình nguyên quanh $34$–$35\%$.
+Để minh chứng tính hội tụ và đúng đắn của cài đặt, Hình~\ref{fig:normal_conv} trình bày các chỉ báo hội tụ qua khoảng $150$ epoch huấn luyện (gộp từ sáu phase liên tiếp). Có thể quan sát ba xu hướng phù hợp với phân tích lý thuyết ở Mục~\ref{sec:convergence}: (i) entropy của chính sách giảm dần từ khoảng $9{,}4$ về khoảng $4{,}3$ rồi bão hoà — chính sách ngày càng tự tin; (ii) độ phân kỳ KL dao động quanh một mức nhỏ ổn định ($\approx 0{,}1$–$0{,}25$) thay vì bùng nổ, nhờ tác dụng của neo KL; và (iii) tỉ lệ thành công trực tuyến tăng rồi đạt bình nguyên quanh $34$–$35\%$.
 
 \begin{figure}[H]
   \centering
@@ -219,7 +258,7 @@ Hình~\ref{fig:normal_acc} và Hình~\ref{fig:normal_reward} lần lượt cho t
 
 Kết quả thực nghiệm khẳng định ba điểm. \textbf{Thứ nhất}, tinh chỉnh tăng cường mang lại cải thiện ổn định và đáng kể so với học bắt chước thuần tuý ở mọi quy mô, lớn nhất là $+8{,}8$ điểm phần trăm trên kịch bản $100$ nút. \textbf{Thứ hai}, phương pháp đề xuất vượt baseline heuristic được so sánh trực tiếp (MP-VNE-V4) ở quy mô $50$–$100$ nút và bám sát ở $200$ nút, đồng thời chính sách học được chuyển giao tốt giữa các quy mô. \textbf{Thứ ba}, quá trình huấn luyện hội tụ ổn định, không xảy ra hiện tượng sụp đổ phân phối nhờ neo KL và kỷ luật đóng băng.
 
-Về \textbf{hạn chế}: khoảng cách tới heuristic MP-VNE đầy đủ vẫn còn (đặc biệt khi heuristic này dùng tối ưu PSO mạnh hơn), và tỉ lệ chấp nhận tuyệt đối giảm ở quy mô $200$ nút. Hiệu năng còn phụ thuộc phân phối VNR; với các phân phối lệch nhiều so với lúc huấn luyện, chính sách có thể cần tinh chỉnh lại. Các hướng khắc phục được bàn ở Chương~\ref{ch:ket_luan}.
+Về \textbf{hạn chế}: khoảng cách tới heuristic MP-VNE đầy đủ vẫn còn (đặc biệt khi heuristic này dùng tối ưu PSO mạnh hơn), và tỉ lệ chấp nhận tuyệt đối giảm ở quy mô $200$ nút. Hiệu năng còn phụ thuộc phân phối VNR; với các phân phối lệch nhiều so với lúc huấn luyện, chính sách có thể cần tinh chỉnh lại. Các hướng khắc phục được bàn ở phần Kết luận.
 
 % Kết chương
 Kết quả thực nghiệm cho thấy phương pháp đề xuất cải thiện nhất quán so với mô hình bắt chước và vượt baseline heuristic so sánh trực tiếp trên cả ba quy mô, đồng thời giữ quá trình huấn luyện ổn định và hội tụ. Chương cuối tổng kết các đóng góp và đề xuất hướng phát triển.

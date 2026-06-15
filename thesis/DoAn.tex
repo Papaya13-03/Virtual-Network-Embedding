@@ -263,33 +263,34 @@
 %\fancyhead[LE]{\rightmark}
 \fancyfoot[RE, LO]{\thepage}
 
-\chapter{GIỚI THIỆU ĐỀ TÀI}
-\subfile{Chuong/1_Gioi_thieu} % Phần mở đầu
+% ===== MỞ ĐẦU (chương không đánh số) =====
+\chapter*{MỞ ĐẦU}
+\addcontentsline{toc}{chapter}{MỞ ĐẦU}
+\markboth{MỞ ĐẦU}{MỞ ĐẦU}
+\subfile{Chuong/0_5_Mo_dau}
 
 \newpage
-%\pagestyle{fancy} % Áp dụng header và footer
 \chapter{NỀN TẢNG LÝ THUYẾT}
-\subfile{Chuong/2_Co_so_ly_thuyet}
-
+\subfile{Chuong/1_Nen_tang}
 
 \newpage
-%\pagestyle{fancy} % Áp dụng header và footer
+\chapter{BÀI TOÁN NHÚNG MẠNG ẢO}
+\subfile{Chuong/2_Bai_toan}
+
+\newpage
 \chapter{PHƯƠNG PHÁP ĐỀ XUẤT}
-\subfile{Chuong/3_De_xuat}
+\subfile{Chuong/3_Phuong_phap}
 
 \newpage
-%\pagestyle{fancy} % Áp dụng header và footer
-\chapter{PHÂN TÍCH LÝ THUYẾT}
-\subfile{Chuong/4_Phan_tich_ly_thuyet}
-
-\newpage
-%\pagestyle{fancy} % Áp dụng header và footer
 \chapter{ĐÁNH GIÁ THỰC NGHIỆM}
-\subfile{Chuong/5_Thuc_nghiem}
+\subfile{Chuong/4_Thuc_nghiem}
 
+% ===== KẾT LUẬN (chương không đánh số) =====
 \newpage
-\chapter{KẾT LUẬN}
-\subfile{Chuong/6_Ket_luan}
+\chapter*{KẾT LUẬN}
+\addcontentsline{toc}{chapter}{KẾT LUẬN}
+\markboth{KẾT LUẬN}{KẾT LUẬN}
+\subfile{Chuong/5_Ket_luan}
 
 \newpage
 %\pagestyle{fancy} % Áp dụng header và footer

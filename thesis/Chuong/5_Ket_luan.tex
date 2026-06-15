@@ -2,11 +2,10 @@
 \begin{document}
 \label{ch:ket_luan}
 % =============================================================
-% CHƯƠNG 6 — KẾT LUẬN                  Mục tiêu độ dài: ~2 trang
+% KẾT LUẬN (chương không đánh số)      Mục tiêu độ dài: ~2 trang
 % =============================================================
 
-\section{Kết quả đạt được}              % ~0.8 trang
-\label{sec:ket-qua}
+\section*{Kết quả đạt được}              % ~0.8 trang
 
 Đồ án đã đề xuất và hiện thực hoá \textit{CARL-VNE} — một phương pháp nhúng mạng ảo đa miền kết hợp mạng nơ-ron đồ thị với học tăng cường. Ba đóng góp chính đã được hoàn thành:
 
@@ -16,13 +15,11 @@
 \item \textbf{Bộ benchmark đa kịch bản và đánh giá hệ thống} trên ba quy mô ($50$, $100$, $200$ nút). Kết quả cho thấy phương pháp đề xuất đạt $33{,}1\%$ tỉ lệ chấp nhận trên kịch bản $50$ nút (vượt heuristic MP-VNE-V4 ở mức $29{,}0\%$), cải thiện $+8{,}8$ điểm phần trăm so với mô hình chỉ học bắt chước trên kịch bản $100$ nút ($26{,}0\%$ so với $17{,}2\%$), đồng thời chính sách học được chuyển giao tốt sang quy mô $200$ nút.
 \end{enumerate}
 
-\section{Hạn chế}                      % ~0.6 trang
-\label{sec:han-che}
+\section*{Hạn chế}                      % ~0.6 trang
 
 Phương pháp còn một số hạn chế. Thứ nhất, vẫn tồn tại khoảng cách tới heuristic MP-VNE đầy đủ (trần $32{,}8\%$ ở kịch bản $100$ nút), đặc biệt khi heuristic này dùng tối ưu PSO mạnh. Thứ hai, tỉ lệ chấp nhận tuyệt đối giảm ở quy mô lớn ($200$ nút), cho thấy cần kiến trúc mã hoá biểu cảm hơn để mở rộng. Thứ ba, hiệu năng phụ thuộc phân phối VNR lúc huấn luyện; với phân phối lệch nhiều, chính sách có thể cần tinh chỉnh lại. Thứ tư, chi phí huấn luyện (khoảng $150$ epoch) tuy chấp nhận được nhưng không nhỏ, và đồ án chưa khảo sát đầy đủ khía cạnh công bằng tài nguyên giữa nhiều người thuê.
 
-\section{Hướng phát triển trong tương lai}  % ~0.6 trang
-\label{sec:huong-phat-trien}
+\section*{Hướng phát triển trong tương lai}  % ~0.6 trang
 
 Một số hướng phát triển khả thi gồm: (1) \textbf{mở rộng quy mô} lên $500$–$1000$ nút (các tập dữ liệu đã sẵn sàng) với bộ mã hoá GAT đa lớp biểu cảm hơn; (2) \textbf{học chuyển giao và meta-RL} để chính sách thích nghi nhanh giữa các tô-pô và phân phối yêu cầu khác nhau; (3) \textbf{tích hợp cận trên ILP} cho các tô-pô nhỏ nhằm định lượng khoảng cách tới tối ưu; (4) \textbf{tối ưu trực tuyến} có tính tới thời gian sống và lịch đến của VNR để giữ ``khoảng trống chiến lược''; và (5) bổ sung \textbf{tiêu chí công bằng} giữa các miền và người thuê vào hàm thưởng. Việc hoàn tất so sánh trực tiếp giữa chế độ actor-critic và biến thể PPO có cắt (Mục~\ref{subsec:abl-ppo}) cũng là một bước tiếp theo trực tiếp.
 

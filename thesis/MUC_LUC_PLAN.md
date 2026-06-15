@@ -1,92 +1,67 @@
-# Kế hoạch độ dài đồ án (~60 trang)
+# Cấu trúc đồ án (theo example.pdf — HUST graduation thesis)
 
-Toàn bộ section/subsection đã được cài đặt sẵn trong `Chuong/*.tex` để khi compile `\tableofcontents` tự sinh đúng mục lục. Mỗi section trong file `.tex` có comment `% TODO: ...` mô tả nội dung cần viết và độ dài mục tiêu.
+Cấu trúc bám theo `example.pdf`: phần **MỞ ĐẦU** và **KẾT LUẬN** là chương không đánh số, thân bài gồm **4 chương đánh số** (Nền tảng → Bài toán → Phương pháp → Thực nghiệm), giữ lại hai phụ lục.
 
 ## Tổng phân bổ
 
-| Phần | File | Trang | Đánh số |
-|---|---|---:|---|
-| Bìa | `Bia.tex` | 1 | (không số) |
-| Bìa lót | `Bia_lot.tex` | 1 | (không số) |
-| Lời cảm ơn | `Chuong/0_2_Loi_cam_on.tex` | 1 | roman |
-| Tóm tắt Việt | `Chuong/0_3_Tom_tat_noi_dung.tex` | 1 | roman |
-| Abstract EN | `Chuong/0_4_Tom_tat_noi_dung_eng.tex` | 1 | roman |
-| Mục lục | (tự sinh) | 2 | roman |
-| Danh mục hình | (tự sinh) | 1 | roman |
-| Danh mục bảng | (tự sinh) | 1 | roman |
-| Danh mục từ viết tắt | `Tu_viet_tat.tex` | 1 | roman |
-| **Body** | | **48** | arabic |
-| Tài liệu tham khảo | (tự sinh từ `.bib`) | 2 | arabic |
-| **Tổng** | | **~60** | |
+| Phần | File | Đánh số |
+|---|---|---|
+| Bìa | `Bia.tex` | (không số) |
+| Bìa lót | `Bia_lot.tex` | (không số) |
+| Lời cảm ơn | `Chuong/0_2_Loi_cam_on.tex` | roman |
+| Tóm tắt Việt | `Chuong/0_3_Tom_tat_noi_dung.tex` | roman |
+| Abstract EN | `Chuong/0_4_Tom_tat_noi_dung_eng.tex` | roman |
+| Mục lục, Danh mục hình/bảng, Từ viết tắt | (tự sinh) | roman |
+| **MỞ ĐẦU** | `Chuong/0_5_Mo_dau.tex` | arabic, **không đánh số** |
+| **Chương 1–4** | (xem dưới) | arabic |
+| **KẾT LUẬN** | `Chuong/5_Ket_luan.tex` | arabic, **không đánh số** |
+| Tài liệu tham khảo | (tự sinh từ `.bib`) | arabic |
+| Phụ lục A, B | `Chuong/Phu_luc_A.tex`, `Phu_luc_B.tex` | phụ lục |
 
-## Body (48 trang)
+## Thân bài
 
-### Chương 1 — Giới thiệu đề tài (4 trang)
-| Section | Trang |
-|---|---:|
-| 1.1 Đặt vấn đề | 1.25 |
-| 1.2 Các giải pháp hiện tại và hạn chế | 1.25 |
-| &nbsp;&nbsp;1.2.1 Hướng heuristic / metaheuristic | — |
-| &nbsp;&nbsp;1.2.2 Hướng lập trình toán học | — |
-| &nbsp;&nbsp;1.2.3 Hướng học tăng cường | — |
-| 1.3 Mục tiêu và định hướng giải pháp | 0.75 |
-| 1.4 Đóng góp của đồ án | 0.4 |
-| 1.5 Bố cục đồ án | 0.35 |
+### MỞ ĐẦU — `Chuong/0_5_Mo_dau.tex` (chương không đánh số)
+- Đặt vấn đề
+- Mục tiêu và định hướng giải pháp
+- Đóng góp của đồ án
+- Bố cục đồ án
 
-### Chương 2 — Nền tảng lý thuyết (10 trang)
-| Section | Trang |
-|---|---:|
-| 2.1 Mô hình hoá bài toán nhúng mạng ảo | 3.0 |
-| &nbsp;&nbsp;2.1.1 Mạng vật lý và mạng ảo | — |
-| &nbsp;&nbsp;2.1.2 Hai pha: ánh xạ nút và liên kết | — |
-| &nbsp;&nbsp;2.1.3 Hàm mục tiêu và độ đo | — |
-| &nbsp;&nbsp;2.1.4 Phát biểu ILP | — |
-| 2.2 Các hướng tiếp cận hiện tại | 2.5 |
-| 2.3 Học tăng cường sâu | 2.5 |
-| &nbsp;&nbsp;2.3.1 MDP | — |
-| &nbsp;&nbsp;2.3.2 Policy gradient và Actor-Critic | — |
-| &nbsp;&nbsp;2.3.3 PPO | — |
-| 2.4 Mạng nơ-ron đồ thị | 1.5 |
-| 2.5 Cơ chế attention | 0.5 |
+### Chương 1 — Nền tảng lý thuyết — `Chuong/1_Nen_tang.tex`
+- 1.1 Học tăng cường sâu (MDP, policy gradient & actor-critic, PPO, Plackett-Luce)
+- 1.2 Mạng nơ-ron đồ thị (truyền tin, GCN, GAT)
+- 1.3 Cơ chế attention cho lựa chọn ứng viên
+- 1.4 Các hướng tiếp cận cho bài toán VNE (heuristic, metaheuristic, học tăng cường, so sánh)
 
-### Chương 3 — Phương pháp đề xuất (15 trang)
-| Section | Trang |
-|---|---:|
-| 3.1 Tổng quan giải pháp | 2.0 |
-| 3.2 Bộ mã hoá đồ thị (Graph Encoder) | 3.5 |
-| 3.3 Bộ giải mã chọn ứng viên (Candidate Decoder) | 3.5 |
-| 3.4 Môi trường học tăng cường | 2.5 |
-| 3.5 Quy trình huấn luyện hai giai đoạn | 3.5 |
+### Chương 2 — Bài toán nhúng mạng ảo — `Chuong/2_Bai_toan.tex`
+- 2.1 Mạng vật lý và mạng ảo
+- 2.2 Hai pha: ánh xạ nút và ánh xạ liên kết
+- 2.3 Hàm mục tiêu và độ đo hiệu năng
+- 2.4 Phát biểu bài toán dưới dạng ILP
 
-### Chương 4 — Phân tích lý thuyết (4 trang)
-| Section | Trang |
-|---|---:|
-| 4.1 Độ phức tạp tính toán | 1.5 |
-| 4.2 Độ phức tạp bộ nhớ | 1.0 |
-| 4.3 Phân tích hội tụ | 1.5 |
+### Chương 3 — Phương pháp đề xuất — `Chuong/3_Phuong_phap.tex`
+- 3.1 Tổng quan giải pháp
+- 3.2 Bộ mã hoá đồ thị (Graph Encoder)
+- 3.3 Bộ giải mã chọn ứng viên (Candidate Decoder)
+- 3.4 Môi trường học tăng cường
+- 3.5 Quy trình huấn luyện hai giai đoạn
+- 3.6 Phân tích lý thuyết (độ phức tạp tính toán, bộ nhớ, hội tụ)
 
-### Chương 5 — Đánh giá thực nghiệm (13 trang)
-| Section | Trang |
-|---|---:|
-| 5.1 Cấu hình thực nghiệm | 2.5 |
-| 5.2 Baseline và độ đo | 2.0 |
-| 5.3 Kết quả tổng thể | 3.5 |
-| 5.4 Phân tích ablation | 2.5 |
-| 5.5 Trực quan hoá quỹ đạo huấn luyện | 1.5 |
-| 5.6 Thảo luận | 1.0 |
+### Chương 4 — Đánh giá thực nghiệm — `Chuong/4_Thuc_nghiem.tex`
+- 4.1 Cấu hình thực nghiệm
+- 4.2 Baseline và độ đo
+- 4.3 Kết quả tổng thể (50 / 100 / 200 nút)
+- 4.4 Phân tích robustness theo phân phối VNR (sweep 5 trục, 50 nút)
+- 4.5 Phân tích ablation
+- 4.6 Trực quan hoá quỹ đạo huấn luyện
+- 4.7 Thảo luận
 
-### Chương 6 — Kết luận (2 trang)
-| Section | Trang |
-|---|---:|
-| 6.1 Kết quả đạt được | 0.8 |
-| 6.2 Hạn chế | 0.6 |
-| 6.3 Hướng phát triển | 0.6 |
+### KẾT LUẬN — `Chuong/5_Ket_luan.tex` (chương không đánh số)
+- Kết quả đạt được
+- Hạn chế
+- Hướng phát triển trong tương lai
 
-## Mẹo căn trang khi viết
+## Ghi chú
 
-- **Mật độ chữ**: template dùng font 13pt, `\onehalfspacing`, lề 3.5/2.5/2/2 cm. Một trang body chứa ~280–320 từ.
-- **Quy đổi**: 0.5 trang ≈ 150 từ, 1 trang ≈ 300 từ, 2 trang ≈ 600 từ.
-- **Hình ảnh**: một hình cỡ `width=0.85\textwidth` chiếm khoảng 0.4–0.5 trang. Một thuật toán `algorithm2e` cỡ trung bình chiếm 0.3–0.4 trang.
-- **Bảng**: bảng ngang 5 cột × 4 hàng chiếm khoảng 0.25 trang.
-
-Nếu sau khi viết bạn lệch quá 10% so với target, ưu tiên điều chỉnh ở Chương 3 (đề xuất) và Chương 5 (thực nghiệm) — đây là 2 chương có biên độ co giãn lớn nhất.
+- `MỞ ĐẦU` và `KẾT LUẬN` dùng `\chapter*` + `\addcontentsline` + `\markboth` trong `DoAn.tex`; các mục bên trong dùng `\section*` để không bị đánh số nhầm theo bộ đếm chương.
+- Chương 4 cũ (Phân tích lý thuyết) đã được gộp vào Chương 3 dưới mục 3.6.
+- Phần khảo sát các hướng tiếp cận (related works) nằm ở Chương 1 (mục 1.4), tách khỏi phát biểu bài toán ở Chương 2.

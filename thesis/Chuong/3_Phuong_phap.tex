@@ -6,7 +6,7 @@
 % =============================================================
 
 % Tổng quan chương
-Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate} — tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored} — chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp kế thừa cơ chế đa đường có nhận biết thứ tự (Order-Aware Multi-Path) của thuật toán heuristic OA-MP-VNE — cũng chính là thuật toán cung cấp lời giải mẫu cho giai đoạn học bắt chước. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn.
+Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate} — tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored} — chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp kế thừa cơ chế đa đường có nhận biết thứ tự (Order-Aware Multi-Path) của thuật toán heuristic OA-MP-VNE — cũng chính là thuật toán cung cấp lời giải mẫu cho giai đoạn học bắt chước. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn. Phần cuối chương phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
 
 \section{Tổng quan giải pháp}                  % ~2 trang
 \label{sec:overview}
@@ -14,7 +14,7 @@ Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VN
 \subsection{Ba nguyên lý thiết kế}
 \label{subsec:design-principles}
 
-Phương pháp đề xuất được xây dựng quanh ba nguyên lý thiết kế nhằm khắc phục trực tiếp ba hạn chế của các phương pháp học tăng cường cho VNE đã nêu ở Chương~\ref{ch:gioi_thieu}.
+Phương pháp đề xuất được xây dựng quanh ba nguyên lý thiết kế nhằm khắc phục trực tiếp ba hạn chế của các phương pháp học tăng cường cho VNE đã nêu ở Chương~\ref{ch:nen_tang}.
 
 \begin{enumerate}
 \item \textbf{Mã hoá tô-pô phân cấp đa miền.} Hạ tầng thực tế thường được chia thành nhiều miền quản trị (domain). Thay vì coi mạng vật lý là một đồ thị phẳng, đồ án sử dụng một bộ mã hoá \textit{phân cấp} gồm hai mức: mức nội miền (intra-domain) học biểu diễn cục bộ cho từng miền, và mức liên miền (inter-domain) học biểu diễn quan hệ giữa các miền. Cách làm này tôn trọng tính cục bộ của bài toán đa miền và cho phép tác nhân ``nhìn thấy'' chi phí định tuyến xuyên miền ngay tại bước ra quyết định.
@@ -83,7 +83,7 @@ Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bố
 \subsection{Luồng tương tác môi trường - tác nhân}
 \label{subsec:interaction}
 
-Mỗi \textit{episode} tương ứng với quá trình nhúng một VNR và diễn ra theo các bước sau. (1) Bộ mã hoá tính biểu diễn cho mạng vật lý hiện tại và VNR đang xét. (2) Đầu xếp hạng nút sinh một thứ tự xử lý các nút ảo bằng lấy mẫu Plackett-Luce. (3) Với mỗi nút ảo theo thứ tự đó, đầu chọn ứng viên tính điểm cho các nút vật lý khả thi trong từng miền cho phép và chọn ra một nút (lấy mẫu khi huấn luyện, lấy cực đại khi suy diễn). (4) Sau khi đã có ánh xạ nút, các liên kết ảo được ánh xạ tuần tự bằng đường đi ngắn nhất. (5) Lời giải hoàn chỉnh được cam kết lên mạng vật lý theo cơ chế đa đường OA-MP, trạng thái tài nguyên được cập nhật, và môi trường trả về một tín hiệu thưởng phản ánh việc nhúng thành công hay thất bại cùng độ tiết kiệm chi phí. Phân tích độ phức tạp của luồng này được trình bày ở Chương~\ref{ch:phan_tich}, còn kết quả thực nghiệm ở Chương~\ref{ch:thuc_nghiem}.
+Mỗi \textit{episode} tương ứng với quá trình nhúng một VNR và diễn ra theo các bước sau. (1) Bộ mã hoá tính biểu diễn cho mạng vật lý hiện tại và VNR đang xét. (2) Đầu xếp hạng nút sinh một thứ tự xử lý các nút ảo bằng lấy mẫu Plackett-Luce. (3) Với mỗi nút ảo theo thứ tự đó, đầu chọn ứng viên tính điểm cho các nút vật lý khả thi trong từng miền cho phép và chọn ra một nút (lấy mẫu khi huấn luyện, lấy cực đại khi suy diễn). (4) Sau khi đã có ánh xạ nút, các liên kết ảo được ánh xạ tuần tự bằng đường đi ngắn nhất. (5) Lời giải hoàn chỉnh được cam kết lên mạng vật lý theo cơ chế đa đường OA-MP, trạng thái tài nguyên được cập nhật, và môi trường trả về một tín hiệu thưởng phản ánh việc nhúng thành công hay thất bại cùng độ tiết kiệm chi phí. Phân tích độ phức tạp của luồng này được trình bày ở Mục~\ref{sec:complexity-time}, còn kết quả thực nghiệm ở Chương~\ref{ch:thuc_nghiem}.
 
 \section{Bộ mã hoá đồ thị (Graph Encoder)}     % ~3.5 trang
 \label{sec:encoder}
@@ -261,7 +261,64 @@ Lưu chính sách tham chiếu $\pi_{\text{ref}} \leftarrow \pi_\theta$ (mô hì
 
 Để huấn luyện ổn định, đồ án áp dụng: cắt chuẩn gradient ở ngưỡng $5.0$; bộ tối ưu AdamW với tốc độ học $3\times10^{-4}$ và suy giảm trọng số $10^{-4}$; chuẩn hoá lợi thế theo lô; phần thưởng entropy để duy trì khám phá; và neo KL về chính sách tham chiếu để tránh sụp đổ phân phối. Các đường cong huấn luyện (mất mát chính sách, mất mát giá trị, KL, entropy, tỉ lệ chấp nhận) được trình bày ở Chương~\ref{ch:thuc_nghiem} nhằm minh chứng tính hội tụ và ổn định của quá trình.
 
+\section{Phân tích lý thuyết}             % ~4 trang
+\label{sec:analysis}
+
+Phần này phân tích các tính chất lý thuyết của phương pháp đề xuất, gồm độ phức tạp tính toán, độ phức tạp bộ nhớ, và đặc tính hội tụ trong ngữ cảnh VNE. Ký hiệu dùng trong phần này: $|N^s|, |E^s|$ là số nút và liên kết mạng vật lý; $D$ là số miền; $|N^v|, |E^v|$ là số nút và liên kết của một VNR; $d$ là chiều ẩn (ở đây $d=32$); $L$ là số lớp GCN; $K$ là số ứng viên giữ lại trên mỗi miền.
+
+\subsection{Độ phức tạp tính toán}
+\label{sec:complexity-time}
+
+\subsubsection{Độ phức tạp suy diễn (inference)}
+\label{subsec:complexity-infer}
+
+Chi phí suy diễn cho một VNR gồm bốn thành phần.
+
+\paragraph{Bộ mã hoá phân cấp.} Mỗi lớp GCN nội miền có chi phí truyền tin tỉ lệ với số cạnh nhân chiều ẩn, tổng trên các miền là $\mathcal{O}(L\,|E^s|\,d)$ (mỗi cạnh chỉ thuộc một miền nên tổng số cạnh nội miền không vượt $|E^s|$). Bước tóm tắt miền và GCN liên miền trên siêu đồ thị $D$ nút tốn $\mathcal{O}(|N^s|\,d + D^2 d)$. Bộ mã hoá VNR (GCN + self-attention $4$ đầu) tốn $\mathcal{O}(L\,|E^v|\,d + |N^v|^2 d)$, nhỏ vì $|N^v|\le 7$. Do đó chi phí mã hoá chủ đạo là
+\begin{equation}
+    \mathcal{O}\big( L\,|E^s|\,d + D^2 d \big).
+    \label{eq:enc-cost}
+\end{equation}
+
+\paragraph{Bộ giải mã chọn ứng viên.} Với mỗi nút ảo, đầu chọn ứng viên tính điểm cross-attention cho các nút vật lý khả thi trong các miền cho phép. Trong trường hợp xấu nhất là toàn bộ $|N^s|$ nút, chi phí là $\mathcal{O}(|N^v|\,|N^s|\,d)$; tuy nhiên nhờ lọc khả thi CPU và giới hạn $K$ ứng viên mỗi miền, chi phí thực tế giảm còn $\mathcal{O}(|N^v|\,D\,K\,d)$.
+
+\paragraph{Ánh xạ liên kết.} Mỗi liên kết ảo dùng một lần tìm đường đi ngắn nhất (Dijkstra) tốn $\mathcal{O}(|E^s|\log|N^s|)$, tổng là $\mathcal{O}(|E^v|\,|E^s|\log|N^s|)$.
+
+\paragraph{Tối ưu PSO khi triển khai.} Ở chế độ triển khai, một bước tối ưu hoá bầy hạt với $P$ hạt và $I$ vòng lặp đánh giá hàm thích nghi tốn $\mathcal{O}(P\,I\,|N^v|)$, là một thừa số hằng cộng thêm không phụ thuộc kích thước mạng vật lý.
+
+Tổng hợp, độ phức tạp suy diễn một VNR là tuyến tính theo $|E^s|$ (bỏ qua thừa số log của Dijkstra), tức \textbf{khả mở rộng} với tô-pô lớn — trái ngược với độ phức tạp cấp số mũ của lời giải ILP đã nêu ở Chương~\ref{ch:bai_toan}.
+
+\subsubsection{Độ phức tạp một bước huấn luyện}
+\label{subsec:complexity-train}
+
+Một bước cập nhật xử lý một lô $B$ VNR. Mỗi VNR cần một lượt suy diễn (rollout) cộng một lượt lan truyền ngược; lan truyền ngược cùng cấp độ phức tạp với lan truyền xuôi. Ở giai đoạn tinh chỉnh actor-critic chuẩn (normal-reward), mỗi lô cập nhật một vòng gradient, nên chi phí một bước là $\mathcal{O}(B \cdot C_{\text{infer}})$ với $C_{\text{infer}}$ là chi phí suy diễn ở Mục~\ref{subsec:complexity-infer}. Biến thể PPO có cắt phát lại chính sách $K_{\text{ppo}}$ vòng trên cùng một lô nên chi phí nhân thêm hệ số $K_{\text{ppo}}$ (mặc định $K_{\text{ppo}}=2$).
+
+\subsection{Độ phức tạp bộ nhớ}
+\label{sec:complexity-mem}
+
+Tổng số tham số của mạng chính sách khoảng $55{,}700$, trong đó ở giai đoạn tinh chỉnh có $19{,}394$ tham số bị đóng băng (hai đầu xếp hạng) và $36{,}293$ tham số được cập nhật (bộ mã hoá, đầu chọn ứng viên, bộ phê bình). Đây là một mô hình \textit{rất nhỏ gọn} so với các mạng học sâu thông thường, giúp suy diễn nhanh và phù hợp triển khai trên hạ tầng hạn chế tài nguyên.
+
+Về bộ nhớ kích hoạt (activation), do đồ thị được xử lý theo từng miền và VNR có kích thước nhỏ, lượng kích hoạt cần lưu cho lan truyền ngược tỉ lệ $\mathcal{O}(L\,|N^s|\,d)$ — tuyến tính theo số nút vật lý. Phương pháp không dùng replay buffer lớn: mỗi lô chỉ lưu các đại lượng rollout cần thiết (log-xác suất, phần thưởng, giá trị, và với biến thể PPO là ảnh chụp trạng thái mạng vật lý để phát lại), nên dấu chân bộ nhớ tổng thể nhỏ và ổn định trong suốt huấn luyện.
+
+\subsection{Phân tích hội tụ}
+\label{sec:convergence}
+
+\subsubsection{Cải thiện đơn điệu của gradient chính sách có baseline}
+\label{subsec:conv-monotonic}
+
+Phương pháp tinh chỉnh là một thuật toán gradient chính sách với baseline học được (actor-critic). Theo định lý gradient chính sách, hướng cập nhật $\mathbb{E}[\nabla_\theta \log\pi_\theta(a\mid s)\,\hat{A}]$ là ước lượng không chệch của gradient mục tiêu kỳ vọng $J(\theta)$ khi baseline $V_\phi(s)$ độc lập với hành động. Việc trừ baseline và chuẩn hoá lợi thế làm \textit{giảm phương sai} của ước lượng gradient mà không gây chệch, nhờ đó các bước cập nhật ổn định hơn và kỳ vọng cải thiện đơn điệu cục bộ của $J(\theta)$ được duy trì với tốc độ học đủ nhỏ. Biến thể PPO bổ sung cận dưới có cắt (clipped surrogate) cho mục tiêu thay thế, đảm bảo mỗi bước cập nhật không làm chính sách trôi quá xa khỏi chính sách cũ — một cơ sở lý thuyết chặt hơn cho cải thiện đơn điệu.
+
+\subsubsection{Vai trò của neo KL và đóng băng tham số}
+\label{subsec:conv-kl}
+
+Số hạng neo KL về chính sách tham chiếu R2 đóng vai trò một \textit{ràng buộc vùng tin cậy mềm}: nó giới hạn độ lệch của phân phối chọn ứng viên khỏi lời giải bắt chước ban đầu, ngăn hiện tượng sụp đổ phân phối khi tín hiệu thưởng nhiều nhiễu. Kết hợp với kỷ luật đóng băng hai đầu xếp hạng (Mục~\ref{subsec:train-freeze}), tín hiệu học được dồn vào đúng thành phần có ích, tránh để gradient gần ngẫu nhiên của các đầu xếp hạng làm hỏng bộ mã hoá dùng chung. Đây chính là lý do lý thuyết cho thiết kế ``khởi động bằng học bắt chước rồi tinh chỉnh có neo'': pha bắt chước cung cấp điểm khởi đầu phương sai thấp trong vùng nghiệm tốt, còn neo KL giữ cho quá trình tinh chỉnh không rời khỏi vùng đó.
+
+\subsubsection{Quan sát thực nghiệm về tính hội tụ}
+\label{subsec:conv-empirical}
+
+Các đặc tính lý thuyết trên được kiểm chứng qua quỹ đạo huấn luyện thực tế (trình bày chi tiết ở Chương~\ref{ch:thuc_nghiem}): entropy của chính sách giảm dần và bão hoà (chính sách ngày càng tự tin), độ phân kỳ KL dao động quanh một mức nhỏ ổn định thay vì bùng nổ, và tỉ lệ thành công tăng rồi đạt bình nguyên. Sự bão hoà này phù hợp với dự đoán: khi $\pi_\theta$ tiến gần một cực trị cục bộ trong vùng tin cậy do neo KL xác định, lợi thế kỳ vọng tiến về không và các bước cập nhật nhỏ dần.
+
 % Kết chương
-Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, đóng băng đầu xếp hạng và chỉ tinh chỉnh đầu chọn ứng viên, và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL. Chương tiếp theo phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
+Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, đóng băng đầu xếp hạng và chỉ tinh chỉnh đầu chọn ứng viên, và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL; đồng thời chỉ ra phương pháp có độ phức tạp tính toán tuyến tính theo kích thước mạng vật lý, dấu chân bộ nhớ nhỏ, và đặc tính hội tụ ổn định nhờ baseline giảm phương sai và neo KL. Chương tiếp theo trình bày kết quả thực nghiệm để kiểm chứng các phân tích này.
 
 \end{document}
