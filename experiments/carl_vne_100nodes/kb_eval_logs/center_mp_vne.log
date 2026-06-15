@@ -1,0 +1,29 @@
+
+=== Eval: mp_vne (seed=42) ===
+  substrate:  datasets/scenario_100nodes_center/substrate.json
+  requests:   datasets/scenario_100nodes_center/virtual_requests.json
+  checkpoint: (none / heuristic)
+  200/3000  succ=52  (228s)
+  400/3000  succ=102  (467s)
+  600/3000  succ=144  (681s)
+  800/3000  succ=197  (926s)
+  1000/3000  succ=248  (1117s)
+  1200/3000  succ=294  (1315s)
+  1400/3000  succ=349  (1528s)
+  1600/3000  succ=391  (1688s)
+  1800/3000  succ=437  (1872s)
+  2000/3000  succ=481  (2038s)
+  2200/3000  succ=526  (2222s)
+  2400/3000  succ=575  (2429s)
+  2600/3000  succ=615  (2607s)
+  2800/3000  succ=659  (2824s)
+  3000/3000  succ=699  (3013s)
+
+  Saved → results/scenario_100nodes_center/mp_vne/solutions.json, metrics.json
+
+  Results [mp_vne] (3013s):
+    acceptance_rate    : 23.3%  (699/3000)
+    revenue_rate       : 773.59
+    avg_cost           : 230.29
+    revenue_cost_ratio : 0.293
+    avg_delay          : 32.17

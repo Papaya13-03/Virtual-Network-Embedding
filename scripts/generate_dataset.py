@@ -135,23 +135,28 @@ def generate_substrate(seed: int = 42, num_domains: int = 10, nodes_per_domain: 
 
 # ---------------- VN requests ----------------
 
-def generate_vn(vnr_id: str, arrival_time: float, num_domains: int, rng: random.Random):
-    """Small VN (3-7 nodes) with 60% allowed_domains constraint and sparse links."""
-    num_nodes = rng.randint(3, 7)
-    lifetime = round(rng.expovariate(1.0 / 500.0), 2)
-    edge_prob = 0.3  # sparse VN
+def generate_vn(vnr_id: str, arrival_time: float, num_domains: int, rng: random.Random,
+                lifetime_mean: float = 500.0, node_min: int = 3, node_max: int = 7,
+                edge_prob: float = 0.3, cpu_lo: float = 1.0, cpu_hi: float = 8.0,
+                bw_lo: float = 5.0, bw_hi: float = 25.0, region_prob: float = 0.6):
+    """VN generator with tunable size / lifetime / density / demand / region knobs.
+
+    Defaults reproduce the original scenario_100nodes distribution (3-7 nodes,
+    60% region-constrained, sparse links, lifetime mean 500, cpu 1-8, bw 5-25).
+    """
+    num_nodes = rng.randint(node_min, node_max)
+    lifetime = round(rng.expovariate(1.0 / lifetime_mean), 2)
 
     nodes = []
     for i in range(num_nodes):
-        # 60% chance of regional constraint (matches existing multi-domain scenarios)
+        # region_prob chance of a regional (allowed_domains) constraint.
         allowed = []
-        if rng.random() < 0.6:
+        if rng.random() < region_prob:
             num_allowed = rng.randint(1, min(2, num_domains))
             allowed = rng.sample([f"domain_{d}" for d in range(num_domains)], num_allowed)
         nodes.append({
             "id": f"{vnr_id}_node_{i}",
-            # TIGHT: 1-8 (substrate has 10-30, so ~3-4 vnodes per snode max)
-            "cpu_demand": round(rng.uniform(1.0, 8.0), 2),
+            "cpu_demand": round(rng.uniform(cpu_lo, cpu_hi), 2),
             "allowed_domains": allowed,
         })
 
@@ -169,7 +174,7 @@ def generate_vn(vnr_id: str, arrival_time: float, num_domains: int, rng: random.
             "source": f"{vnr_id}_node_{a}",
             "target": f"{vnr_id}_node_{b}",
             # TIGHT: 5-25 (intra has 30-100, so ~3-5 vlinks per slink max)
-            "bandwidth_demand": round(rng.uniform(5.0, 25.0), 2),
+            "bandwidth_demand": round(rng.uniform(bw_lo, bw_hi), 2),
         })
     # Add extra random edges with edge_prob.
     for i in range(num_nodes):
@@ -180,7 +185,7 @@ def generate_vn(vnr_id: str, arrival_time: float, num_domains: int, rng: random.
                 links.append({
                     "source": f"{vnr_id}_node_{i}",
                     "target": f"{vnr_id}_node_{j}",
-                    "bandwidth_demand": round(rng.uniform(5.0, 25.0), 2),
+                    "bandwidth_demand": round(rng.uniform(bw_lo, bw_hi), 2),
                 })
 
     return {

@@ -1,0 +1,12 @@
+{
+  "n_total": 3000,
+  "n_success": 857,
+  "acceptance_rate": 0.2856666666666667,
+  "revenue_rate": 894.4233235376065,
+  "avg_cost": 196.38964947491255,
+  "revenue_cost_ratio": 0.32588492059595503,
+  "avg_delay": 25.904791297902165,
+  "elapsed_seconds": 4039.1356830596924,
+  "algorithm": "mp_vne",
+  "checkpoint": null
+}

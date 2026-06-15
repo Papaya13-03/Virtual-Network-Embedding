@@ -1,0 +1,12 @@
+{
+  "n_total": 3000,
+  "n_success": 2212,
+  "acceptance_rate": 0.7373333333333333,
+  "revenue_rate": 1200.2798848542868,
+  "avg_cost": 99.26047124773955,
+  "revenue_cost_ratio": 0.3259687559042169,
+  "avg_delay": 26.312660488245914,
+  "elapsed_seconds": 1471.4947428703308,
+  "algorithm": "carl_vne_pso",
+  "checkpoint": "experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt_e90.pt"
+}
