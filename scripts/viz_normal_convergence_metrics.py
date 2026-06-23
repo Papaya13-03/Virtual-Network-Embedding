@@ -49,6 +49,8 @@ def rolling_std(arr, w=10):
 
 
 def main():
+    import matplotlib.pyplot as _plt
+    _plt.rcParams.update({'font.size':15,'axes.titlesize':16,'axes.labelsize':15,'xtick.labelsize':13,'ytick.labelsize':13,'legend.fontsize':13})  # RCBUMP
     # Stitch all phases.
     parts = [load_csv(ROOT / p, off) for p, off in NORMAL_PHASES]
     epochs = np.concatenate([d["epoch"] for d in parts])
@@ -98,13 +100,13 @@ def main():
     ax.axhline(33.13, color="tab:green", linestyle=":", linewidth=1.3,
                label="V19-best eval = 33.13%")
     ax.set_title("(A) Online succ_rate — rolling mean stabilizes ⇒ converged",
-                 fontsize=12, fontweight="bold")
+                 fontsize=16, fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("Online success rate (%)")
-    ax.grid(alpha=0.3); ax.legend(fontsize=9, loc="lower right")
+    ax.grid(alpha=0.3); ax.legend(fontsize=13, loc="lower right")
     ax.text(0.02, 0.96,
             "ĐỌC: khi rolling mean (đen) phẳng → model output trung bình ổn định.\n"
             "Per-epoch noise (xanh) vẫn dao động ±0.5-1pp — đây là **noise floor**.",
-            transform=ax.transAxes, fontsize=9, va="top", style="italic",
+            transform=ax.transAxes, fontsize=13, va="top", style="italic",
             bbox=dict(boxstyle="round", facecolor="#e8f5e9", alpha=0.92))
 
     # --- (0,1) Rolling std — best convergence indicator
@@ -114,13 +116,13 @@ def main():
                linewidth=1.5,
                label=f"last-50ep avg σ = {succ_std[-50:].mean():.2f}pp")
     ax.set_title("(B) ★ Rolling σ — noise floor → CONVERGENCE INDICATOR",
-                 fontsize=12, fontweight="bold")
+                 fontsize=16, fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("σ of succ_rate (pp)")
-    ax.grid(alpha=0.3); ax.legend(fontsize=9)
+    ax.grid(alpha=0.3); ax.legend(fontsize=13)
     ax.text(0.02, 0.96,
             "★ NÊN DÙNG metric này: khi σ chạm sàn và đi ngang → model converged.\n"
             "σ vẫn > 0 vì SAMPLING NOISE (Categorical sampling random) không phải learning.",
-            transform=ax.transAxes, fontsize=9, va="top", style="italic",
+            transform=ax.transAxes, fontsize=13, va="top", style="italic",
             bbox=dict(boxstyle="round", facecolor="#f3e5f5", alpha=0.92))
 
     # --- (1,0) First-difference (Δsucc[t] = succ[t] - succ[t-1])
@@ -133,14 +135,14 @@ def main():
     ax.fill_between(succ_diff_x, -2*diff_std, 2*diff_std, color="black",
                     alpha=0.08, label=f"±2σ noise band (={2*diff_std:.2f}pp)")
     ax.set_title("(C) Δsucc[t] (first-difference) — random walk = converged",
-                 fontsize=12, fontweight="bold")
+                 fontsize=16, fontweight="bold")
     ax.set_xlabel("Epoch")
     ax.set_ylabel("Δsucc[t] = succ[t] − succ[t−1] (pp)")
-    ax.grid(alpha=0.3); ax.legend(fontsize=9)
+    ax.grid(alpha=0.3); ax.legend(fontsize=13)
     ax.text(0.02, 0.96,
             "Mean(Δ) ≈ 0, không có drift → model OUTPUT không di chuyển.\n"
             "Phân bố trong band ±2σ ⇒ noise random.",
-            transform=ax.transAxes, fontsize=9, va="top", style="italic",
+            transform=ax.transAxes, fontsize=13, va="top", style="italic",
             bbox=dict(boxstyle="round", facecolor="#e3f2fd", alpha=0.92))
 
     # --- (1,1) Mean KL (per-epoch) — direct policy-change measure
@@ -151,13 +153,13 @@ def main():
     ax.plot(epochs, kl_mean, "-", color="darkred", linewidth=2.0,
             label="rolling mean (w=10)")
     ax.set_title("(D) Mean KL(π‖π_ref) per epoch — policy drift",
-                 fontsize=12, fontweight="bold")
+                 fontsize=16, fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("Mean KL")
-    ax.grid(alpha=0.3); ax.legend(fontsize=9)
+    ax.grid(alpha=0.3); ax.legend(fontsize=13)
     ax.text(0.02, 0.96,
             "KL = khoảng cách policy hiện tại ↔ ref (init).\n"
             "Phẳng = policy không drift xa nữa. Cao hay thấp tùy ref.",
-            transform=ax.transAxes, fontsize=9, va="top", style="italic",
+            transform=ax.transAxes, fontsize=13, va="top", style="italic",
             bbox=dict(boxstyle="round", facecolor="#fff3e0", alpha=0.92))
 
     # --- (2,0) Eval acceptance (test set) over epochs we have
@@ -174,14 +176,14 @@ def main():
                color="gold", edgecolors="black", linewidths=1.3, zorder=10,
                label=f"peak: ep{eval_ep[best_idx]}={eval_acc[best_idx]:.2f}%")
     ax.set_title(f"(E) Eval acceptance per epoch ({len(eval_ep)} epochs evaluated)",
-                 fontsize=12, fontweight="bold")
+                 fontsize=16, fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("Eval acceptance (%)")
-    ax.grid(alpha=0.3); ax.legend(fontsize=8, loc="lower right")
+    ax.grid(alpha=0.3); ax.legend(fontsize=13, loc="lower right")
     ax.text(0.02, 0.04,
             "TRUE convergence = eval ổn định.\n"
             "Đã eval ep1-32 → peak ep19, sau đó RỚT (overfit).\n"
             "→ Online ổn định ≠ eval ổn định.",
-            transform=ax.transAxes, fontsize=9, va="bottom", style="italic",
+            transform=ax.transAxes, fontsize=13, va="bottom", style="italic",
             bbox=dict(boxstyle="round", facecolor="#e8f5e9", alpha=0.92))
 
     # --- (2,1) Eval cost + rev/cost
@@ -197,12 +199,12 @@ def main():
                alpha=0.6, label="v4 cost=216.5")
     ax2.axhline(0.3136, color="tab:red", linestyle=":", linewidth=1.0,
                 alpha=0.6, label="v4 rev/cost=0.314")
-    ax.set_title("(F) Eval avg_cost + rev/cost per epoch", fontsize=12,
+    ax.set_title("(F) Eval avg_cost + rev/cost per epoch", fontsize=16,
                  fontweight="bold")
     ax.set_xlabel("Epoch"); ax.set_ylabel("Avg cost (↓ better)", color="tab:blue")
     ax2.set_ylabel("Rev/Cost (↑ better)", color="tab:purple")
     ax.grid(alpha=0.3)
-    ax.legend(handles=[l1, l2], fontsize=9, loc="lower right")
+    ax.legend(handles=[l1, l2], fontsize=13, loc="lower right")
 
     fig.suptitle(
         f"V19 Normal-reward PPO on 50-node — Convergence indicators ({N} online epochs, {len(eval_ep)} eval'd)\n"

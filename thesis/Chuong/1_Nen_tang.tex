@@ -2,10 +2,10 @@
 \begin{document}
 \label{ch:nen_tang}
 % =============================================================
-% CHƯƠNG 1 — NỀN TẢNG LÝ THUYẾT          Mục tiêu độ dài: ~10 trang
+% CHƯƠNG 1 - NỀN TẢNG LÝ THUYẾT          Mục tiêu độ dài: ~10 trang
 % =============================================================
 
-Chương này hệ thống hoá các kiến thức nền tảng phục vụ cho phương pháp đề xuất. Phần đầu trình bày các công cụ học tăng cường sâu, mạng nơ-ron đồ thị và cơ chế attention — ba khối nền tảng được sử dụng trong đồ án. Phần cuối khảo sát các hướng tiếp cận hiện có cho bài toán nhúng mạng ảo cùng phân tích ưu nhược, làm cơ sở so sánh và xác định động lực cho phương pháp đề xuất. Phát biểu hình thức của bài toán được trình bày riêng ở Chương~\ref{ch:bai_toan}.
+Chương này hệ thống hoá các kiến thức nền tảng phục vụ cho phương pháp đề xuất: học tăng cường sâu, mạng nơ-ron đồ thị và cơ chế attention, ba khối nền tảng được sử dụng trong đồ án. Phần khảo sát các hướng tiếp cận hiện có cho bài toán và phát biểu hình thức của bài toán được trình bày ở Chương~\ref{ch:bai_toan}.
 
 \section{Học tăng cường sâu}
 \label{sec:rl}
@@ -20,7 +20,7 @@ trong đó $\mathcal{S}$ là không gian trạng thái, $\mathcal{A}$ là không
 \begin{equation}
     J(\pi) = \mathbb{E}_{\tau \sim \pi}\left[ \sum_{t=0}^{T} \gamma^t \mathcal{R}(s_t, a_t) \right],
 \end{equation}
-trong đó $\tau = (s_0, a_0, s_1, a_1, \ldots)$ là quỹ đạo tương tác.
+trong đó $\tau = (s_0, a_0, s_1, a_1, \ldots)$ là quỹ đạo tương tác. Việc kết hợp RL với mạng nơ-ron sâu (deep reinforcement learning) đã đạt nhiều thành tựu nổi bật, tiêu biểu là kiểm soát ở mức con người trên các trò chơi Atari\cite{mnih2015dqn}.
 
 Trong bối cảnh VNE, một episode tương ứng với quá trình nhúng một VNR. Trạng thái mô tả mạng vật lý hiện tại và VNR đang xét, hành động là ánh xạ một nút ảo tới một nút vật lý hoặc xếp hạng các nút/liên kết ảo, và phần thưởng được cấp khi VNR đã được ánh xạ hoàn chỉnh và đo bằng tỉ số R/C.
 
@@ -44,15 +44,6 @@ Phương án phổ biến nhất là dùng hàm giá trị $V_\phi(s)$ làm base
     \label{eq:ppo-clip}
 \end{equation}
 với $\epsilon$ là biên cắt (thường $0{,}2$). Phép cắt ngăn chính sách trôi quá xa khỏi chính sách cũ trong một bước cập nhật, đóng vai trò một ràng buộc vùng tin cậy mềm. Đồ án sử dụng kiến trúc actor-critic làm phương pháp tinh chỉnh chính, đồng thời cài đặt biến thể PPO có cắt để so sánh (Chương~\ref{ch:thuc_nghiem}).
-
-\subsection{Plackett-Luce sampling}
-
-Trong bài toán VNE, tác nhân cần sinh ra một \textit{hoán vị} (thứ tự xử lý nút/liên kết ảo) thay vì chỉ một hành động đơn lẻ. \textit{Mô hình Plackett-Luce}\cite{plackett1975ranking} biểu diễn phân phối xác suất trên hoán vị thông qua điểm số $s_1, \ldots, s_n$:
-\begin{equation}
-    P(\pi \mid \mathbf{s}) = \prod_{k=1}^{n} \frac{\exp(s_{\pi(k)})}{\sum_{j \in \mathcal{R}_k} \exp(s_j)},
-    \label{eq:pl}
-\end{equation}
-với $\mathcal{R}_k$ là tập các phần tử chưa được chọn ở các bước trước. Sampling thực hiện bằng cách softmax-sample phần tử đầu tiên, loại khỏi tập, rồi lặp lại. Log-likelihood của hoán vị có thể tính được trực tiếp, cho phép kết hợp với REINFORCE để cập nhật gradient.
 
 \section{Mạng nơ-ron đồ thị}
 \label{sec:gnn}
@@ -84,7 +75,7 @@ với hệ số attention
 \begin{equation}
     \alpha_{vu}^{(\ell)} = \frac{\exp\left( \text{LeakyReLU}(\mathbf{a}^\top [W h_v \| W h_u]) \right)}{\sum_{u' \in \mathcal{N}(v) \cup \{v\}} \exp\left( \text{LeakyReLU}(\mathbf{a}^\top [W h_v \| W h_{u'}]) \right)}.
 \end{equation}
-GAT có khả năng biểu diễn cao hơn GCN nhờ trọng số học được, đặc biệt khi đồ thị không đồng nhất về vai trò các láng giềng. Tuy nhiên, GCN có ưu điểm về số tham số ít, tốc độ huấn luyện nhanh, và đủ biểu diễn cho các tô-pô mạng vật lý nhỏ - vừa trong VNE. Đồ án này lựa chọn GCN làm bộ mã hoá chính để giữ kiến trúc nhỏ gọn (toàn bộ chính sách chỉ khoảng $55{,}700$ tham số), đồng thời thảo luận lại các đánh đổi với GAT trong phân tích ablation ở Chương~\ref{ch:thuc_nghiem}.
+GAT có khả năng biểu diễn cao hơn GCN nhờ trọng số học được, đặc biệt khi đồ thị không đồng nhất về vai trò các láng giềng. Tuy nhiên, GCN có ưu điểm về số tham số ít, tốc độ huấn luyện nhanh, và đủ biểu diễn cho các tô-pô mạng vật lý nhỏ - vừa trong VNE. Đồ án này lựa chọn GCN làm bộ mã hoá chính để giữ kiến trúc nhỏ gọn (toàn bộ chính sách chỉ khoảng $36{,}300$ tham số), đồng thời thảo luận lại các đánh đổi với GAT trong phân tích ablation ở Chương~\ref{ch:thuc_nghiem}.
 
 \section{Cơ chế attention cho lựa chọn ứng viên}
 \label{sec:attention}
@@ -95,53 +86,7 @@ Cơ chế \textit{scaled dot-product attention}\cite{vaswani2017attention} là k
 \end{equation}
 Hệ số $\sqrt{d}$ giúp ổn định gradient khi $d$ lớn. Trong bài toán VNE, mỗi nút ảo đóng vai trò truy vấn, mỗi nút vật lý ứng viên đóng vai trò khoá, và điểm số sau khi softmax biểu diễn xác suất chọn từng ứng viên. Đồ án mở rộng cơ chế này bằng cách kết hợp một nhánh MLP dư (residual) để học các tương tác phi tuyến phức tạp giữa đặc trưng của nút ảo và nút vật lý, và sử dụng \textit{feasibility mask} cứng để loại bỏ các ứng viên không thoả mãn ràng buộc CPU ngay tại bước tính điểm. Chi tiết kiến trúc được trình bày ở Chương~\ref{ch:de_xuat}.
 
-\section{Các hướng tiếp cận cho bài toán VNE}
-\label{sec:approaches}
-
-Phần này khảo sát các hướng tiếp cận hiện có cho bài toán nhúng mạng ảo (được hình thức hoá đầy đủ ở Chương~\ref{ch:bai_toan}). Bên cạnh ba nhóm thuật toán xấp xỉ trình bày dưới đây, bài toán còn có thể phát biểu chính xác dưới dạng quy hoạch nguyên tuyến tính (ILP) cho lời giải tối ưu trong từng bước; tuy nhiên độ phức tạp cấp số mũ khiến cách tiếp cận này chỉ khả thi trên các tô-pô rất nhỏ (dưới $30$ nút), không phù hợp với kịch bản trực tuyến — chi tiết được phân tích cùng phát biểu ILP ở Chương~\ref{ch:bai_toan}.
-
-\subsection{Hướng heuristic}
-
-Các thuật toán heuristic sử dụng các luật xếp hạng đơn giản dựa trên đặc trưng tô-pô như bậc của nút, NodeRank\cite{cheng2011vne_nr}, hoặc chỉ số kết hợp giữa tài nguyên còn lại và tổng băng thông của các cạnh kề. ViNE\cite{chowdhury2009vine} giải LP-relaxation của bài toán nhị phân để gợi ý ánh xạ nút, rồi làm tròn. MP-VNE\cite{mp_vne} ước lượng chi phí của từng cặp $(n^v, n^s)$ qua công thức tổng hợp giữa CPU-cost và băng thông trung bình của các láng giềng, rồi chọn các nút có chi phí ước lượng thấp nhất làm ứng viên. Pha ánh xạ liên kết phổ biến nhất là đường đi ngắn nhất theo Dijkstra hoặc Floyd, có thể mở rộng thành \textit{multi-path} cho phép chia một liên kết ảo thành nhiều đường đi vật lý.
-
-Ưu điểm của heuristic là đơn giản, có thể chạy trên hạ tầng lớn, và thường cho kết quả chấp nhận được trong các tình huống điển hình. Nhược điểm là phụ thuộc nặng vào tri thức chuyên gia, không thích nghi với phân phối yêu cầu thay đổi, và dễ rơi vào tối ưu cục bộ.
-
-\subsection{Hướng metaheuristic}
-
-Các phương pháp metaheuristic gồm thuật toán di truyền (Genetic Algorithm), tối ưu hoá bầy hạt (Particle Swarm Optimization - PSO), và mô phỏng tôi luyện (Simulated Annealing). Trong bài toán VNE, mỗi cá thể/cá nhân biểu diễn một phương án ánh xạ nút hoàn chỉnh, hàm thích nghi (fitness) là chi phí nhúng. Cá thể tốt được chọn lọc qua các thế hệ, kết hợp với phép đột biến để thoát khỏi tối ưu cục bộ. MP-VNE\cite{mp_vne} sử dụng PSO với 10 hạt, 50 vòng lặp, và xác suất đột biến 10\% để cân bằng giữa khám phá và khai thác. Hạn chế chung của nhóm metaheuristic là chi phí tính toán cao (phải đánh giá nhiều phương án trong mỗi vòng lặp) và không có đảm bảo lý thuyết về chất lượng lời giải.
-
-\subsection{Hướng học tăng cường}
-
-Học tăng cường (Reinforcement Learning - RL) coi VNE như một quá trình quyết định tuần tự: tại mỗi bước, tác nhân quan sát trạng thái mạng vật lý và VNR hiện tại, chọn một hành động (ánh xạ một nút ảo) rồi nhận tín hiệu thưởng phản ánh chất lượng của lời giải cuối cùng. A3C-GCN\cite{yao2018a3c_gcn} là một trong những công trình tiên phong sử dụng mạng nơ-ron đồ thị để mã hoá tô-pô mạng vật lý, kết hợp với thuật toán Actor-Critic bất đồng bộ. Gần đây, FlagVNE\cite{flagvne2024} đề xuất khung làm việc tổng quát cho RL trong cấp phát tài nguyên mạng, tách bạch giữa môi trường, biểu diễn, và thuật toán huấn luyện, đồng thời chỉ ra hiệu năng vượt trội so với heuristic và phương pháp metaheuristic trên nhiều bộ benchmark.
-
-Mặc dù nhiều tiềm năng, các phương pháp học tăng cường hiện hành cho VNE còn ba hạn chế chính, cũng là động lực trực tiếp cho phương pháp đề xuất của đồ án: (i) phụ thuộc mạnh vào việc \textit{reward shaping} chính xác, dễ bất ổn định khi reward thưa; (ii) bỏ qua tri thức tô-pô có sẵn từ các thuật toán heuristic mạnh, khiến tác nhân tốn rất nhiều mẫu để khám phá lại các quy luật đơn giản; và (iii) không gian hành động lớn (chọn một trong hàng trăm nút vật lý cho mỗi nút ảo) làm chính sách khó hội tụ ở các tô-pô lớn.
-
-\subsection{So sánh và động lực của đồ án}
-
-Bảng~\ref{tab:approach-compare} tổng hợp ưu nhược của ba nhóm tiếp cận.
-
-\begin{table}[h]
-\centering
-\caption{So sánh ba hướng tiếp cận VNE}
-\label{tab:approach-compare}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l l}
-\hline
-\textbf{Tiêu chí} & \textbf{Heuristic} & \textbf{Metaheuristic} & \textbf{Học tăng cường} \\
-\hline
-Chất lượng lời giải & Trung bình & Khá & Tốt (khi huấn luyện ổn định) \\
-Thời gian suy diễn & Rất nhanh & Chậm & Nhanh \\
-Khả năng tổng quát hoá & Thấp & Trung bình & Cao \\
-Phụ thuộc tri thức chuyên gia & Cao & Trung bình & Thấp \\
-Chi phí huấn luyện & Không có & Không có & Cao \\
-\hline
-\end{tabular}%
-}
-\end{table}
-
-Phân tích trên cho thấy hướng học tăng cường có tiềm năng lớn nhất nhưng còn hai trở ngại: (i) cần huấn luyện trên lượng mẫu lớn để hội tụ, và (ii) khó kết hợp tri thức tô-pô. Đồ án đề xuất kết hợp ưu điểm của heuristic (nguồn tri thức tô-pô) và RL (khả năng học và tổng quát hoá) thông qua quy trình huấn luyện hai giai đoạn được trình bày ở Chương~\ref{ch:de_xuat}.
-
 % Kết chương
-Chương này đã hệ thống hoá các nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO, Plackett-Luce), các khối GNN và attention, cùng phần khảo sát ba hướng tiếp cận hiện hành cho VNE. Chương tiếp theo phát biểu hình thức bài toán nhúng mạng ảo làm cơ sở cho phương pháp đề xuất.
+Chương này đã hệ thống hoá các nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO), các khối GNN và cơ chế attention. Chương tiếp theo khảo sát các hướng tiếp cận hiện có và phát biểu hình thức bài toán nhúng mạng ảo đa miền.
 
 \end{document}

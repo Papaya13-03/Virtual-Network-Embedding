@@ -2,11 +2,11 @@
 \begin{document}
 \label{ch:de_xuat}
 % =============================================================
-% CHƯƠNG 3 — PHƯƠNG PHÁP ĐỀ XUẤT       Mục tiêu độ dài: ~15 trang
+% CHƯƠNG 3 - PHƯƠNG PHÁP ĐỀ XUẤT       Mục tiêu độ dài: ~15 trang
 % =============================================================
 
 % Tổng quan chương
-Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate} — tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored} — chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp kế thừa cơ chế đa đường có nhận biết thứ tự (Order-Aware Multi-Path) của thuật toán heuristic OA-MP-VNE — cũng chính là thuật toán cung cấp lời giải mẫu cho giai đoạn học bắt chước. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn. Phần cuối chương phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
+Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate}: tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored}: chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp dùng một bước cam kết tài nguyên đa đường (multi-path) được trình bày ở Mục~\ref{subsec:cand-link}; lời giải mẫu cho giai đoạn học bắt chước được lấy từ heuristic MP-VNE. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn. Phần cuối chương phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
 
 \section{Tổng quan giải pháp}                  % ~2 trang
 \label{sec:overview}
@@ -19,15 +19,15 @@ Phương pháp đề xuất được xây dựng quanh ba nguyên lý thiết k�
 \begin{enumerate}
 \item \textbf{Mã hoá tô-pô phân cấp đa miền.} Hạ tầng thực tế thường được chia thành nhiều miền quản trị (domain). Thay vì coi mạng vật lý là một đồ thị phẳng, đồ án sử dụng một bộ mã hoá \textit{phân cấp} gồm hai mức: mức nội miền (intra-domain) học biểu diễn cục bộ cho từng miền, và mức liên miền (inter-domain) học biểu diễn quan hệ giữa các miền. Cách làm này tôn trọng tính cục bộ của bài toán đa miền và cho phép tác nhân ``nhìn thấy'' chi phí định tuyến xuyên miền ngay tại bước ra quyết định.
 
-\item \textbf{Đóng băng các đầu xếp hạng, chỉ tinh chỉnh đầu chọn ứng viên.} Một phát hiện then chốt của đồ án là: trong bài toán này, \textit{lựa chọn ứng viên} (chọn nút vật lý nào cho mỗi nút ảo) mới là đòn bẩy thực sự để vượt trần hiệu năng của heuristic, còn \textit{thứ tự xử lý} nút/liên kết ảo gần như không cải thiện được bằng học tăng cường. Do đó, sau khi khởi động bằng học bắt chước, ta \textbf{đóng băng} đầu xếp hạng nút và đầu xếp hạng liên kết, chỉ huấn luyện tăng cường cho đầu chọn ứng viên (cùng bộ mã hoá và bộ phê bình). Việc này tránh cho gradient ngẫu nhiên từ các đầu xếp hạng làm hỏng bộ mã hoá dùng chung.
+\item \textbf{Lựa chọn ứng viên là đòn bẩy hiệu quả.} Một phát hiện then chốt của đồ án là \textit{lựa chọn ứng viên}, tức chọn nút vật lý nào cho mỗi nút ảo, mới là quyết định chi phối chất lượng lời giải và là nơi học tăng cường phát huy tác dụng để vượt trần hiệu năng của heuristic. Vì vậy phương pháp tập trung toàn bộ năng lực học vào một đầu chọn ứng viên cross-attention tích hợp đặc trưng chi phí tường minh (cost-aware) và mặt nạ khả thi cứng, được tinh chỉnh cùng bộ mã hoá và bộ phê bình.
 
-\item \textbf{Khởi động bằng học bắt chước rồi tinh chỉnh actor-critic có neo KL.} Quy trình huấn luyện gồm hai giai đoạn: (i) học bắt chước lời giải của thuật toán OA-MP-VNE để có một chính sách khởi đầu hợp lý (gọi là mô hình \textit{R2}); (ii) tinh chỉnh bằng phương pháp actor-critic, trong đó tín hiệu thưởng đến từ kết quả nhúng thực tế, đồng thời neo phân phối chọn ứng viên về chính sách tham chiếu R2 bằng độ phân kỳ Kullback-Leibler (KL) để tinh chỉnh mà không sụp đổ phân phối.
+\item \textbf{Khởi động bằng học bắt chước rồi tinh chỉnh actor-critic có neo KL.} Quy trình huấn luyện gồm hai giai đoạn: (i) học bắt chước lời giải của heuristic MP-VNE để có một chính sách khởi đầu hợp lý (gọi là mô hình \textit{R2}); (ii) tinh chỉnh bằng phương pháp actor-critic, trong đó tín hiệu thưởng đến từ kết quả nhúng thực tế, đồng thời neo phân phối chọn ứng viên về chính sách tham chiếu R2 bằng độ phân kỳ Kullback-Leibler (KL) để tinh chỉnh mà không sụp đổ phân phối.
 \end{enumerate}
 
 \subsection{Sơ đồ khối hệ thống}
 \label{subsec:block-diagram}
 
-Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bốn nhóm khối: (1) \textit{bộ mã hoá đồ thị} biến mạng vật lý và yêu cầu mạng ảo thành các vector biểu diễn; (2) \textit{bốn đầu ra} gồm đầu xếp hạng nút ảo, đầu xếp hạng liên kết ảo, đầu chọn ứng viên (cross-attention) và bộ phê bình giá trị $V(s)$; (3) \textit{bộ giải mã} kết hợp các đầu ra để sinh một lời giải nhúng hoàn chỉnh; và (4) \textit{môi trường} cam kết tài nguyên và trả về tín hiệu thưởng. Ở giai đoạn tinh chỉnh, các khối tô đậm (đầu chọn ứng viên, bộ mã hoá, bộ phê bình) được cập nhật, còn hai đầu xếp hạng (tô nhạt) bị đóng băng.
+Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bốn nhóm khối: (1) \textit{bộ mã hoá đồ thị} biến mạng vật lý và yêu cầu mạng ảo thành các vector biểu diễn; (2) \textit{hai đầu ra} gồm đầu chọn ứng viên (cross-attention) và bộ phê bình giá trị $V(s)$; (3) \textit{bộ giải mã} ánh xạ nút theo điểm của đầu chọn ứng viên rồi ánh xạ liên kết bằng cơ chế đa đường; và (4) \textit{môi trường} cam kết tài nguyên và trả về tín hiệu thưởng. Toàn bộ các khối (bộ mã hoá, đầu chọn ứng viên, bộ phê bình) được tinh chỉnh bằng học tăng cường, trong đó tín hiệu học được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán.
 
 \begin{figure}[H]
   \centering
@@ -36,7 +36,6 @@ Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bố
     font=\small,
     box/.style={draw, rounded corners, minimum height=8mm, minimum width=22mm, align=center, fill=white},
     train/.style={draw, rounded corners, minimum height=8mm, minimum width=22mm, align=center, fill=black!12, very thick},
-    frozen/.style={draw, rounded corners, minimum height=8mm, minimum width=22mm, align=center, fill=white, dashed},
     >={Stealth[]}, node distance=6mm and 12mm
   ]
     % inputs
@@ -51,39 +50,33 @@ Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bố
     \coordinate (encmid) at ($(enc_s)!0.5!(enc_v)$);
     \node[train, right=18mm of encmid] (fuse) {Trộn biểu diễn\\(max-pool ngữ cảnh)};
 
-    % heads
-    \node[frozen, right=of fuse, yshift=15mm] (hnode) {Đầu xếp hạng nút};
-    \node[frozen, right=of fuse, yshift=4mm] (hlink) {Đầu xếp hạng liên kết};
-    \node[train,  right=of fuse, yshift=-7mm] (hcand) {Đầu chọn ứng viên\\(cross-attention)};
-    \node[train,  right=of fuse, yshift=-18mm] (hval) {Bộ phê bình $V(s)$};
+    % outputs
+    \node[train, right=of fuse, yshift=8mm] (hcand) {Đầu chọn ứng viên\\(cross-attention)};
+    \node[train, right=of fuse, yshift=-8mm] (hval) {Bộ phê bình $V(s)$};
 
     % decoder + env
-    \node[box, right=10mm of hcand] (dec) {Giải mã\\+ ánh xạ liên kết};
+    \node[box, right=10mm of hcand] (dec) {Giải mã\\+ ánh xạ liên kết đa đường};
     \node[box, below=8mm of dec] (env) {Môi trường\\(cam kết + thưởng)};
 
     \draw[->] (gs) -- (enc_s);
     \draw[->] (vnr) -- (enc_v);
     \draw[->] (enc_s) -- (fuse);
     \draw[->] (enc_v) -- (fuse);
-    \draw[->] (fuse) -- (hnode);
-    \draw[->] (fuse) -- (hlink);
     \draw[->] (fuse) -- (hcand);
     \draw[->] (fuse) -- (hval);
-    \draw[->] (hnode.east) to[out=0,in=120] (dec.north west);
-    \draw[->] (hlink.east) to[out=0,in=150] (dec.west);
     \draw[->] (hcand) -- (dec);
     \draw[->] (dec) -- (env);
     \draw[->] (env.south) to[out=-90,in=-90] node[below]{\footnotesize thưởng $r$, $V(s)$} (hval.south);
   \end{tikzpicture}%
   }
-  \caption{Kiến trúc tổng thể của CARL-VNE. Khối tô đậm được huấn luyện ở giai đoạn tinh chỉnh; khối nét đứt (hai đầu xếp hạng) bị đóng băng.}
+  \caption{Kiến trúc tổng thể của CARL-VNE (khối tô đậm được huấn luyện bằng RL).}
   \label{fig:arch}
 \end{figure}
 
 \subsection{Luồng tương tác môi trường - tác nhân}
 \label{subsec:interaction}
 
-Mỗi \textit{episode} tương ứng với quá trình nhúng một VNR và diễn ra theo các bước sau. (1) Bộ mã hoá tính biểu diễn cho mạng vật lý hiện tại và VNR đang xét. (2) Đầu xếp hạng nút sinh một thứ tự xử lý các nút ảo bằng lấy mẫu Plackett-Luce. (3) Với mỗi nút ảo theo thứ tự đó, đầu chọn ứng viên tính điểm cho các nút vật lý khả thi trong từng miền cho phép và chọn ra một nút (lấy mẫu khi huấn luyện, lấy cực đại khi suy diễn). (4) Sau khi đã có ánh xạ nút, các liên kết ảo được ánh xạ tuần tự bằng đường đi ngắn nhất. (5) Lời giải hoàn chỉnh được cam kết lên mạng vật lý theo cơ chế đa đường OA-MP, trạng thái tài nguyên được cập nhật, và môi trường trả về một tín hiệu thưởng phản ánh việc nhúng thành công hay thất bại cùng độ tiết kiệm chi phí. Phân tích độ phức tạp của luồng này được trình bày ở Mục~\ref{sec:complexity-time}, còn kết quả thực nghiệm ở Chương~\ref{ch:thuc_nghiem}.
+Mỗi \textit{episode} tương ứng với quá trình nhúng một VNR và diễn ra theo các bước sau. (1) Bộ mã hoá tính biểu diễn cho mạng vật lý hiện tại và VNR đang xét. (2) Đầu chọn ứng viên tính điểm cho các nút vật lý khả thi trong từng miền cho phép để đề cử ứng viên top-1 mỗi miền cho mỗi nút ảo; ánh xạ nút được lấy mẫu khi huấn luyện, còn khi triển khai do PSO chọn tổ hợp (Mục~\ref{subsec:cand-pso}). (3) Sau khi đã có ánh xạ nút, các liên kết ảo được ánh xạ bằng đường đi ngắn nhất. (4) Lời giải hoàn chỉnh được cam kết lên mạng vật lý theo cơ chế đa đường (multi-path), trạng thái tài nguyên được cập nhật, và môi trường trả về một tín hiệu thưởng phản ánh việc nhúng thành công hay thất bại cùng độ tiết kiệm chi phí. Phân tích độ phức tạp của luồng này được trình bày ở Mục~\ref{sec:complexity-time}, còn kết quả thực nghiệm ở Chương~\ref{ch:thuc_nghiem}.
 
 \section{Bộ mã hoá đồ thị (Graph Encoder)}     % ~3.5 trang
 \label{sec:encoder}
@@ -105,17 +98,17 @@ trong đó $\tilde{A}=A+I$, $\tilde{D}$ là ma trận bậc tương ứng, $\sig
 \subsection{Mã hoá yêu cầu mạng ảo}
 \label{subsec:enc-vnr}
 
-Yêu cầu mạng ảo được mã hoá bằng một GCN hai lớp (chiều ẩn $32$) trên đồ thị ảo, với mỗi nút ảo mô tả bằng $7$ đặc trưng gồm: nhu cầu CPU, bậc, tổng băng thông các liên kết kề, kích thước VN chuẩn hoá, mật độ liên kết của VN, tỉ lệ số miền được phép, và tỉ lệ liên kết ảo buộc phải định tuyến xuyên miền. Vì thứ tự và sự phối hợp giữa các nút ảo là quan trọng, ta bổ sung một khối \textit{self-attention đa đầu} ($4$ đầu) trên tập biểu diễn các nút ảo (khối Transformer: attention + mạng truyền thẳng + LayerNorm). Bộ mã hoá VNR dùng \textbf{bộ trọng số riêng}, tách biệt với bộ mã hoá mạng vật lý.
+Yêu cầu mạng ảo được mã hoá bằng một GCN hai lớp (chiều ẩn $32$) trên đồ thị ảo, với mỗi nút ảo mô tả bằng $7$ đặc trưng gồm: nhu cầu CPU, bậc, tổng băng thông các liên kết kề, kích thước VN chuẩn hoá, mật độ liên kết của VN, tỉ lệ số miền được phép, và tỉ lệ liên kết ảo buộc phải định tuyến xuyên miền. Vì sự phối hợp giữa các nút ảo là quan trọng, ta bổ sung một khối \textit{self-attention đa đầu} ($4$ đầu) trên tập biểu diễn các nút ảo (khối Transformer: attention + mạng truyền thẳng + LayerNorm). Bộ mã hoá VNR dùng \textbf{bộ trọng số riêng}, tách biệt với bộ mã hoá mạng vật lý.
 
 \subsection{Trộn biểu diễn substrate và VNR}
 \label{subsec:enc-fusion}
 
-Với mỗi nút ảo, ngữ cảnh mạng vật lý được tổng hợp bằng phép max-pooling trên các biểu diễn nút vật lý (chiều $64$) rồi nối với biểu diễn của nút ảo (chiều $32$). Vector kết hợp $96$ chiều này là đầu vào chung cho đầu xếp hạng nút và bộ phê bình giá trị, đảm bảo mọi đầu ra đều ``nhìn'' cùng một biểu diễn nhất quán của trạng thái.
+Với mỗi nút ảo, ngữ cảnh mạng vật lý được tổng hợp bằng phép max-pooling trên các biểu diễn nút vật lý (chiều $64$) rồi nối với biểu diễn của nút ảo (chiều $32$). Vector kết hợp $96$ chiều này là đầu vào chung cho đầu chọn ứng viên và bộ phê bình giá trị, đảm bảo mọi đầu ra đều ``nhìn'' cùng một biểu diễn nhất quán của trạng thái.
 
 \subsection{Phân tích thiết kế}
 \label{subsec:enc-analysis}
 
-Đồ án chọn GCN thay vì GAT cho bộ mã hoá chính nhằm giữ kiến trúc nhỏ gọn: toàn bộ mạng chính sách chỉ khoảng $55{,}700$ tham số, phù hợp huấn luyện nhanh trên tô-pô cỡ vừa và giảm rủi ro quá khớp. Cấu trúc phân cấp là lựa chọn cốt lõi cho bài toán đa miền: nó tránh việc cho mỗi nút ``nhìn thấy'' toàn bộ hàng trăm nút ở các miền khác (vừa tốn kém vừa nhiễu), đồng thời vẫn truyền được thông tin liên miền qua mức thứ hai. Các biến thể dùng GAT và bộ mã hoá lớn hơn được khảo sát trong phân tích ablation ở Chương~\ref{ch:thuc_nghiem}.
+Đồ án chọn GCN thay vì GAT cho bộ mã hoá chính nhằm giữ kiến trúc nhỏ gọn: toàn bộ mạng chính sách chỉ khoảng $36{,}300$ tham số, phù hợp huấn luyện nhanh trên tô-pô cỡ vừa và giảm rủi ro quá khớp. Cấu trúc phân cấp là lựa chọn cốt lõi cho bài toán đa miền: nó tránh việc cho mỗi nút ``nhìn thấy'' toàn bộ hàng trăm nút ở các miền khác (vừa tốn kém vừa nhiễu), đồng thời vẫn truyền được thông tin liên miền qua mức thứ hai. Các biến thể dùng GAT và bộ mã hoá lớn hơn được khảo sát trong phân tích ablation ở Chương~\ref{ch:thuc_nghiem}.
 
 \section{Bộ giải mã chọn ứng viên (Candidate Decoder)} % ~3.5 trang
 \label{sec:decoder}
@@ -130,7 +123,7 @@ Với mỗi nút ảo $n^v$ và mỗi miền $d$ thuộc tập miền cho phép 
 \subsection{Cơ chế attention chọn ứng viên}
 \label{subsec:cand-attn}
 
-Điểm số cho mỗi cặp (nút ảo $n^v$, nút vật lý ứng viên $n^s$) được tính bằng cơ chế cross-attention kết hợp với một \textit{thiên lệch chi phí tường minh}. Truy vấn là biểu diễn nút ảo, khoá là biểu diễn ngữ cảnh của nút vật lý nối với bốn đặc trưng phụ trợ: độ dư CPU chuẩn hoá, chi phí CPU ước lượng $\mathrm{cpu\_cost}=c(n^v)\cdot P(n^s)$, cờ nút biên, và chi phí liên kết ước lượng. Điểm cuối cùng là tổng của ba thành phần:
+Điểm số cho mỗi cặp (nút ảo $n^v$, nút vật lý ứng viên $n^s$) được tính bằng cơ chế cross-attention có tích hợp các \textit{đặc trưng chi phí tường minh} (cost-aware). Truy vấn là biểu diễn nút ảo, khoá là biểu diễn ngữ cảnh của nút vật lý nối với bốn đặc trưng phụ trợ: độ dư CPU chuẩn hoá, chi phí CPU ước lượng $\mathrm{cpu\_cost}=c(n^v)\cdot P(n^s)$, cờ nút biên, và chi phí liên kết ước lượng. Điểm cuối cùng là tổng của ba thành phần:
 \begin{equation}
 \begin{split}
     \mathrm{score}(n^v, n^s) = {} & \underbrace{\frac{q^\top k}{\sqrt{d_h}}}_{\text{attention}} + \underbrace{\mathrm{MLP}_{\text{res}}([\,h_{n^v}\,\|\,h_{n^s}\,])}_{\text{tương tác phi tuyến}} \\
@@ -143,24 +136,76 @@ trong đó $\beta_c, \beta_\ell, \beta_b$ là các trọng số thiên lệch \t
 \subsection{Lựa chọn ngẫu nhiên khi huấn luyện và tất định khi suy diễn}
 \label{subsec:cand-sampling}
 
-Đây chính là cơ chế cho phép học tăng cường hoạt động. Khi \textbf{huấn luyện}, với mỗi nút ảo và mỗi miền, một nút vật lý được \textit{lấy mẫu} từ phân phối Categorical trên các điểm $\mathrm{score}(\cdot)$ của miền đó (với $K{>}1$ dùng Gumbel-top-K không hoàn lại). Tính ngẫu nhiên này tạo ra \textit{khám phá}: tác nhân thử các phương án chọn ứng viên khác nhau và nhận phản hồi từ kết quả nhúng. Khi \textbf{suy diễn}, ta lấy cực đại (argmax) theo từng miền để có quyết định tất định.
+Đây chính là cơ chế cho phép học tăng cường hoạt động. Khi \textbf{huấn luyện} (rollout học tăng cường, chế độ giải mã trực tiếp), với mỗi nút ảo một nút vật lý được \textit{lấy mẫu} từ phân phối Categorical trên các điểm $\mathrm{score}(\cdot)$. Tính ngẫu nhiên này tạo ra \textit{khám phá}: tác nhân thử các phương án chọn ứng viên khác nhau và nhận phản hồi từ kết quả nhúng. Khi \textbf{triển khai}, các ứng viên top-1 mỗi miền do đầu chọn ứng viên đề cử được đưa vào một bộ tối ưu hoá bầy hạt (PSO) để chọn tổ hợp ánh xạ nút tốt nhất (Mục~\ref{subsec:cand-pso}).
 
 Phát hiện then chốt là: nếu chỉ dùng đường đi argmax chặt ($K=1$, không lấy mẫu) ngay từ khi huấn luyện thì \textit{không có khám phá}, do đó không có tín hiệu để học tăng cường cải thiện. Chính việc làm cho lựa chọn ứng viên trở nên ngẫu nhiên trong lúc huấn luyện mới mở ra khả năng vượt trần hiệu năng của mô hình bắt chước.
 
 \subsection{Ánh xạ liên kết}
 \label{subsec:cand-link}
 
-Sau khi cố định ánh xạ nút, các liên kết ảo được xử lý theo một thứ tự lấy mẫu Plackett-Luce (thực nghiệm cho thấy thứ tự ngẫu nhiên hoá này cho tỉ lệ chấp nhận tốt hơn các thứ tự cố định như giảm dần theo băng thông, vì nó tránh dồn lưu lượng vào cùng các đường đi ngắn nhất). Trong pha giải mã và kiểm tra khả thi, mỗi liên kết ảo được ánh xạ vào \textit{một} đường đi ngắn nhất liên tục mang toàn bộ băng thông yêu cầu; nếu không có đường đi đơn nào đủ băng thông, việc nhúng coi như thất bại. Tuy nhiên khi \textit{cam kết} tài nguyên cho một lời giải đã được chấp nhận, hệ thống dùng cơ chế đa đường OA-MP: chia nhỏ băng thông của một liên kết ảo trên tối đa năm đường đi vật lý, tăng khả năng thoả mãn các yêu cầu băng thông lớn. Một mặt nạ chống trùng đảm bảo không có hai nút ảo nào ánh xạ vào cùng một nút vật lý.
+Sau khi cố định ánh xạ nút, mỗi liên kết ảo $e^v=(u^v, v^v)$ được ánh xạ thành (các) đường đi vật lý nối $f_N(u^v)$ với $f_N(v^v)$. Trong cấu hình đa miền, việc tìm đường mang tính phân cấp: \textit{bộ điều khiển cục bộ} của mỗi miền tìm đường nội miền, còn \textit{bộ điều khiển toàn cục} ghép các đoạn nội miền qua các liên kết liên miền giữa các nút biên thành một đường đi xuyên miền hoàn chỉnh.
+
+Trong \textbf{pha giải mã và kiểm tra khả thi}, mỗi liên kết ảo được thử ánh xạ vào \textit{một} đường đi ngắn nhất (Dijkstra) mang toàn bộ băng thông yêu cầu $b(e^v)$; đường đi chỉ hợp lệ nếu băng thông còn lại nhỏ nhất dọc đường (bottleneck) không nhỏ hơn $b(e^v)$. Nếu tồn tại một liên kết ảo không tìm được đường đủ băng thông, việc nhúng VNR bị coi là thất bại. Một \textit{mặt nạ chống trùng} bảo đảm không có hai nút ảo nào ánh xạ vào cùng một nút vật lý.
+
+Khi \textbf{cam kết} tài nguyên cho một lời giải đã được chấp nhận, hệ thống dùng cơ chế \textit{đa đường} (multi-path): băng thông của một liên kết ảo có thể được chia trên tối đa năm đường đi vật lý, tăng khả năng thoả mãn các yêu cầu băng thông lớn khi không một đường đơn nào đủ. Chi phí của pha ánh xạ liên kết được tính bằng tổng trên các đường đi đã cấp phát:
+\begin{equation}
+\mathcal{C}_{\text{link}} = \sum_{e^v \in E^v}\; \sum_{p \in f_E(e^v)} \big( D(p) + P(p)\cdot b_p \big),
+\label{eq:link-cost}
+\end{equation}
+với $D(p)$ là tổng độ trễ truyền dẫn dọc đường $p$, $P(p)$ là đơn giá băng thông và $b_p$ là phần băng thông cấp trên $p$ (với đường đơn $b_p=b(e^v)$).
+
+\subsection{Triển khai qua PSO và multi-restart}
+\label{subsec:cand-pso}
+
+Khi triển khai, mỗi nút ảo có tối đa một ứng viên trên mỗi miền cho phép (top-1 theo điểm đầu chọn ứng viên), tạo thành một không gian tổ hợp các phương án ánh xạ nút. Đồ án dùng \textit{tối ưu hoá bầy hạt} (Particle Swarm Optimization - PSO) để tìm tổ hợp tốt nhất trong không gian này.
+
+\paragraph{Biểu diễn cá thể.} Mỗi cá thể là một vector số nguyên $\mathbf{z}=(z_1,\ldots,z_{|N^v|})$, trong đó $z_j$ là chỉ số ứng viên được chọn cho nút ảo thứ $j$. Khi hai nút ảo chọn trùng một nút vật lý, một cơ chế sửa gán lại một trong hai sang ứng viên khả thi khác để bảo đảm ràng buộc đơn ánh.
+
+\paragraph{Hàm thích nghi.} Mỗi cá thể được giải mã thành một ánh xạ nút, hoàn thiện ánh xạ liên kết theo Mục~\ref{subsec:cand-link}, rồi chấm điểm bằng
+\begin{equation}
+\mathrm{fitness}(\mathbf{z}) = \mathcal{C}(\mathbf{z}) \;-\; \alpha \sum_{j} p^{\text{cand}}_{j}(z_j),
+\label{eq:pso-fitness}
+\end{equation}
+trong đó $\mathcal{C}(\mathbf{z})$ là chi phí nhúng (PreCost, gồm chi phí nút và chi phí liên kết ở Công thức~\eqref{eq:link-cost}), còn $p^{\text{cand}}_{j}(z_j)$ là xác suất mà đầu chọn ứng viên gán cho ứng viên được chọn. Số hạng thứ hai là \textit{thiên lệch theo chính sách} (hệ số $\alpha=50$): trừ vào chi phí để PSO ưu tiên những phương án mà chính sách học được cho điểm cao. Cá thể có liên kết không nhúng được bị phạt nặng để bị loại.
+
+\paragraph{Cập nhật bầy hạt.} Vận tốc $\mathbf{v}_i$ và vị trí $\mathbf{z}_i$ của mỗi cá thể $i$ được cập nhật theo công thức PSO chuẩn:
+\begin{align}
+\mathbf{v}_i &\leftarrow w\,\mathbf{v}_i + c_1 r_1 (\mathbf{p}^{\text{best}}_i - \mathbf{z}_i) + c_2 r_2 (\mathbf{g}^{\text{best}} - \mathbf{z}_i),\\
+\mathbf{z}_i &\leftarrow \mathrm{round}(\mathbf{z}_i + \mathbf{v}_i),
+\end{align}
+với $\mathbf{p}^{\text{best}}_i$ là vị trí tốt nhất từng đạt của cá thể $i$, $\mathbf{g}^{\text{best}}$ là vị trí tốt nhất toàn bầy, và $r_1, r_2 \sim \mathcal{U}(0,1)$; vị trí được làm tròn và kẹp về chỉ số ứng viên hợp lệ. Đồ án dùng $w=0{,}7$, $c_1=c_2=1{,}5$, bổ sung xác suất đột biến $0{,}1$ (gán ngẫu nhiên lại một số thành phần của $\mathbf{z}$) để tránh hội tụ sớm; mỗi lần chạy gồm $20$ cá thể và $15$ vòng lặp.
+
+\paragraph{Multi-restart.} Để tăng tỉ lệ chấp nhận và giảm chi phí, quá trình suy diễn lặp lại PSO $K=3$ lần với các hạt giống khác nhau rồi chọn lời giải có chi phí thấp nhất. Việc chạy nhiều lần độc lập làm tăng xác suất tìm được ít nhất một lời giải khả thi (cải thiện tỉ lệ chấp nhận) và cho lời giải rẻ hơn theo nguyên lý best-of-$K$, đổi lại chi phí suy diễn tăng theo hệ số $K$. Thuật toán~\ref{alg:deploy} tóm tắt toàn bộ quy trình suy diễn.
+
+\begin{algorithm}[H]
+\caption{Suy diễn CARL-VNE qua PSO multi-restart}
+\label{alg:deploy}
+\SetAlgoLined
+\KwIn{Một VNR; mạng vật lý $G^s$; chính sách $\pi_\theta$; số lần khởi động $K$}
+\KwOut{Lời giải nhúng có chi phí thấp nhất (hoặc thất bại)}
+Mã hoá $G^s$ và VNR; với mỗi nút ảo, lấy ứng viên top-1 trên mỗi miền cho phép theo $\pi_\theta$\;
+$best \leftarrow \varnothing$\;
+\For{$k \leftarrow 1$ \KwTo $K$}{
+    Khởi tạo bầy $20$ cá thể với hạt giống $k$\;
+    \For{$15$ vòng lặp}{
+        Giải mã mỗi cá thể thành ánh xạ nút; ánh xạ liên kết bằng đường đi ngắn nhất\;
+        Tính $\mathrm{fitness}$ theo Công thức~\eqref{eq:pso-fitness}; cập nhật $\mathbf{p}^{\text{best}}_i$, $\mathbf{g}^{\text{best}}$ và bầy hạt\;
+    }
+    \If{$\mathbf{g}^{\text{best}}$ của lần chạy này khả thi và rẻ hơn $best$}{$best \leftarrow \mathbf{g}^{\text{best}}$\;}
+}
+Cam kết $best$ lên mạng vật lý theo cơ chế đa đường (Mục~\ref{subsec:cand-link})\;
+\Return $best$\;
+\end{algorithm}
 
 \subsection{Tính toán xác suất hành động hợp thành}
 \label{subsec:cand-logprob}
 
-Log-xác suất của một lời giải nhúng hoàn chỉnh là tổng của ba thành phần: log-xác suất của thứ tự nút (Plackett-Luce), của thứ tự liên kết (Plackett-Luce), và của các lựa chọn ứng viên (tổng theo từng nút ảo):
+Hành động của chính sách là tập các lựa chọn ứng viên cho các nút ảo, nên log-xác suất của một lời giải nhúng hoàn chỉnh là tổng log-xác suất của các lựa chọn ứng viên (tổng theo từng nút ảo):
 \begin{equation}
-    \log \pi_\theta(a \mid s) = \underbrace{\sum_{k} \log p^{\text{node}}_k}_{\text{thứ tự nút}} + \underbrace{\sum_{k} \log p^{\text{link}}_k}_{\text{thứ tự liên kết}} + \underbrace{\sum_{n^v} \log p^{\text{cand}}_{n^v}}_{\text{chọn ứng viên}}.
+    \log \pi_\theta(a \mid s) = \sum_{n^v} \log p^{\text{cand}}_{n^v}.
     \label{eq:logprob}
 \end{equation}
-Ở giai đoạn tinh chỉnh, chỉ thành phần chọn ứng viên mang gradient (hai thành phần còn lại bị đóng băng), nhờ đó tín hiệu học được tập trung hoàn toàn vào đòn bẩy hiệu quả nhất.
+Toàn bộ gradient học tăng cường đi qua thành phần này, nhờ đó tín hiệu học được tập trung hoàn toàn vào đòn bẩy hiệu quả nhất.
 
 \section{Môi trường học tăng cường}            % ~2.5 trang
 \label{sec:env}
@@ -168,12 +213,12 @@ Log-xác suất của một lời giải nhúng hoàn chỉnh là tổng của b
 \subsection{Không gian trạng thái}
 \label{subsec:env-state}
 
-Trạng thái $s$ gồm: (i) trạng thái tài nguyên hiện tại của mạng vật lý (CPU còn lại của mỗi nút, băng thông còn lại của mỗi liên kết) — biến đổi dần khi các nút/liên kết ảo được cam kết; (ii) cấu trúc và nhu cầu của VNR đang xử lý; và (iii) thông tin tương thích miền giữa nút ảo và nút vật lý. Trạng thái được biểu diễn thông qua các vector mã hoá phân cấp ở Mục~\ref{sec:encoder}. Các cam kết là \textit{on-policy} và bền vững trong suốt episode.
+Trạng thái $s$ gồm: (i) trạng thái tài nguyên hiện tại của mạng vật lý (CPU còn lại của mỗi nút, băng thông còn lại của mỗi liên kết), biến đổi dần khi các nút/liên kết ảo được cam kết; (ii) cấu trúc và nhu cầu của VNR đang xử lý; và (iii) thông tin tương thích miền giữa nút ảo và nút vật lý. Trạng thái được biểu diễn thông qua các vector mã hoá phân cấp ở Mục~\ref{sec:encoder}. Các cam kết là \textit{on-policy} và bền vững trong suốt episode.
 
 \subsection{Không gian hành động}
 \label{subsec:env-action}
 
-Một hành động hợp thành gồm: một hoán vị thứ tự xử lý các nút ảo, một hoán vị thứ tự xử lý các liên kết ảo, và với mỗi nút ảo một lựa chọn nút vật lý trên mỗi miền cho phép. Ở giai đoạn tinh chỉnh, hai thành phần hoán vị bị đóng băng nên không gian hành động hiệu dụng thu về các lựa chọn ứng viên.
+Một hành động hợp thành gồm, với mỗi nút ảo, một lựa chọn nút vật lý trên mỗi miền cho phép. Không gian hành động do đó tập trung hoàn toàn vào các lựa chọn ứng viên.
 
 \subsection{Hàm phần thưởng}
 \label{subsec:env-reward}
@@ -187,25 +232,25 @@ Phần thưởng được cấp ở cuối mỗi episode theo dạng tổng quá
     \end{cases}
     \label{eq:reward}
 \end{equation}
-trong đó $c$ là chi phí thực tế của lời giải, $\bar{c}_{\text{EMA}}$ là trung bình động (hệ số suy giảm $0.95$) của chi phí các lần nhúng thành công gần đây, $\lambda$ điều tiết mức độ ưu tiên tiết kiệm chi phí. \textbf{Cấu hình thưởng chuẩn} (normal-reward) được dùng cho các kết quả chính của đồ án đặt $\rho_{\text{bonus}}=1{,}0$, $\lambda=0{,}3$ và $\rho_{\text{fail}}=1{,}0$; tức nhúng thành công nhận $r = 1{,}0 + 0{,}3\cdot(\bar{c}_{\text{EMA}}-c)/\bar{c}_{\text{EMA}}$ và nhúng thất bại nhận $r = -1{,}0$. Cách đặt này ưu tiên trước hết việc \textit{tăng tỉ lệ chấp nhận} (số hạng cố định $\pm1{,}0$ chiếm ưu thế), đồng thời vẫn thưởng nhẹ cho các lời giải rẻ hơn trung bình. Bên cạnh cấu hình chuẩn, đồ án còn khảo sát một biến thể \textit{rev\_cost} chuẩn hoá theo tỉ số doanh thu/chi phí (bất biến với kích thước, có cắt ngưỡng) nhằm nhấn mạnh hiệu quả tài nguyên; so sánh giữa các cấu hình thưởng được trình bày ở Chương~\ref{ch:thuc_nghiem}.
+trong đó $c$ là chi phí thực tế của lời giải, $\bar{c}_{\text{EMA}}$ là trung bình động (hệ số suy giảm $0.95$) của chi phí các lần nhúng thành công gần đây, $\lambda$ điều tiết mức độ ưu tiên tiết kiệm chi phí. Đồ án đặt $\rho_{\text{bonus}}=0{,}5$, $\lambda=1{,}0$ và $\rho_{\text{fail}}=0{,}5$; tức nhúng thành công nhận $r = 0{,}5 + 1{,}0\cdot(\bar{c}_{\text{EMA}}-c)/\bar{c}_{\text{EMA}}$ và nhúng thất bại nhận $r = -0{,}5$. Cách đặt này vừa thưởng cho việc nhúng thành công, vừa nhấn mạnh số hạng tiết kiệm chi phí (trọng số $\lambda=1{,}0$) để khuyến khích các lời giải rẻ hơn mức nền.
 
 \subsection{Cơ chế xử lý hành động không hợp lệ}
 \label{subsec:env-mask}
 
-Ba loại mặt nạ được áp dụng: (i) mặt nạ khả thi CPU — nút vật lý không đủ CPU bị gán điểm $-10^4$; (ii) mặt nạ chống trùng — nút vật lý đã được dùng bị gán điểm $-\infty$ trong giải mã trực tiếp; (iii) bỏ qua miền rỗng — nếu mọi nút trong một miền đều không khả thi thì miền đó bị loại khỏi bước chọn ứng viên. Nhờ các mặt nạ này, mọi hành động được lấy mẫu đều hợp lệ theo ràng buộc tài nguyên và miền.
+Ba loại mặt nạ được áp dụng: (i) mặt nạ khả thi CPU: nút vật lý không đủ CPU bị gán điểm $-10^4$; (ii) mặt nạ chống trùng: nút vật lý đã được dùng bị gán điểm $-\infty$ trong giải mã trực tiếp; (iii) bỏ qua miền rỗng: nếu mọi nút trong một miền đều không khả thi thì miền đó bị loại khỏi bước chọn ứng viên. Nhờ các mặt nạ này, mọi hành động được lấy mẫu đều hợp lệ theo ràng buộc tài nguyên và miền.
 
 \section{Quy trình huấn luyện hai giai đoạn}   % ~3.5 trang
 \label{sec:training}
 
-\subsection{Giai đoạn 1: Tiền huấn luyện có giám sát từ OA-MP-VNE}
+\subsection{Giai đoạn 1: Tiền huấn luyện có giám sát từ MP-VNE}
 \label{subsec:train-il}
 
-Ở giai đoạn này, đầu chọn ứng viên được huấn luyện để bắt chước lời giải của thuật toán heuristic OA-MP-VNE trên các VNR sinh ngẫu nhiên. Quá trình dùng một bộ huấn luyện dạng actor-critic có chuẩn hoá lợi thế theo lô và có suy giảm dần hệ số entropy (từ $0.01$ về $0.001$). Kết quả là mô hình \textit{R2} — một chính sách khởi đầu đã nắm được các quy luật hợp lý của heuristic và đạt mức hiệu năng tương đương heuristic (ví dụ $24{,}3\%$ tỉ lệ chấp nhận trên kịch bản $100$ nút). Mô hình R2 vừa là điểm khởi đầu, vừa là chính sách tham chiếu cho neo KL ở giai đoạn sau.
+Ở giai đoạn này, đầu chọn ứng viên được huấn luyện để bắt chước lời giải của heuristic MP-VNE trên các VNR sinh ngẫu nhiên. Quá trình dùng một bộ huấn luyện dạng actor-critic có chuẩn hoá lợi thế theo lô, với hệ số entropy suy giảm dần (từ $0{,}05$ về $0{,}005$ trong $60$ lô đầu) và cơ chế \textit{khởi động critic} (hoãn gradient chính sách trong $8$ lô đầu để $V(s)$ bớt nhiễu). Kết quả là mô hình \textit{R2}, một chính sách khởi đầu đã nắm được các quy luật hợp lý của heuristic và đạt mức hiệu năng tương đương heuristic (ví dụ $24{,}3\%$ tỉ lệ chấp nhận trên bộ dữ liệu $100$ nút). Mô hình R2 vừa là điểm khởi đầu, vừa là chính sách tham chiếu cho neo KL ở giai đoạn sau.
 
 \subsection{Giai đoạn 2: Tinh chỉnh bằng actor-critic có neo KL}
 \label{subsec:train-ac}
 
-Giai đoạn hai tinh chỉnh đầu chọn ứng viên bằng học tăng cường. Phương pháp sử dụng là \textbf{actor-critic}: chính sách (actor) được cập nhật theo gradient chính sách, còn một \textbf{bộ phê bình (critic)} học được $V_\phi(s)$ đóng vai trò đường cơ sở (baseline) để giảm phương sai. Lợi thế (advantage) của mỗi episode được tính bằng
+Giai đoạn hai tinh chỉnh đầu chọn ứng viên bằng học tăng cường. Phương pháp sử dụng là \textbf{REINFORCE với baseline phê bình} (advantage actor-critic): chính sách (actor) được cập nhật theo gradient chính sách on-policy, còn một \textbf{bộ phê bình (critic)} học được $V_\phi(s)$ đóng vai trò đường cơ sở (baseline) để giảm phương sai. Lợi thế (advantage) của mỗi episode được tính bằng
 \begin{equation}
     A = r - V_\phi(s), \qquad \hat{A} = \frac{A - \mu_A}{\sigma_A + \epsilon},
     \label{eq:advantage}
@@ -215,14 +260,9 @@ với $\hat{A}$ là lợi thế đã chuẩn hoá theo lô. Hàm mất mát tổ
     \mathcal{L} = \underbrace{-\,\mathbb{E}\big[\log \pi_\theta(a\mid s)\,\hat{A}\big]}_{\text{chính sách}} \;+\; c_v\,\underbrace{\big(V_\phi(s) - r\big)^2}_{\text{giá trị}} \;-\; \beta_H\,\underbrace{H[\pi_\theta]}_{\text{entropy}} \;+\; \beta_{\text{KL}}\,\underbrace{\mathrm{KL}\big(\pi_\theta \,\|\, \pi_{\text{ref}}\big)}_{\text{neo về R2}},
     \label{eq:loss}
 \end{equation}
-với các hệ số mặc định $c_v=0.5$, $\beta_H=0.01$, $\beta_{\text{KL}}=0.1$. Số hạng KL giữ cho phân phối chọn ứng viên không trôi quá xa khỏi lời giải bắt chước — điều kiện cần để tinh chỉnh ổn định dưới tín hiệu thưởng nhiều nhiễu.
+với các hệ số mặc định $c_v=0.5$, $\beta_H=0.01$, $\beta_{\text{KL}}=0.1$. Số hạng KL giữ cho phân phối chọn ứng viên không trôi quá xa khỏi lời giải bắt chước, điều kiện cần để tinh chỉnh ổn định dưới tín hiệu thưởng nhiều nhiễu.
 
 \paragraph{Biến thể PPO có cắt.} Ngoài actor-critic ở trên, đồ án còn cài đặt một \textit{biến thể} sử dụng hàm mục tiêu thay thế có cắt của PPO (clipped surrogate): mỗi lô được lưu ảnh chụp trạng thái mạng vật lý, sau đó chính sách được phát lại để tính tỉ số tầm quan trọng $\rho = \exp(\log\pi_\theta - \log\pi_{\theta_{\text{old}}})$ và áp dụng hàm mục tiêu cắt với $\epsilon=0.2$ qua nhiều vòng gradient. Biến thể này không phải cấu hình tạo ra kết quả chính của đồ án, nhưng được dùng làm đối tượng so sánh ``PPO so với actor-critic'' ở Chương~\ref{ch:thuc_nghiem}.
-
-\subsection{Kỷ luật đóng băng tham số}
-\label{subsec:train-freeze}
-
-Ở giai đoạn hai, chỉ đầu chọn ứng viên, bộ mã hoá và bộ phê bình được cập nhật; hai đầu xếp hạng nút và liên kết bị \textbf{đóng băng}. Lý do là tín hiệu học cho thứ tự xử lý quá yếu và phẳng; nếu để các đầu xếp hạng tiếp tục cập nhật, gradient gần như ngẫu nhiên của chúng sẽ lan ngược và \textit{làm hỏng bộ mã hoá dùng chung}, khiến độ phân kỳ KL bùng nổ và tỉ lệ thành công sụt giảm. Kỷ luật đóng băng vì vậy là một thành phần thiết yếu chứ không phải tuỳ chọn.
 
 \subsection{Mã giả thuật toán huấn luyện tổng thể}
 \label{subsec:train-algo}
@@ -233,21 +273,20 @@ Thuật toán~\ref{alg:two-stage} tóm tắt toàn bộ quy trình hai giai đo�
 \caption{Huấn luyện hai giai đoạn của CARL-VNE}
 \label{alg:two-stage}
 \SetAlgoLined
-\KwIn{Mạng vật lý $G^s$; bộ sinh VNR; heuristic OA-MP-VNE}
+\KwIn{Mạng vật lý $G^s$; bộ sinh VNR; heuristic MP-VNE}
 \KwOut{Chính sách $\pi_\theta$ đã tinh chỉnh}
 \tcp{Giai đoạn 1: học bắt chước}
 Khởi tạo ngẫu nhiên $\theta$\;
 \For{mỗi lô VNR sinh ngẫu nhiên}{
-    Giải bằng OA-MP-VNE để lấy ánh xạ tham chiếu\;
+    Giải bằng MP-VNE để lấy ánh xạ tham chiếu\;
     Cập nhật $\theta$ theo mất mát actor-critic có entropy để bắt chước\;
 }
 Lưu chính sách tham chiếu $\pi_{\text{ref}} \leftarrow \pi_\theta$ (mô hình R2)\;
 \tcp{Giai đoạn 2: tinh chỉnh actor-critic}
-Đóng băng đầu xếp hạng nút và liên kết\;
 \For{mỗi lô VNR}{
     \For{mỗi VNR trong lô}{
-        Mã hoá trạng thái; lấy mẫu thứ tự và \textbf{lấy mẫu ứng viên} theo từng miền\;
-        Ánh xạ liên kết bằng đường đi ngắn nhất; cam kết theo đa đường OA-MP\;
+        Mã hoá trạng thái; \textbf{lấy mẫu ứng viên} theo từng miền\;
+        Ánh xạ liên kết bằng đường đi ngắn nhất; cam kết theo đa đường (multi-path)\;
         Tính phần thưởng $r$ theo Công thức~\eqref{eq:reward}\;
     }
     Tính lợi thế chuẩn hoá $\hat{A}$ theo Công thức~\eqref{eq:advantage}\;
@@ -284,21 +323,21 @@ Chi phí suy diễn cho một VNR gồm bốn thành phần.
 
 \paragraph{Ánh xạ liên kết.} Mỗi liên kết ảo dùng một lần tìm đường đi ngắn nhất (Dijkstra) tốn $\mathcal{O}(|E^s|\log|N^s|)$, tổng là $\mathcal{O}(|E^v|\,|E^s|\log|N^s|)$.
 
-\paragraph{Tối ưu PSO khi triển khai.} Ở chế độ triển khai, một bước tối ưu hoá bầy hạt với $P$ hạt và $I$ vòng lặp đánh giá hàm thích nghi tốn $\mathcal{O}(P\,I\,|N^v|)$, là một thừa số hằng cộng thêm không phụ thuộc kích thước mạng vật lý.
+\paragraph{Tối ưu PSO khi triển khai.} Ở chế độ triển khai, một lần tối ưu hoá bầy hạt với $P$ hạt và $I$ vòng lặp đánh giá hàm thích nghi tốn $\mathcal{O}(P\,I\,|N^v|)$; cơ chế multi-restart nhân thêm hệ số $K$ ($P=20$, $I=15$, $K=3$). Đây là một thừa số hằng cộng thêm không phụ thuộc kích thước mạng vật lý.
 
-Tổng hợp, độ phức tạp suy diễn một VNR là tuyến tính theo $|E^s|$ (bỏ qua thừa số log của Dijkstra), tức \textbf{khả mở rộng} với tô-pô lớn — trái ngược với độ phức tạp cấp số mũ của lời giải ILP đã nêu ở Chương~\ref{ch:bai_toan}.
+Tổng hợp, độ phức tạp suy diễn một VNR là tuyến tính theo $|E^s|$ (bỏ qua thừa số log của Dijkstra), tức \textbf{khả mở rộng} với tô-pô lớn, trái ngược với độ phức tạp cấp số mũ của lời giải ILP đã nêu ở Chương~\ref{ch:bai_toan}.
 
 \subsubsection{Độ phức tạp một bước huấn luyện}
 \label{subsec:complexity-train}
 
-Một bước cập nhật xử lý một lô $B$ VNR. Mỗi VNR cần một lượt suy diễn (rollout) cộng một lượt lan truyền ngược; lan truyền ngược cùng cấp độ phức tạp với lan truyền xuôi. Ở giai đoạn tinh chỉnh actor-critic chuẩn (normal-reward), mỗi lô cập nhật một vòng gradient, nên chi phí một bước là $\mathcal{O}(B \cdot C_{\text{infer}})$ với $C_{\text{infer}}$ là chi phí suy diễn ở Mục~\ref{subsec:complexity-infer}. Biến thể PPO có cắt phát lại chính sách $K_{\text{ppo}}$ vòng trên cùng một lô nên chi phí nhân thêm hệ số $K_{\text{ppo}}$ (mặc định $K_{\text{ppo}}=2$).
+Một bước cập nhật xử lý một lô $B$ VNR. Mỗi VNR cần một lượt suy diễn (rollout) cộng một lượt lan truyền ngược; lan truyền ngược cùng cấp độ phức tạp với lan truyền xuôi. Ở giai đoạn tinh chỉnh actor-critic, mỗi lô cập nhật một vòng gradient, nên chi phí một bước là $\mathcal{O}(B \cdot C_{\text{infer}})$ với $C_{\text{infer}}$ là chi phí suy diễn ở Mục~\ref{subsec:complexity-infer}. Biến thể PPO có cắt phát lại chính sách $K_{\text{ppo}}$ vòng trên cùng một lô nên chi phí nhân thêm hệ số $K_{\text{ppo}}$ (mặc định $K_{\text{ppo}}=2$).
 
 \subsection{Độ phức tạp bộ nhớ}
 \label{sec:complexity-mem}
 
-Tổng số tham số của mạng chính sách khoảng $55{,}700$, trong đó ở giai đoạn tinh chỉnh có $19{,}394$ tham số bị đóng băng (hai đầu xếp hạng) và $36{,}293$ tham số được cập nhật (bộ mã hoá, đầu chọn ứng viên, bộ phê bình). Đây là một mô hình \textit{rất nhỏ gọn} so với các mạng học sâu thông thường, giúp suy diễn nhanh và phù hợp triển khai trên hạ tầng hạn chế tài nguyên.
+Tổng số tham số của mạng chính sách khoảng $36{,}300$ (gồm bộ mã hoá, đầu chọn ứng viên và bộ phê bình), tất cả đều được cập nhật trong quá trình huấn luyện. Đây là một mô hình \textit{rất nhỏ gọn} so với các mạng học sâu thông thường, giúp suy diễn nhanh và phù hợp triển khai trên hạ tầng hạn chế tài nguyên.
 
-Về bộ nhớ kích hoạt (activation), do đồ thị được xử lý theo từng miền và VNR có kích thước nhỏ, lượng kích hoạt cần lưu cho lan truyền ngược tỉ lệ $\mathcal{O}(L\,|N^s|\,d)$ — tuyến tính theo số nút vật lý. Phương pháp không dùng replay buffer lớn: mỗi lô chỉ lưu các đại lượng rollout cần thiết (log-xác suất, phần thưởng, giá trị, và với biến thể PPO là ảnh chụp trạng thái mạng vật lý để phát lại), nên dấu chân bộ nhớ tổng thể nhỏ và ổn định trong suốt huấn luyện.
+Về bộ nhớ kích hoạt (activation), do đồ thị được xử lý theo từng miền và VNR có kích thước nhỏ, lượng kích hoạt cần lưu cho lan truyền ngược tỉ lệ $\mathcal{O}(L\,|N^s|\,d)$, tuyến tính theo số nút vật lý. Phương pháp không dùng replay buffer lớn: mỗi lô chỉ lưu các đại lượng rollout cần thiết (log-xác suất, phần thưởng, giá trị, và với biến thể PPO là ảnh chụp trạng thái mạng vật lý để phát lại), nên dấu chân bộ nhớ tổng thể nhỏ và ổn định trong suốt huấn luyện.
 
 \subsection{Phân tích hội tụ}
 \label{sec:convergence}
@@ -306,12 +345,12 @@ Về bộ nhớ kích hoạt (activation), do đồ thị được xử lý theo
 \subsubsection{Cải thiện đơn điệu của gradient chính sách có baseline}
 \label{subsec:conv-monotonic}
 
-Phương pháp tinh chỉnh là một thuật toán gradient chính sách với baseline học được (actor-critic). Theo định lý gradient chính sách, hướng cập nhật $\mathbb{E}[\nabla_\theta \log\pi_\theta(a\mid s)\,\hat{A}]$ là ước lượng không chệch của gradient mục tiêu kỳ vọng $J(\theta)$ khi baseline $V_\phi(s)$ độc lập với hành động. Việc trừ baseline và chuẩn hoá lợi thế làm \textit{giảm phương sai} của ước lượng gradient mà không gây chệch, nhờ đó các bước cập nhật ổn định hơn và kỳ vọng cải thiện đơn điệu cục bộ của $J(\theta)$ được duy trì với tốc độ học đủ nhỏ. Biến thể PPO bổ sung cận dưới có cắt (clipped surrogate) cho mục tiêu thay thế, đảm bảo mỗi bước cập nhật không làm chính sách trôi quá xa khỏi chính sách cũ — một cơ sở lý thuyết chặt hơn cho cải thiện đơn điệu.
+Phương pháp tinh chỉnh là một thuật toán gradient chính sách với baseline học được (actor-critic). Theo định lý gradient chính sách, hướng cập nhật $\mathbb{E}[\nabla_\theta \log\pi_\theta(a\mid s)\,\hat{A}]$ là ước lượng không chệch của gradient mục tiêu kỳ vọng $J(\theta)$ khi baseline $V_\phi(s)$ độc lập với hành động. Việc trừ baseline và chuẩn hoá lợi thế làm \textit{giảm phương sai} của ước lượng gradient mà không gây chệch, nhờ đó các bước cập nhật ổn định hơn và kỳ vọng cải thiện đơn điệu cục bộ của $J(\theta)$ được duy trì với tốc độ học đủ nhỏ. Biến thể PPO bổ sung cận dưới có cắt (clipped surrogate) cho mục tiêu thay thế, đảm bảo mỗi bước cập nhật không làm chính sách trôi quá xa khỏi chính sách cũ, một cơ sở lý thuyết chặt hơn cho cải thiện đơn điệu.
 
-\subsubsection{Vai trò của neo KL và đóng băng tham số}
+\subsubsection{Vai trò của neo KL}
 \label{subsec:conv-kl}
 
-Số hạng neo KL về chính sách tham chiếu R2 đóng vai trò một \textit{ràng buộc vùng tin cậy mềm}: nó giới hạn độ lệch của phân phối chọn ứng viên khỏi lời giải bắt chước ban đầu, ngăn hiện tượng sụp đổ phân phối khi tín hiệu thưởng nhiều nhiễu. Kết hợp với kỷ luật đóng băng hai đầu xếp hạng (Mục~\ref{subsec:train-freeze}), tín hiệu học được dồn vào đúng thành phần có ích, tránh để gradient gần ngẫu nhiên của các đầu xếp hạng làm hỏng bộ mã hoá dùng chung. Đây chính là lý do lý thuyết cho thiết kế ``khởi động bằng học bắt chước rồi tinh chỉnh có neo'': pha bắt chước cung cấp điểm khởi đầu phương sai thấp trong vùng nghiệm tốt, còn neo KL giữ cho quá trình tinh chỉnh không rời khỏi vùng đó.
+Số hạng neo KL về chính sách tham chiếu R2 đóng vai trò một \textit{ràng buộc vùng tin cậy mềm}: nó giới hạn độ lệch của phân phối chọn ứng viên khỏi lời giải bắt chước ban đầu, ngăn hiện tượng sụp đổ phân phối khi tín hiệu thưởng nhiều nhiễu. Đây chính là lý do lý thuyết cho thiết kế ``khởi động bằng học bắt chước rồi tinh chỉnh có neo'': pha bắt chước cung cấp điểm khởi đầu phương sai thấp trong vùng nghiệm tốt, còn neo KL giữ cho quá trình tinh chỉnh không rời khỏi vùng đó.
 
 \subsubsection{Quan sát thực nghiệm về tính hội tụ}
 \label{subsec:conv-empirical}
@@ -319,6 +358,6 @@ Số hạng neo KL về chính sách tham chiếu R2 đóng vai trò một \text
 Các đặc tính lý thuyết trên được kiểm chứng qua quỹ đạo huấn luyện thực tế (trình bày chi tiết ở Chương~\ref{ch:thuc_nghiem}): entropy của chính sách giảm dần và bão hoà (chính sách ngày càng tự tin), độ phân kỳ KL dao động quanh một mức nhỏ ổn định thay vì bùng nổ, và tỉ lệ thành công tăng rồi đạt bình nguyên. Sự bão hoà này phù hợp với dự đoán: khi $\pi_\theta$ tiến gần một cực trị cục bộ trong vùng tin cậy do neo KL xác định, lợi thế kỳ vọng tiến về không và các bước cập nhật nhỏ dần.
 
 % Kết chương
-Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, đóng băng đầu xếp hạng và chỉ tinh chỉnh đầu chọn ứng viên, và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL; đồng thời chỉ ra phương pháp có độ phức tạp tính toán tuyến tính theo kích thước mạng vật lý, dấu chân bộ nhớ nhỏ, và đặc tính hội tụ ổn định nhờ baseline giảm phương sai và neo KL. Chương tiếp theo trình bày kết quả thực nghiệm để kiểm chứng các phân tích này.
+Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, tập trung học tăng cường vào đầu chọn ứng viên (đòn bẩy hiệu quả), và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL; đồng thời chỉ ra phương pháp có độ phức tạp tính toán tuyến tính theo kích thước mạng vật lý, dấu chân bộ nhớ nhỏ, và đặc tính hội tụ ổn định nhờ baseline giảm phương sai và neo KL. Chương tiếp theo trình bày kết quả thực nghiệm để kiểm chứng các phân tích này.
 
 \end{document}

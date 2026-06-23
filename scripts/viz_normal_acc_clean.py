@@ -49,6 +49,8 @@ def rolling_std(arr, w=10):
 
 
 def main():
+    import matplotlib.pyplot as _plt
+    _plt.rcParams.update({'font.size':15,'axes.titlesize':16,'axes.labelsize':15,'xtick.labelsize':13,'ytick.labelsize':13,'legend.fontsize':13})  # RCBUMP
     parts = []
     for p, off in NORMAL_PHASES:
         f = ROOT / p
@@ -116,7 +118,7 @@ def main():
             f"First-50 mean : {succ[:50].mean():.2f}%  (σ={succ[:50].std():.2f}pp)\n"
             f"Last-{M}  mean : {succ[-M:].mean():.2f}%  (σ={succ[-M:].std():.2f}pp)\n"
             f"Slope (last-{M}ep): {slope:+.4f} pp/ep  ⇒  CONVERGED",
-            transform=ax.transAxes, fontsize=11, va="top", fontweight="bold",
+            transform=ax.transAxes, fontsize=14, va="top", fontweight="bold",
             color="darkblue",
             bbox=dict(boxstyle="round", facecolor="#e3f2fd", alpha=0.95,
                       edgecolor="darkblue"))
@@ -126,9 +128,9 @@ def main():
     ax.set_title(
         f"V19 Normal-reward PPO on 50-node — online acceptance rate ({N} epochs)\n"
         f"Reward = +1.0 + 0.3·rel_cost (success) | −1.0 (fail)",
-        fontsize=13)
+        fontsize=16)
     ax.grid(alpha=0.3)
-    ax.legend(fontsize=9, loc="lower right", ncol=2)
+    ax.legend(fontsize=13, loc="lower right", ncol=2)
 
     fig.tight_layout()
     out = OUT / f"50nodes_normal_acceptance_{N}ep_{DATE_TAG}.png"
@@ -169,7 +171,7 @@ def main():
             f"First-50 mean : {reward[:50].mean():+.4f}  (σ={reward[:50].std():.4f})\n"
             f"Last-{M2}  mean : {reward[-M2:].mean():+.4f}  (σ={reward[-M2:].std():.4f})\n"
             f"Slope (last-{M2}ep): {rslope:+.5f}/ep  ⇒  CONVERGED",
-            transform=ax.transAxes, fontsize=11, va="top", fontweight="bold",
+            transform=ax.transAxes, fontsize=14, va="top", fontweight="bold",
             color="purple",
             bbox=dict(boxstyle="round", facecolor="#f3e5f5", alpha=0.95,
                       edgecolor="purple"))
@@ -179,9 +181,9 @@ def main():
     ax.set_title(
         f"V19 Normal-reward PPO on 50-node — mean reward per epoch ({N} epochs)\n"
         f"Reward = +1.0 + 0.3·rel_cost (success) | −1.0 (fail)",
-        fontsize=13)
+        fontsize=16)
     ax.grid(alpha=0.3)
-    ax.legend(fontsize=9, loc="lower right", ncol=2)
+    ax.legend(fontsize=13, loc="lower right", ncol=2)
     fig.tight_layout()
     out_r = OUT / f"50nodes_normal_reward_{N}ep_{DATE_TAG}.png"
     fig.savefig(out_r, dpi=150, bbox_inches="tight")

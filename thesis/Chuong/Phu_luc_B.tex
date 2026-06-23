@@ -6,25 +6,25 @@ Phụ lục này mô tả chi tiết cách sinh các tập dữ liệu thực ng
 \section{Chi tiết sinh tập dữ liệu}
 \label{sec:app-data}
 
-Mỗi kịch bản gồm một mạng vật lý đa miền và hai tập VNR (huấn luyện và kiểm thử) tách biệt. Mạng vật lý được chia thành $10$ miền; các nút và liên kết được sinh ngẫu nhiên trong các khoảng tham số ở Bảng~\ref{tab:app-substrate}. Các liên kết liên miền nối các nút biên giữa những miền lân cận, tạo thành một tô-pô liên miền liên thông.
+Mỗi bộ dữ liệu gồm một mạng vật lý đa miền và hai tập VNR (huấn luyện và kiểm thử) tách biệt. Mạng vật lý được chia thành $10$ miền; các nút và liên kết được sinh ngẫu nhiên trong các khoảng tham số ở Bảng~\ref{tab:app-substrate}. Các liên kết liên miền nối các nút biên giữa những miền lân cận, tạo thành một tô-pô liên miền liên thông.
 
 \begin{table}[H]
 \centering
-\caption{Khoảng tham số sinh mạng vật lý (kịch bản 50 và 100 nút)}
+\caption{Khoảng tham số sinh mạng vật lý (bộ dữ liệu 50 nút)}
 \label{tab:app-substrate}
-\begin{tabular}{lcc}
+\begin{tabular}{lc}
 \toprule
-\textbf{Tham số} & \textbf{50 nút} & \textbf{100 nút} \\
+\textbf{Tham số} & \textbf{Giá trị} \\
 \midrule
-Số miền                & 10 & 10 \\
-Số nút                 & 50 & 100 \\
-Số liên kết            & 50 & 110 \\
-Dung lượng CPU         & 10.5--29.4 & 10.5--29.4 \\
-Đơn giá CPU            & 1.1--3.95  & 1.03--4.39 \\
-Băng thông liên kết    & 42--93     & 42--96 \\
-Đơn giá băng thông     & 0.18--0.99 & 0.29--0.99 \\
-Độ trễ xử lý           & 0.25--1.87 & 0.25--1.63 \\
-Độ trễ truyền dẫn      & 1.05--9.76 & 2.47--9.76 \\
+Số miền                & 10 \\
+Số nút                 & 50 \\
+Số liên kết            & 50 \\
+Dung lượng CPU         & 10.5--29.4 \\
+Đơn giá CPU            & 1.1--3.95 \\
+Băng thông liên kết    & 42--93 \\
+Đơn giá băng thông     & 0.18--0.99 \\
+Độ trễ xử lý           & 0.25--1.87 \\
+Độ trễ truyền dẫn      & 1.05--9.76 \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -53,27 +53,27 @@ Số VNR kiểm thử          & 3{,}000 \\
 \section{Tham số các thuật toán so sánh}
 \label{sec:app-baselines}
 
-Bảng~\ref{tab:app-baseline-params} liệt kê tham số của các thuật toán baseline. \textbf{MP-VNE} dùng cấu hình PSO mạnh hơn ($20$ hạt, $15$ vòng lặp), đóng vai trò trần hiệu năng tham chiếu. \textbf{MP-VNE-V4} dùng đúng tham số theo bài báo gốc ($10$ hạt, $50$ vòng lặp, hệ số quán tính/nhận thức/xã hội $0{,}3/0{,}3/0{,}4$), là baseline được so sánh trực tiếp ở mọi quy mô. Cả hai đều xếp hạng ứng viên theo chi phí ước lượng (PreCost) và ánh xạ liên kết bằng đường đi ngắn nhất.
+Bảng~\ref{tab:app-baseline-params} liệt kê tham số của baseline \textbf{MP-VNE}: PSO theo bài báo gốc ($10$ hạt, $50$ vòng lặp, hệ số quán tính/nhận thức/xã hội $0{,}3/0{,}3/0{,}4$), xếp hạng ứng viên theo chi phí ước lượng (PreCost) và ánh xạ liên kết bằng đường đi ngắn nhất.
 
 \begin{table}[H]
 \centering
-\caption{Tham số PSO của các baseline heuristic}
+\caption{Tham số PSO của baseline MP-VNE}
 \label{tab:app-baseline-params}
-\begin{tabular}{lcc}
+\begin{tabular}{lc}
 \toprule
-\textbf{Tham số} & \textbf{MP-VNE} & \textbf{MP-VNE-V4} \\
+\textbf{Tham số} & \textbf{MP-VNE} \\
 \midrule
-Số hạt (particles)        & 20  & 10 \\
-Số vòng lặp (iterations)  & 15  & 50 \\
-Hệ số quán tính $\alpha$  & 0.7 & 0.3 \\
-Hệ số nhận thức $\beta$   & 1.5 & 0.3 \\
-Hệ số xã hội $\gamma$     & 1.5 & 0.4 \\
-Xác suất đột biến         & 0.1 & 0.1 \\
-Số ứng viên (top-K)       & 5   & top-K theo miền \\
+Số hạt (particles)        & 10 \\
+Số vòng lặp (iterations)  & 50 \\
+Hệ số quán tính $\alpha$  & 0.3 \\
+Hệ số nhận thức $\beta$   & 0.3 \\
+Hệ số xã hội $\gamma$     & 0.4 \\
+Xác suất đột biến         & 0.1 \\
+Số ứng viên (top-K)       & top-K theo miền \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-Mô hình baseline \textbf{R2} (\texttt{il\_mp\_vne\_v17}) là mạng chính sách chỉ qua giai đoạn học bắt chước, chưa tinh chỉnh tăng cường, dùng để cô lập đóng góp của giai đoạn học tăng cường như phân tích ở Mục~\ref{subsec:abl-rl}.
+Mô hình \textbf{R2} là mạng chính sách chỉ qua giai đoạn học bắt chước, chưa tinh chỉnh tăng cường; nó đóng vai trò chính sách tham chiếu cho số hạng neo KL ở giai đoạn tinh chỉnh (Mục~\ref{subsec:train-ac}).
 
 \end{document}

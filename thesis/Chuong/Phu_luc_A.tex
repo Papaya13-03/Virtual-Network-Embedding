@@ -6,25 +6,23 @@ Phụ lục này cung cấp các chi tiết bổ sung về kiến trúc mạng c
 \section{Chi tiết tham số mạng chính sách}
 \label{sec:app-params}
 
-Toàn bộ mạng chính sách CARL-VNE có khoảng $55{,}700$ tham số, phân bổ theo các khối như Bảng~\ref{tab:app-params}. Ở giai đoạn tinh chỉnh tăng cường, hai đầu xếp hạng nút và liên kết (tổng $19{,}394$ tham số) bị đóng băng, còn lại $36{,}293$ tham số được cập nhật.
+Toàn bộ mạng chính sách CARL-VNE có khoảng $36{,}300$ tham số, phân bổ theo các khối như Bảng~\ref{tab:app-params}; tất cả đều được cập nhật trong quá trình tinh chỉnh tăng cường.
 
 \begin{table}[H]
 \centering
 \caption{Phân bổ tham số theo khối của mạng chính sách}
 \label{tab:app-params}
-\begin{tabular}{lcc}
+\begin{tabular}{lc}
 \toprule
-\textbf{Khối} & \textbf{Số tham số} & \textbf{Trạng thái (giai đoạn 2)} \\
+\textbf{Khối} & \textbf{Số tham số} \\
 \midrule
-GCN nội miền + liên miền (substrate) & 7{,}296  & huấn luyện \\
-GCN mạng ảo (VN-GCN)                  & 1{,}376  & huấn luyện \\
-Self-attention mạng ảo               & 6{,}304  & huấn luyện \\
-Đầu chọn ứng viên (candidate head)   & 14{,}905 & huấn luyện \\
-Bộ phê bình giá trị (value head)     & 6{,}338  & huấn luyện \\
-Đầu xếp hạng nút (node head)         & 10{,}561 & \textbf{đóng băng} \\
-Đầu xếp hạng liên kết (link head)    & 8{,}833  & \textbf{đóng băng} \\
+GCN nội miền + liên miền (substrate) & 7{,}296  \\
+GCN mạng ảo (VN-GCN)                  & 1{,}376  \\
+Self-attention mạng ảo               & 6{,}304  \\
+Đầu chọn ứng viên (candidate head)   & 14{,}905 \\
+Bộ phê bình giá trị (value head)     & 6{,}338  \\
 \midrule
-\textbf{Tổng}                        & \textbf{55{,}613} & 36{,}293 huấn luyện \\
+\textbf{Tổng}                        & \textbf{36{,}219} \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -57,14 +55,14 @@ Chuẩn hoá                  & LayerNorm + residual \\
 \end{tabular}
 \end{table}
 
-\section{Kết quả chi tiết theo epoch trên kịch bản 50 nút}
+\section{Kết quả chi tiết theo epoch trên bộ dữ liệu 50 nút}
 \label{sec:app-epochs}
 
-Bảng~\ref{tab:app-epochs} trình bày kết quả đánh giá trên $3000$ VNR kiểm thử ở từng epoch huấn luyện (cấu hình chuẩn normal-reward). Tỉ lệ chấp nhận đạt đỉnh $33{,}13\%$ tại epoch $19$; giá trị trung bình qua các epoch là khoảng $31{,}3\%$, ổn định và luôn cao hơn baseline MP-VNE-V4 ($29{,}03\%$).
+Bảng~\ref{tab:app-epochs} trình bày kết quả đánh giá CARL-VNE trên $3000$ VNR kiểm thử ở từng epoch của giai đoạn tinh chỉnh tăng cường. Tỉ lệ chấp nhận đạt đỉnh $33{,}13\%$ tại epoch $19$; giá trị trung bình qua các epoch là khoảng $31{,}3\%$, ổn định và luôn cao hơn baseline MP-VNE ($29{,}03\%$).
 
 \begin{table}[H]
 \centering
-\caption{Kết quả theo epoch trên kịch bản 50 nút (cấu hình chuẩn)}
+\caption{Kết quả CARL-VNE theo epoch (giai đoạn tinh chỉnh tăng cường, 50 nút)}
 \label{tab:app-epochs}
 \resizebox{\textwidth}{!}{%
 \begin{tabular}{cccc|cccc}

@@ -47,13 +47,12 @@ Cấu trúc bám theo `example.pdf`: phần **MỞ ĐẦU** và **KẾT LUẬN**
 - 3.6 Phân tích lý thuyết (độ phức tạp tính toán, bộ nhớ, hội tụ)
 
 ### Chương 4 — Đánh giá thực nghiệm — `Chuong/4_Thuc_nghiem.tex`
-- 4.1 Cấu hình thực nghiệm
-- 4.2 Baseline và độ đo
-- 4.3 Kết quả tổng thể (50 / 100 / 200 nút)
-- 4.4 Phân tích robustness theo phân phối VNR (sweep 5 trục, 50 nút)
-- 4.5 Phân tích ablation
-- 4.6 Trực quan hoá quỹ đạo huấn luyện
-- 4.7 Thảo luận
+- 4.1 Cấu hình thực nghiệm (50 nút + 21 kịch bản)
+- 4.2 Baseline (MP-VNE) và độ đo
+- 4.3 Kết quả trên các kịch bản phân phối VNR (21 kịch bản, CARL-VNE vs MP-VNE)
+- 4.4 Phân tích robustness theo phân phối VNR (5 trục)
+- 4.5 Quá trình huấn luyện hội tụ (học bắt chước + tinh chỉnh tăng cường)
+- 4.6 Thảo luận
 
 ### KẾT LUẬN — `Chuong/5_Ket_luan.tex` (chương không đánh số)
 - Kết quả đạt được
