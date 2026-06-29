@@ -1,2 +1,24 @@
 /.rules/
 experiments/**/checkpoints/
+
+# main branch giữ riêng phần đồ án (thesis) để bản tải ZIP < 30MB.
+# Toàn bộ mã nguồn, dữ liệu và kết quả nằm ở nhánh `algorithm`.
+/.claude/
+/datasets/
+/results/
+/experiments/
+/data/
+/algorithms/
+/scripts/
+/utils/
+/tests/
+/problem/
+/configs/
+/logs/
+/docs/
+/.vscode/
+/main.py
+/uv.lock
+/pyproject.toml
+/.python-version
+.DS_Store

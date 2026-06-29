@@ -1,3 +1,0 @@
-"""
-VNE Problem Models
-"""
