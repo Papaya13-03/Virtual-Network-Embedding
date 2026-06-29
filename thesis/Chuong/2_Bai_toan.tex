@@ -2,59 +2,10 @@
 \begin{document}
 \label{ch:bai_toan}
 % =============================================================
-% CHƯƠNG 2 - BÀI TOÁN NHÚNG MẠNG ẢO ĐA MIỀN
+% CHƯƠNG 3 - BÀI TOÁN NHÚNG MẠNG ẢO ĐA MIỀN
 % =============================================================
 
-Chương này khảo sát các hướng tiếp cận hiện có cho bài toán nhúng mạng ảo, rồi hình thức hoá bài toán ở dạng \textit{đa miền} (multi-domain) mà đồ án hướng tới. Phần đầu tổng quan các nhóm thuật toán đã được đề xuất cùng ưu nhược của chúng. Các phần sau mô tả mô hình mạng vật lý đa miền và mạng ảo, hai pha ánh xạ nút và liên kết, hàm mục tiêu cùng các độ đo, và phát biểu bài toán dưới dạng quy hoạch nguyên tuyến tính (ILP).
-
-\section{Các hướng tiếp cận cho bài toán VNE}
-\label{sec:approaches}
-
-Bài toán nhúng mạng ảo đã được nghiên cứu rộng rãi trong hơn hai thập kỷ; các khảo sát tổng quan~\cite{fischer2013vne_survey, cao2019vne_survey} phân loại lời giải thành các nhóm chính trình bày dưới đây.
-
-\subsection{Lời giải tối ưu và cận tối ưu}
-\label{subsec:exact}
-
-Bài toán có thể phát biểu chính xác dưới dạng quy hoạch nguyên (hỗn hợp) tuyến tính~\cite{andersen2002theoretical, zhu2006algorithms}. Chowdhury và cộng sự~\cite{chowdhury2009vine} đề xuất \textit{ViNE}, phối hợp pha ánh xạ nút và liên kết thông qua nới lỏng tuyến tính (LP-relaxation) rồi làm tròn tất định hoặc ngẫu nhiên, cải thiện rõ rệt so với việc giải hai pha tách rời. Nhóm phương pháp này cho lời giải chất lượng cao và cung cấp cận trên hữu ích để đối chiếu, nhưng độ phức tạp cấp số mũ khiến chúng chỉ khả thi trên tô-pô rất nhỏ (phân tích ở Mục~\ref{sec:ilp}), không phù hợp với kịch bản trực tuyến quy mô lớn.
-
-\subsection{Hướng heuristic}
-\label{subsec:heuristic}
-
-Các thuật toán heuristic xếp hạng nút vật lý theo những độ đo tô-pô đơn giản rồi ánh xạ tham lam. Cheng và cộng sự~\cite{cheng2011vne_nr} xếp hạng nút theo \textit{NodeRank} lấy cảm hứng từ PageRank; Gong và cộng sự~\cite{gong2014grc} đề xuất \textit{Global Resource Capacity} (GRC) tổng hợp tài nguyên lan truyền trên toàn đồ thị. Houidi và cộng sự~\cite{houidi2008distributed} đưa ra thuật toán ánh xạ phân tán, còn Lischka và Karl~\cite{lischka2009virtual} dùng phát hiện đồng cấu đồ thị con. Yu và cộng sự~\cite{yu2008rethinking} cho phép \textit{chia đường} (path splitting) và di trú để tăng tỉ lệ chấp nhận. Heuristic được so sánh trực tiếp trong đồ án là MP-VNE~\cite{mp_vne}, ước lượng chi phí từng cặp $(n^v, n^s)$ qua công thức tổng hợp giữa chi phí CPU và băng thông trung bình của láng giềng (gọi là PreCost), rồi chọn các nút có chi phí ước lượng thấp nhất làm ứng viên; pha ánh xạ liên kết dùng đường đi ngắn nhất, có thể mở rộng đa đường. Ưu điểm của heuristic là đơn giản, nhanh và chạy được trên hạ tầng lớn; nhược điểm là phụ thuộc nặng vào tri thức chuyên gia, khó thích nghi khi phân phối yêu cầu thay đổi và dễ rơi vào tối ưu cục bộ.
-
-\subsection{Hướng metaheuristic}
-\label{subsec:metaheuristic}
-
-Các phương pháp metaheuristic như thuật toán di truyền, tối ưu hoá bầy hạt (Particle Swarm Optimization - PSO) và mô phỏng tôi luyện biểu diễn mỗi lời giải ánh xạ nút như một cá thể với hàm thích nghi là chi phí nhúng, rồi tiến hoá qua các thế hệ kèm đột biến để thoát tối ưu cục bộ. MP-VNE~\cite{mp_vne} kết hợp xếp hạng PreCost với một vòng PSO để tinh chỉnh lựa chọn ứng viên. Hạn chế chung của nhóm này là chi phí tính toán cao (phải đánh giá nhiều phương án mỗi vòng lặp) và thiếu đảm bảo lý thuyết về chất lượng lời giải.
-
-\subsection{Hướng học tăng cường}
-\label{subsec:rl-approaches}
-
-Học tăng cường (Reinforcement Learning - RL) coi VNE như một quá trình quyết định tuần tự: tại mỗi bước, tác nhân quan sát trạng thái mạng vật lý và VNR hiện tại, chọn một hành động (ánh xạ một nút ảo) rồi nhận tín hiệu thưởng phản ánh chất lượng lời giải. Mijumbi và cộng sự~\cite{mijumbi2014rl} là một trong những công trình tiên phong áp dụng học tăng cường cho quản lý tài nguyên mạng ảo động. Với sự phát triển của mạng nơ-ron đồ thị~\cite{kipf2017gcn, velickovic2018gat, wu2021gnn_survey}, nhiều phương pháp kết hợp GNN để mã hoá tô-pô mạng vật lý: A3C-GCN~\cite{yao2018a3c_gcn} dùng Actor-Critic bất đồng bộ, DeepViNE~\cite{dolati2019deepvine} học biểu diễn từ ảnh đặc trưng tài nguyên, NeuroViNE~\cite{blenk2018neurovine} trích xuất đồ thị con hứa hẹn làm tiền xử lý cho heuristic. Gần đây, FlagVNE~\cite{flagvne2024} đề xuất khung RL tổng quát và linh hoạt cho cấp phát tài nguyên mạng. Một số công trình cũng dùng tìm kiếm cây Monte-Carlo~\cite{haeri2018mcts} hoặc cơ chế attention cho bài toán định tuyến tổ hợp~\cite{kool2019attention_co}. Mặc dù nhiều tiềm năng, các phương pháp RL hiện hành cho VNE còn ba hạn chế chính, cũng là động lực trực tiếp cho phương pháp đề xuất: (i) phụ thuộc mạnh vào \textit{reward shaping} chính xác, dễ bất ổn định khi reward thưa; (ii) chưa khai thác tốt tri thức tô-pô có sẵn từ các heuristic mạnh, khiến tác nhân tốn nhiều mẫu để khám phá lại các quy luật đơn giản; và (iii) không gian hành động lớn (chọn một trong hàng trăm nút vật lý cho mỗi nút ảo) làm chính sách khó hội tụ ở tô-pô lớn.
-
-\subsection{Nhúng mạng ảo đa miền và so sánh}
-\label{subsec:multidomain-survey}
-
-Phần lớn các công trình trên giả định hạ tầng \textit{đơn miền} với thông tin tô-pô và tài nguyên hiển thị toàn cục. Trong thực tế, hạ tầng thường được chia thành nhiều miền quản trị (administrative domain) thuộc các nhà cung cấp khác nhau, nơi thông tin nội miền không được công khai toàn cục mà chỉ trao đổi ở mức tổng hợp~\cite{cao2019vne_survey}. Cấu hình đa miền này đặt thêm hai thách thức: tôn trọng ràng buộc miền của từng nút ảo và tính tới chi phí định tuyến xuyên miền ngay khi ra quyết định ánh xạ. Đồ án tập trung vào cấu hình đa miền, kế thừa heuristic PreCost của MP-VNE làm baseline nhưng thay chính sách xếp hạng/chọn ứng viên thủ công bằng một chính sách học được tôn trọng cấu trúc đa miền (Chương~\ref{ch:de_xuat}). Bảng~\ref{tab:approach-compare} tổng hợp ưu nhược của các nhóm tiếp cận.
-
-\begin{table}[h]
-\centering
-\caption{So sánh các hướng tiếp cận VNE}
-\label{tab:approach-compare}
-\resizebox{\textwidth}{!}{%
-\begin{tabular}{l l l l}
-\hline
-\textbf{Tiêu chí} & \textbf{Heuristic} & \textbf{Metaheuristic} & \textbf{Học tăng cường} \\
-\hline
-Chất lượng lời giải & Trung bình & Khá & Tốt (khi huấn luyện ổn định) \\
-Thời gian suy diễn & Rất nhanh & Chậm & Nhanh \\
-Khả năng tổng quát hoá & Thấp & Trung bình & Cao \\
-Phụ thuộc tri thức chuyên gia & Cao & Trung bình & Thấp \\
-Chi phí huấn luyện & Không có & Không có & Cao \\
-\hline
-\end{tabular}%
-}
-\end{table}
+Chương này hình thức hoá bài toán nhúng mạng ảo đa miền mà đồ án hướng tới, rồi điểm qua các nghiên cứu liên quan. Phần đầu mô tả mô hình mạng vật lý đa miền và mạng ảo, hai pha ánh xạ nút và liên kết, hàm mục tiêu cùng các độ đo, phát biểu bài toán ở dạng vận hành (đầu vào, quyết định, mục tiêu trong kịch bản trực tuyến) và mô hình hoá đầy đủ dưới dạng quy hoạch nguyên tuyến tính (ILP). Phần cuối khảo sát các hướng tiếp cận hiện có và định vị đóng góp của đồ án.
 
 \section{Mạng vật lý đa miền và mạng ảo}
 \label{sec:vne_model}
@@ -104,10 +55,23 @@ trong đó $\ell(\cdot)$ là tổng số chặng vật lý của tập đường
 
 Ngoài AR và R/C, các độ đo bổ sung gồm thời gian chạy trung bình mỗi VNR, độ trễ trung bình của các đường đi, và độ ổn định của reward trong quá trình huấn luyện. Đồ án này sử dụng đồng thời cả bốn độ đo để so sánh.
 
-\section{Phát biểu bài toán dưới dạng ILP}
+\section{Phát biểu bài toán}
+\label{sec:problem-statement}
+
+Dựa trên các thành phần đã định nghĩa, bài toán đồ án giải quyết được phát biểu như sau.
+
+\textbf{Đầu vào.} Một mạng vật lý đa miền $G^s = (N^s, E^s)$ với tập miền quản trị $\mathcal{D}$, trong đó thông tin nội miền chỉ hiển thị ở mức tổng hợp; và một \textit{dòng} yêu cầu mạng ảo $\{\text{VNR}_1, \text{VNR}_2, \ldots\}$ đến tuần tự theo thời gian (kịch bản trực tuyến), mỗi $\text{VNR}_i = (G^v_i, t_a^i, t_l^i)$ kèm yêu cầu CPU, băng thông và ràng buộc miền cho phép $\mathcal{D}(n^v)$.
+
+\textbf{Quyết định.} Tại thời điểm mỗi VNR đến, dựa trên tài nguyên còn lại của hạ tầng, phải quyết định \textit{chấp nhận} hay \textit{từ chối} VNR đó; nếu chấp nhận, phải xác định một lời giải nhúng $(f_N, f_E)$ thoả mãn đồng thời ràng buộc tài nguyên, đơn ánh, băng thông và ràng buộc miền. Quyết định mang tính trực tuyến và không thể thu hồi: lời giải cho $\text{VNR}_i$ được đưa ra mà không biết trước các VNR tương lai, và tài nguyên đã cấp phát bị giữ đến khi VNR hết thời gian sống $t_l^i$ rồi mới được giải phóng.
+
+\textbf{Mục tiêu.} Tối đa hoá hiệu năng tích luỹ trên toàn dòng yêu cầu, ưu tiên \textit{tỉ lệ chấp nhận} (AR) và \textit{tỉ số doanh thu trên chi phí} (R/C), đồng thời tôn trọng đặc thù đa miền: hạn chế thông tin toàn cục và chi phí định tuyến xuyên miền phải được tính ngay tại pha ra quyết định.
+
+Đây là một bài toán tối ưu tổ hợp NP-Hard (Mục~\ref{sec:ilp}), lại đặt trong môi trường trực tuyến với thông tin hạn chế, nên các lời giải thực tế hướng tới chính sách ra quyết định nhanh và tổng quát hoá tốt thay vì lời giải tối ưu tuyệt đối cho từng VNR.
+
+\section{Mô hình hoá bài toán dưới dạng ILP}
 \label{sec:ilp}
 
-Để có hình thức hoá đầy đủ, đặt biến nhị phân $x_{n^v, n^s} \in \{0,1\}$ bằng $1$ nếu nút ảo $n^v$ được ánh xạ tới nút vật lý $n^s$, và biến $y^{u^v v^v}_{u^s v^s} \in [0, 1]$ biểu diễn tỉ lệ băng thông của liên kết ảo $(u^v, v^v)$ đi qua liên kết vật lý $(u^s, v^s)$. Với mục tiêu cực đại hoá tỉ số R/C, bài toán có thể viết:
+Để có mô hình hoá đầy đủ, đặt biến nhị phân $x_{n^v, n^s} \in \{0,1\}$ bằng $1$ nếu nút ảo $n^v$ được ánh xạ tới nút vật lý $n^s$, và biến $y^{u^v v^v}_{u^s v^s} \in [0, 1]$ biểu diễn tỉ lệ băng thông của liên kết ảo $(u^v, v^v)$ đi qua liên kết vật lý $(u^s, v^s)$. Với mục tiêu cực đại hoá tỉ số R/C, bài toán có thể viết:
 \begin{equation}
     \max \quad \frac{\mathcal{R}(\text{VNR})}{\mathcal{C}(\text{VNR})}
 \end{equation}
@@ -121,7 +85,37 @@ với các ràng buộc:
 \end{align}
 Ràng buộc \eqref{eq:c1} đảm bảo mỗi nút ảo được ánh xạ tới đúng một nút vật lý; \eqref{eq:c2} đảm bảo không vượt CPU; \eqref{eq:c3} đảm bảo tính đơn ánh; \eqref{eq:c4} đảm bảo không vượt băng thông; và \eqref{eq:c5} là ràng buộc bảo toàn luồng (multi-commodity flow) cho ánh xạ liên kết. Trong cấu hình đa miền có thể bổ sung ràng buộc $x_{n^v,n^s}=0$ với mọi $n^s$ không thuộc miền cho phép $\mathcal{D}(n^v)$. Dạng ILP này có $|N^v| \cdot |N^s|$ biến nhị phân nút và $|E^v| \cdot |E^s|$ biến liên kết; do không gian nghiệm tăng theo cấp số mũ, việc giải tối ưu trở nên không khả thi với mạng vật lý cỡ trăm nút trở lên (phân tích độ phức tạp chi tiết được trình bày ở Mục~\ref{sec:complexity-time} của Chương~\ref{ch:de_xuat}). Đây chính là lý do đồ án theo đuổi hướng xấp xỉ bằng học tăng cường thay vì giải ILP trực tiếp.
 
+\section{Nghiên cứu liên quan}
+\label{sec:approaches}
+
+Bài toán nhúng mạng ảo đã được nghiên cứu rộng rãi trong hơn hai thập kỷ; các khảo sát tổng quan~\cite{fischer2013vne_survey, cao2019vne_survey} phân loại lời giải thành ba nhóm chính. Nhóm \textit{lời giải tối ưu và cận tối ưu} phát biểu bài toán dưới dạng quy hoạch nguyên (hỗn hợp) tuyến tính~\cite{andersen2002theoretical, zhu2006algorithms}; tiêu biểu là ViNE~\cite{chowdhury2009vine}, phối hợp pha ánh xạ nút và liên kết qua nới lỏng tuyến tính (LP-relaxation) rồi làm tròn, cho lời giải chất lượng cao và cận trên hữu ích nhưng độ phức tạp cấp số mũ khiến chúng chỉ khả thi trên tô-pô rất nhỏ và không phù hợp kịch bản trực tuyến quy mô lớn.
+
+Nhóm \textit{heuristic} xếp hạng nút vật lý theo những độ đo tô-pô đơn giản rồi ánh xạ tham lam: NodeRank lấy cảm hứng từ PageRank~\cite{cheng2011vne_nr}, Global Resource Capacity (GRC) tổng hợp tài nguyên lan truyền trên đồ thị~\cite{gong2014grc}, ánh xạ phân tán~\cite{houidi2008distributed}, phát hiện đồng cấu đồ thị con~\cite{lischka2009virtual}, hay cho phép chia đường và di trú~\cite{yu2008rethinking}. Heuristic được so sánh trực tiếp trong đồ án là MP-VNE~\cite{mp_vne}, ước lượng chi phí từng cặp $(n^v, n^s)$ bằng công thức tổng hợp giữa chi phí CPU và băng thông trung bình của láng giềng (gọi là PreCost) rồi chọn các nút có chi phí ước lượng thấp nhất làm ứng viên, với pha ánh xạ liên kết dùng đường đi ngắn nhất có thể mở rộng đa đường. Heuristic đơn giản, nhanh và chạy được trên hạ tầng lớn, nhưng phụ thuộc nặng vào tri thức chuyên gia, khó thích nghi khi phân phối yêu cầu thay đổi và dễ rơi vào tối ưu cục bộ. Nhóm \textit{metaheuristic} như thuật toán di truyền, tối ưu hoá bầy hạt (PSO) và mô phỏng tôi luyện biểu diễn mỗi lời giải như một cá thể với hàm thích nghi là chi phí nhúng rồi tiến hoá qua các thế hệ; chẳng hạn MP-VNE~\cite{mp_vne} kết hợp xếp hạng PreCost với một vòng PSO. Nhóm này cho chất lượng khá hơn heuristic nhưng chi phí tính toán cao và thiếu đảm bảo lý thuyết về chất lượng lời giải.
+
+Gần đây, học tăng cường (Reinforcement Learning - RL) coi VNE như một quá trình quyết định tuần tự và học chính sách ánh xạ end-to-end từ tín hiệu thưởng. Mijumbi và cộng sự~\cite{mijumbi2014rl} là một trong những công trình tiên phong áp dụng RL cho quản lý tài nguyên mạng ảo động; với sự phát triển của mạng nơ-ron đồ thị~\cite{kipf2017gcn, velickovic2018gat, wu2021gnn_survey}, nhiều phương pháp dùng GNN để mã hoá tô-pô mạng vật lý như A3C-GCN~\cite{yao2018a3c_gcn}, DeepViNE~\cite{dolati2019deepvine}, NeuroViNE~\cite{blenk2018neurovine} và FlagVNE~\cite{flagvne2024}; một số công trình khác dùng tìm kiếm cây Monte-Carlo~\cite{haeri2018mcts} hoặc cơ chế chú ý cho bài toán định tuyến tổ hợp~\cite{kool2019attention_co}. Mặc dù nhiều tiềm năng, các phương pháp RL hiện hành cho VNE còn ba hạn chế chính, cũng là động lực trực tiếp cho phương pháp đề xuất: (i) phụ thuộc mạnh vào \textit{reward shaping} chính xác, dễ bất ổn định khi reward thưa; (ii) chưa khai thác tốt tri thức tô-pô có sẵn từ các heuristic mạnh, khiến tác nhân tốn nhiều mẫu để khám phá lại các quy luật đơn giản; và (iii) không gian hành động lớn (chọn một trong hàng trăm nút vật lý cho mỗi nút ảo) làm chính sách khó hội tụ ở tô-pô lớn.
+
+Phần lớn các công trình trên giả định hạ tầng \textit{đơn miền} với thông tin tô-pô và tài nguyên hiển thị toàn cục. Trong thực tế, hạ tầng thường được chia thành nhiều miền quản trị thuộc các nhà cung cấp khác nhau, nơi thông tin nội miền không công khai toàn cục mà chỉ trao đổi ở mức tổng hợp~\cite{cao2019vne_survey}, đặt thêm hai thách thức: tôn trọng ràng buộc miền của từng nút ảo và tính tới chi phí định tuyến xuyên miền ngay khi ra quyết định ánh xạ. Đồ án tập trung vào cấu hình đa miền này, kế thừa heuristic PreCost của MP-VNE làm baseline nhưng thay chính sách xếp hạng/chọn ứng viên thủ công bằng một chính sách học được tôn trọng cấu trúc đa miền (Chương~\ref{ch:de_xuat}). Bảng~\ref{tab:approach-compare} tổng hợp ưu nhược của các nhóm tiếp cận.
+
+\begin{table}[h]
+\centering
+\caption{So sánh các hướng tiếp cận VNE}
+\label{tab:approach-compare}
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{l l l l}
+\hline
+\textbf{Tiêu chí} & \textbf{Heuristic} & \textbf{Metaheuristic} & \textbf{Học tăng cường} \\
+\hline
+Chất lượng lời giải & Trung bình & Khá & Tốt (khi huấn luyện ổn định) \\
+Thời gian suy diễn & Rất nhanh & Chậm & Nhanh \\
+Khả năng tổng quát hoá & Thấp & Trung bình & Cao \\
+Phụ thuộc tri thức chuyên gia & Cao & Trung bình & Thấp \\
+Chi phí huấn luyện & Không có & Không có & Cao \\
+\hline
+\end{tabular}%
+}
+\end{table}
+
 % Kết chương
-Chương này đã khảo sát các hướng tiếp cận hiện có và phát biểu hình thức bài toán nhúng mạng ảo đa miền: mô hình mạng vật lý đa miền và mạng ảo, hai pha ánh xạ nút và liên kết, hàm mục tiêu cùng các độ đo, và dạng ILP với phân tích tính bất khả thi ở quy mô lớn. Chương tiếp theo trình bày phương pháp đề xuất CARL-VNE.
+Chương này đã phát biểu hình thức bài toán nhúng mạng ảo đa miền (mô hình mạng vật lý đa miền và mạng ảo, hai pha ánh xạ, hàm mục tiêu, phát biểu bài toán trực tuyến và mô hình hoá ILP) và khảo sát các nghiên cứu liên quan. Chương tiếp theo trình bày thuật toán đề xuất CARL-VNE.
 
 \end{document}

@@ -27,38 +27,40 @@ CARL_LABEL = "CARL-VNE CF e90"
 
 # axis -> ([(tick_label, set_suffix, x_value), ...], xlabel, log_x)
 AXES = {
-    "Lifetime (VNR)": (
+    "Thời gian sống VNR": (
         [("125", "life_short", 125), ("250", "life_250", 250), ("500", "center", 500),
          ("1000", "life_1000", 1000), ("2000", "life_long", 2000)],
-        "Lifetime trung bình", True),
-    "VNR size (nodes)": (
+        "Thời gian sống trung bình", True),
+    "Kích thước VNR (số nút)": (
         [("2-3", "size_small", 2.5), ("3-5", "size_3_5", 4.0), ("3-7", "center", 5.0),
          ("6-9", "size_6_9", 7.5), ("8-12", "size_large", 10.0)],
-        "Số node / VNR (trung bình)", False),
-    "VNR density": (
+        "Số nút / VNR (trung bình)", False),
+    "Mật độ liên kết VNR": (
         [("0.0", "dens_sparse", 0.0), ("0.15", "dens_015", 0.15), ("0.3", "center", 0.3),
          ("0.55", "dens_055", 0.55), ("0.8", "dens_dense", 0.8)],
-        "edge_prob (mật độ link)", False),
-    "Resource demand": (
+        "Xác suất cạnh (mật độ liên kết)", False),
+    "Nhu cầu tài nguyên": (
         [("0.5x", "res_low", 0.5), ("0.75x", "res_075", 0.75), ("1x", "center", 1.0),
          ("1.5x", "res_150", 1.5), ("2x", "res_high", 2.0)],
-        "Hệ số tài nguyên yêu cầu", False),
-    "Region constraint": (
+        "Hệ số nhu cầu tài nguyên", False),
+    "Ràng buộc miền": (
         [("0.2", "region_loose", 0.2), ("0.4", "region_04", 0.4), ("0.6", "center", 0.6),
          ("0.8", "region_08", 0.8), ("1.0", "region_strict", 1.0)],
-        "Tỉ lệ vnode ràng buộc miền", False),
+        "Tỉ lệ nút ảo bị ràng buộc miền", False),
 }
 
 # (metrics.json key, panel title + arrow, scale)
 METRICS = [
-    ("acceptance_rate", "Acceptance rate (%)  (↑ tốt hơn)", 100.0),
-    ("avg_cost", "Avg cost  (↓ tốt hơn)", 1.0),
-    ("revenue_cost_ratio", "Revenue / cost  (↑ tốt hơn)", 1.0),
-    ("avg_delay", "Avg delay  (↓ tốt hơn)", 1.0),
+    ("acceptance_rate", "Tỉ lệ chấp nhận (%)  (↑ tốt hơn)", 100.0),
+    ("avg_cost", "Chi phí trung bình  (↓ tốt hơn)", 1.0),
+    ("revenue_cost_ratio", "Doanh thu / chi phí  (↑ tốt hơn)", 1.0),
+    ("avg_delay", "Độ trễ trung bình  (↓ tốt hơn)", 1.0),
 ]
 
 def algos():
-    return [("MP-VNE", "mp_vne", "tab:red", "o--"),
+    return [("MC-VNM", "mc_vnm", "tab:gray", "^:"),
+            ("VNE-PSO", "vne_pso", "tab:green", "d-."),
+            ("MP-VNE", "mp_vne", "tab:red", "o--"),
             ("CARL-VNE", CARL_NAME, "tab:purple", "s-")]
 
 
@@ -70,11 +72,11 @@ def metric(set_suffix, algo, key, scale):
 
 
 SLUGS = {
-    "Lifetime (VNR)": "lifetime",
-    "VNR size (nodes)": "size",
-    "VNR density": "density",
-    "Resource demand": "resource",
-    "Region constraint": "region",
+    "Thời gian sống VNR": "lifetime",
+    "Kích thước VNR (số nút)": "size",
+    "Mật độ liên kết VNR": "density",
+    "Nhu cầu tài nguyên": "resource",
+    "Ràng buộc miền": "region",
 }
 
 
@@ -109,7 +111,7 @@ def main():
             ax.set_xlabel(xlabel)
             ax.grid(alpha=0.3)
             ax.legend(fontsize=13)
-        fig.suptitle(f"Robustness {NODES}-node — trục: {title}  ({CARL_LABEL} vs MP-VNE)",
+        fig.suptitle(f"Độ bền vững {NODES} nút, trục: {title}",
                      fontsize=18, fontweight="bold")
         fig.tight_layout()
         out = OUT / f"{NODES}nodes_robust_{slug(title)}_{DATE_TAG}.png"
@@ -132,10 +134,10 @@ def main():
             ax.set_xscale("log"); ax.set_xticks([p[2] for p in points])
             ax.set_xticklabels([p[0] for p in points])
         ax.set_title(title, fontsize=16)
-        ax.set_xlabel(xlabel); ax.set_ylabel("Acceptance (%)")
+        ax.set_xlabel(xlabel); ax.set_ylabel("Tỉ lệ chấp nhận (%)")
         ax.grid(alpha=0.3); ax.legend(fontsize=13)
     axes.flat[5].axis("off")
-    fig.suptitle(f"Robustness {NODES}-node — Acceptance overview (5 trục)",
+    fig.suptitle(f"Độ bền vững {NODES} nút, tổng quan tỉ lệ chấp nhận (5 trục)",
                  fontsize=18, fontweight="bold")
     fig.tight_layout()
     out = OUT / f"{NODES}nodes_robust_overview_{DATE_TAG}.png"

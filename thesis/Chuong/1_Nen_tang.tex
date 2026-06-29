@@ -24,7 +24,7 @@ trong đó $\tau = (s_0, a_0, s_1, a_1, \ldots)$ là quỹ đạo tương tác. 
 
 Trong bối cảnh VNE, một episode tương ứng với quá trình nhúng một VNR. Trạng thái mô tả mạng vật lý hiện tại và VNR đang xét, hành động là ánh xạ một nút ảo tới một nút vật lý hoặc xếp hạng các nút/liên kết ảo, và phần thưởng được cấp khi VNR đã được ánh xạ hoàn chỉnh và đo bằng tỉ số R/C.
 
-\subsection{Policy gradient và Actor-Critic}
+\subsection[Gradient chính sách và phương pháp tác tử-phê bình]{Gradient chính sách và phương pháp tác tử-phê bình (Actor-Critic)}
 
 \textit{Policy gradient} là họ thuật toán RL học chính sách trực tiếp bằng cách tham số hoá $\pi_\theta(a \mid s)$ với tham số $\theta$ và cập nhật theo gradient của $J(\theta)$. Định lý policy gradient\cite{sutton2018rl} chỉ ra:
 \begin{equation}
@@ -36,7 +36,7 @@ với $G_t = \sum_{k=t}^{T} \gamma^{k-t} \mathcal{R}(s_k, a_k)$. REINFORCE\cite{
 \end{equation}
 Phương án phổ biến nhất là dùng hàm giá trị $V_\phi(s)$ làm baseline, dẫn đến kiến trúc \textit{Actor-Critic} với hai mạng song song: \textit{actor} là chính sách $\pi_\theta(a\mid s)$ quyết định hành động, còn \textit{critic} là hàm giá trị $V_\phi(s)$ ước lượng chất lượng trạng thái và được học bằng cách hồi quy về lợi ích thực tế (mất mát bình phương). Lợi thế $A(s,a)=G_t - V_\phi(s)$ thay cho $G_t$ giúp giảm phương sai gradient. Đồ án này sử dụng baseline phê bình $V_\phi(s)$ học được (kiến trúc actor-critic) thay cho baseline trung bình đơn giản, nhằm giảm phương sai mạnh hơn trong các kịch bản phần thưởng cấp ở cuối episode.
 
-\subsection{Tối ưu hoá chính sách gần kề (PPO)}
+\subsection{Tối ưu hoá chính sách tiệm cận (PPO)}
 
 \textit{Proximal Policy Optimization} (PPO)\cite{schulman2017ppo} là một thuật toán actor-critic cải tiến, cho phép tái sử dụng dữ liệu rollout qua nhiều vòng gradient mà vẫn ổn định. PPO thay mục tiêu gradient chính sách bằng một \textit{hàm mục tiêu thay thế có cắt} (clipped surrogate) dựa trên tỉ số tầm quan trọng $\rho_t(\theta) = \pi_\theta(a_t\mid s_t)/\pi_{\theta_{\text{old}}}(a_t\mid s_t)$:
 \begin{equation}
@@ -77,7 +77,7 @@ với hệ số attention
 \end{equation}
 GAT có khả năng biểu diễn cao hơn GCN nhờ trọng số học được, đặc biệt khi đồ thị không đồng nhất về vai trò các láng giềng. Tuy nhiên, GCN có ưu điểm về số tham số ít, tốc độ huấn luyện nhanh, và đủ biểu diễn cho các tô-pô mạng vật lý nhỏ - vừa trong VNE. Đồ án này lựa chọn GCN làm bộ mã hoá chính để giữ kiến trúc nhỏ gọn (toàn bộ chính sách chỉ khoảng $36{,}300$ tham số), đồng thời thảo luận lại các đánh đổi với GAT trong phân tích ablation ở Chương~\ref{ch:thuc_nghiem}.
 
-\section{Cơ chế attention cho lựa chọn ứng viên}
+\section{Cơ chế chú ý cho lựa chọn ứng viên}
 \label{sec:attention}
 
 Cơ chế \textit{scaled dot-product attention}\cite{vaswani2017attention} là khối toán học chuẩn cho việc ``một truy vấn chọn từ nhiều khoá''. Cho truy vấn $q \in \mathbb{R}^d$ và tập khoá $K = (k_1, \ldots, k_n)$, điểm số cho mỗi khoá là
@@ -86,7 +86,19 @@ Cơ chế \textit{scaled dot-product attention}\cite{vaswani2017attention} là k
 \end{equation}
 Hệ số $\sqrt{d}$ giúp ổn định gradient khi $d$ lớn. Trong bài toán VNE, mỗi nút ảo đóng vai trò truy vấn, mỗi nút vật lý ứng viên đóng vai trò khoá, và điểm số sau khi softmax biểu diễn xác suất chọn từng ứng viên. Đồ án mở rộng cơ chế này bằng cách kết hợp một nhánh MLP dư (residual) để học các tương tác phi tuyến phức tạp giữa đặc trưng của nút ảo và nút vật lý, và sử dụng \textit{feasibility mask} cứng để loại bỏ các ứng viên không thoả mãn ràng buộc CPU ngay tại bước tính điểm. Chi tiết kiến trúc được trình bày ở Chương~\ref{ch:de_xuat}.
 
+\section{Tối ưu hoá bầy đàn (Particle Swarm Optimization)}
+\label{sec:pso}
+
+Tối ưu hoá bầy đàn (Particle Swarm Optimization - PSO)\cite{kennedy1995pso} là một thuật toán tối ưu hoá metaheuristic lấy cảm hứng từ hành vi bầy đàn trong tự nhiên. PSO duy trì một \textit{quần thể} gồm $N$ \textit{hạt} (particle), mỗi hạt biểu diễn một lời giải ứng viên bằng một vector vị trí $x_i$ trong không gian tìm kiếm và di chuyển với vận tốc $v_i$. Mỗi hạt ghi nhớ vị trí tốt nhất của riêng nó ($p_i$, personal best), còn cả quần thể chia sẻ vị trí tốt nhất toàn cục ($g$, global best). Tại mỗi vòng lặp, vận tốc và vị trí của hạt được cập nhật theo:
+\begin{align}
+    v_i &\leftarrow w\,v_i + c_1 r_1 (p_i - x_i) + c_2 r_2 (g - x_i), \label{eq:pso-vel}\\
+    x_i &\leftarrow x_i + v_i, \label{eq:pso-pos}
+\end{align}
+trong đó $w$ là \textit{hệ số quán tính} (inertia weight)\cite{shi1998modified} điều tiết mức duy trì hướng di chuyển cũ, $c_1$ và $c_2$ lần lượt là \textit{hệ số nhận thức} (cognitive) và \textit{hệ số xã hội} (social) điều tiết lực hút về $p_i$ và $g$, còn $r_1, r_2 \sim \mathcal{U}(0,1)$ là các số ngẫu nhiên tạo tính khám phá. Chất lượng mỗi hạt được đánh giá qua một \textit{hàm thích nghi} (fitness function) tuỳ theo bài toán.
+
+PSO phù hợp với các không gian tìm kiếm rời rạc, gồ ghề và không khả vi như bài toán ánh xạ nút trong VNE, nơi khó áp dụng các phương pháp dựa trên gradient. Trong đồ án, PSO được dùng làm cơ chế tìm kiếm lời giải ánh xạ nút trong heuristic MP-VNE, và đặc biệt trong bước \textit{triển khai suy diễn} của CARL-VNE: hàm thích nghi của PSO được thiên lệch theo xác suất của chính sách đã học, kết hợp với chiến lược đa khởi tạo (multi-restart) để khai thác đồng thời nhiều vùng triển vọng (chi tiết ở Chương~\ref{ch:de_xuat}).
+
 % Kết chương
-Chương này đã hệ thống hoá các nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO), các khối GNN và cơ chế attention. Chương tiếp theo khảo sát các hướng tiếp cận hiện có và phát biểu hình thức bài toán nhúng mạng ảo đa miền.
+Chương này đã hệ thống hoá các nền tảng học tăng cường (MDP, gradient chính sách, actor-critic, PPO), các khối GNN, cơ chế attention và tối ưu hoá bầy đàn (PSO). Chương tiếp theo khảo sát các hướng tiếp cận hiện có và phát biểu hình thức bài toán nhúng mạng ảo đa miền.
 
 \end{document}

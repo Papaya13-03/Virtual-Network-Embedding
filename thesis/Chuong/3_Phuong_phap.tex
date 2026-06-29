@@ -1,5 +1,11 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
+% Mục lục chương này chỉ hiển thị tới mức section: chặn ghi subsection vào .toc
+% (titlesec ghi subsection bỏ qua tocdepth nên phải chặn ở \addcontentsline)
+\let\savedaddcontentsline\addcontentsline
+\renewcommand{\addcontentsline}[3]{%
+  \def\carltmpa{#2}\def\carltmpb{subsection}%
+  \ifx\carltmpa\carltmpb\else\savedaddcontentsline{#1}{#2}{#3}\fi}
 \label{ch:de_xuat}
 % =============================================================
 % CHƯƠNG 3 - PHƯƠNG PHÁP ĐỀ XUẤT       Mục tiêu độ dài: ~15 trang
@@ -8,11 +14,8 @@
 % Tổng quan chương
 Chương này trình bày chi tiết phương pháp đề xuất \textit{CARL-VNE} (Candidate-Anchored Reinforcement Learning for Virtual Network Embedding). Tên gọi phản ánh hai ý tưởng trung tâm của phương pháp: \textit{Candidate}: tín hiệu học tăng cường được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán; và \textit{Anchored}: chính sách được neo về mô hình học bắt chước (imitation learning) bằng độ phân kỳ Kullback-Leibler trong suốt quá trình tinh chỉnh. Về ánh xạ liên kết, phương pháp dùng một bước cam kết tài nguyên đa đường (multi-path) được trình bày ở Mục~\ref{subsec:cand-link}; lời giải mẫu cho giai đoạn học bắt chước được lấy từ heuristic MP-VNE. Phần đầu chương mô tả kiến trúc tổng thể và ba nguyên lý thiết kế cốt lõi. Các phần tiếp theo lần lượt trình bày bộ mã hoá đồ thị, bộ giải mã chọn ứng viên, môi trường học tăng cường, và quy trình huấn luyện hai giai đoạn. Phần cuối chương phân tích lý thuyết các tính chất của phương pháp, bao gồm độ phức tạp tính toán, độ phức tạp bộ nhớ và đặc tính hội tụ.
 
-\section{Tổng quan giải pháp}                  % ~2 trang
+\section{Tổng quan}                  % ~2 trang
 \label{sec:overview}
-
-\subsection{Ba nguyên lý thiết kế}
-\label{subsec:design-principles}
 
 Phương pháp đề xuất được xây dựng quanh ba nguyên lý thiết kế nhằm khắc phục trực tiếp ba hạn chế của các phương pháp học tăng cường cho VNE đã nêu ở Chương~\ref{ch:nen_tang}.
 
@@ -24,57 +27,67 @@ Phương pháp đề xuất được xây dựng quanh ba nguyên lý thiết k�
 \item \textbf{Khởi động bằng học bắt chước rồi tinh chỉnh actor-critic có neo KL.} Quy trình huấn luyện gồm hai giai đoạn: (i) học bắt chước lời giải của heuristic MP-VNE để có một chính sách khởi đầu hợp lý (gọi là mô hình \textit{R2}); (ii) tinh chỉnh bằng phương pháp actor-critic, trong đó tín hiệu thưởng đến từ kết quả nhúng thực tế, đồng thời neo phân phối chọn ứng viên về chính sách tham chiếu R2 bằng độ phân kỳ Kullback-Leibler (KL) để tinh chỉnh mà không sụp đổ phân phối.
 \end{enumerate}
 
-\subsection{Sơ đồ khối hệ thống}
-\label{subsec:block-diagram}
-
 Hình~\ref{fig:arch} mô tả kiến trúc tổng thể. Hệ thống gồm bốn nhóm khối: (1) \textit{bộ mã hoá đồ thị} biến mạng vật lý và yêu cầu mạng ảo thành các vector biểu diễn; (2) \textit{hai đầu ra} gồm đầu chọn ứng viên (cross-attention) và bộ phê bình giá trị $V(s)$; (3) \textit{bộ giải mã} ánh xạ nút theo điểm của đầu chọn ứng viên rồi ánh xạ liên kết bằng cơ chế đa đường; và (4) \textit{môi trường} cam kết tài nguyên và trả về tín hiệu thưởng. Toàn bộ các khối (bộ mã hoá, đầu chọn ứng viên, bộ phê bình) được tinh chỉnh bằng học tăng cường, trong đó tín hiệu học được dồn vào đầu chọn ứng viên, đòn bẩy hiệu quả của bài toán.
 
 \begin{figure}[H]
   \centering
   \resizebox{\textwidth}{!}{%
   \begin{tikzpicture}[
-    font=\small,
-    box/.style={draw, rounded corners, minimum height=8mm, minimum width=22mm, align=center, fill=white},
-    train/.style={draw, rounded corners, minimum height=8mm, minimum width=22mm, align=center, fill=black!12, very thick},
-    >={Stealth[]}, node distance=6mm and 12mm
+    font=\large,
+    blk/.style={draw, rounded corners, minimum height=14mm, text width=32mm, align=center, thick},
+    io/.style={blk, fill=white},
+    enc/.style={blk, fill=blue!8},
+    key/.style={blk, draw=orange!80!black, fill=orange!25, very thick},
+    proc/.style={blk, fill=black!8},
+    grp/.style={draw, dashed, rounded corners, inner sep=5mm, line width=0.6pt},
+    >={Stealth[length=3.5mm,width=3mm]},
   ]
-    % inputs
-    \node[box] (gs) {Mạng vật lý\\$G^s=(N^s,E^s)$};
-    \node[box, below=10mm of gs] (vnr) {Yêu cầu mạng ảo\\$G^v=(N^v,E^v)$};
+    % ----- (1) Bộ mã hoá đồ thị -----
+    \node[io]  (gs)   at (0,2.0)    {Mạng vật lý $G^s=(N^s,E^s)$};
+    \node[io]  (vnr)  at (0,-2.0)   {Yêu cầu mạng ảo $G^v=(N^v,E^v)$};
+    \node[enc] (encs) at (5,2.0)    {Mã hoá phân cấp (GCN nội miền + liên miền)};
+    \node[enc] (encv) at (5,-2.0)   {Mã hoá VNR (GCN + self-attention)};
+    \node[enc] (fuse) at (10,0)     {Trộn biểu diễn (ngữ cảnh substrate--VNR)};
 
-    % encoders
-    \node[train, right=of gs] (enc_s) {Mã hoá phân cấp\\(intra + inter GCN)};
-    \node[train, right=of vnr] (enc_v) {Mã hoá VNR\\(GCN + self-attn)};
+    % ----- (2) Hai đầu ra -----
+    \node[key] (cand) at (15,2.0)   {Đầu chọn ứng viên (cross-attention)};
+    \node[enc] (val)  at (15,-2.0)  {Bộ phê bình giá trị $V(s)$};
 
-    % fusion
-    \coordinate (encmid) at ($(enc_s)!0.5!(enc_v)$);
-    \node[train, right=18mm of encmid] (fuse) {Trộn biểu diễn\\(max-pool ngữ cảnh)};
+    % ----- (3) Bộ giải mã -----
+    \node[proc] (dec) at (15,-7.0)  {Bộ giải mã: ánh xạ nút theo điểm ứng viên + ánh xạ liên kết đa đường};
 
-    % outputs
-    \node[train, right=of fuse, yshift=8mm] (hcand) {Đầu chọn ứng viên\\(cross-attention)};
-    \node[train, right=of fuse, yshift=-8mm] (hval) {Bộ phê bình $V(s)$};
+    % ----- (4) Môi trường -----
+    \node[proc] (env) at (7.5,-7.0) {Môi trường: cam kết tài nguyên + trả về thưởng $r$};
 
-    % decoder + env
-    \node[box, right=10mm of hcand] (dec) {Giải mã\\+ ánh xạ liên kết đa đường};
-    \node[box, below=8mm of dec] (env) {Môi trường\\(cam kết + thưởng)};
+    % luồng dữ liệu
+    \draw[->,thick] (gs)   -- (encs);
+    \draw[->,thick] (vnr)  -- (encv);
+    \draw[->,thick] (encs) -- (fuse);
+    \draw[->,thick] (encv) -- (fuse);
+    \draw[->,thick] (fuse) -- (cand);
+    \draw[->,thick] (fuse) -- (val);
+    \draw[->,thick] (cand.east) -- ++(0.7,0) |- (dec.east);
+    \draw[->,thick] (dec) -- (env);
+    % phản hồi thưởng (cập nhật toàn bộ các khối học)
+    \draw[->,thick,dashed,red!70!black]
+       (env) -- node[pos=0.5, fill=white, inner sep=2pt, font=\normalsize, text=black]{thưởng $r$,\ $V(s)$} (fuse);
 
-    \draw[->] (gs) -- (enc_s);
-    \draw[->] (vnr) -- (enc_v);
-    \draw[->] (enc_s) -- (fuse);
-    \draw[->] (enc_v) -- (fuse);
-    \draw[->] (fuse) -- (hcand);
-    \draw[->] (fuse) -- (hval);
-    \draw[->] (hcand) -- (dec);
-    \draw[->] (dec) -- (env);
-    \draw[->] (env.south) to[out=-90,in=-90] node[below]{\footnotesize thưởng $r$, $V(s)$} (hval.south);
+    % khung nhóm khối
+    \begin{scope}[on background layer]
+      \node[grp, fit=(gs)(vnr)(encs)(encv)(fuse),
+            label={[font=\large\bfseries]north:(1) Bộ mã hoá đồ thị}] {};
+      \node[grp, fit=(cand)(val),
+            label={[font=\large\bfseries]north:(2) Hai đầu ra}] {};
+      \node[grp, fit=(dec),
+            label={[font=\large\bfseries]north:(3) Bộ giải mã}] {};
+      \node[grp, fit=(env),
+            label={[font=\large\bfseries]north:(4) Môi trường}] {};
+    \end{scope}
   \end{tikzpicture}%
   }
-  \caption{Kiến trúc tổng thể của CARL-VNE (khối tô đậm được huấn luyện bằng RL).}
+  \caption[Kiến trúc tổng thể của CARL-VNE.]{Kiến trúc tổng thể của CARL-VNE. Các khối tô màu (bộ mã hoá, đầu chọn ứng viên, bộ phê bình) được tinh chỉnh bằng học tăng cường; tín hiệu học được dồn vào đầu chọn ứng viên (khối tô cam).}
   \label{fig:arch}
 \end{figure}
-
-\subsection{Luồng tương tác môi trường - tác nhân}
-\label{subsec:interaction}
 
 Mỗi \textit{episode} tương ứng với quá trình nhúng một VNR và diễn ra theo các bước sau. (1) Bộ mã hoá tính biểu diễn cho mạng vật lý hiện tại và VNR đang xét. (2) Đầu chọn ứng viên tính điểm cho các nút vật lý khả thi trong từng miền cho phép để đề cử ứng viên top-1 mỗi miền cho mỗi nút ảo; ánh xạ nút được lấy mẫu khi huấn luyện, còn khi triển khai do PSO chọn tổ hợp (Mục~\ref{subsec:cand-pso}). (3) Sau khi đã có ánh xạ nút, các liên kết ảo được ánh xạ bằng đường đi ngắn nhất. (4) Lời giải hoàn chỉnh được cam kết lên mạng vật lý theo cơ chế đa đường (multi-path), trạng thái tài nguyên được cập nhật, và môi trường trả về một tín hiệu thưởng phản ánh việc nhúng thành công hay thất bại cùng độ tiết kiệm chi phí. Phân tích độ phức tạp của luồng này được trình bày ở Mục~\ref{sec:complexity-time}, còn kết quả thực nghiệm ở Chương~\ref{ch:thuc_nghiem}.
 
@@ -207,7 +220,7 @@ Hành động của chính sách là tập các lựa chọn ứng viên cho cá
 \end{equation}
 Toàn bộ gradient học tăng cường đi qua thành phần này, nhờ đó tín hiệu học được tập trung hoàn toàn vào đòn bẩy hiệu quả nhất.
 
-\section{Môi trường học tăng cường}            % ~2.5 trang
+\section{Thiết kế môi trường học tăng cường}            % ~2.5 trang
 \label{sec:env}
 
 \subsection{Không gian trạng thái}
@@ -239,7 +252,7 @@ trong đó $c$ là chi phí thực tế của lời giải, $\bar{c}_{\text{EMA}
 
 Ba loại mặt nạ được áp dụng: (i) mặt nạ khả thi CPU: nút vật lý không đủ CPU bị gán điểm $-10^4$; (ii) mặt nạ chống trùng: nút vật lý đã được dùng bị gán điểm $-\infty$ trong giải mã trực tiếp; (iii) bỏ qua miền rỗng: nếu mọi nút trong một miền đều không khả thi thì miền đó bị loại khỏi bước chọn ứng viên. Nhờ các mặt nạ này, mọi hành động được lấy mẫu đều hợp lệ theo ràng buộc tài nguyên và miền.
 
-\section{Quy trình huấn luyện hai giai đoạn}   % ~3.5 trang
+\section{Các giai đoạn huấn luyện}   % ~3.5 trang
 \label{sec:training}
 
 \subsection{Giai đoạn 1: Tiền huấn luyện có giám sát từ MP-VNE}
@@ -360,4 +373,5 @@ Các đặc tính lý thuyết trên được kiểm chứng qua quỹ đạo hu
 % Kết chương
 Chương này đã trình bày đầy đủ kiến trúc, môi trường và thuật toán huấn luyện của CARL-VNE, với ba nguyên lý thiết kế cốt lõi: mã hoá phân cấp đa miền, tập trung học tăng cường vào đầu chọn ứng viên (đòn bẩy hiệu quả), và quy trình hai giai đoạn bắt chước rồi tinh chỉnh actor-critic có neo KL; đồng thời chỉ ra phương pháp có độ phức tạp tính toán tuyến tính theo kích thước mạng vật lý, dấu chân bộ nhớ nhỏ, và đặc tính hội tụ ổn định nhờ baseline giảm phương sai và neo KL. Chương tiếp theo trình bày kết quả thực nghiệm để kiểm chứng các phân tích này.
 
+\let\addcontentsline\savedaddcontentsline % khôi phục cho các chương sau
 \end{document}

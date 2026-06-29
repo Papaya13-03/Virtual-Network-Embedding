@@ -5,7 +5,7 @@ set -u
 cd "$(dirname "$0")/.."
 
 CKPT=experiments/carl_vne_100nodes/costfocused/checkpoints/ckpt_e90.pt
-SETS="center life_short life_long size_small size_large dens_sparse dens_dense res_low res_high region_loose region_strict"
+SETS="center life_short life_250 life_long life_1000 size_small size_3_5 size_6_9 size_large dens_sparse dens_015 dens_055 dens_dense res_low res_075 res_150 res_high region_loose region_04 region_08 region_strict"
 LOGDIR=experiments/carl_vne_100nodes/kb_eval_logs
 mkdir -p "$LOGDIR"
 MAXJOBS=3

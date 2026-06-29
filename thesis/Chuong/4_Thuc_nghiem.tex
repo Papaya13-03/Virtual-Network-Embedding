@@ -1,5 +1,11 @@
 \documentclass[../DoAn.tex]{subfiles}
 \begin{document}
+% Mục lục chương này chỉ hiển thị tới mức section: chặn ghi subsection vào .toc
+% (titlesec ghi subsection bỏ qua tocdepth nên phải chặn ở \addcontentsline)
+\let\savedaddcontentsline\addcontentsline
+\renewcommand{\addcontentsline}[3]{%
+  \def\carltmpa{#2}\def\carltmpb{subsection}%
+  \ifx\carltmpa\carltmpb\else\savedaddcontentsline{#1}{#2}{#3}\fi}
 \label{ch:thuc_nghiem}
 % =============================================================
 % CHƯƠNG 4 - ĐÁNH GIÁ THỰC NGHIỆM       Mục tiêu độ dài: ~13 trang
@@ -11,13 +17,10 @@ Chương này trình bày thiết lập thực nghiệm, các tập dữ liệu,
 \section{Cấu hình thực nghiệm}              % ~2.5 trang
 \label{sec:exp-setup}
 
-\subsection{Phần cứng và phần mềm}
-\label{subsec:exp-hw}
+\subsection{Tập dữ liệu và thiết lập}
+\label{subsec:exp-setup-data}
 
 Toàn bộ thực nghiệm được cài đặt bằng Python với thư viện PyTorch và NetworkX, chạy trên CPU với hạt giống ngẫu nhiên cố định để bảo đảm khả năng tái lập.
-
-\subsection{Tập dữ liệu}
-\label{subsec:exp-data}
 
 Toàn bộ đánh giá được tiến hành trên hạ tầng $50$ nút đa miền. Mạng vật lý được chia thành $10$ miền; mỗi nút vật lý có dung lượng CPU và đơn giá ngẫu nhiên trong khoảng cho trước, mỗi liên kết có băng thông và đơn giá tương ứng. Bộ dữ liệu \textit{trung tâm} (chuẩn) có yêu cầu mạng ảo kích thước $3$–$7$ nút (trung bình $5$), nhu cầu CPU trong $[1, 8]$ và băng thông trong $[5, 25]$, thời gian sống trung bình $500$; thời điểm đến tuân theo tiến trình Poisson, mô phỏng kịch bản trực tuyến. Tập huấn luyện gồm $10{,}000$ VNR, tập kiểm thử gồm $3{,}000$ VNR tách biệt.
 
@@ -52,9 +55,6 @@ Số bộ dữ liệu đánh giá & 21 \\
 \end{tabular}
 \end{table}
 
-\subsection{Siêu tham số huấn luyện}
-\label{subsec:exp-hp}
-
 Bảng~\ref{tab:hyperparams} liệt kê các siêu tham số chính khi huấn luyện CARL-VNE. Bộ tối ưu là AdamW với tốc độ học $3\times10^{-4}$ và suy giảm trọng số $10^{-4}$; mỗi epoch xử lý $5000$ VNR theo lô kích thước $16$. Hàm thưởng đặt $\rho_{\text{bonus}}=0{,}5$, $\lambda=1{,}0$, $\rho_{\text{fail}}=0{,}5$ như trình bày ở Mục~\ref{subsec:env-reward}.
 
 \begin{table}[H]
@@ -84,78 +84,74 @@ Thiên lệch chính sách PSO $\alpha$ & 50 \\
 \end{tabular}
 \end{table}
 
-\section{Baseline và độ đo}                 % ~2 trang
-\label{sec:baselines}
-
-\subsection{Các thuật toán so sánh}
-\label{subsec:baseline-algos}
+\subsection{Baseline và độ đo}
+\label{subsec:exp-baseline}
 
 Đồ án so sánh phương pháp đề xuất với các baseline sau, tất cả đều được cài đặt trong cùng khung thực nghiệm để bảo đảm công bằng:
 
 \begin{itemize}
-\item \textbf{MP-VNE} (heuristic, theo bài báo gốc): xếp hạng ứng viên theo chi phí ước lượng (PreCost) kết hợp tối ưu hoá bầy hạt PSO ($10$ hạt, $50$ vòng lặp, hệ số quán tính/nhận thức/xã hội $0{,}3/0{,}3/0{,}4$, đột biến $10\%$), ánh xạ liên kết bằng đường đi ngắn nhất. Đây là baseline heuristic được so sánh trực tiếp với phương pháp đề xuất.
+\item \textbf{MC-VNM} (heuristic đa miền): ánh xạ nút theo chiến lược tham lam, mỗi nút ảo đặt vào nút vật lý còn nhiều CPU nhất (thoả ràng buộc miền và phân biệt nút trong cùng một VNR), ánh xạ liên kết bằng cây khung nhỏ nhất Kruskal rồi lấy đường đi trên cây. Đây là baseline đơn giản nhất, không phối hợp vị trí nút theo cấu trúc liên kết.
+\item \textbf{VNE-PSO} (heuristic PSO thuần): tối ưu hoá bầy hạt đặt nút trên \textit{toàn bộ} không gian nút vật lý (không lọc ứng viên theo miền), hàm thích nghi tối thiểu hoá chi phí CPU kèm phạt khi trùng nút hoặc vượt tài nguyên; ánh xạ liên kết bằng đường đi ngắn nhất Dijkstra. Khác với MP-VNE ở chỗ không dùng cơ chế lọc ứng viên PreCost theo miền.
+\item \textbf{MP-VNE} (heuristic, theo bài báo gốc): xếp hạng ứng viên theo chi phí ước lượng (PreCost) kết hợp tối ưu hoá bầy hạt PSO ($20$ hạt, $15$ vòng lặp, hệ số quán tính/nhận thức/xã hội $0{,}7/1{,}5/1{,}5$, đột biến $10\%$), ánh xạ liên kết bằng đường đi ngắn nhất. Đây là baseline heuristic mạnh nhất, được so sánh trực tiếp với phương pháp đề xuất.
 \item \textbf{CARL-VNE} (phương pháp đề xuất): mô hình được tinh chỉnh actor-critic từ điểm khởi đầu học bắt chước, triển khai qua PSO.
 \end{itemize}
 
-\subsection{Độ đo đánh giá}
-\label{subsec:metrics}
-
 Năm độ đo được sử dụng: (1) \textbf{tỉ lệ chấp nhận} (acceptance ratio): tỉ số VNR nhúng thành công trên tổng số VNR; (2) \textbf{doanh thu} (revenue) tích luỹ; (3) \textbf{chi phí trung bình} mỗi VNR; (4) \textbf{tỉ số doanh thu/chi phí} (R/C); và (5) \textbf{độ trễ trung bình} của các đường đi ánh xạ. Tỉ lệ chấp nhận là độ đo quan trọng nhất vì hàm thưởng được thiết kế hướng tới mục tiêu này.
 
-\section{Kết quả trên các bộ dữ liệu phân phối VNR}     % ~3 trang
+\section{Kết quả thực nghiệm}
 \label{sec:results-overall}
 
-Đồ án đánh giá CARL-VNE so với heuristic MP-VNE trên toàn bộ $21$ bộ dữ liệu phân phối VNR ở bộ dữ liệu $50$ nút (mỗi bộ dữ liệu $3000$ VNR kiểm thử). Bảng~\ref{tab:res-all} trình bày tỉ lệ chấp nhận của hai phương pháp. CARL-VNE thắng ở \textbf{$19/21$} bộ dữ liệu, chỉ thua biên ở hai trường hợp cực trị (thời gian sống rất dài $-0{,}7$ và VNR rất nhỏ $-1{,}1$), đều là các vùng mà bài toán hoặc quá bão hoà hoặc quá dễ nên dư địa cải thiện gần như bằng không; tại bộ dữ liệu trung tâm, CARL-VNE đạt $32{,}7\%$ so với $25{,}5\%$ của MP-VNE. Phân tích chi tiết theo từng trục được trình bày ở Mục~\ref{sec:robustness}.
+Đồ án đánh giá CARL-VNE so với ba baseline (MC-VNM, VNE-PSO và MP-VNE) trên toàn bộ $21$ bộ dữ liệu phân phối VNR ở bộ dữ liệu $50$ nút (mỗi bộ dữ liệu $3000$ VNR kiểm thử). Bảng~\ref{tab:res-all} trình bày tỉ lệ chấp nhận của bốn phương pháp. Bốn thuật toán xếp thành một thứ bậc nhất quán trên gần như toàn bộ dải quét, với tỉ lệ chấp nhận trung bình trên $21$ bộ dữ liệu lần lượt là $12{,}3\%$ (MC-VNM) $<$ $18{,}0\%$ (VNE-PSO) $<$ $28{,}4\%$ (MP-VNE) $<$ $33{,}5\%$ (CARL-VNE). So với baseline mạnh nhất MP-VNE, CARL-VNE thắng ở \textbf{$19/21$} bộ dữ liệu, chỉ thua biên ở hai trường hợp cực trị (thời gian sống rất dài $-0{,}7$ và VNR rất nhỏ $-1{,}1$), đều là các vùng mà bài toán hoặc quá bão hoà hoặc quá dễ nên dư địa cải thiện gần như bằng không; tại bộ dữ liệu trung tâm, CARL-VNE đạt $32{,}7\%$ so với $25{,}5\%$ của MP-VNE, $16{,}2\%$ của VNE-PSO và $10{,}6\%$ của MC-VNM. Phân tích chi tiết theo từng trục được trình bày ở Mục~\ref{sec:robustness}.
 
 \begin{table}[H]
 \centering
-\caption{Tỉ lệ chấp nhận (\%) trên toàn bộ 21 bộ dữ liệu 50 nút: CARL-VNE so với MP-VNE ($3000$ VNR kiểm thử mỗi bộ dữ liệu)}
+\caption[Tỉ lệ chấp nhận của CARL-VNE và ba baseline.]{Tỉ lệ chấp nhận (\%) trên toàn bộ 21 bộ dữ liệu 50 nút: CARL-VNE so với ba baseline MP-VNE, VNE-PSO, MC-VNM ($3000$ VNR kiểm thử mỗi bộ dữ liệu; giá trị tốt nhất mỗi hàng được in đậm)}
 \label{tab:res-all}
-\begin{tabular}{lccc}
+\begin{tabular}{lcccc}
 \toprule
-\textbf{Bộ dữ liệu} & \textbf{CARL-VNE} & \textbf{MP-VNE} & \textbf{$\Delta$} \\
+\textbf{Bộ dữ liệu} & \textbf{CARL-VNE} & \textbf{MP-VNE} & \textbf{VNE-PSO} & \textbf{MC-VNM} \\
 \midrule
-Trung tâm (chuẩn)            & 32,67 & 25,50 & $+7{,}17$ \\
+Trung tâm (chuẩn)            & \textbf{32,67} & 25,50 & 16,23 & 10,63 \\
 \midrule
-Thời gian sống 125          & 54,07 & 44,27 & $+9{,}80$ \\
-Thời gian sống 250          & 43,03 & 35,80 & $+7{,}23$ \\
-Thời gian sống 1000         & 22,60 & 19,53 & $+3{,}07$ \\
-Thời gian sống 2000         & 14,23 & 14,97 & $-0{,}73$ \\
+Thời gian sống 125          & \textbf{54,07} & 44,27 & 33,67 & 21,80 \\
+Thời gian sống 250          & \textbf{43,03} & 35,80 & 24,40 & 16,03 \\
+Thời gian sống 1000         & \textbf{22,60} & 19,53 & 11,37 & 7,70  \\
+Thời gian sống 2000         & 14,23 & \textbf{14,97} & 6,77  & 5,60  \\
 \midrule
-Kích thước 2--3 nút         & 81,37 & 82,47 & $-1{,}10$ \\
-Kích thước 3--5 nút         & 45,07 & 38,07 & $+7{,}00$ \\
-Kích thước 6--9 nút         & 10,63 & 6,30  & $+4{,}33$ \\
-Kích thước 8--12 nút        & 3,20  & 2,30  & $+0{,}90$ \\
+Kích thước 2--3 nút         & 81,37 & \textbf{82,47} & 46,00 & 37,30 \\
+Kích thước 3--5 nút         & \textbf{45,07} & 38,07 & 21,63 & 15,93 \\
+Kích thước 6--9 nút         & \textbf{10,63} & 6,30  & 5,43  & 2,70  \\
+Kích thước 8--12 nút        & \textbf{3,20}  & 2,30  & 2,33  & 0,17  \\
 \midrule
-Mật độ liên kết 0,0         & 44,53 & 38,73 & $+5{,}80$ \\
-Mật độ liên kết 0,15        & 36,60 & 32,50 & $+4{,}10$ \\
-Mật độ liên kết 0,55        & 28,30 & 22,73 & $+5{,}57$ \\
-Mật độ liên kết 0,8         & 23,87 & 18,87 & $+5{,}00$ \\
+Mật độ liên kết 0,0         & \textbf{44,53} & 38,73 & 22,47 & 15,60 \\
+Mật độ liên kết 0,15        & \textbf{36,60} & 32,50 & 18,43 & 12,93 \\
+Mật độ liên kết 0,55        & \textbf{28,30} & 22,73 & 16,17 & 9,97  \\
+Mật độ liên kết 0,8         & \textbf{23,87} & 18,87 & 13,47 & 9,27  \\
 \midrule
-Nhu cầu tài nguyên 0,5$\times$  & 49,10 & 38,40 & $+10{,}70$ \\
-Nhu cầu tài nguyên 0,75$\times$ & 38,47 & 30,17 & $+8{,}30$ \\
-Nhu cầu tài nguyên 1,5$\times$  & 23,83 & 20,10 & $+3{,}73$ \\
-Nhu cầu tài nguyên 2,0$\times$  & 18,23 & 15,20 & $+3{,}03$ \\
+Nhu cầu tài nguyên 0,5$\times$  & \textbf{49,10} & 38,40 & 29,03 & 19,17 \\
+Nhu cầu tài nguyên 0,75$\times$ & \textbf{38,47} & 30,17 & 21,70 & 14,20 \\
+Nhu cầu tài nguyên 1,5$\times$  & \textbf{23,83} & 20,10 & 11,40 & 6,87  \\
+Nhu cầu tài nguyên 2,0$\times$  & \textbf{18,23} & 15,20 & 7,60  & 4,83  \\
 \midrule
-Ràng buộc miền 0,2          & 42,33 & 33,00 & $+9{,}33$ \\
-Ràng buộc miền 0,4          & 38,53 & 29,47 & $+9{,}07$ \\
-Ràng buộc miền 0,8          & 28,37 & 24,50 & $+3{,}87$ \\
-Ràng buộc miền 1,0          & 25,00 & 22,63 & $+2{,}37$ \\
+Ràng buộc miền 0,2          & \textbf{42,33} & 33,00 & 18,27 & 11,37 \\
+Ràng buộc miền 0,4          & \textbf{38,53} & 29,47 & 17,87 & 11,33 \\
+Ràng buộc miền 0,8          & \textbf{28,37} & 24,50 & 16,83 & 11,73 \\
+Ràng buộc miền 1,0          & \textbf{25,00} & 22,63 & 16,40 & 12,80 \\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\section{Phân tích robustness theo phân phối VNR}   % ~2 trang
+\section{Phân tích đánh giá}
 \label{sec:robustness}
 
-Các kết quả ở Mục~\ref{sec:results-overall} được đo trên một phân phối VNR cố định. Để đánh giá mức độ \textit{bền vững} (robustness) của phương pháp khi điều kiện vận hành thay đổi, mục này tiến hành một \textit{sweep} có hệ thống trên năm trục phân phối VNR độc lập, mỗi trục quét năm điểm xoay quanh một bộ dữ liệu trung tâm chung. Năm trục gồm: (1) \textbf{thời gian sống} trung bình của VNR ($125$–$2000$), (2) \textbf{kích thước} VNR (từ $2$–$3$ đến $8$–$12$ nút), (3) \textbf{mật độ liên kết} của VNR (xác suất cạnh $0{,}0$–$0{,}8$), (4) \textbf{hệ số nhu cầu tài nguyên} ($0{,}5\times$–$2{,}0\times$ so với chuẩn), và (5) độ \textbf{siết ràng buộc miền} (tỉ lệ nút ảo bị buộc miền $0{,}2$–$1{,}0$). Tổng cộng $21$ bộ dữ liệu (một trung tâm dùng chung cộng $5\times4$ điểm biên), mỗi bộ dữ liệu đánh giá trên $3000$ VNR kiểm thử, so sánh CARL-VNE với heuristic \textbf{MP-VNE}. Toàn bộ sweep gồm $42$ phép đánh giá ($21$ bộ dữ liệu $\times$ hai thuật toán) trên bộ dữ liệu $50$ nút.
+Các kết quả ở Mục~\ref{sec:results-overall} được đo trên một phân phối VNR cố định. Để đánh giá mức độ \textit{bền vững} (robustness) của phương pháp khi điều kiện vận hành thay đổi, mục này tiến hành một \textit{sweep} có hệ thống trên năm trục phân phối VNR độc lập, mỗi trục quét năm điểm xoay quanh một bộ dữ liệu trung tâm chung. Năm trục gồm: (1) \textbf{thời gian sống} trung bình của VNR ($125$–$2000$), (2) \textbf{kích thước} VNR (từ $2$–$3$ đến $8$–$12$ nút), (3) \textbf{mật độ liên kết} của VNR (xác suất cạnh $0{,}0$–$0{,}8$), (4) \textbf{hệ số nhu cầu tài nguyên} ($0{,}5\times$–$2{,}0\times$ so với chuẩn), và (5) độ \textbf{siết ràng buộc miền} (tỉ lệ nút ảo bị buộc miền $0{,}2$–$1{,}0$). Tổng cộng $21$ bộ dữ liệu (một trung tâm dùng chung cộng $5\times4$ điểm biên), mỗi bộ dữ liệu đánh giá trên $3000$ VNR kiểm thử, so sánh CARL-VNE với ba baseline \textbf{MC-VNM}, \textbf{VNE-PSO} và \textbf{MP-VNE}. Toàn bộ sweep gồm $84$ phép đánh giá ($21$ bộ dữ liệu $\times$ bốn thuật toán) trên bộ dữ liệu $50$ nút.
 
-Hình~\ref{fig:robust50} trình bày tỉ lệ chấp nhận của CARL-VNE và MP-VNE dọc theo cả năm trục. Có thể thấy CARL-VNE duy trì đường cong nằm trên MP-VNE ở gần như toàn bộ dải quét.
+Hình~\ref{fig:robust50} trình bày tỉ lệ chấp nhận của cả bốn thuật toán dọc theo năm trục. Có thể thấy bốn đường tạo thành một thứ bậc rõ rệt và ổn định trên toàn dải quét: CARL-VNE nằm trên cùng, kế đến MP-VNE, rồi VNE-PSO, và MC-VNM ở dưới cùng. Khoảng cách giữa CARL-VNE và baseline mạnh nhất MP-VNE được phân tích chi tiết dưới đây.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Hinh_ve/robust50_overview.png}
-  \caption{Tỉ lệ chấp nhận trên năm trục phân phối VNR (50 nút).}
+  \caption[Tỉ lệ chấp nhận trên năm trục phân phối VNR.]{Tỉ lệ chấp nhận trên năm trục phân phối VNR (50 nút).}
   \label{fig:robust50}
 \end{figure}
 
@@ -163,98 +159,89 @@ Số liệu chi tiết của toàn bộ $21$ bộ dữ liệu đã được li�
 
 Phân tích theo từng trục cho thấy các xu hướng nhất quán với thiết kế của phương pháp. Ở trục \textbf{thời gian sống}, CARL-VNE dẫn mạnh nhất khi VNR sống ngắn ($+9{,}8$) rồi thu hẹp dần và đảo nhẹ ($-0{,}7$) khi thời gian sống rất dài, lúc này tài nguyên bão hoà nên mọi thuật toán tiệm cận nhau. Ở trục \textbf{kích thước}, lợi thế rõ rệt ở VNR cỡ vừa ($+7$) nhưng hoà ở hai cực: VNR rất nhỏ thì thuật toán nào cũng nhúng được, còn VNR rất lớn thì hầu như không nhúng được. Trục \textbf{mật độ liên kết} cho lợi thế \textit{ổn định nhất}, duy trì $\approx +5$ điểm ở mọi mức mật độ. Trục \textbf{nhu cầu tài nguyên} cho lợi thế lớn nhất khi tài nguyên dồi dào ($+10{,}7$) và giảm dần khi tài nguyên khan hiếm ($+3{,}0$). Tương tự, trục \textbf{ràng buộc miền} cho thấy CARL-VNE dẫn mạnh khi ràng buộc lỏng ($+9{,}3$) và thu hẹp khi siết chặt ($+2{,}4$).
 
-Để xem xét chi tiết hơn, Hình~\ref{fig:robust-lifetime}--\ref{fig:robust-region} trình bày đầy đủ bốn độ đo trên từng trục: tỉ lệ chấp nhận, chi phí trung bình, tỉ số doanh thu/chi phí và độ trễ trung bình. Bên cạnh ưu thế về tỉ lệ chấp nhận, CARL-VNE nhìn chung giữ chi phí trung bình và độ trễ ở mức tương đương hoặc thấp hơn MP-VNE, cho thấy việc chấp nhận thêm yêu cầu không phải đánh đổi bằng các lời giải kém hiệu quả.
+Để xem xét chi tiết hơn, Hình~\ref{fig:robust-lifetime}--\ref{fig:robust-region} trình bày đầy đủ bốn độ đo trên từng trục: tỉ lệ chấp nhận, chi phí trung bình, tỉ số doanh thu/chi phí và độ trễ trung bình. Bên cạnh ưu thế về tỉ lệ chấp nhận, CARL-VNE nhìn chung giữ chi phí trung bình và độ trễ ở mức tương đương hoặc thấp hơn MP-VNE, cho thấy việc chấp nhận thêm yêu cầu không phải đánh đổi bằng các lời giải kém hiệu quả. Ngược lại, hai baseline yếu hơn (MC-VNM và VNE-PSO) vừa chấp nhận ít yêu cầu hơn, vừa thường có chi phí trung bình và độ trễ cao hơn do ánh xạ nút thiếu phối hợp khiến các liên kết ảo phải đi qua nhiều chặng liên miền.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/robust50_lifetime.png}
-  \caption{Bốn độ đo theo trục thời gian sống VNR (50 nút; tím: CARL-VNE, đỏ: MP-VNE).}
+  \caption[Bốn độ đo theo trục thời gian sống VNR.]{Bốn độ đo theo trục thời gian sống VNR (50 nút; tím: CARL-VNE, đỏ: MP-VNE, lục: VNE-PSO, xám: MC-VNM).}
   \label{fig:robust-lifetime}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/robust50_size.png}
-  \caption{Bốn độ đo theo trục kích thước VNR (50 nút).}
+  \caption[Bốn độ đo theo trục kích thước VNR.]{Bốn độ đo theo trục kích thước VNR (50 nút).}
   \label{fig:robust-size}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/robust50_density.png}
-  \caption{Bốn độ đo theo trục mật độ liên kết VNR (50 nút).}
+  \caption[Bốn độ đo theo trục mật độ liên kết VNR.]{Bốn độ đo theo trục mật độ liên kết VNR (50 nút).}
   \label{fig:robust-density}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/robust50_resource.png}
-  \caption{Bốn độ đo theo trục nhu cầu tài nguyên (50 nút).}
+  \caption[Bốn độ đo theo trục nhu cầu tài nguyên.]{Bốn độ đo theo trục nhu cầu tài nguyên (50 nút).}
   \label{fig:robust-resource}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/robust50_region.png}
-  \caption{Bốn độ đo theo trục ràng buộc miền (50 nút).}
+  \caption[Bốn độ đo theo trục ràng buộc miền.]{Bốn độ đo theo trục ràng buộc miền (50 nút).}
   \label{fig:robust-region}
 \end{figure}
 
-Tổng hợp lại, CARL-VNE thắng MP-VNE ở $19/21$ bộ dữ liệu, chỉ thua biên ở hai trường hợp cực trị (thời gian sống rất dài $-0{,}7$ và VNR rất nhỏ $-1{,}1$), đều là các vùng mà bài toán hoặc quá bão hoà hoặc quá dễ nên dư địa cải thiện gần như bằng không. Ưu thế nhất quán trên cả năm trục (dẫn mạnh ở vùng dễ và tài nguyên dồi dào, thu hẹp dần ở vùng khan hiếm) cho thấy hiệu năng của phương pháp không phải do may rủi ở một phân phối cụ thể mà bền vững trên một dải điều kiện vận hành rộng, qua đó củng cố luận điểm trung tâm của đồ án về hiệu quả của cơ chế lựa chọn ứng viên.
+Tổng hợp lại, so với cả ba baseline, bốn thuật toán xếp thành thứ bậc nhất quán MC-VNM $<$ VNE-PSO $<$ MP-VNE $<$ CARL-VNE trên gần như toàn bộ dải quét; CARL-VNE thắng baseline mạnh nhất MP-VNE ở $19/21$ bộ dữ liệu, chỉ thua biên ở hai trường hợp cực trị (thời gian sống rất dài $-0{,}7$ và VNR rất nhỏ $-1{,}1$), đều là các vùng mà bài toán hoặc quá bão hoà hoặc quá dễ nên dư địa cải thiện gần như bằng không. Ưu thế nhất quán trên cả năm trục (dẫn mạnh ở vùng dễ và tài nguyên dồi dào, thu hẹp dần ở vùng khan hiếm) cho thấy hiệu năng của phương pháp không phải do may rủi ở một phân phối cụ thể mà bền vững trên một dải điều kiện vận hành rộng, qua đó củng cố luận điểm trung tâm của đồ án về hiệu quả của cơ chế lựa chọn ứng viên.
 
-\section{Quá trình huấn luyện hội tụ}  % ~2 trang
-\label{sec:visualize}
+Bên cạnh hiệu năng trên các bộ dữ liệu, phần này phân tích thêm quá trình hội tụ huấn luyện của CARL-VNE qua hai giai đoạn (Mục~\ref{sec:training}): học bắt chước có giám sát từ heuristic MP-VNE, rồi tinh chỉnh bằng học tăng cường, được đo trên bộ dữ liệu $50$ nút.
 
-CARL-VNE được huấn luyện qua hai giai đoạn (Mục~\ref{sec:training}): học bắt chước có giám sát từ heuristic MP-VNE, rồi tinh chỉnh bằng học tăng cường. Phần này trình bày quỹ đạo hội tụ của cả hai giai đoạn trên bộ dữ liệu $50$ nút.
-
-\subsection{Giai đoạn học bắt chước}
+\subsection{Hội tụ giai đoạn học bắt chước}
 \label{subsec:viz-il}
 
-Hình~\ref{fig:il_conv} cho thấy quá trình học bắt chước: mất mát cross-entropy giảm đều khi đầu chọn ứng viên học theo lời giải của MP-VNE, đồng thời tỉ lệ nút đích nằm trong tập ứng viên đạt gần $100\%$. Điều này xác nhận đầu chọn ứng viên đã nắm được quy luật xếp hạng theo chi phí của heuristic, tạo điểm khởi đầu phương sai thấp cho giai đoạn tăng cường.
+Hình~\ref{fig:il_conv} cho thấy quá trình học bắt chước: mất mát cross-entropy giảm đều và ổn định khi đầu chọn ứng viên học theo lời giải của MP-VNE, trong khi tỉ lệ thành công của lời giải mẫu dùng làm giám sát duy trì quanh $45\%$. Việc mất mát hội tụ xác nhận đầu chọn ứng viên đã nắm được quy luật xếp hạng theo chi phí của heuristic, tạo điểm khởi đầu phương sai thấp cho giai đoạn tăng cường.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=\textwidth]{Hinh_ve/il_pretrain_50nodes.png}
-  \caption{Hội tụ giai đoạn học bắt chước (50 nút): mất mát cross-entropy, tỉ lệ thành công của lời giải mẫu, và tỉ lệ nút đích nằm trong tập ứng viên.}
+  \caption[Hội tụ giai đoạn học bắt chước.]{Hội tụ giai đoạn học bắt chước (50 nút): mất mát cross-entropy và tỉ lệ thành công của lời giải mẫu.}
   \label{fig:il_conv}
 \end{figure}
 
-\subsection{Giai đoạn tinh chỉnh tăng cường}
+\subsection{Hội tụ giai đoạn tinh chỉnh tăng cường}
 \label{subsec:viz-rl}
 
-Hình~\ref{fig:normal_conv} trình bày các chỉ báo hội tụ của giai đoạn tinh chỉnh tăng cường qua khoảng $150$ epoch. Có thể quan sát ba xu hướng phù hợp với phân tích lý thuyết ở Mục~\ref{sec:convergence}: (i) entropy của chính sách giảm dần từ khoảng $9{,}4$ về khoảng $4{,}3$ rồi bão hoà, chính sách ngày càng tự tin; (ii) độ phân kỳ KL dao động quanh một mức nhỏ ổn định ($\approx 0{,}1$–$0{,}25$) thay vì bùng nổ, nhờ tác dụng của neo KL; và (iii) tỉ lệ thành công tăng rồi đạt bình nguyên quanh $34$–$35\%$.
-
-\begin{figure}[H]
-  \centering
-  \includegraphics[width=0.95\textwidth]{Hinh_ve/normal_convergence.png}
-  \caption{Các chỉ báo hội tụ giai đoạn tinh chỉnh tăng cường (50 nút): mất mát, KL, entropy, tỉ lệ thành công.}
-  \label{fig:normal_conv}
-\end{figure}
+Qua khoảng $150$ epoch tinh chỉnh tăng cường, các chỉ báo hội tụ cho thấy ba xu hướng phù hợp với phân tích lý thuyết ở Mục~\ref{sec:convergence}: (i) entropy của chính sách giảm dần từ khoảng $9{,}4$ về khoảng $4{,}3$ rồi bão hoà, chính sách ngày càng tự tin; (ii) độ phân kỳ KL dao động quanh một mức nhỏ ổn định ($\approx 0{,}1$–$0{,}25$) thay vì bùng nổ, nhờ tác dụng của neo KL; và (iii) tỉ lệ thành công tăng rồi đạt bình nguyên quanh $34$–$35\%$.
 
 Hình~\ref{fig:normal_acc} và Hình~\ref{fig:normal_reward} cho thấy đường cong tỉ lệ chấp nhận (trên tập kiểm thử) và phần thưởng trung bình theo epoch, đều tăng rồi đạt bình nguyên, xác nhận quá trình tinh chỉnh hội tụ về một chính sách ổn định.
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/normal_acceptance.png}
-  \caption{Tỉ lệ chấp nhận theo epoch khi tinh chỉnh tăng cường (test 50 nút).}
+  \caption[Tỉ lệ chấp nhận qua các epoch trong giai đoạn tinh chỉnh.]{Tỉ lệ chấp nhận trên tập kiểm thử qua các epoch trong giai đoạn tinh chỉnh tăng cường (50 nút).}
   \label{fig:normal_acc}
 \end{figure}
 
 \begin{figure}[H]
   \centering
   \includegraphics[width=0.9\textwidth]{Hinh_ve/normal_reward.png}
-  \caption{Phần thưởng trung bình theo epoch khi tinh chỉnh tăng cường (50 nút).}
+  \caption[Phần thưởng trung bình theo epoch tinh chỉnh.]{Phần thưởng trung bình qua các epoch trong giai đoạn tinh chỉnh tăng cường (50 nút).}
   \label{fig:normal_reward}
 \end{figure}
 
 \section{Thảo luận}                        % ~1 trang
 \label{sec:discuss}
 
-Kết quả thực nghiệm khẳng định ba điểm. \textbf{Thứ nhất}, trên toàn bộ $21$ bộ dữ liệu phân phối VNR, CARL-VNE vượt heuristic MP-VNE ở $19/21$ bộ dữ liệu với ưu thế nhất quán theo cả năm trục, cho thấy tính bền vững của phương pháp. \textbf{Thứ hai}, tại bộ dữ liệu trung tâm, CARL-VNE đạt $32{,}7\%$ tỉ lệ chấp nhận so với $25{,}5\%$ của MP-VNE. \textbf{Thứ ba}, quá trình huấn luyện hai giai đoạn hội tụ ổn định, không xảy ra hiện tượng sụp đổ phân phối nhờ neo KL.
+Kết quả thực nghiệm khẳng định ba điểm. \textbf{Thứ nhất}, trên toàn bộ $21$ bộ dữ liệu phân phối VNR, bốn thuật toán xếp thành thứ bậc nhất quán (MC-VNM $<$ VNE-PSO $<$ MP-VNE $<$ CARL-VNE) và CARL-VNE vượt baseline mạnh nhất MP-VNE ở $19/21$ bộ dữ liệu với ưu thế nhất quán theo cả năm trục, cho thấy tính bền vững của phương pháp. \textbf{Thứ hai}, tại bộ dữ liệu trung tâm, CARL-VNE đạt $32{,}7\%$ tỉ lệ chấp nhận so với $25{,}5\%$ của MP-VNE, $16{,}2\%$ của VNE-PSO và $10{,}6\%$ của MC-VNM. \textbf{Thứ ba}, quá trình huấn luyện hai giai đoạn hội tụ ổn định, không xảy ra hiện tượng sụp đổ phân phối nhờ neo KL.
 
 Về \textbf{hạn chế}: ưu thế thu hẹp ở các vùng cực trị (tài nguyên khan hiếm, ràng buộc miền siết chặt, hoặc VNR rất lớn), nơi dư địa cải thiện nhỏ. Hiệu năng còn phụ thuộc phân phối VNR; với các phân phối lệch nhiều so với lúc huấn luyện, chính sách có thể cần tinh chỉnh lại. Việc đánh giá ở các quy mô lớn hơn ($100$ và $200$ nút) chưa được đưa vào và là một hướng tiếp theo. Các hướng khắc phục được bàn ở phần Kết luận.
 
 % Kết chương
 Kết quả thực nghiệm cho thấy phương pháp đề xuất vượt heuristic MP-VNE trên gần như toàn bộ dải phân phối VNR ở bộ dữ liệu $50$ nút, đồng thời giữ quá trình huấn luyện hai giai đoạn ổn định và hội tụ. Chương cuối tổng kết các đóng góp và đề xuất hướng phát triển.
 
+\let\addcontentsline\savedaddcontentsline % khôi phục cho các chương sau
 \end{document}

@@ -43,6 +43,8 @@
 \usepackage[nonumberlist, nopostdot, nogroupskip, acronym]{glossaries}
 \usepackage{glossary-superragged}
 \setglossarystyle{superraggedheaderborder}
+% Mở rộng cột mô tả để bảng thuật ngữ chiếm gần trọn bề ngang trang
+\setlength{\glsdescwidth}{0.82\textwidth}
 \usepackage{setspace}
 \usepackage{parskip}
 
@@ -263,14 +265,11 @@
 %\fancyhead[LE]{\rightmark}
 \fancyfoot[RE, LO]{\thepage}
 
-% ===== MỞ ĐẦU (chương không đánh số) =====
-\chapter*{MỞ ĐẦU}
-\addcontentsline{toc}{chapter}{MỞ ĐẦU}
-\markboth{MỞ ĐẦU}{MỞ ĐẦU}
+\chapter{GIỚI THIỆU ĐỀ TÀI}
 \subfile{Chuong/0_5_Mo_dau}
 
 \newpage
-\chapter{NỀN TẢNG LÝ THUYẾT}
+\chapter{CƠ SỞ LÝ THUYẾT}
 \subfile{Chuong/1_Nen_tang}
 
 \newpage
@@ -278,7 +277,9 @@
 \subfile{Chuong/2_Bai_toan}
 
 \newpage
-\chapter{PHƯƠNG PHÁP ĐỀ XUẤT}
+% Chương 4 và 5: mục lục chỉ hiển thị tới mức section (4.1, 5.1), bỏ subsection.
+% tocdepth được đặt bên trong từng subfile vì subfiles nạp lại preamble (reset về 2).
+\chapter{THUẬT TOÁN ĐỀ XUẤT}
 \subfile{Chuong/3_Phuong_phap}
 
 \newpage

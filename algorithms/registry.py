@@ -1,6 +1,8 @@
 from typing import Dict, Type
 
 from algorithms.mp_vne.mp_vne import MPVNE
+from algorithms.mc_vnm.mc_vnm import MCVNM
+from algorithms.vne_pso.vne_pso import VNEPSO
 from algorithms.carl_vne.r2_pretrain import (
     R2Pretrain,
     R2PretrainDirect,
@@ -18,6 +20,10 @@ ALGORITHMS: Dict[str, Type] = {
     # algorithms.mp_vne.legacy.MPVNELegacy (IL expert + parent class only).
     "mp_vne": MPVNE,
     "mp_vne_v4": MPVNE,     # backwards-compatible alias
+    # MC-VNM — multi-domain heuristic baseline (greedy max-CPU node + Kruskal/MST link).
+    "mc_vnm": MCVNM,
+    # VNE-PSO — vanilla PSO node placement (all-node search) + Dijkstra link mapping.
+    "vne_pso": VNEPSO,
     # R2 — IL-pretrain stage of CARL-VNE (imitation only, ablation baseline)
     "r2": R2Pretrain,
     "r2_direct": R2PretrainDirect,
